@@ -1,7 +1,7 @@
 const Task = require('../models/Task')
 
 exports.list = (req, res) => {
-  Task.find().populate('author')
+  Task.find().populate('project')
     .then(data => {
       res.status(200).send(data)
     })
