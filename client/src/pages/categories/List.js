@@ -1,27 +1,30 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Header, Grid, Table } from 'semantic-ui-react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Header, Grid, Table } from 'semantic-ui-react';
 
-const List = ({ match }) => {
-  const [tasks, setTasks] = useState([])
-  const loadTasks = () => {
-    axios.get('/api/tasks/').then(response => {
-      setTasks(response.data)
-    })
+const List = ({match}) => {
+  const [categories, setCategories] = useState([]);
+
+  const loadCategories = () =>{
+    axios.get('/api/categories/')
+      .then(response => {
+        setCategories(response.data)
+      })
   }
   useEffect(() => {
-    loadTasks()
+    loadCategories();
   }, [])
 
-  const deleteTask = _id => {
-    axios.delete(`/api/tasks/${_id}`).then(() => {
-      loadTasks()
-    })
+  const deleteCategory = _id =>{
+    axios.delete(`/api/categories/${_id}`)
+      .then(() => {
+        loadCategories();
+      })
   }
 
-  return (
-    <>
+  return(
+    <div>
       <Grid>
         <Grid.Column width={8} textAlign='left'>
           <Header as='h2'>List</Header>
@@ -35,20 +38,17 @@ const List = ({ match }) => {
       <Table singleLine columns={4} striped>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Title</Table.HeaderCell>
-            <Table.HeaderCell>Project</Table.HeaderCell>
+            <Table.HeaderCell>Category</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {tasks.map(task => {
-            const { _id, title, project} = task
-            const { name } = project
+          {categories.map(category => {
+            const { _id, name} = category
             return (
               <Table.Row key={_id}>
-                <Table.Cell>{title}</Table.Cell>
-                <Table.Cell>{`${name}`}</Table.Cell>
+                <Table.Cell>{name}</Table.Cell>
                 <Table.Cell textAlign='center'>
                   <Button
                     basic
@@ -58,7 +58,7 @@ const List = ({ match }) => {
                   >
                     Edit
                   </Button>
-                  <Button basic color='red' onClick={() => deleteTask(_id)}>
+                  <Button basic color='red' onClick={() => deleteCategory(_id)}>
                     Delete
                   </Button>
                 </Table.Cell>
@@ -67,8 +67,8 @@ const List = ({ match }) => {
           })}
         </Table.Body>
       </Table>
-    </>
-  )
+    </div>
+  );
 }
 
 export default List;

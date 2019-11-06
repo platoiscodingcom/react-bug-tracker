@@ -3,11 +3,12 @@ const mongoose = require('mongoose')
 
 const projects = require('./routes/projects')
 const tasks = require('./routes/tasks')
+const categories = require('./routes/categories')
 
 const port = 5000
 const mongo_uri = 'mongodb://localhost:27017/bugtracker'
 
-mongoose.connect(mongo_uri, { useNewUrlParser: true, useFindAndModify: false })
+mongoose.connect(mongo_uri, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
   .then(() => {
     console.log(`connecting to database: ${mongo_uri}`)
   })
@@ -22,6 +23,7 @@ const app = express()
 app.use(express.json())
 app.use('/api/projects', projects)
 app.use('/api/tasks', tasks)
+app.use('/api/categories', categories)
 
 app.listen({ port }, () => {
   console.log(`Server is listeing to port http://localhost:${port}`)

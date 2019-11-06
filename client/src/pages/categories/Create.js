@@ -3,23 +3,23 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, Form, Grid, Header } from 'semantic-ui-react';
 
-const Create = () => {
-  const [project, setProject] = useState({name: ''})
+const Create = () =>{
+  const [category, setCategory] = useState({name: ''})
   const [redirect, setRedirect] = useState(false)
 
-  const handleInputChange = (event, { name, value }) => {
-    setProject(previousValue => ({ ...previousValue, [name]: value }))
+  const handleInputChange = (event, {name, value}) => {
+    setCategory(previousValue => ({...previousValue, [name]: value}))
   }
 
-  const handleFormSubmission = () => {
+  const handleFormSubmission = () =>{
     axios
-      .post('/api/projects', project)
+      .post('/api/categories', category)
       .then(() => {
         setRedirect(true)
       })
-      .catch(() => {
+      .catch(() =>{
         alert('Error occured when handeling submission');
-        console.log('My project : ' + project)
+        console.log('My category : ' + category)
       })
   }
 
@@ -28,9 +28,9 @@ const Create = () => {
   }
 
   return (
-    <>
+    <div>
       {redirect ? (
-        <Redirect to='/projects' push />
+        <Redirect to='/categories' push />
       ) : (
         <>
           <Header as='h2'>Create</Header>
@@ -39,7 +39,7 @@ const Create = () => {
               <Form.Input
                 label='name'
                 name='name'
-                value={project.name}
+                value={category.name}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -60,8 +60,9 @@ const Create = () => {
           </Grid>
         </>
       )}
-    </>
-  )
+    </div>
+  );
+
 }
 
 export default Create;

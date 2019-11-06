@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Route, Switch } from 'react-router-dom'
 import { Header, Segment } from 'semantic-ui-react'
 
@@ -6,11 +6,12 @@ import Create from './Create'
 import List from './List'
 import Update from './Update'
 
-const Tasks = ({ match }) => {
+
+const Categories = ({ match }) => {
   return (
-    <>
+    <div>
       <Header as='h1' textAlign='center'>
-        Tasks
+        Categories
       </Header>
       <Segment>
         <Switch>
@@ -19,8 +20,8 @@ const Tasks = ({ match }) => {
           <Route path={`${match.path}/:_id`} component={Update} />
         </Switch>
       </Segment>
-    </>
+    </div>
   )
 }
 
-export default Tasks;
+export default Categories;

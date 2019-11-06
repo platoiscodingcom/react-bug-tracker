@@ -1,59 +1,57 @@
-const Task = require('../models/Task')
+const Category = require('../models/Category')
 
 exports.list = (req, res) => {
-  Task.find()
-    .populate('project')
+  Category.find()
     .then(data => {
       res.status(200).send(data)
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
+      res.status(500).send({msg: "Error 500 in categorycontroller.list"})
     })
 }
 
 exports.details = (req, res) => {
-  Task.findById(req.params._id)
-    .then(data => {
+  Category.findById(req.params._id)
+    .then(data =>{
       res.status(200).send(data)
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
+      res.status(500).send({msg: "Error 500 in categorycontroller.details"})
     })
 }
 
 exports.create = (req, res) => {
-  const newTask = new Task(req.body)
-  newTask.save()
+  const newCategory = new Category(req.body)
+  newCategory.save()
     .then(data => {
       res.status(200).send(data)
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
+      res.status(500).send({ msg: "Error 500 in categorycontroller.create" })
     })
-
 }
 
 exports.update = (req, res) => {
-  Task.findByIdAndUpdate(req.params._id, req.body)
+  Category.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {
       res.status(200).send(data)
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
+      res.status(500).send({msg: "Error 500 in categorycontroller.update"})
     })
 }
 
 exports.delete = (req, res) => {
-  Task.findByIdAndRemove(req.params._id)
+  Category.findByIdAndRemove(req.params._id)
     .then(data => {
       res.status(200).send(data)
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
+      res.status(500).send({ msg: "Error 500 in categorycontroller.delete" })
     })
 }
