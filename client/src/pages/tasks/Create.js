@@ -1,12 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Button, Form, Grid, Header, TextArea } from 'semantic-ui-react'
+import { Button, Form, Grid, Header} from 'semantic-ui-react'
 
 const Create = () => {
   const [task, setTask] = useState({
     title: '',
-    project: ''
+    project: '',
+    description: '',
+    status: '',
+    priority: ''
   })
 
   const [projects, setProjects] = useState([])
@@ -24,7 +27,7 @@ const Create = () => {
   const [redirect, setRedirect] = useState(false)
 
   const handleInputChange = (event, { name, value }) => {
-    setTask(previousValue => ({ ...previousValue, [name]: value }))
+    setTask(previousValue => ({ ...previousValue, [name]: value }));
   }
 
   const handleFormSubmission = () => {
@@ -45,20 +48,23 @@ const Create = () => {
   const handleFormReset = () => {
     setTask({
       title: '',
-      project: ''
+      project: '',
+      description: '',
+      status: '',
+      priority: ''
     })
   }
 
   const priorityOptions = [
-    {key: 'low', value: 'low', text: 'low'},
-    {key: 'high', value: 'high', text: 'high'},
-    {key: 'critical', value: 'critical', text: 'critical'}
+    {key: 'p1', value: 'low', text: 'low'},
+    {key: 'p2', value: 'high', text: 'high'},
+    {key: 'p3', value: 'critical', text: 'critical'}
   ]
   const statusOptions = [
-    {key: 'backlog', value: 'backlog', text: 'backlog'},
-    {key: 'open', value: 'open', text: 'open'},
-    {key: 'in_progress', value: 'in_progress', text: 'in progress'},
-    {key: 'closed', value: 'closed', text: 'closed'}
+    {key: 's1', value: 'backlog', text: 'backlog'},
+    {key: 's2', value: 'open', text: 'open'},
+    {key: 's3', value: 'in progress', text: 'in progress'},
+    {key: 's4', value: 'closed', text: 'closed'}
   ]
   return (
     <>
@@ -88,23 +94,23 @@ const Create = () => {
                 label='Priority'
                 name='priority'
                 options={priorityOptions}
-                //value={task.priorities}
-                //onChange={handleInputChange}
+                value={task.priority}
+                onChange={handleInputChange}
               />
               <Form.Select
                 label='Status'
                 name='status'
                 options={statusOptions}
-                //value={task.status}
-                //onChange={handleInputChange}
+                value={task.status}
+                onChange={handleInputChange}
               />
             </Form.Group>
             <Form.Group>
               <Form.TextArea 
                 label='Description'
                 name='description'
-                //value={task.description}
-                //onChange={handleInputChange}
+                value={task.description}
+                onChange={handleInputChange}
               />
             </Form.Group>
           </Form>

@@ -37,18 +37,22 @@ const List = ({ match }) => {
           <Table.Row>
             <Table.HeaderCell>Title</Table.HeaderCell>
             <Table.HeaderCell>Project</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Priority</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {tasks.map(task => {
-            const { _id, title, project} = task
+            const { _id, title, project, status, priority} = task
             const { name } = project
             return (
               <Table.Row key={_id}>
                 <Table.Cell>{title}</Table.Cell>
                 <Table.Cell>{`${name}`}</Table.Cell>
+                <Table.Cell>{status}</Table.Cell>
+                <Table.Cell>{priority}</Table.Cell>
                 <Table.Cell textAlign='center'>
                   <Button
                     basic
