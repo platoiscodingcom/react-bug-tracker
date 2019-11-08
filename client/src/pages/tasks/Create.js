@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Button, Form, Grid, Header } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, TextArea } from 'semantic-ui-react'
 
 const Create = () => {
   const [task, setTask] = useState({
@@ -49,6 +49,17 @@ const Create = () => {
     })
   }
 
+  const priorityOptions = [
+    {key: 'low', value: 'low', text: 'low'},
+    {key: 'high', value: 'high', text: 'high'},
+    {key: 'critical', value: 'critical', text: 'critical'}
+  ]
+  const statusOptions = [
+    {key: 'backlog', value: 'backlog', text: 'backlog'},
+    {key: 'open', value: 'open', text: 'open'},
+    {key: 'in_progress', value: 'in_progress', text: 'in progress'},
+    {key: 'closed', value: 'closed', text: 'closed'}
+  ]
   return (
     <>
       {redirect ? (
@@ -59,7 +70,7 @@ const Create = () => {
           <Form widths='equal'>
             <Form.Group>
               <Form.Input
-                label='title'
+                label='Title'
                 name='title'
                 value={task.title}
                 onChange={handleInputChange}
@@ -70,6 +81,30 @@ const Create = () => {
                 options={projects}
                 value={task.projects}
                 onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Select
+                label='Priority'
+                name='priority'
+                options={priorityOptions}
+                //value={task.priorities}
+                //onChange={handleInputChange}
+              />
+              <Form.Select
+                label='Status'
+                name='status'
+                options={statusOptions}
+                //value={task.status}
+                //onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.TextArea 
+                label='Description'
+                name='description'
+                //value={task.description}
+                //onChange={handleInputChange}
               />
             </Form.Group>
           </Form>
