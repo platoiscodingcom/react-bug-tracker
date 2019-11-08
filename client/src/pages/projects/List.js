@@ -36,16 +36,20 @@ const List = ({ match }) => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {projects.map(project => {
-            const { _id, name } = project
+            const { _id, name, status, description } = project
             return (
               <Table.Row key={_id}>
                 <Table.Cell>{`${name}`}</Table.Cell>
+                <Table.Cell>{status}</Table.Cell>
+                <Table.Cell>{description}</Table.Cell>
                 <Table.Cell textAlign='center'>
                   <Button
                     basic

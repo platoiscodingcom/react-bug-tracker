@@ -4,7 +4,11 @@ import { Redirect } from 'react-router-dom';
 import { Button, Form, Grid, Header } from 'semantic-ui-react';
 
 const Create = () => {
-  const [project, setProject] = useState({name: ''})
+  const [project, setProject] = useState({
+    name: '',
+    status: '',
+    description: ''
+  })
   const [redirect, setRedirect] = useState(false)
 
   const handleInputChange = (event, { name, value }) => {
@@ -19,13 +23,19 @@ const Create = () => {
       })
       .catch(() => {
         alert('Error occured when handeling submission');
-        console.log('My project : ' + project)
       })
   }
 
   const handleFormCancellation = () => {
     setRedirect(true)
   }
+
+  const statusOptions = [
+    {key: 's1', value: 'backlog', text: 'backlog'},
+    {key: 's2', value: 'open', text: 'open'},
+    {key: 's3', value: 'in progress', text: 'in progress'},
+    {key: 's4', value: 'closed', text: 'closed'}
+  ]
 
   return (
     <>
@@ -40,6 +50,21 @@ const Create = () => {
                 label='name'
                 name='name'
                 value={project.name}
+                onChange={handleInputChange}
+              />
+              <Form.Select
+                label='Status'
+                name='status'
+                options={statusOptions}
+                value={project.status}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.TextArea 
+                label='Description'
+                name='description'
+                value={project.description}
                 onChange={handleInputChange}
               />
             </Form.Group>

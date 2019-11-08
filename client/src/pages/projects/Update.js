@@ -6,6 +6,8 @@ import { Button, Container, Form, Header } from 'semantic-ui-react'
 const Update = ({ match }) => {
   const [project, setProject] = useState({
     name: '',
+    status: '',
+    description: ''
   })
   useEffect(() => {
     axios.get(`/api/projects/${match.params._id}`).then(response => {
@@ -34,6 +36,13 @@ const Update = ({ match }) => {
     setRedirect(true)
   }
 
+  const statusOptions = [
+    {key: 's1', value: 'backlog', text: 'backlog'},
+    {key: 's2', value: 'open', text: 'open'},
+    {key: 's3', value: 'in progress', text: 'in progress'},
+    {key: 's4', value: 'closed', text: 'closed'}
+  ]
+
   return (
     <>
       {redirect ? (
@@ -47,6 +56,21 @@ const Update = ({ match }) => {
                 label='name'
                 name='name'
                 value={project.name}
+                onChange={handleInputChange}
+              />
+              <Form.Select
+                label='Status'
+                name='status'
+                options={statusOptions}
+                value={project.status}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.TextArea 
+                label='Description'
+                name='description'
+                value={project.description}
                 onChange={handleInputChange}
               />
             </Form.Group>
