@@ -4,14 +4,26 @@ import { Link } from 'react-router-dom'
 import { Button, Header, Grid, Table } from 'semantic-ui-react'
 
 const List = ({ match }) => {
-  const [projects, setProject] = useState([])
+  const [projects, setProject] = useState([]);
+  const [taskNo, setTaskNo] = useState();
+
+  const getTasksByProject = ( _id) => {
+    axios.get(`/api/tasks/tasksByProject/${_id}`)
+    .then(response => {
+      console.log('the response');
+      console.log(response.data.length);
+      //setTaskNo(response.data.length);
+      setTaskNo(2);
+    })
+  }
+
   const loadProjects = () => {
     axios.get('/api/projects/').then(response => {
       setProject(response.data)
     })
   }
   useEffect(() => {
-    loadProjects()
+    loadProjects();
   }, [])
 
   const deleteProject = _id => {
@@ -19,7 +31,6 @@ const List = ({ match }) => {
       loadProjects()
     })
   }
-
   return (
     <>
       <Grid>
@@ -36,6 +47,7 @@ const List = ({ match }) => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>#Tasks</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Description</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
@@ -43,11 +55,17 @@ const List = ({ match }) => {
         </Table.Header>
 
         <Table.Body>
-          {projects.map(project => {
-            const { _id, name, status, description } = project
+          {projects.map((project) => {
+            const { _id, name, status, description } = project;
+            getTasksByProject(_id);
+
+            //Problem: project ist jew. ein eigenes Object mit eigenen Werten
+            //NoOfTasks ist ein einzelner Wert, den ich auf alle Projekte gleichzeitig anwende, aber ich will eine eigene Anzahl für jedes Project
+            
             return (
               <Table.Row key={_id}>
                 <Table.Cell>{`${name}`}</Table.Cell>
+                <Table.Cell>{taskNo}</Table.Cell>
                 <Table.Cell>{status}</Table.Cell>
                 <Table.Cell>{description}</Table.Cell>
                 <Table.Cell textAlign='center'>

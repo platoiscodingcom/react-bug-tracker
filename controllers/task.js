@@ -57,3 +57,16 @@ exports.delete = (req, res) => {
       res.status(500).send({ message: 'Error occured: 500' })
     })
 }
+
+
+exports.tasksByProject = (req, res) => {
+  Task.find({"project": req.params._id})
+    .then(data => {
+      console.log(data)
+      res.status(200).send(data)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error occured: 500' })
+    })
+}
