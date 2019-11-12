@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, Form, Grid, Header } from 'semantic-ui-react';
 
@@ -7,15 +7,30 @@ const Create = () => {
   const [project, setProject] = useState({
     name: '',
     status: '',
-    description: ''
+    description: '',
+    categories: []
   })
-  const [redirect, setRedirect] = useState(false)
+
+  const [redirect, setRedirect] = useState(false);
+
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    axios.get('/api/categories/').then(response => {
+      setCategories(
+        response.data.map(category => ({
+          text: `${category.name}`,
+          value: category._id
+        }))
+      )
+    })
+  }, [])
 
   const handleInputChange = (event, { name, value }) => {
     setProject(previousValue => ({ ...previousValue, [name]: value }))
   }
 
   const handleFormSubmission = () => {
+    console.log(project);
     axios
       .post('/api/projects', project)
       .then(() => {
@@ -47,7 +62,7 @@ const Create = () => {
           <Form widths='equal'>
             <Form.Group>
               <Form.Input
-                label='name'
+                label='Name'
                 name='name'
                 value={project.name}
                 onChange={handleInputChange}
@@ -57,6 +72,16 @@ const Create = () => {
                 name='status'
                 options={statusOptions}
                 value={project.status}
+                onChange={handleInputChange}
+              />
+              <Form.Select
+                label='Categories'
+                name='categories'
+                fluid
+                multiple selection
+                search
+                options={categories}
+                value={project.categories}
                 onChange={handleInputChange}
               />
             </Form.Group>

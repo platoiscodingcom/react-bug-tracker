@@ -58,11 +58,9 @@ exports.delete = (req, res) => {
     })
 }
 
-
 exports.tasksByProject = (req, res) => {
   Task.find({"project": req.params._id})
     .then(data => {
-      console.log(data)
       res.status(200).send(data)
     })
     .catch(error => {

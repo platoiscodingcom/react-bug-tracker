@@ -5,11 +5,13 @@ import { Button, Header, Grid, Table } from 'semantic-ui-react'
 
 const List = ({ match }) => {
   const [tasks, setTasks] = useState([])
+
   const loadTasks = () => {
     axios.get('/api/tasks/').then(response => {
       setTasks(response.data)
     })
   }
+
   useEffect(() => {
     loadTasks()
   }, [])
@@ -49,10 +51,10 @@ const List = ({ match }) => {
             const { name } = project
             return (
               <Table.Row key={_id}>
-                <Table.Cell>{title}</Table.Cell>
+                <Table.Cell>{`${title}`}</Table.Cell>
                 <Table.Cell>{`${name}`}</Table.Cell>
-                <Table.Cell>{status}</Table.Cell>
-                <Table.Cell>{priority}</Table.Cell>
+                <Table.Cell>{`${status}`}</Table.Cell>
+                <Table.Cell>{`${priority}`}</Table.Cell>
                 <Table.Cell textAlign='center'>
                   <Button
                     basic

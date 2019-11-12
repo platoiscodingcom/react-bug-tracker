@@ -11,6 +11,4 @@ router.delete('/:_id', taskController.delete)
 /*one-to-many*/
 router.get('/tasksByProject/:_id', taskController.tasksByProject)
 
-console.log('IM in routes');
-
 module.exports = router

@@ -23,7 +23,16 @@ exports.details = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const newProject = new Project(req.body)
+  const newProject = new Project();
+  newProject.categories = req.body.categories;
+  console.log(req.body.categories);
+  console.log(newProject.categories);
+
+  newProject.description = req.body.description;
+  newProject.name = req.body.name;
+  newProject.status = req.body.status;
+
+  console.log(newProject);
   newProject.save()
     .then(data => {
       res.status(200).send(data)
@@ -31,7 +40,10 @@ exports.create = (req, res) => {
     .catch(error => {
       console.log(error)
       res.status(500).send({ message: 'Error occured: 500' })
+      console.log(newProject.categories)
     })
+    
+
 
 }
 
