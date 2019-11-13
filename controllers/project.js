@@ -5,7 +5,8 @@ mongoose = require('mongoose')
 
 exports.list = (req, res) => {
   Project.find()
-    .populate('tasks categories')
+    //.populate('tasks categories')
+    .populate('categories')
     .then(data => {
       res.status(200).send(data)
     })
@@ -41,9 +42,6 @@ exports.create = (req, res) => {
       .then((data) => {
         data.projects.push(newProject._id);
         data.save()
-          .then(data => {
-            res.status(200).send(data)
-          })
           .catch(error => {
             console.log(error)
             res.status(500).send({ message: 'Error 500: projectController - save project in category' })

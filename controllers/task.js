@@ -1,4 +1,5 @@
 const Task = require('../models/Task')
+mongoose = require('mongoose')
 
 exports.list = (req, res) => {
   Task.find()
@@ -25,6 +26,7 @@ exports.details = (req, res) => {
 
 exports.create = (req, res) => {
   const newTask = new Task(req.body)
+  newTask._id = new mongoose.Types.ObjectId();
   newTask.save()
     .then(data => {
       res.status(200).send(data)

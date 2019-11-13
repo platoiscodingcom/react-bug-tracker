@@ -48,6 +48,7 @@ const List = ({ match }) => {
         <Table.Body>
           {tasks.map(task => {
             const { _id, title, project, status, priority} = task
+            console.log(task);
             const { name } = project
             return (
               <Table.Row key={_id}>

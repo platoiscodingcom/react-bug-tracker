@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Card, Icon, List } from 'semantic-ui-react';
+import { Container, Card, Icon, List } from 'semantic-ui-react';
 
 const Details = ({match}) =>{
   const [project, setProject] = useState({
@@ -13,28 +13,38 @@ const Details = ({match}) =>{
     axios.get(`/api/projects/${match.params._id}`).then(response => {
       setProject(response.data)
     });
-    console.log(project);
+    
   }, [match])
 
+  const {_id, name, status, description, categories} = project;
+  console.log(categories);
   return(
+
     
+    <Container textAlign='left'>
     <Card fluid>
-      <Card.Content header={project.name} />
+      <Card.Content header={name} />
       <Card.Content>
         <List>
           <List.Item>
-            <div className="ui label">Status:</div><div>{project.status}</div>
+            <div className="ui label">Status:</div><div>{status}</div>
           </List.Item>
           <List.Item>
             <div className="ui label">Categories:</div>
+            {categories.forEach((cat) =>{
+                return <div>name of cat</div>
+            })}
           </List.Item>
         </List>
       </Card.Content>
-      <Card.Content description='Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.' />
+      <Card.Content description= {description} />
       <Card.Content extra>
         <Icon name='user' />Nbr of Tasks
       </Card.Content>
     </Card>
+    
+    </Container>
+    
 
     
 

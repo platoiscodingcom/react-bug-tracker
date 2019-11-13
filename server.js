@@ -35,12 +35,47 @@ app.listen({ port }, () => {
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+//prepare db
 db.dropDatabase();
+
 const Category = require('./models/Category');
-var category1 = new Category({_id: new mongoose.Types.ObjectId(), name:"Software Projects", projects: []});
-category1.save();
+const Project = require('./models/Project');
+const Task = require('./models/Task');
+
 var category1 = new Category({
   _id: new mongoose.Types.ObjectId(), 
+  name:"Software Projects", 
+  projects: []
+});
+
+var category2 = new Category({
+  _id: new mongoose.Types.ObjectId(), 
   name:"Crafts Projects", 
-  projects: []});
+  projects: []
+});
+
+var project1 = new Project({
+  _id: new mongoose.Types.ObjectId(), 
+  name:"testproject",
+  status: "open",
+  description: "lorem ipsm",
+  categories: [category1, category2]
+})
+
+category1.projects.push(project1);
 category1.save();
+category2.projects.push(project1);
+category2.save();
+
+var task1 = new Task({
+  _id: new mongoose.Types.ObjectId(), 
+  title: "testTask",
+  project: project1,
+  description: "desc",
+  priority: "low",
+  status: "open"
+});
+task1.save();
+
+project1.tasks.push(task1);
+project1.save();
