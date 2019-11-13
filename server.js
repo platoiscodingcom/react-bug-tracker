@@ -35,7 +35,12 @@ app.listen({ port }, () => {
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-/*
+db.dropDatabase();
 const Category = require('./models/Category');
-var category1 = new Category({name:"football"});
-category1.save();*/
+var category1 = new Category({_id: new mongoose.Types.ObjectId(), name:"Software Projects", projects: []});
+category1.save();
+var category1 = new Category({
+  _id: new mongoose.Types.ObjectId(), 
+  name:"Crafts Projects", 
+  projects: []});
+category1.save();

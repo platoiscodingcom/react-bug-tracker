@@ -1,7 +1,10 @@
 const Project = require('../models/Project')
+const Category = require('../models/Category')
+mongoose = require('mongoose').set('debug', true);
 
 exports.list = (req, res) => {
   Project.find()
+    .populate('tasks categories')
     .then(data => {
       res.status(200).send(data)
     })
@@ -23,16 +26,31 @@ exports.details = (req, res) => {
 }
 
 exports.create = (req, res) => {
-  const newProject = new Project();
-  newProject.categories = req.body.categories;
-  console.log(req.body.categories);
-  console.log(newProject.categories);
+  const newProject = new Project({
+    _id: new mongoose.Types.ObjectId(),
+    description: req.body.description,
+    name: req.body.name,
+    status: req.body.status
+  });
+  
+  req.body.categories.forEach((cat) =>{ 
+    newProject.categories.push(cat);
+  })
+  req.body.categories.forEach((cat) => {
+    console.log('enter loop ...');
+    (async () => {
+      console.log('async');
+      await Category.findById(cat)
+      .then(data => {
+        console.log(data);
+        data.projects.push(newProject._id);
+        console.log(data);
+        res.status(200).send(data)
+      })
+    })
+  })
 
-  newProject.description = req.body.description;
-  newProject.name = req.body.name;
-  newProject.status = req.body.status;
-
-  console.log(newProject);
+  console.log('saving project ...');
   newProject.save()
     .then(data => {
       res.status(200).send(data)
@@ -40,11 +58,7 @@ exports.create = (req, res) => {
     .catch(error => {
       console.log(error)
       res.status(500).send({ message: 'Error occured: 500' })
-      console.log(newProject.categories)
     })
-    
-
-
 }
 
 exports.update = (req, res) => {
