@@ -1,6 +1,7 @@
 const Project = require('../models/Project')
 const Category = require('../models/Category')
-mongoose = require('mongoose').set('debug', true);
+//mongoose = require('mongoose').set('debug', true); //debug
+mongoose = require('mongoose')
 
 exports.list = (req, res) => {
   Project.find()
@@ -35,29 +36,28 @@ exports.create = (req, res) => {
   
   req.body.categories.forEach((cat) =>{ 
     newProject.categories.push(cat);
-  })
-  req.body.categories.forEach((cat) => {
-    console.log('enter loop ...');
-    (async () => {
-      console.log('async');
-      await Category.findById(cat)
-      .then(data => {
-        console.log(data);
+
+    Category.findById(cat)
+      .then((data) => {
         data.projects.push(newProject._id);
-        console.log(data);
-        res.status(200).send(data)
+        data.save()
+          .then(data => {
+            res.status(200).send(data)
+          })
+          .catch(error => {
+            console.log(error)
+            res.status(500).send({ message: 'Error 500: projectController - save project in category' })
+          })
       })
-    })
   })
 
-  console.log('saving project ...');
   newProject.save()
     .then(data => {
       res.status(200).send(data)
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
+      res.status(500).send({ message: 'Error 500: projectController - save new project' })
     })
 }
 
