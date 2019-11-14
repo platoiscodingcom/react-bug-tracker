@@ -1,25 +1,34 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Card, Icon, List } from 'semantic-ui-react';
+import { Container, Card, Icon, List, Button, Grid, Table} from 'semantic-ui-react';
+import { Link } from 'react-router-dom'
 
 const Details = ({match}) =>{
   const [project, setProject] = useState({
     name: '',
     status: '',
     description: '',
-    categories:[]
+    categories:[],
+    tasks: []
   })
   useEffect(() => {
     axios.get(`/api/projects/${match.params._id}`).then(response => {
       setProject(response.data)
     });
     
-  }, [match])
+  }, [])
 
-  const {_id, name, status, description, categories} = project;
-  console.log(categories);
+  const deleteTask = _id => {
+    axios.delete(`/api/tasks/${_id}`).then(() => {})
+  }
+
+  const {name, status, description, categories, tasks} = project;
+  const listCat = categories.map((cat) => <li>{cat.name}</li>);
+  console.log(project);
+  console.log(tasks);
+
   return(
-
+    <div>
     
     <Container textAlign='left'>
     <Card fluid>
@@ -31,22 +40,67 @@ const Details = ({match}) =>{
           </List.Item>
           <List.Item>
             <div className="ui label">Categories:</div>
-            {categories.forEach((cat) =>{
-                return <div>name of cat</div>
-            })}
+            <ul>
+                {listCat} </ul>
           </List.Item>
         </List>
       </Card.Content>
       <Card.Content description= {description} />
       <Card.Content extra>
-        <Icon name='user' />Nbr of Tasks
+        <Icon name='user' />noOfTusks
       </Card.Content>
     </Card>
-    
+    </Container>
+
+    <Container textAlign='left'>
+    <Grid>
+        <Grid.Column width={8} textAlign='right'>
+          <Button color='green' as={Link} to={'/'}>
+            New
+          </Button>
+        </Grid.Column>
+      </Grid>
+      <Table singleLine columns={4} striped>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Title</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Priority</Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+        
+        {tasks.map(task => {
+          const { _id, title, status, priority} = task
+          
+          return (
+            <Table.Row key={_id}>
+              <Table.Cell>{`${title}`}</Table.Cell>
+              <Table.Cell>{`${status}`}</Table.Cell>
+              <Table.Cell>{`${priority}`}</Table.Cell>
+              <Table.Cell textAlign='center'>
+                <Button
+                  basic
+                  color='blue'
+                  as={Link}
+                  to={`${match.url}/${_id}`}
+                >
+                  Edit
+                </Button>
+                <Button basic color='red' onClick={() => deleteTask(_id)}>
+                  Delete
+                </Button>
+              </Table.Cell>
+            </Table.Row>
+          )
+        })} 
+        </Table.Body>
+      </Table>
     </Container>
     
-
-    
+    </div>
 
   )
 }

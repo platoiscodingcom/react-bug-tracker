@@ -5,8 +5,7 @@ mongoose = require('mongoose')
 
 exports.list = (req, res) => {
   Project.find()
-    //.populate('tasks categories')
-    .populate('categories')
+    .populate('tasks categories')
     .then(data => {
       res.status(200).send(data)
     })
@@ -18,6 +17,7 @@ exports.list = (req, res) => {
 
 exports.details = (req, res) => {
   Project.findById(req.params._id)
+    .populate('tasks categories')
     .then(data => {
       res.status(200).send(data)
     })
