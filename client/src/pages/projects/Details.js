@@ -16,13 +16,13 @@ const Details = ({match}) =>{
       setProject(response.data)
     });
     
-  }, [])
+  }, [match])
 
   const deleteTask = _id => {
     axios.delete(`/api/tasks/${_id}`).then(() => {})
   }
 
-  const {name, status, description, categories, tasks} = project;
+  const {_id, name, status, description, categories, tasks} = project;
   const listCat = categories.map((cat) => <li>{cat.name}</li>);
   console.log(project);
   console.log(tasks);
@@ -47,7 +47,15 @@ const Details = ({match}) =>{
       </Card.Content>
       <Card.Content description= {description} />
       <Card.Content extra>
-        <Icon name='user' />noOfTusks
+        <Icon name='user' />noOfTusks 
+        <Button
+        basic
+        color='blue'
+        as={Link}
+        to={`/projects/${_id}`}
+      >
+        Edit
+      </Button>
       </Card.Content>
     </Card>
     </Container>

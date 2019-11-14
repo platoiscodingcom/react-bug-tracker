@@ -7,12 +7,30 @@ const Update = ({ match }) => {
   const [project, setProject] = useState({
     name: '',
     status: '',
-    description: ''
+    description: '',
+    categories: []
   })
-  useEffect(() => {
+  const loadProject = () =>{
     axios.get(`/api/projects/${match.params._id}`).then(response => {
       setProject(response.data)
     })
+  }
+
+  const [categoriesOptions, setCategories] = useState([]);
+  const loadCategoryOptions = () =>{
+    axios.get('/api/categories/').then(response => {
+      setCategories(
+        response.data.map(category => ({
+          text: `${category.name}`,
+          value: category._id
+        }))
+      )
+    })
+  }
+  
+  useEffect(() => {
+    loadProject();
+    loadCategoryOptions();
   }, [match])
 
   const [redirect, setRedirect] = useState(false)
@@ -42,13 +60,18 @@ const Update = ({ match }) => {
     {key: 's3', value: 'in progress', text: 'in progress'},
     {key: 's4', value: 'closed', text: 'closed'}
   ]
-
+  const typeOptions = [
+    {key: 't1', value: 'bug', text: 'bug'},
+    {key: 't2', value: 'feature', text: 'feature'}
+  ]
+  const catArray = project.categories.map((cat) => cat._id);
+  
   return (
     <>
       {redirect ? (
         <Redirect to='/projects' push />
       ) : (
-        <>
+        <Container>
           <Header as='h2'>Edit</Header>
           <Form widths='equal'>
             <Form.Group>
@@ -63,6 +86,24 @@ const Update = ({ match }) => {
                 name='status'
                 options={statusOptions}
                 value={project.status}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Select
+                  label='Categories'
+                  name='categories'
+                  multiple selection
+                  search
+                  options={categoriesOptions}
+                  value={catArray}
+                  onChange={handleInputChange}
+                />
+              <Form.Select
+                label='Type'
+                name='type'
+                options={typeOptions}
+                value={[]}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -87,7 +128,7 @@ const Update = ({ match }) => {
               onClick={handleFormSubmission}
             />
           </Container>
-        </>
+        </Container>
       )}
     </>
   )
