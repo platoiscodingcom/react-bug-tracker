@@ -9,7 +9,8 @@ const Update = ({ match }) => {
     project: '',
     description: '',
     status: '',
-    priority: ''
+    priority: '',
+    type: ''
   })
   useEffect(() => {
     axios.get(`/api/tasks/${match.params._id}`).then(response => {
@@ -60,6 +61,10 @@ const Update = ({ match }) => {
     {key: 's3', value: 'in progress', text: 'in progress'},
     {key: 's4', value: 'closed', text: 'closed'}
   ]
+  const typeOptions = [
+    {key: 't1', value: 'bug', text: 'bug'},
+    {key: 't2', value: 'feature', text: 'feature'}
+  ]
 
   return (
     <>
@@ -97,6 +102,13 @@ const Update = ({ match }) => {
                 name='status'
                 options={statusOptions}
                 value={task.status}
+                onChange={handleInputChange}
+              />
+              <Form.Select
+                label='Type'
+                name='type'
+                options={typeOptions}
+                value={task.type}
                 onChange={handleInputChange}
               />
             </Form.Group>

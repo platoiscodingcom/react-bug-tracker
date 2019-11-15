@@ -60,10 +60,6 @@ const Update = ({ match }) => {
     {key: 's3', value: 'in progress', text: 'in progress'},
     {key: 's4', value: 'closed', text: 'closed'}
   ]
-  const typeOptions = [
-    {key: 't1', value: 'bug', text: 'bug'},
-    {key: 't2', value: 'feature', text: 'feature'}
-  ]
   const catArray = project.categories.map((cat) => cat._id);
   
   return (
@@ -99,13 +95,6 @@ const Update = ({ match }) => {
                   value={catArray}
                   onChange={handleInputChange}
                 />
-              <Form.Select
-                label='Type'
-                name='type'
-                options={typeOptions}
-                value={[]}
-                onChange={handleInputChange}
-              />
             </Form.Group>
             <Form.Group>
               <Form.TextArea 

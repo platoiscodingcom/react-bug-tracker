@@ -9,7 +9,8 @@ const Create = () => {
     project: '',
     description: '',
     status: '',
-    priority: ''
+    priority: '',
+    type: ''
   })
 
   const [projects, setProjects] = useState([])
@@ -51,7 +52,8 @@ const Create = () => {
       project: '',
       description: '',
       status: '',
-      priority: ''
+      priority: '',
+      type: ''
     })
   }
 
@@ -65,6 +67,10 @@ const Create = () => {
     {key: 's2', value: 'open', text: 'open'},
     {key: 's3', value: 'in progress', text: 'in progress'},
     {key: 's4', value: 'closed', text: 'closed'}
+  ]
+  const typeOptions = [
+    {key: 't1', value: 'bug', text: 'bug'},
+    {key: 't2', value: 'feature', text: 'feature'}
   ]
   return (
     <>
@@ -102,6 +108,13 @@ const Create = () => {
                 name='status'
                 options={statusOptions}
                 value={task.status}
+                onChange={handleInputChange}
+              />
+              <Form.Select
+                label='Type'
+                name='type'
+                options={typeOptions}
+                value={task.type}
                 onChange={handleInputChange}
               />
             </Form.Group>

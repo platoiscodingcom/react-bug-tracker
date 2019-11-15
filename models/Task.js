@@ -8,7 +8,8 @@ const taskSchema = new mongoose.Schema({
   project: { type: ObjectId, ref: 'Project' },
   description: String,
   priority: String,
-  status: String
+  status: String,
+  type: String
 })
 
 

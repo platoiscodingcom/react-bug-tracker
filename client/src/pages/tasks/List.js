@@ -41,13 +41,14 @@ const List = ({ match }) => {
             <Table.HeaderCell>Project</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Priority</Table.HeaderCell>
+            <Table.HeaderCell>Type</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {tasks.map(task => {
-            const { _id, title, project, status, priority} = task
+            const { _id, title, project, status, priority, type} = task
             console.log(task);
             const { name } = project
             return (
@@ -56,6 +57,7 @@ const List = ({ match }) => {
                 <Table.Cell>{`${name}`}</Table.Cell>
                 <Table.Cell>{`${status}`}</Table.Cell>
                 <Table.Cell>{`${priority}`}</Table.Cell>
+                <Table.Cell>{`${type}`}</Table.Cell>
                 <Table.Cell textAlign='center'>
                   <Button
                     basic
