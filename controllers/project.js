@@ -17,7 +17,8 @@ exports.list = (req, res) => {
 
 exports.details = (req, res) => {
   Project.findById(req.params._id)
-    .populate('tasks categories')
+    //.populate('tasks categories')
+    .populate('tasks')
     .then(data => {
       res.status(200).send(data)
     })

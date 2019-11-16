@@ -16,10 +16,10 @@ const Update = ({ match }) => {
     })
   }
 
-  const [categoriesOptions, setCategories] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
   const loadCategoryOptions = () =>{
     axios.get('/api/categories/').then(response => {
-      setCategories(
+      setCategoryOptions(
         response.data.map(category => ({
           text: `${category.name}`,
           value: category._id
@@ -31,7 +31,7 @@ const Update = ({ match }) => {
   useEffect(() => {
     loadProject();
     loadCategoryOptions();
-  }, [match])
+  }, [])
 
   const [redirect, setRedirect] = useState(false)
 
@@ -60,8 +60,20 @@ const Update = ({ match }) => {
     {key: 's3', value: 'in progress', text: 'in progress'},
     {key: 's4', value: 'closed', text: 'closed'}
   ]
-  const catArray = project.categories.map((cat) => cat._id);
-  
+
+  const [categoryValues, setCategoryValues] = useState([]);
+  /*
+  const loadCategoryValues = () =>{
+    axios.get('/api/projects/getCategories').then(response => {
+      
+    })
+
+    NEED GRAPH QL here
+    get the Categories only and then map the ids onto the categoryValues
+    The problem now is, that mapping with project.categories causes an infinte loop
+    Alternative: make a new route - but making new routes for everytime I only need one attribute becomes messy quickly
+  }*/
+
   return (
     <>
       {redirect ? (
@@ -86,15 +98,16 @@ const Update = ({ match }) => {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Select
-                  label='Categories'
-                  name='categories'
-                  multiple selection
-                  search
-                  options={categoriesOptions}
-                  value={catArray}
-                  onChange={handleInputChange}
-                />
+            <Form.Select
+                label='Categories'
+                name='categories'
+                fluid
+                multiple selection
+                search
+                options={categoryOptions}
+                value={categoryValues}
+                onChange={handleInputChange}
+              />
             </Form.Group>
             <Form.Group>
               <Form.TextArea 
