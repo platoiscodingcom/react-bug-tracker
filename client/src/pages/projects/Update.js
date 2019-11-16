@@ -10,9 +10,11 @@ const Update = ({ match }) => {
     description: '',
     categories: []
   })
+  const [categoryValues, setCategoryValues] = useState([])
   const loadProject = () =>{
     axios.get(`/api/projects/${match.params._id}`).then(response => {
       setProject(response.data)
+      setCategoryValues(response.data.categories)
     })
   }
 
@@ -31,12 +33,31 @@ const Update = ({ match }) => {
   useEffect(() => {
     loadProject();
     loadCategoryOptions();
+    console.log('categoryOptions: ', categoryOptions);
+    convertCategoryValues();
   }, [])
 
   const [redirect, setRedirect] = useState(false)
 
   const handleInputChange = (event, { name, value }) => {
-    setProject(prevValue => ({ ...prevValue, [name]: value }))
+
+    if(name === 'categories'){
+      if(categoryValues.includes(value)){
+        console.log('trying to pull item from ategoryValues');
+       //setCategoryValues(prevValue.filter(item => item !== value));
+      }else{
+        //push element into Array
+        setCategoryValues(prevValue => ({...prevValue, value}));
+      }
+      console.log('categories after push/pull: ', categoryValues);
+    }else{
+      setProject(prevValue => ({ ...prevValue, [name]: value }));
+    }
+    
+    console.log('name: ', name);
+    console.log('value: ', value);
+    
+    
   }
 
   const handleFormSubmission = () => {
@@ -61,18 +82,10 @@ const Update = ({ match }) => {
     {key: 's4', value: 'closed', text: 'closed'}
   ]
 
-  const [categoryValues, setCategoryValues] = useState([]);
-  /*
-  const loadCategoryValues = () =>{
-    axios.get('/api/projects/getCategories').then(response => {
-      
-    })
-
-    NEED GRAPH QL here
-    get the Categories only and then map the ids onto the categoryValues
-    The problem now is, that mapping with project.categories causes an infinte loop
-    Alternative: make a new route - but making new routes for everytime I only need one attribute becomes messy quickly
-  }*/
+  
+  const convertCategoryValues = () =>{
+    console.log('categoryValues in convertCategoryValues: ', categoryValues)
+  }
 
   return (
     <>

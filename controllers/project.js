@@ -62,73 +62,61 @@ exports.create = (req, res) => {
     })
 }
 
+/*
+To Update:
+remove any refrence to this project from Categories.projects
+set Projects.categories = []
+push each req.body.category to Projects.categories
+and include a reference to this Project to each pushed Category
+*/
 exports.update = (req, res) => {
-  /*
-  Project.findByIdAndUpdate(req.params._id, req.body)
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
-    */
 
     console.log('find project by Id');
-
     Project.findById(req.params._id)
-      .then( data => {
-        console.log('for each category in oldProject .pull(project_id');
-        data.categories.forEach((cat) =>{ 
-      
-          //remove the Project_id 
-          Category.findById(cat)
-            .then((data) => {
-              data.projects.pull(newProject._id);
-              data.save()
-                .catch(error => {
-                  console.log(error)
-                  res.status(500).send({ message: 'Error 500: projectController:update - remove project from category' })
-                })
-            })
+    .then(data => {
+      data.name = req.body.name;
+      data.status = req.body.status;
+      data.description = req.body.description;
+
+      console.log('set new info of name, state, desc: ', data);
+      console.log('now remove any reference to this project from all categories');
+      data.categories.forEach(cat =>{
+        Category.findById(cat)
+         .then(catData =>{
+           catData.projects.pull(data._id)
+           catData.save()
+         })
+         .catch(error => {
+          console.log(error)
+          res.status(500).send({ message: 'Error 500: projectController:update - remove projectRef from categoryModels' })
         })
+      })
 
-        console.log('change description, status and name');
-        data.description= req.body.description;
-        data.name= req.body.name;
-        data.status= req.body.status;
+      data.categories = [];
+      console.log('now set data.categories to empty array', data.categories);
 
-        console.log('set categoryArray to empty array');
-        data.categories = [];
+      req.body.categories.forEach((cat)=>{
+        data.categories.push(cat);
 
-        console.log('for each item of the newCategoryArray: push category_id in project.category');
-        req.body.categories.forEach((cat) =>{ 
-          newProject.categories.push(cat);
-      
-          //add the Project_id to the Category: 1-m Relation
-          console.log('and category.findById: push project_id into projectsarray');
-          Category.findById(cat)
-            .then((data) => {
-              data.projects.push(newProject._id);
-              data.save()
-                .catch(error => {
-                  console.log(error)
-                  res.status(500).send({ message: 'Error 500: projectController:create - save project in category' })
-                })
-            })
-        })
-
-        data.save()
-          .then(data => {
-            res.status(200).send(data)
+        Category.findById(cat)
+          .then(catData => {
+            catData.projects.push(data._id)
+            catData.save()
           })
           .catch(error => {
             console.log(error)
-            res.status(500).send({ message: 'Error 500: projectController:update - update project' })
+            res.status(500).send({ message: 'Error 500: projectController:update - save projectRef to categoryModels' })
           })
+
       })
-    
-    console.log('saved the project');
+      console.log('saving data: ', data);
+      data.save();
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error: 500 in projectController:update' })
+    })
+
 }
 
 exports.delete = (req, res) => {
