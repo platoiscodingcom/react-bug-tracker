@@ -1,7 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Button, Container, Form, Header } from 'semantic-ui-react'
+import { Button, Container, Form, Header } from 'semantic-ui-react';
+import { statusOptions } from '../../components/select';
 
 const Update = ({ match }) => {
   const [project, setProject] = useState({
@@ -10,12 +11,17 @@ const Update = ({ match }) => {
     description: '',
     categories: []
   })
-  const [categoryValues, setCategoryValues] = useState([])
+
   const loadProject = () =>{
-    axios.get(`/api/projects/${match.params._id}`).then(response => {
-      setProject(response.data)
-      setCategoryValues(response.data.categories)
-    })
+    axios.get(`/api/projects/${match.params._id}`)
+      .then(response => {
+        setProject({
+          name: response.data.name,
+          status: response.data.status,
+          description: response.data.description,
+          categories: response.data.categories.map(cat => cat._id)
+        })
+      })
   }
 
   const [categoryOptions, setCategoryOptions] = useState([]);
@@ -33,58 +39,28 @@ const Update = ({ match }) => {
   useEffect(() => {
     loadProject();
     loadCategoryOptions();
-    console.log('categoryOptions: ', categoryOptions);
-    convertCategoryValues();
-  }, [])
+  }, [match])
 
   const [redirect, setRedirect] = useState(false)
 
   const handleInputChange = (event, { name, value }) => {
-
-    if(name === 'categories'){
-      if(categoryValues.includes(value)){
-        console.log('trying to pull item from ategoryValues');
-       //setCategoryValues(prevValue.filter(item => item !== value));
-      }else{
-        //push element into Array
-        setCategoryValues(prevValue => ({...prevValue, value}));
-      }
-      console.log('categories after push/pull: ', categoryValues);
-    }else{
-      setProject(prevValue => ({ ...prevValue, [name]: value }));
-    }
-    
-    console.log('name: ', name);
-    console.log('value: ', value);
-    
-    
+    setProject(previousValue => ({ ...previousValue, [name]: value }));
   }
 
   const handleFormSubmission = () => {
+    console.log("before redirect");
     axios
       .put(`/api/projects/${match.params._id}`, project)
       .then(() => {
         setRedirect(true)
       })
       .catch(() => {
-        alert('Error occured')
+        console.log("error");
       })
   }
 
   const handleFormCancellation = () => {
     setRedirect(true)
-  }
-
-  const statusOptions = [
-    {key: 's1', value: 'backlog', text: 'backlog'},
-    {key: 's2', value: 'open', text: 'open'},
-    {key: 's3', value: 'in progress', text: 'in progress'},
-    {key: 's4', value: 'closed', text: 'closed'}
-  ]
-
-  
-  const convertCategoryValues = () =>{
-    console.log('categoryValues in convertCategoryValues: ', categoryValues)
   }
 
   return (
@@ -118,7 +94,7 @@ const Update = ({ match }) => {
                 multiple selection
                 search
                 options={categoryOptions}
-                value={categoryValues}
+                value={project.categories}
                 onChange={handleInputChange}
               />
             </Form.Group>

@@ -71,15 +71,14 @@ and include a reference to this Project to each pushed Category
 */
 exports.update = (req, res) => {
 
-    console.log('find project by Id');
+    //find project by Id
     Project.findById(req.params._id)
     .then(data => {
       data.name = req.body.name;
       data.status = req.body.status;
       data.description = req.body.description;
 
-      console.log('set new info of name, state, desc: ', data);
-      console.log('now remove any reference to this project from all categories');
+      //remove any reference to this project from all categories
       data.categories.forEach(cat =>{
         Category.findById(cat)
          .then(catData =>{
@@ -93,7 +92,7 @@ exports.update = (req, res) => {
       })
 
       data.categories = [];
-      console.log('now set data.categories to empty array', data.categories);
+      //set data.categories to empty array
 
       req.body.categories.forEach((cat)=>{
         data.categories.push(cat);
@@ -109,7 +108,7 @@ exports.update = (req, res) => {
           })
 
       })
-      console.log('saving data: ', data);
+      
       data.save();
     })
     .catch(error => {

@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Button, Container, Form, Header } from 'semantic-ui-react';
+import { statusOptions, priorityOptions, typeOptions } from '../../components/select';
 
 const Update = ({ match }) => {
   const [task, setTask] = useState({
@@ -40,6 +41,7 @@ const Update = ({ match }) => {
     axios
       .put(`/api/tasks/${match.params._id}`, task)
       .then(() => {
+        console.log("do redirect");
         setRedirect(true)
       })
       .catch(() => {
@@ -50,21 +52,6 @@ const Update = ({ match }) => {
   const handleFormCancellation = () => {
     setRedirect(true)
   }
-  const priorityOptions = [
-    {key: 'p1', value: 'low', text: 'low'},
-    {key: 'p2', value: 'high', text: 'high'},
-    {key: 'p3', value: 'critical', text: 'critical'}
-  ]
-  const statusOptions = [
-    {key: 's1', value: 'backlog', text: 'backlog'},
-    {key: 's2', value: 'open', text: 'open'},
-    {key: 's3', value: 'in progress', text: 'in progress'},
-    {key: 's4', value: 'closed', text: 'closed'}
-  ]
-  const typeOptions = [
-    {key: 't1', value: 'bug', text: 'bug'},
-    {key: 't2', value: 'feature', text: 'feature'}
-  ]
 
   return (
     <>

@@ -1,7 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Button, Form, Grid, Header} from 'semantic-ui-react'
+import { Button, Form, Grid, Header} from 'semantic-ui-react';
+import { statusOptions, priorityOptions, typeOptions } from '../../components/select';
 
 const Create = () => {
   const [task, setTask] = useState({
@@ -57,21 +58,6 @@ const Create = () => {
     })
   }
 
-  const priorityOptions = [
-    {key: 'p1', value: 'low', text: 'low'},
-    {key: 'p2', value: 'high', text: 'high'},
-    {key: 'p3', value: 'critical', text: 'critical'}
-  ]
-  const statusOptions = [
-    {key: 's1', value: 'backlog', text: 'backlog'},
-    {key: 's2', value: 'open', text: 'open'},
-    {key: 's3', value: 'in progress', text: 'in progress'},
-    {key: 's4', value: 'closed', text: 'closed'}
-  ]
-  const typeOptions = [
-    {key: 't1', value: 'bug', text: 'bug'},
-    {key: 't2', value: 'feature', text: 'feature'}
-  ]
   return (
     <>
       {redirect ? (

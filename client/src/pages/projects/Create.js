@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, Form, Grid, Header } from 'semantic-ui-react';
+import { statusOptions } from '../../components/select';
 
 const Create = () => {
   const [project, setProject] = useState({
@@ -26,7 +27,8 @@ const Create = () => {
   }, [])
 
   const handleInputChange = (event, { name, value }) => {
-    setProject(previousValue => ({ ...previousValue, [name]: value }))
+    setProject(previousValue => ({ ...previousValue, [name]: value }));
+    console.log('handle change', {name, value});
   }
 
   const handleFormSubmission = () => {
@@ -45,13 +47,7 @@ const Create = () => {
     setRedirect(true)
   }
 
-  const statusOptions = [
-    {key: 's1', value: 'backlog', text: 'backlog'},
-    {key: 's2', value: 'open', text: 'open'},
-    {key: 's3', value: 'in progress', text: 'in progress'},
-    {key: 's4', value: 'closed', text: 'closed'}
-  ]
-
+  console.log("project.catgeories:", project.categories)
   return (
     <>
       {redirect ? (

@@ -5,17 +5,8 @@ const projects = require('./routes/projects')
 const tasks = require('./routes/tasks')
 const categories = require('./routes/categories')
 
-//graphql
-var graphqlHTTP = require('express-graphql');
-var projectSchema = require('./graphql/ProjectType').ProjectSchema;
-var categorySchema = require('./graphql/CategoryType').CategorySchema;
-var taskSchema = require('./graphql/TaskType').TaskSchema;
-var cors = require("cors");
-
 const port = 5000
 const mongo_uri = 'mongodb://localhost:27017/bugtracker'
-
-//mongodb+srv://plato:Durebit8@cluster0-8qii3.azure.mongodb.net/test?retryWrites=true&w=majority
 
 mongoose.connect(mongo_uri, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
   .then(() => {
@@ -36,29 +27,12 @@ app.use('/api/categories', categories);
 
 app.listen({ port }, () => {
   console.log(`Server is listeing to port http://localhost:${port}`)
-  console.log(`graphql tester on port http://localhost:${port}/projectSchema and /taskSchema and /categorySchema`)
 })
 
 //Get the default connection
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-/*
-app.use('*', cors());
-app.use('/projectSchema', cors(), graphqlHTTP({
-  schema: projectSchema,
-  rootValue: global,
-  graphiql: true,
-}));
-app.use('/taskSchema', cors(), graphqlHTTP({
-  schema: taskSchema,
-  rootValue: global,
-  graphiql: true,
-}));
-app.use('/categorySchema', cors(), graphqlHTTP({
-  schema: categorySchema,
-  rootValue: global,
-  graphiql: true,
-}));*/
+
 
 /////////////////////////////////
 //prepare db

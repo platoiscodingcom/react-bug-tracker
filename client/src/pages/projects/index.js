@@ -11,8 +11,8 @@ const Projects = ({ match }) => {
   return (
     <>
     <Header as='h1' textAlign='center'>
-        Tasks
-      </Header>
+        Projects
+    </Header>
       <Segment>
         <Switch>
           <Route exact path={match.path} component={List} />
