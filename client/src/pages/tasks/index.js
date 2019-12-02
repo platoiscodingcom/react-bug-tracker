@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { Header, Segment } from 'semantic-ui-react'
+import { Header, Container } from 'semantic-ui-react'
 
 import Create from './Create'
 import List from './List'
@@ -12,13 +12,13 @@ const Tasks = ({ match }) => {
       <Header as='h1' textAlign='center'>
         Tasks
       </Header>
-      <Segment>
+      <Container>
         <Switch>
           <Route exact path={match.path} component={List} />
           <Route path={`${match.path}/create`} component={Create} />
           <Route path={`${match.path}/:_id`} component={Update} />
         </Switch>
-      </Segment>
+      </Container>
     </>
   )
 }

@@ -15,7 +15,7 @@ const List = ({ match }) => {
 
   useEffect(() => {
     loadProjects();
-  }, [])
+  }, [match])
 
   const deleteProject = _id => {
     axios.delete(`/api/projects/${_id}`)

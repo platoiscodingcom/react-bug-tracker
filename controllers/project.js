@@ -7,7 +7,7 @@ exports.list = (req, res) => {
   Project.find()
     .populate('tasks categories')
     .then(data => {
-      res.status(200).send(data)
+      res.status(200).send(data);
     })
     .catch(error => {
       console.log(error)
@@ -16,9 +16,8 @@ exports.list = (req, res) => {
 }
 
 exports.details = (req, res) => {
-  Project.findById(req.params._id)
+   Project.findById(req.params._id)
     .populate('tasks categories')
-    //.populate('tasks')
     .then(data => {
       res.status(200).send(data)
     })
@@ -110,6 +109,7 @@ exports.update = (req, res) => {
       })
       
       data.save();
+      res.status(200).send(data);
     })
     .catch(error => {
       console.log(error)

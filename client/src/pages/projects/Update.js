@@ -52,6 +52,7 @@ const Update = ({ match }) => {
     axios
       .put(`/api/projects/${match.params._id}`, project)
       .then(() => {
+        console.log("then redirect");
         setRedirect(true)
       })
       .catch(() => {
@@ -66,7 +67,7 @@ const Update = ({ match }) => {
   return (
     <>
       {redirect ? (
-        <Redirect to='/projects' push />
+        <Redirect to={`/projects/details/${match.params._id}`} push />
       ) : (
         <Container>
           <Header as='h2'>Edit</Header>
@@ -104,6 +105,7 @@ const Update = ({ match }) => {
                 name='description'
                 value={project.description}
                 onChange={handleInputChange}
+                rows="12"
               />
             </Form.Group>
           </Form>

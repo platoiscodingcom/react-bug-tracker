@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Card, Icon, List, Button, Grid, Table} from 'semantic-ui-react';
-import { Link } from 'react-router-dom'
+import { Container, Card, List, Button, Grid, Table} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import './projects.css';
 
 const Details = ({match}) =>{
   const [project, setProject] = useState({
@@ -11,60 +12,66 @@ const Details = ({match}) =>{
     categories:[],
     tasks: []
   })
-  useEffect(() => {
+
+  const loadProject = () => {
     axios.get(`/api/projects/${match.params._id}`).then(response => {
       setProject(response.data)
     });
-    
+  }
+
+  useEffect(() => {
+    loadProject();
   }, [match])
 
   const deleteTask = _id => {
-    axios.delete(`/api/tasks/${_id}`).then(() => {})
+    axios.delete(`/api/tasks/${_id}`).then(() => {
+      loadProject();
+    })
   }
 
   const {_id, name, status, description, categories, tasks} = project;
-  const listCat = categories.map((cat) => <li>{cat.name}</li>);
-  console.log(project);
-  console.log(tasks);
+  const listCat = categories
+                    .map((cat) => 
+                      <span key={cat._id} className="ui label">
+                        <Link to={`/categories/${cat._id}`}>{cat.name}</Link>
+                      </span>);
 
   return(
     <div>
-    
     <Container textAlign='left'>
     <Card fluid>
       <Card.Content header={name} />
       <Card.Content>
         <List>
           <List.Item>
-            <div className="ui label">Status:</div><div>{status}</div>
+            <div>Status:<span className="ui label">{status}</span></div>
           </List.Item>
           <List.Item>
-            <div className="ui label">Categories:</div>
-            <ul>
-                {listCat} </ul>
+            <div>Categories:{listCat}</div> 
           </List.Item>
         </List>
       </Card.Content>
       <Card.Content description= {description} />
       <Card.Content extra>
-        <Icon name='user' />noOfTusks 
         <Button
-        basic
-        color='blue'
-        as={Link}
-        to={`/projects/${_id}`}
-      >
-        Edit
-      </Button>
+          color='black'
+          as={Link}
+          to={`/projects/${_id}`}
+        ><i className="fas fa-pen"></i>Edit</Button>
+        <Button  
+          color='green'
+          as={Link}
+          to={`/projects/${_id}/close`}
+        ><i className="fas fa-check"></i>Close</Button>
       </Card.Content>
     </Card>
     </Container>
 
     <Container textAlign='left'>
-    <Grid>
-        <Grid.Column width={8} textAlign='right'>
-          <Button color='green' as={Link} to={'/'}>
-            New
+      <Grid>
+        <Grid.Column textAlign='right'>
+          <Button color='black' as={Link} to={`${match.url}/create`}>
+          <i className="fas fa-plus"></i>New Task 
           </Button>
         </Grid.Column>
       </Grid>
@@ -73,6 +80,7 @@ const Details = ({match}) =>{
           <Table.Row>
             <Table.HeaderCell>Title</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Type</Table.HeaderCell>
             <Table.HeaderCell>Priority</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
@@ -81,24 +89,24 @@ const Details = ({match}) =>{
         <Table.Body>
         
         {tasks.map(task => {
-          const { _id, title, status, priority} = task
+          const { _id, title, type, status, priority} = task
           
           return (
             <Table.Row key={_id}>
               <Table.Cell>{`${title}`}</Table.Cell>
               <Table.Cell>{`${status}`}</Table.Cell>
+              <Table.Cell>{`${type}`}</Table.Cell>
               <Table.Cell>{`${priority}`}</Table.Cell>
-              <Table.Cell textAlign='center'>
+              <Table.Cell textAlign='center' className="button-actions">
                 <Button
-                  basic
-                  color='blue'
+                  color='black'
                   as={Link}
-                  to={`${match.url}/${_id}`}
+                  to={`/tasks/${_id}`}
                 >
-                  Edit
+                <i className="fas fa-pen"></i>
                 </Button>
-                <Button basic color='red' onClick={() => deleteTask(_id)}>
-                  Delete
+                <Button color='red' onClick={() => deleteTask(_id)}>
+                <i className="fas fa-trash"></i>
                 </Button>
               </Table.Cell>
             </Table.Row>
@@ -108,6 +116,9 @@ const Details = ({match}) =>{
       </Table>
     </Container>
     
+    <Container>
+      
+    </Container>
     </div>
 
   )

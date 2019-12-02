@@ -1,4 +1,5 @@
 const Task = require('../models/Task')
+const Project = require('../models/Project')
 mongoose = require('mongoose')
 
 exports.list = (req, res) => {
@@ -29,13 +30,22 @@ exports.create = (req, res) => {
   newTask._id = new mongoose.Types.ObjectId();
   newTask.save()
     .then(data => {
-      res.status(200).send(data)
+      Project.findById(req.body.project)
+        .then(projectData => {
+          projectData.tasks.push(newTask);
+          projectData.save();
+        })
+        .catch(error => {
+          console.log(error)
+          res.status(500).send({ message: 'Error occured: 500' })
+        })
+
+      res.status(200).send(data);
     })
     .catch(error => {
-      console.log(error)
+      console.log(error);
       res.status(500).send({ message: 'Error occured: 500' })
     })
-
 }
 
 exports.update = (req, res) => {
