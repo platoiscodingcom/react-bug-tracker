@@ -64,7 +64,7 @@ const List = ({ match }) => {
                     basic
                     color='green'
                     as={Link}
-                    to={`${match.url}/details/${_id}`}
+                    to={`projects/details/${_id}`}
                   >Details</Button>
                   <Button basic color='red' onClick={() => deleteProject(_id)}>
                     Delete

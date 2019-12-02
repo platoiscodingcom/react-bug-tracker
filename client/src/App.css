@@ -6,4 +6,12 @@
 body {
   font-family: 'Ropa Sans', sans-serif;
   margin-top:0px;
+  background: #eee;
+}
+.ui.fluid.card{
+  box-shadow: none;
+  border-radius: 0px;
+}
+.ui.button{
+  border-radius: 0px;
 }

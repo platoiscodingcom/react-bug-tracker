@@ -18,8 +18,8 @@ function App() {
   return (
     <div>
       <Router>
-        <Segment inverted>
-          <Menu as='nav' inverted pointing secondary>
+        <Segment >
+          <Menu as='nav'  secondary>
             <Menu.Item as={NavLink} to='/' exact name='home' />
             <Menu.Item as={NavLink} to='/projects' name='projects' />
             <Menu.Item as={NavLink} to='/tasks' name='tasks' />

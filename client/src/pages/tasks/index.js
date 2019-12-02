@@ -15,8 +15,9 @@ const Tasks = ({ match }) => {
       <Container>
         <Switch>
           <Route exact path={match.path} component={List} />
-          <Route path={`${match.path}/create`} component={Create} />
-          <Route path={`${match.path}/:_id`} component={Update} />
+          <Route exact path={`${match.path}/create`} component={Create} />
+          <Route exact path={`${match.path}/create/:_projectId`} component={Create} />
+          <Route exact path={`${match.path}/:_id`} component={Update} />
         </Switch>
       </Container>
     </>

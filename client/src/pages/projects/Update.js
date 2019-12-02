@@ -67,7 +67,7 @@ const Update = ({ match }) => {
   return (
     <>
       {redirect ? (
-        <Redirect to={`/projects/details/${match.params._id}`} push />
+        <Redirect to={`/project/${match.params._id}`} push />
       ) : (
         <Container>
           <Header as='h2'>Edit</Header>

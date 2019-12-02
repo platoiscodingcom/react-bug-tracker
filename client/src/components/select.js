@@ -7,8 +7,9 @@ export const statusOptions = [
 
 export const priorityOptions = [
   {key: 'p1', value: 'low', text: 'low'},
-  {key: 'p2', value: 'high', text: 'high'},
-  {key: 'p3', value: 'critical', text: 'critical'}
+  {key: 'p2', value: 'low', text: 'medium'},
+  {key: 'p3', value: 'high', text: 'high'},
+  {key: 'p4', value: 'critical', text: 'critical'}
 ];
 
 export const typeOptions = [

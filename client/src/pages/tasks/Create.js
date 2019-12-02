@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { Button, Form, Grid, Header} from 'semantic-ui-react';
 import { statusOptions, priorityOptions, typeOptions } from '../../components/select';
 
-const Create = () => {
+const Create = ({match}) => {
   const [task, setTask] = useState({
     title: '',
     project: '',
@@ -13,6 +13,17 @@ const Create = () => {
     priority: '',
     type: ''
   })
+  /*
+  if(match.params.projectId){
+    console.log("true");
+    setTask({
+      title: '',
+      project: match.params.projectId,
+      description: '',
+      status: '',
+      priority: '',
+      type: ''})
+  }*/
 
   const [projects, setProjects] = useState([])
   useEffect(() => {
@@ -23,8 +34,8 @@ const Create = () => {
           value: project._id
         }))
       )
-    })
-  }, [])
+    });
+  }, [match])
 
   const [redirect, setRedirect] = useState(false)
 
@@ -47,17 +58,6 @@ const Create = () => {
     setRedirect(true)
   }
 
-  const handleFormReset = () => {
-    setTask({
-      title: '',
-      project: '',
-      description: '',
-      status: '',
-      priority: '',
-      type: ''
-    })
-  }
-
   return (
     <>
       {redirect ? (
@@ -77,7 +77,7 @@ const Create = () => {
                 label='Project'
                 name='project'
                 options={projects}
-                value={task.projects}
+                value={task.project}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -93,8 +93,9 @@ const Create = () => {
                 label='Status'
                 name='status'
                 options={statusOptions}
-                value={task.status}
+                //value={task.status}
                 onChange={handleInputChange}
+                defaultValue={"open"}
               />
               <Form.Select
                 label='Type'
@@ -114,14 +115,7 @@ const Create = () => {
             </Form.Group>
           </Form>
           <Grid stackable>
-            <Grid.Column width={8} textAlign='left'>
-              <Button
-                color='teal'
-                content='Reset'
-                onClick={handleFormReset}
-              />
-            </Grid.Column>
-            <Grid.Column width={8} textAlign='right'>
+            <Grid.Column textAlign='right'>
               <Button
                 color='red'
                 content='Cancel'

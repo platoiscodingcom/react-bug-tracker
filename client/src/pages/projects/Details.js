@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Card, List, Button, Grid, Table} from 'semantic-ui-react';
+import { Container, Card, List, Button, Table, Popup} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './projects.css';
+import uuid from 'uuid';
 
 const Details = ({match}) =>{
   const [project, setProject] = useState({
@@ -36,6 +37,37 @@ const Details = ({match}) =>{
                         <Link to={`/categories/${cat._id}`}>{cat.name}</Link>
                       </span>);
 
+  const StatusColor = (props) =>{
+    const status = props.status;
+    if(!status) return "undefined";
+    if(status === "in progress") {
+      return <span className="ui orange horizontal label">{`${status}`}</span>;
+    }
+    if(status === "open") {
+      return <span className="ui green horizontal label">{`${status}`}</span>;
+    }
+    if(status === "closed") {
+      return <span className="ui horizontal label">{`${status}`}</span>;
+    }else{
+      return <span className="ui black horizontal label">{`${status}`}</span>;
+    }
+  }
+
+  const TypeIcon = (props) =>{
+    const type = props.type;
+    
+    if(!type)  return <Popup content='Undefined' trigger={<i className="fas fa-question"></i>} />
+    if(type === "bug") {
+      return <Popup content='Bug' trigger={<i className="fas fa-bug"></i>} />
+    }
+    if(type === "feature"){
+      return <Popup content='Feature' trigger={<i className="fas fa-star"></i>} />
+    }
+    else{
+      return <span>{`${type}`}</span>;
+    }
+  }
+
   return(
     <div>
     <Container textAlign='left'>
@@ -44,7 +76,7 @@ const Details = ({match}) =>{
       <Card.Content>
         <List>
           <List.Item>
-            <div>Status:<span className="ui label">{status}</span></div>
+            <div>Status:<StatusColor key={uuid.v4()} status = {status}></StatusColor></div>
           </List.Item>
           <List.Item>
             <div>Categories:{listCat}</div> 
@@ -59,7 +91,7 @@ const Details = ({match}) =>{
           to={`/projects/${_id}`}
         ><i className="fas fa-pen"></i>Edit</Button>
         <Button  
-          color='green'
+          color='grey'
           as={Link}
           to={`/projects/${_id}/close`}
         ><i className="fas fa-check"></i>Close</Button>
@@ -67,35 +99,31 @@ const Details = ({match}) =>{
     </Card>
     </Container>
 
-    <Container textAlign='left'>
-      <Grid>
-        <Grid.Column textAlign='right'>
-          <Button color='black' as={Link} to={`${match.url}/create`}>
-          <i className="fas fa-plus"></i>New Task 
-          </Button>
-        </Grid.Column>
-      </Grid>
-      <Table singleLine columns={4} striped>
+    <Container style={{ marginTop: "15px"}}  textAlign='left'>
+      <Table singleLine columns={4} >
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Title</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Type</Table.HeaderCell>
             <Table.HeaderCell>Priority</Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell><Button color='black' as={Link} to={`/tasks/create/${match.params._id}`}>
+            <i className="fas fa-plus"></i>New Task 
+            </Button></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
         
         {tasks.map(task => {
-          const { _id, title, type, status, priority} = task
+          const { _id, title, type, status, priority} = task;
           
           return (
+            <>
             <Table.Row key={_id}>
               <Table.Cell>{`${title}`}</Table.Cell>
-              <Table.Cell>{`${status}`}</Table.Cell>
-              <Table.Cell>{`${type}`}</Table.Cell>
+              <Table.Cell><StatusColor key={uuid.v4()} status = {status}></StatusColor></Table.Cell>
+              <Table.Cell><TypeIcon key={uuid.v4()} type = {type}></TypeIcon></Table.Cell>
               <Table.Cell>{`${priority}`}</Table.Cell>
               <Table.Cell textAlign='center' className="button-actions">
                 <Button
@@ -108,8 +136,10 @@ const Details = ({match}) =>{
                 <Button color='red' onClick={() => deleteTask(_id)}>
                 <i className="fas fa-trash"></i>
                 </Button>
+                
               </Table.Cell>
             </Table.Row>
+            </>
           )
         })} 
         </Table.Body>

@@ -14,7 +14,7 @@ const Projects = ({ match }) => {
         <Switch>
           <Route exact path={match.path} component={List} />
           <Route path={`${match.path}/create`} component={Create} />
-          <Route path={`${match.path}/details/:_id`} component={Details} />
+          <Route exact path={`${match.path}/details/:_id`} component={Details} />
           <Route path={`${match.path}/:_id`} component={Update} />
         </Switch>
       </Container>
