@@ -72,7 +72,7 @@ const Details = ({match}) =>{
     }
   }
 
-  if(project ==="undefined"|| project._id === null){
+  if(project ==="undefined"|| project._id === ''){
     return <ProjectLoader />
   }else{
     return(

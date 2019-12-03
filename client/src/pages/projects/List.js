@@ -1,81 +1,59 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Header, Grid, Table } from 'semantic-ui-react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Container, Card, Button, Grid} from 'semantic-ui-react';
 
 const List = ({ match }) => {
   const [projects, setProject] = useState([]);
 
-  const loadProjects = () =>{
+  useEffect(() => {
     axios.get('/api/projects/')
       .then(res => {
         setProject(res.data);
       })
-  }
-
-  useEffect(() => {
-    loadProjects();
   }, [match])
 
-  const deleteProject = _id => {
-    axios.delete(`/api/projects/${_id}`)
-      .then(() => {
-        loadProjects()
-    })
-  }
+
+  console.log("projects", projects);
+  
   return (
-    <>
+    <Container>
       <Grid>
-        <Grid.Column width={8} textAlign='left'>
-          <Header as='h2'>List</Header>
-        </Grid.Column>
-        <Grid.Column width={8} textAlign='right'>
-          <Button color='green' as={Link} to={`${match.url}/create`}>
-            New
+        <Grid.Column textAlign='right'>
+          <Button color='black' as={Link} to={`${match.url}/create`}>
+          <i className="fas fa-plus"></i>New Project
           </Button>
         </Grid.Column>
       </Grid>
-      <Table singleLine columns={4} striped>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
+      <Card.Group>
+        {projects.map(project => {
+          const { _id, name, status, categories, description} = project
+          return (
+            <Card  style={{boxShadow: "none", borderRadius: "0"}} key={_id}>
+              <Card.Content>
+                <Card.Header>{`${name}`}</Card.Header>
+                <Card.Meta>
+                  {categories.map(cat => <span key={cat._id}>{`${cat.name}`}</span>)}
+                </Card.Meta>
+                <Card.Description>{`${description}`}</Card.Description>
+                <Card.Description>{`${status}`}</Card.Description>
+              </Card.Content>
 
-        <Table.Body>
-          {projects.map(project => {
-            const { _id, name, status} = project
-            return (
-              <Table.Row key={_id}>
-                <Table.Cell>{`${name}`}</Table.Cell>
-                <Table.Cell>{`${status}`}</Table.Cell>
-                <Table.Cell textAlign='center'>
-                  <Button
-                    basic
-                    color='blue'
-                    as={Link}
-                    to={`${match.url}/${_id}`}
-                  >
+              <Card.Content extra>
+                <div className='ui two buttons'>
+                  <Button as={Link} to={`projects/details/${_id}`} basic color='black'>
+                    Details
+                  </Button>
+                  <Button as={Link} to={`${match.url}/${_id}`} color='black'>
                     Edit
                   </Button>
-                  <Button
-                    basic
-                    color='green'
-                    as={Link}
-                    to={`projects/details/${_id}`}
-                  >Details</Button>
-                  <Button basic color='red' onClick={() => deleteProject(_id)}>
-                    Delete
-                  </Button>
-                </Table.Cell>
-              </Table.Row>
-            )
-          })}
-        </Table.Body>
-      </Table>
-    </>
+                </div>
+              </Card.Content>
+            </Card>
+          )
+        })}
+      </Card.Group>
+    </Container>
   )
 }
 
