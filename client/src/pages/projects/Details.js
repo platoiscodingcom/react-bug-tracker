@@ -4,9 +4,12 @@ import { Container, Card, List, Button, Table, Popup} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './projects.css';
 import uuid from 'uuid';
+import NewTask from '../../components/NewTask'
 
 const Details = ({match}) =>{
+  const [showNewTask, setShowNewTask] = useState({show: false});
   const [project, setProject] = useState({
+    _id: '',
     name: '',
     status: '',
     description: '',
@@ -99,17 +102,21 @@ const Details = ({match}) =>{
     </Card>
     </Container>
 
+    {showNewTask.show && <NewTask project={project} setShowNewTask={setShowNewTask} showNewTask ={showNewTask}/>}
+    
     <Container style={{ marginTop: "15px"}}  textAlign='left'>
-      <Table singleLine columns={4} >
+      <Table singleLine columns={4} style={{border: "none", borderRadius: "0"}}>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Title</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Type</Table.HeaderCell>
             <Table.HeaderCell>Priority</Table.HeaderCell>
-            <Table.HeaderCell><Button color='black' as={Link} to={`/tasks/create/${match.params._id}`}>
-            <i className="fas fa-plus"></i>New Task 
-            </Button></Table.HeaderCell>
+            <Table.HeaderCell>
+              <Button color='black' onClick={() => setShowNewTask({show: !showNewTask.show})}>
+                <i className="fas fa-plus"></i>New Task 
+              </Button>
+              </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -119,7 +126,6 @@ const Details = ({match}) =>{
           const { _id, title, type, status, priority} = task;
           
           return (
-            <>
             <Table.Row key={_id}>
               <Table.Cell>{`${title}`}</Table.Cell>
               <Table.Cell><StatusColor key={uuid.v4()} status = {status}></StatusColor></Table.Cell>
@@ -139,7 +145,6 @@ const Details = ({match}) =>{
                 
               </Table.Cell>
             </Table.Row>
-            </>
           )
         })} 
         </Table.Body>

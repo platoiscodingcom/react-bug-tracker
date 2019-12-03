@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Button, Container, Form, Header } from 'semantic-ui-react';
+import { Button, Container, Form, Header, Card } from 'semantic-ui-react';
 import { statusOptions } from '../../components/select';
 
 const Update = ({ match }) => {
@@ -12,6 +12,7 @@ const Update = ({ match }) => {
     categories: []
   })
 
+  /*
   const loadProject = () =>{
     axios.get(`/api/projects/${match.params._id}`)
       .then(response => {
@@ -22,7 +23,7 @@ const Update = ({ match }) => {
           categories: response.data.categories.map(cat => cat._id)
         })
       })
-  }
+  }*/
 
   const [categoryOptions, setCategoryOptions] = useState([]);
   const loadCategoryOptions = () =>{
@@ -37,7 +38,18 @@ const Update = ({ match }) => {
   }
   
   useEffect(() => {
-    loadProject();
+    //loadProject
+    axios.get(`/api/projects/${match.params._id}`)
+      .then(response => {
+        setProject({
+          name: response.data.name,
+          status: response.data.status,
+          description: response.data.description,
+          categories: response.data.categories.map(cat => cat._id)
+        })
+      });
+    
+    //get available Categories
     loadCategoryOptions();
   }, [match])
 
@@ -67,10 +79,12 @@ const Update = ({ match }) => {
   return (
     <>
       {redirect ? (
-        <Redirect to={`/project/${match.params._id}`} push />
+        <Redirect to={`/projects/details/${match.params._id}`} push />
       ) : (
         <Container>
-          <Header as='h2'>Edit</Header>
+        <Card fluid>
+        <Card.Content header="Edit" />
+        <Card.Content>
           <Form widths='equal'>
             <Form.Group>
               <Form.Input
@@ -109,7 +123,7 @@ const Update = ({ match }) => {
               />
             </Form.Group>
           </Form>
-          <Container textAlign='right'>
+          <Card.Content extra textAlign='right'>
             <Button
               color='red'
               content='Cancel'
@@ -120,7 +134,9 @@ const Update = ({ match }) => {
               content='Save'
               onClick={handleFormSubmission}
             />
-          </Container>
+          </Card.Content>
+        </Card.Content>
+        </Card>
         </Container>
       )}
     </>

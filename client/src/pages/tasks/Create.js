@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
 import { Button, Form, Grid, Header} from 'semantic-ui-react';
 import { statusOptions, priorityOptions, typeOptions } from '../../components/select';
 
@@ -13,17 +13,6 @@ const Create = ({match}) => {
     priority: '',
     type: ''
   })
-  /*
-  if(match.params.projectId){
-    console.log("true");
-    setTask({
-      title: '',
-      project: match.params.projectId,
-      description: '',
-      status: '',
-      priority: '',
-      type: ''})
-  }*/
 
   const [projects, setProjects] = useState([])
   useEffect(() => {
