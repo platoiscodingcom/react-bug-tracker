@@ -102,7 +102,7 @@ const Details = ({match}) =>{
     </Card>
     </Container>
 
-    {showNewTask.show && <NewTask project={project} setShowNewTask={setShowNewTask} showNewTask ={showNewTask}/>}
+    {showNewTask.show && <NewTask project={project} setShowNewTask={setShowNewTask} showNewTask ={showNewTask} loadProject={loadProject}/>}
     
     <Container style={{ marginTop: "15px"}}  textAlign='left'>
       <Table singleLine columns={4} style={{border: "none", borderRadius: "0"}}>

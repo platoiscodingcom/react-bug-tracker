@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Container, Card, Form, Button} from 'semantic-ui-react';
 import { statusOptions, priorityOptions, typeOptions } from './select';
 
-const NewTask = ({project, setShowNewTask, showNewTask}) => {
+const NewTask = ({project, setShowNewTask, showNewTask, loadProject}) => {
   const [task, setTask] = useState({
     title: '',
     project: project._id,
@@ -27,6 +27,7 @@ const NewTask = ({project, setShowNewTask, showNewTask}) => {
       type: ''
     });
     setShowNewTask({show: !showNewTask.show});
+    loadProject();
   }
 
   const handleFormSubmission = () => {
@@ -104,6 +105,10 @@ const NewTask = ({project, setShowNewTask, showNewTask}) => {
         </Card.Content>
 
         <Card.Content extra textAlign='right'>
+          <Button color='black' 
+                  onClick={() => setShowNewTask({show: !showNewTask.show})}>
+                  Cancel
+          </Button>
           <Button
             color='green'
             content='Save'
