@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Card, Button, Form} from 'semantic-ui-react';
-import { statusOptions } from '../../components/select';
+import { statusOptions } from '../../components/helper/Select';
 
 const Create = () => {
   const [project, setProject] = useState({

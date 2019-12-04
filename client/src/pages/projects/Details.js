@@ -4,9 +4,9 @@ import { Container, Card, List, Button, Table} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './projects.css';
 import uuid from 'uuid';
-import NewTask from '../../components/NewTask';
+import NewTask from '../../components/tasks/NewTask';
 import DetailsLoader from '../../components/loader/DetailsLoader';
-import {StatusColor, TypeIcon} from '../../components/TaskIcons';
+import {StatusColor, TypeIcon} from '../../components/tasks/TaskIcons';
 import { Redirect } from 'react-router-dom';
 
 const Details = ({match}) =>{

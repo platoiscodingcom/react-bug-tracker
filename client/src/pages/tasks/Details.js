@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Container, Card, List, Button} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import {StatusColor, TypeIcon} from '../../components/TaskIcons';
+import {StatusColor, TypeIcon} from '../../components/tasks/TaskIcons';
 import uuid from 'uuid';
 import { Redirect } from 'react-router-dom';
 import DetailsLoader from '../../components/loader/DetailsLoader';
