@@ -43,7 +43,9 @@ exports.create = (req, res) => {
     Category.findById(cat)
       .then((data) => {
         data.projects.push(newProject._id);
+        console.log('sollte das CATCH nicht aus der klammer raus?');
         data.save()
+        
           .catch(error => {
             console.log(error)
             res.status(500).send({ message: 'Error 500: projectController:create - save project in category' })

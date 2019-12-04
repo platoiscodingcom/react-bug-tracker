@@ -4,8 +4,8 @@ import { OPEN, CLOSED, REOPENED, INPROGRESS, UNDEFINED} from '../helper/Select';
 import { HIGH, CRITICAL} from '../helper/Select';
 import { BUG, FEATURE} from '../helper/Select';
 
-export const StatusColor = (props) =>{
-  const status = props.status;
+export const StatusColor = ({status}) =>{
+  
   if(!status) return UNDEFINED;
   if(status === INPROGRESS) {
     return <span className="ui orange horizontal label">{`${status}`}</span>;
@@ -21,8 +21,7 @@ export const StatusColor = (props) =>{
   }
 }
 
-export const TypeIcon = (props) =>{
-  const type = props.type;
+export const TypeIcon = ({type}) =>{
   
   if(!type)  return <Popup content={UNDEFINED} trigger={<i className="fas fa-question"></i>} />
   if(type === BUG) {
@@ -36,9 +35,7 @@ export const TypeIcon = (props) =>{
   }
 }
 
-export const PriorityCellColor = (props) =>{
-  const priority = props.priority;
-  console.log('priority', priority);
+export const PriorityCellColor = ({priority}) =>{
 
   if(!priority) return <Table.Cell>{UNDEFINED}</Table.Cell>
   if(priority === HIGH || priority === CRITICAL ){

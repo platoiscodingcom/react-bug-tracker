@@ -61,8 +61,17 @@ exports.update = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-  Task.findByIdAndRemove(req.params._id)
-    .then(data => {
+  Task.findById(req.params._id)
+    .then(data =>{
+      //find project by task.project
+      //remove the task from project.tasks 
+      Project.findById(data.project)
+      .then(data =>{
+        const removeIndex = data.tasks.map(item => item._id.toString()).indexOf(req.params._id);
+        data.tasks.splice(removeIndex, 1);
+        data.save();
+      })
+      data.remove();
       res.status(200).send(data)
     })
     .catch(error => {
