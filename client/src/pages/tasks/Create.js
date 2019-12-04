@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom';
 import { Card, Button, Form} from 'semantic-ui-react';
-import { statusOptions, priorityOptions, typeOptions } from '../../components/helper/Select';
+import { statusOptions, priorityOptions, typeOptions, OPEN } from '../../components/helper/Select';
 
 const Create = ({match}) => {
   const [task, setTask] = useState({
@@ -84,9 +84,8 @@ const Create = ({match}) => {
                 label='Status'
                 name='status'
                 options={statusOptions}
-                //value={task.status}
                 onChange={handleInputChange}
-                defaultValue={"open"}
+                defaultValue={OPEN}
               />
               <Form.Select
                 label='Type'

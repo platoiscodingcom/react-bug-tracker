@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Card, Button, Form} from 'semantic-ui-react';
-import { statusOptions } from '../../components/helper/Select';
+import { statusOptions, OPEN } from '../../components/helper/Select';
 
 const Create = () => {
   const [project, setProject] = useState({
@@ -69,7 +69,7 @@ const Create = () => {
                 label='Status'
                 name='status'
                 options={statusOptions}
-                value={project.status}
+                defaultValue={OPEN}
                 onChange={handleInputChange}
               />
               <Form.Select

@@ -1,7 +1,7 @@
 import React, { useEffect, useState }from 'react';
 import axios from 'axios';
 import { Container, Card, Form, Button} from 'semantic-ui-react';
-import { statusOptions, priorityOptions, typeOptions } from '../helper/Select';
+import { statusOptions, priorityOptions, typeOptions, OPEN } from '../helper/Select';
 
 const NewTask = ({project, setShowNewTask, showNewTask, loadProject}) => {
   const [task, setTask] = useState({
@@ -83,7 +83,7 @@ const NewTask = ({project, setShowNewTask, showNewTask, loadProject}) => {
                 name='status'
                 options={statusOptions}
                 onChange={handleInputChange}
-                defaultValue={"open"}
+                defaultValue={OPEN}
               />
               <Form.Select
                 label='Type'
