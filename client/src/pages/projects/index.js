@@ -6,6 +6,7 @@ import Create from './Create';
 import List from './List';
 import Update from './Update';
 import Details from './Details';
+import NoMatch from '../NoMatch';
 
 const Projects = ({ match }) => {
   return (
@@ -16,6 +17,7 @@ const Projects = ({ match }) => {
           <Route path={`${match.path}/create`} component={Create} />
           <Route exact path={`${match.path}/details/:_id`} component={Details} />
           <Route path={`${match.path}/:_id`} component={Update} />
+          <Route component={NoMatch} />
         </Switch>
       </Container>
     </>

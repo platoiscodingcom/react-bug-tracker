@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 
 import Home from './pages/Home'
+import NoMatch from './pages/NoMatch'
 import Projects from './pages/projects'
 import Tasks from './pages/tasks'
 import Categories from './pages/categories'
@@ -31,6 +32,7 @@ function App() {
           <Route path='/projects' component={Projects} />
           <Route path='/tasks' component={Tasks} />
           <Route path='/categories' component={Categories} />
+          <Route component={NoMatch} />
         </Switch>
       </Router>
     </div>
