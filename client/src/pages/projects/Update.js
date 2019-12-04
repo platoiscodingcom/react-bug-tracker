@@ -116,7 +116,7 @@ const Update = ({ match }) => {
           </Form>
           <Card.Content extra textAlign='right'>
             <Button
-              color='red'
+              color='black'
               content='Cancel'
               onClick={handleFormCancellation}
             />

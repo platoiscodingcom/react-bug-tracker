@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Container, Card, Form, Button} from 'semantic-ui-react';
 import { statusOptions, priorityOptions, typeOptions, OPEN } from '../helper/Select';
 
-const NewTask = ({project, setShowNewTask, showNewTask, loadProject}) => {
+const NewTask = ({project, setShowNewTask, showNewTask, setProject, match}) => {
   const [task, setTask] = useState({
     title: '',
     project: project._id,
@@ -27,7 +27,9 @@ const NewTask = ({project, setShowNewTask, showNewTask, loadProject}) => {
       type: ''
     });
     setShowNewTask({show: !showNewTask.show});
-    loadProject();
+    axios.get(`/api/projects/${match.params._id}`).then(response => {
+      setProject(response.data)
+    });
   }
 
   const handleFormSubmission = () => {
@@ -41,11 +43,8 @@ const NewTask = ({project, setShowNewTask, showNewTask, loadProject}) => {
       })
   }
 
-
   useEffect(() => {
   }, [])
-
-  console.log('projectId', task.project);
 
   return (
     <Container textAlign='left'>

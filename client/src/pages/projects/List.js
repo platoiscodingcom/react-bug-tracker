@@ -13,11 +13,8 @@ const List = ({ match }) => {
         setProject(res.data);
       })
   }, [match])
-
-
-  console.log("projects", projects);
   
-  if(projects ==="undefined"|| projects.lenght === 0 || projects == null){
+  if(projects ==="undefined"|| projects.lenght === 0 || projects === null){
     return <CardLoader />
   }else{
   return (

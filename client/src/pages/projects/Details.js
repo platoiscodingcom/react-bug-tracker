@@ -20,19 +20,17 @@ const Details = ({match}) =>{
     tasks: []
   })
 
-  const loadProject = () => {
+  useEffect(() => {
     axios.get(`/api/projects/${match.params._id}`).then(response => {
       setProject(response.data)
     });
-  }
-
-  useEffect(() => {
-    loadProject();
   }, [match])
 
   const deleteTask = _id => {
     axios.delete(`/api/tasks/${_id}`).then(() => {
-      loadProject();
+      axios.get(`/api/projects/${match.params._id}`).then(response => {
+        setProject(response.data)
+      });
     })
   }
 
@@ -92,7 +90,7 @@ const Details = ({match}) =>{
           </Card>
           </Container>
 
-          {showNewTask.show && <NewTask project={project} setShowNewTask={setShowNewTask} showNewTask ={showNewTask} loadProject={loadProject}/>}
+          {showNewTask.show && <NewTask project={project} setShowNewTask={setShowNewTask} showNewTask ={showNewTask} setProject={setProject} match ={match}/>}
           
           <Container style={{ marginTop: "15px"}}  textAlign='left'>
         <Table singleLine columns={5} style={{border: "none", borderRadius: "0"}}>
