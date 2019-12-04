@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Card, List, Button, Table, Popup} from 'semantic-ui-react';
+import { Container, Card, List, Button, Table} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './projects.css';
 import uuid from 'uuid';
 import NewTask from '../../components/NewTask';
-import ProjectLoader from '../../components/loader/projectDetails';
+import DetailsLoader from '../../components/loader/DetailsLoader';
 import {StatusColor, TypeIcon} from '../../components/TaskIcons';
 import { Redirect } from 'react-router-dom';
 
@@ -53,7 +53,7 @@ const Details = ({match}) =>{
                       </span>);
 
   if(project ==="undefined"|| project._id === ''){
-    return <ProjectLoader />
+    return <DetailsLoader />
   }else{
     return(
       <div>

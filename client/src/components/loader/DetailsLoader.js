@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Card, Placeholder} from 'semantic-ui-react';
 
-const projectDetails = () => {
+const DetailsLoader = () => {
   return (
     <div>
       <Container>
@@ -94,4 +94,4 @@ const projectDetails = () => {
   )
 }
 
-export default projectDetails;
+export default DetailsLoader;

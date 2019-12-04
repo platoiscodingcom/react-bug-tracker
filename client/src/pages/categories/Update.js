@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react';
+import UpdateLoader from '../../components/loader/UpdateLoader';
 
 const Update = ({match}) =>{
   const [category, setCategory] = useState({
@@ -35,6 +36,9 @@ const Update = ({match}) =>{
     setRedirect(true)
   }
 
+  if(category ==="undefined"|| category === ''){
+    return <UpdateLoader />
+  }else{
   return (
     <div>
     {redirect ? (
@@ -73,7 +77,7 @@ const Update = ({match}) =>{
       </>
     )}
   </div>
-  );
+  )}
 }
 
 export default Update;

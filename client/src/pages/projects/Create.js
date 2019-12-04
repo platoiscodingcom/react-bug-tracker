@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Card, Button, Form, Grid, Header } from 'semantic-ui-react';
+import { Card, Button, Form} from 'semantic-ui-react';
 import { statusOptions } from '../../components/select';
 
 const Create = () => {

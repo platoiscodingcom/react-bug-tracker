@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Card, Button, Grid} from 'semantic-ui-react';
+import CardLoader from '../../components/loader/CardLoader';
 
 const List = ({ match }) => {
   const [projects, setProject] = useState([]);
@@ -16,6 +17,9 @@ const List = ({ match }) => {
 
   console.log("projects", projects);
   
+  if(projects ==="undefined"|| projects.lenght === 0 || projects == null){
+    return <CardLoader />
+  }else{
   return (
     <Container>
       <Grid>
@@ -54,7 +58,7 @@ const List = ({ match }) => {
         })}
       </Card.Group>
     </Container>
-  )
+  )}
 }
 
 export default List;

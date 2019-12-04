@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react';
 import { statusOptions, priorityOptions, typeOptions } from '../../components/select';
+import UpdateLoader from '../../components/loader/UpdateLoader';
 
 const Update = ({ match }) => {
   const [task, setTask] = useState({
@@ -53,6 +54,9 @@ const Update = ({ match }) => {
     setRedirect(true)
   }
 
+  if(task ==="undefined"|| task === ''){
+    return <UpdateLoader />
+  }else{
   return (
     <>
       {redirect ? (
@@ -130,7 +134,7 @@ const Update = ({ match }) => {
         </>
       )}
     </>
-  )
+  )}
 }
 
 export default Update;

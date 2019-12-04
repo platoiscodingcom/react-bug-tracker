@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Button, Container, Form, Card } from 'semantic-ui-react';
 import { statusOptions } from '../../components/select';
+import UpdateLoader from '../../components/loader/UpdateLoader';
 
 const Update = ({ match }) => {
   const [project, setProject] = useState({
@@ -11,19 +12,6 @@ const Update = ({ match }) => {
     description: '',
     categories: []
   })
-
-  /*
-  const loadProject = () =>{
-    axios.get(`/api/projects/${match.params._id}`)
-      .then(response => {
-        setProject({
-          name: response.data.name,
-          status: response.data.status,
-          description: response.data.description,
-          categories: response.data.categories.map(cat => cat._id)
-        })
-      })
-  }*/
 
   const [categoryOptions, setCategoryOptions] = useState([]);
   const loadCategoryOptions = () =>{
@@ -76,6 +64,9 @@ const Update = ({ match }) => {
     setRedirect(true)
   }
 
+  if(project ==="undefined"|| project === ''){
+    return <UpdateLoader />
+  }else{
   return (
     <>
       {redirect ? (
@@ -140,7 +131,7 @@ const Update = ({ match }) => {
         </Container>
       )}
     </>
-  )
+  )}
 }
 
 export default Update;

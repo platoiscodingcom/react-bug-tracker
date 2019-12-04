@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Header, Grid, Table } from 'semantic-ui-react';
+import { Button, Grid, Table } from 'semantic-ui-react';
+import ListLoader from '../../components/loader/ListLoader';
 
 const List = ({match}) => {
   const [categories, setCategories] = useState([]);
@@ -23,6 +24,9 @@ const List = ({match}) => {
       })
   }
 
+  if(categories ==="undefined"|| categories.lenght === 0 || categories == null){
+    return <ListLoader />
+  }else{
   return(
     <div>
       <Grid>
@@ -65,7 +69,7 @@ const List = ({match}) => {
         </Table.Body>
       </Table>
     </div>
-  );
+  )}
 }
 
 export default List;

@@ -1,7 +1,8 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Header, Grid, Table } from 'semantic-ui-react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Grid, Table } from 'semantic-ui-react';
+import ListLoader from '../../components/loader/ListLoader';
 
 const List = ({ match }) => {
   const [tasks, setTasks] = useState([])
@@ -22,6 +23,9 @@ const List = ({ match }) => {
     })
   }
 
+  if(tasks ==="undefined"|| tasks.lenght === 0 || tasks == null){
+    return <ListLoader />
+  }else{
   return (
     <>
       <Grid>
@@ -31,7 +35,7 @@ const List = ({ match }) => {
           </Button>
         </Grid.Column>
       </Grid>
-      <Table singleLine columns={4} striped>
+      <Table singleLine columns={6} striped>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Title</Table.HeaderCell>
@@ -74,7 +78,7 @@ const List = ({ match }) => {
         </Table.Body>
       </Table>
     </>
-  )
+  )}
 }
 
 export default List;
