@@ -16,6 +16,7 @@ exports.list = (req, res) => {
 
 exports.details = (req, res) => {
   Task.findById(req.params._id)
+    .populate('project')
     .then(data => {
       res.status(200).send(data)
     })

@@ -6,8 +6,6 @@ const projectDetails = () => {
     <div>
       <Container>
         <Card fluid>
-          <Card.Content header="Project Details">
-          </Card.Content>
           <Card.Content>
             <Placeholder fluid>
               <Placeholder.Paragraph>
@@ -28,36 +26,43 @@ const projectDetails = () => {
           </Card.Content>
         </Card>
 
-        <Card.Group itemsPerRow={5}>
-          <Card>
+        <Card.Group itemsPerRow={6}  >
+          <Card style= {{border: "none", boxShadow: "none"}}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
             </Card.Content>
           </Card>
-          <Card>
+          <Card style= {{border: "none", boxShadow: "none"}}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
             </Card.Content>
           </Card>
-          <Card>
+          <Card style= {{border: "none", boxShadow: "none"}}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
             </Card.Content>
           </Card>
-          <Card>
+          <Card style= {{border: "none", boxShadow: "none"}}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
             </Card.Content>
           </Card>
-          <Card>
+          <Card style= {{border: "none", boxShadow: "none"}}>
+            <Card.Content>
+              <Placeholder>
+                <Placeholder.Image square />
+              </Placeholder>
+            </Card.Content>
+          </Card>
+          <Card style= {{border: "none", boxShadow: "none"}}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />

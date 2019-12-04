@@ -6,6 +6,8 @@ import './projects.css';
 import uuid from 'uuid';
 import NewTask from '../../components/NewTask';
 import ProjectLoader from '../../components/loader/projectDetails';
+import {StatusColor, TypeIcon} from '../../components/TaskIcons';
+import { Redirect } from 'react-router-dom';
 
 const Details = ({match}) =>{
   const [showNewTask, setShowNewTask] = useState({show: false});
@@ -34,6 +36,15 @@ const Details = ({match}) =>{
     })
   }
 
+  const [redirect, setRedirect] = useState(false);
+  const deleteProject = _id => {
+    axios.delete(`/api/projects/${_id}`).then((res) => {
+      if (res.status === 200) {
+        setRedirect(true);
+      }
+    })
+  }
+
   const {_id, name, status, description, categories, tasks} = project;
   const listCat = categories
                     .map((cat) => 
@@ -41,74 +52,49 @@ const Details = ({match}) =>{
                         <Link to={`/categories/${cat._id}`}>{cat.name}</Link>
                       </span>);
 
-  const StatusColor = (props) =>{
-    const status = props.status;
-    if(!status) return "undefined";
-    if(status === "in progress") {
-      return <span className="ui orange horizontal label">{`${status}`}</span>;
-    }
-    if(status === "open") {
-      return <span className="ui green horizontal label">{`${status}`}</span>;
-    }
-    if(status === "closed") {
-      return <span className="ui horizontal label">{`${status}`}</span>;
-    }else{
-      return <span className="ui black horizontal label">{`${status}`}</span>;
-    }
-  }
-
-  const TypeIcon = (props) =>{
-    const type = props.type;
-    
-    if(!type)  return <Popup content='Undefined' trigger={<i className="fas fa-question"></i>} />
-    if(type === "bug") {
-      return <Popup content='Bug' trigger={<i className="fas fa-bug"></i>} />
-    }
-    if(type === "feature"){
-      return <Popup content='Feature' trigger={<i className="fas fa-star"></i>} />
-    }
-    else{
-      return <span>{`${type}`}</span>;
-    }
-  }
-
   if(project ==="undefined"|| project._id === ''){
     return <ProjectLoader />
   }else{
     return(
       <div>
-      <Container textAlign='left'>
-      <Card fluid>
-        <Card.Content header={name} />
-        <Card.Content>
-          <List>
-            <List.Item>
-              <div>Status:<StatusColor key={uuid.v4()} status = {status}></StatusColor></div>
-            </List.Item>
-            <List.Item>
-              <div>Categories:{listCat}</div> 
-            </List.Item>
-          </List>
-        </Card.Content>
-        <Card.Content description= {description} />
-        <Card.Content extra>
-          <Button
-            color='black'
-            as={Link}
-            to={`/projects/${_id}`}
-          ><i className="fas fa-pen"></i>Edit</Button>
-          <Button  
-            color='grey'
-            as={Link}
-            to={`/projects/${_id}/close`}
-          ><i className="fas fa-check"></i>Close</Button>
-        </Card.Content>
-      </Card>
-      </Container>
+        {redirect && (<Redirect to='/projects' push /> )}
+          <Container textAlign='left'>
+          <Card fluid>
+            <Card.Content header={name} />
+            <Card.Content>
+              <List>
+                <List.Item>
+                  <div>Status:<StatusColor key={uuid.v4()} status = {status}></StatusColor></div>
+                </List.Item>
+                <List.Item>
+                  <div>Categories:{listCat}</div> 
+                </List.Item>
+              </List>
+            </Card.Content>
+            <Card.Content description= {description} />
+            <Card.Content extra>
+              <Button
+                color='black'
+                as={Link}
+                to={`/projects/${_id}`}
+              ><i className="fas fa-pen"></i>Edit</Button>
+              <Button  
+                color='grey'
+                as={Link}
+                to={`/projects/${_id}/close`}
+              ><i className="fas fa-check"></i>Close</Button>
+              <Button 
+                floated='right'
+                color='red'
+                onClick={() => deleteProject(_id)}
+              ><i className="fas fa-trash"></i>Delete</Button>
+            </Card.Content>
+          </Card>
+          </Container>
 
-      {showNewTask.show && <NewTask project={project} setShowNewTask={setShowNewTask} showNewTask ={showNewTask} loadProject={loadProject}/>}
-      
-      <Container style={{ marginTop: "15px"}}  textAlign='left'>
+          {showNewTask.show && <NewTask project={project} setShowNewTask={setShowNewTask} showNewTask ={showNewTask} loadProject={loadProject}/>}
+          
+          <Container style={{ marginTop: "15px"}}  textAlign='left'>
         <Table singleLine columns={4} style={{border: "none", borderRadius: "0"}}>
           <Table.Header>
             <Table.Row>
@@ -117,7 +103,7 @@ const Details = ({match}) =>{
               <Table.HeaderCell>Type</Table.HeaderCell>
               <Table.HeaderCell>Priority</Table.HeaderCell>
               <Table.HeaderCell>
-                <Button color='black' onClick={() => setShowNewTask({show: !showNewTask.show})}>
+                <Button color='black' floated='right' onClick={() => setShowNewTask({show: !showNewTask.show})}>
                   <i className="fas fa-plus"></i>New Task 
                 </Button>
                 </Table.HeaderCell>
@@ -136,7 +122,14 @@ const Details = ({match}) =>{
                 <Table.Cell><TypeIcon key={uuid.v4()} type = {type}></TypeIcon></Table.Cell>
                 <Table.Cell>{`${priority}`}</Table.Cell>
                 <Table.Cell textAlign='center' className="button-actions">
-                  <Button
+                <Button
+                    color='black'
+                    as={Link}
+                    to={`/tasks/details/${_id}`}
+                  >
+                  <i className="fas fa-eye"></i>
+                  </Button>  
+                <Button
                     color='black'
                     as={Link}
                     to={`/tasks/${_id}`}
@@ -155,13 +148,8 @@ const Details = ({match}) =>{
         </Table>
       </Container>
       
-      <Container>
-        
-      </Container>
       </div>
-
-    )
-  }
+    )}
 }
 
 export default Details;
