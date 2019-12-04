@@ -10,7 +10,7 @@ import Details from './Details'
 const Tasks = ({ match }) => {
   return (
     <>
-      <Container>
+      <Container style={{ marginBottom: "50px"}}>
         <Switch>
           <Route exact path={match.path} component={List} />
           <Route exact path={`${match.path}/create`} component={Create} />

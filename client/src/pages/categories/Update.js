@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Button, Container, Form, Header } from 'semantic-ui-react';
+import { Card, Button, Form } from 'semantic-ui-react';
 
 const Update = ({match}) =>{
   const [category, setCategory] = useState({
@@ -41,7 +41,9 @@ const Update = ({match}) =>{
       <Redirect to='/categories' push />
     ) : (
       <>
-        <Header as='h2'>Edit</Header>
+        <Card fluid>
+        <Card.Content header ={category.name} />
+        <Card.Content>
         <Form widths='equal'>
           <Form.Group>
             <Form.Input
@@ -52,18 +54,22 @@ const Update = ({match}) =>{
             />
           </Form.Group>
         </Form>
-        <Container textAlign='right'>
+        </Card.Content>
+          <Card.Content extra>
           <Button
-            color='red'
+            floated='right'
+            color='black'
             content='Cancel'
             onClick={handleFormCancellation}
           />
           <Button
+            floated='right'
             color='green'
             content='Save'
             onClick={handleFormSubmission}
           />
-        </Container>
+          </Card.Content>
+          </Card>
       </>
     )}
   </div>

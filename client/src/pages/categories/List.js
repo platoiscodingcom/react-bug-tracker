@@ -26,12 +26,9 @@ const List = ({match}) => {
   return(
     <div>
       <Grid>
-        <Grid.Column width={8} textAlign='left'>
-          <Header as='h2'>List</Header>
-        </Grid.Column>
-        <Grid.Column width={8} textAlign='right'>
-          <Button color='green' as={Link} to={`${match.url}/create`}>
-            New
+        <Grid.Column textAlign='right'>
+          <Button color='black' as={Link} to={`${match.url}/create`}>
+          <i className="fas fa-plus"></i>New Category 
           </Button>
         </Grid.Column>
       </Grid>

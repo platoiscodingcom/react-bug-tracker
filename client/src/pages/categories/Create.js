@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Form, Grid, Header } from 'semantic-ui-react';
+import { Card, Button, Form } from 'semantic-ui-react';
 
 const Create = () =>{
   const [category, setCategory] = useState({name: ''})
@@ -33,7 +33,9 @@ const Create = () =>{
         <Redirect to='/categories' push />
       ) : (
         <>
-          <Header as='h2'>Create</Header>
+          <Card fluid>
+          <Card.Content header ="New Category" />
+          <Card.Content>
           <Form widths='equal'>
             <Form.Group>
               <Form.Input
@@ -44,20 +46,22 @@ const Create = () =>{
               />
             </Form.Group>
           </Form>
-          <Grid stackable>
-            <Grid.Column width={8} textAlign='right'>
+          </Card.Content>
+          <Card.Content extra>
               <Button
-                color='red'
+              floated='right'
+                color='black'
                 content='Cancel'
                 onClick={handleFormCancellation}
               />
               <Button
+              floated='right'
                 color='green'
                 content='Save'
                 onClick={handleFormSubmission}
               />
-            </Grid.Column>
-          </Grid>
+            </Card.Content>
+          </Card>
         </>
       )}
     </div>

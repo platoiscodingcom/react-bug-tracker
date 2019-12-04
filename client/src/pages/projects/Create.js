@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Form, Grid, Header } from 'semantic-ui-react';
+import { Card, Button, Form, Grid, Header } from 'semantic-ui-react';
 import { statusOptions } from '../../components/select';
 
 const Create = () => {
@@ -54,7 +54,9 @@ const Create = () => {
         <Redirect to='/projects' push />
       ) : (
         <>
-          <Header as='h2'>Create</Header>
+        <Card fluid>
+          <Card.Content header ="New Project" />
+          <Card.Content>
           <Form widths='equal'>
             <Form.Group>
               <Form.Input
@@ -87,23 +89,26 @@ const Create = () => {
                 name='description'
                 value={project.description}
                 onChange={handleInputChange}
+                rows="12"
               />
             </Form.Group>
           </Form>
-          <Grid stackable>
-            <Grid.Column width={8} textAlign='right'>
+          </Card.Content>
+          <Card.Content extra>
               <Button
-                color='red'
+              floated='right'
+                color='black'
                 content='Cancel'
                 onClick={handleFormCancellation}
               />
               <Button
+              floated='right'
                 color='green'
                 content='Save'
                 onClick={handleFormSubmission}
               />
-            </Grid.Column>
-          </Grid>
+          </Card.Content>
+        </Card>
         </>
       )}
     </>

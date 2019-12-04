@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Button, Container, Form, Header } from 'semantic-ui-react';
+import { Card, Button, Form } from 'semantic-ui-react';
 import { statusOptions, priorityOptions, typeOptions } from '../../components/select';
 
 const Update = ({ match }) => {
@@ -59,7 +59,9 @@ const Update = ({ match }) => {
         <Redirect to='/tasks' push />
       ) : (
         <>
-          <Header as='h2'>Edit</Header>
+          <Card fluid>
+          <Card.Content header ={task.title} />
+          <Card.Content>
           <Form widths='equal'>
             <Form.Group>
               <Form.Input
@@ -72,7 +74,7 @@ const Update = ({ match }) => {
                 label='Project'
                 name='project'
                 options={projects}
-                value={task.project}
+                value={task.project._id}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -105,21 +107,26 @@ const Update = ({ match }) => {
                 name='description'
                 value={task.description}
                 onChange={handleInputChange}
+                rows="12"
               />
             </Form.Group>
           </Form>
-          <Container textAlign='right'>
+          </Card.Content>
+          <Card.Content extra>
             <Button
-              color='red'
+              floated='right'
+              color='black'
               content='Cancel'
               onClick={handleFormCancellation}
             />
             <Button
+              floated='right'
               color='green'
               content='Save'
               onClick={handleFormSubmission}
             />
-          </Container>
+          </Card.Content>
+          </Card>
         </>
       )}
     </>
