@@ -1,4 +1,5 @@
 const Category = require('../models/Category')
+const Project = require('../models/Project')
 mongoose = require('mongoose')
 
 exports.list = (req, res) => {
@@ -48,6 +49,26 @@ exports.update = (req, res) => {
 }
 
 exports.delete = (req, res) => {
+  //delete ref to this category from alll related projects
+
+  Category.findById(req.params._id)
+  .then(data =>{
+    data.projects.forEach(project =>{
+      Project.findById(project)
+      .then(data=>{
+        const removeIndex = data.categories.map(item => item._id.toString()).indexOf(req.params._id);
+        data.categories.splice(removeIndex, 1);
+        data.save();
+      })
+      data.remove();
+      res.status(200).send(data);
+    })
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ msg: "Error 500 in categorycontroller.delete" })
+  })
+  /*
   Category.findByIdAndRemove(req.params._id)
     .then(data => {
       res.status(200).send(data)
@@ -56,4 +77,5 @@ exports.delete = (req, res) => {
       console.log(error)
       res.status(500).send({ msg: "Error 500 in categorycontroller.delete" })
     })
+    */
 }

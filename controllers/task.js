@@ -72,7 +72,7 @@ exports.delete = (req, res) => {
         data.save();
       })
       data.remove();
-      res.status(200).send(data)
+      res.status(200).send(data);
     })
     .catch(error => {
       console.log(error)
