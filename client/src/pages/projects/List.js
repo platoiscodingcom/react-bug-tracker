@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Card, Button, Grid} from 'semantic-ui-react';
+import { Container, Card, Button, Grid,  Divider}  from 'semantic-ui-react';
 import CardLoader from '../../components/loader/CardLoader';
+import {StatusColor} from '../../components/tasks/TaskIcons';
+import uuid from 'uuid';
 
 const List = ({ match }) => {
   const [projects, setProject] = useState([]);
@@ -28,16 +30,29 @@ const List = ({ match }) => {
       </Grid>
       <Card.Group>
         {projects.map(project => {
-          const { _id, name, status, categories, description} = project
+          const { _id, name, status, categories, description} = project;
+          const shortName = name.substring(0, 25);
+          const shortDesc = description.substring(0, 150);
+
           return (
             <Card  style={{boxShadow: "none", borderRadius: "0"}} key={_id}>
               <Card.Content>
-                <Card.Header>{`${name}`}</Card.Header>
-                <Card.Meta>
-                  {categories.map(cat => <span key={cat._id}>{`${cat.name}`}</span>)}
-                </Card.Meta>
-                <Card.Description>{`${description}`}</Card.Description>
-                <Card.Description>{`${status}`}</Card.Description>
+                <Card.Header style={{"marginTop": "10px"}}>{shortName}</Card.Header>
+                <Divider />
+                <Card.Description>{shortDesc}</Card.Description>
+                <Divider />
+                <Card.Description>
+                  <StatusColor key={uuid.v4()} status = {status}></StatusColor>
+                  {categories.map(cat => 
+                    <Button 
+                          style={{"marginTop": "5px", "borderRadius": "5px"}} 
+                          className="ui label" 
+                          as={Link} 
+                          to={`/categories/${cat._id}`}
+                          key={cat._id}>
+                          {`${cat.name}`}     
+                    </Button>)}
+                </Card.Description>
               </Card.Content>
 
               <Card.Content extra>

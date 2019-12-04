@@ -1,5 +1,6 @@
 export const UNDEFINED = 'undefined';
 
+//if you edit here - also change in projectController
 export const BACKLOG = 'backlog';
 export const OPEN = 'open';
 export const CLOSED = 'closed';

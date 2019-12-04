@@ -8,4 +8,9 @@ router.post('/', projectController.create)
 router.put('/:_id', projectController.update)
 router.delete('/:_id', projectController.delete)
 
+//handle status
+console.log('in routes');
+router.put('/:_id/close', projectController.close)
+router.put('/:_id/reopen', projectController.reopen)
+
 module.exports = router

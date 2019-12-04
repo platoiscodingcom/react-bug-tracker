@@ -41,6 +41,28 @@ const Details = ({match}) =>{
         setRedirect(true);
       }
     })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  const closeProject = _id =>{
+    console.log('close');
+    axios.put(`/api/projects/${_id}/close`)
+    .then((res) => {
+      if (res.status === 200) {
+        axios.get(`/api/projects/${match.params._id}`)
+        .then(response => {
+          setProject(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 
   const {_id, name, status, description, categories, tasks} = project;
@@ -78,8 +100,7 @@ const Details = ({match}) =>{
               ><i className="fas fa-pen"></i>Edit</Button>
               <Button  
                 color='grey'
-                as={Link}
-                to={`/projects/${_id}/close`}
+                onClick={() => closeProject(_id)}
               ><i className="fas fa-check"></i>Close</Button>
               <Button 
                 floated='right'
@@ -112,30 +133,34 @@ const Details = ({match}) =>{
           
           {tasks.map(task => {
             const { _id, title, type, status, priority} = task;
-            
+            const shortTitle = title.substring(0, 25);
+
             return (
               <Table.Row key={_id}>
-                <Table.Cell>{`${title}`}</Table.Cell>
+                <Table.Cell>{shortTitle}</Table.Cell>
                 <Table.Cell><StatusColor key={uuid.v4()} status = {status}></StatusColor></Table.Cell>
                 <Table.Cell><TypeIcon key={uuid.v4()} type = {type}></TypeIcon></Table.Cell>
                 <PriorityCellColor key={uuid.v4()} priority = {priority}></PriorityCellColor>
                 <Table.Cell textAlign='center' className="button-actions">
-                <Button
+                  <Button
+                    floated='right'
                     color='black'
                     as={Link}
-                    to={`/tasks/details/${_id}`}
-                  >
-                  <i className="fas fa-eye"></i>
+                    to={`/tasks/details/${_id}`}>
+                    <i className="fas fa-eye"></i>
                   </Button>  
-                <Button
+                  <Button
+                    floated='right'
                     color='black'
                     as={Link}
-                    to={`/tasks/${_id}`}
-                  >
-                  <i className="fas fa-pen"></i>
+                    to={`/tasks/${_id}`}>
+                    <i className="fas fa-pen"></i>
                   </Button>
-                  <Button color='red' onClick={() => deleteTask(_id)}>
-                  <i className="fas fa-trash"></i>
+                  <Button  
+                    floated='right' 
+                    color='red' 
+                    onClick={() => deleteTask(_id)}>
+                    <i className="fas fa-trash"></i>
                   </Button>
                   
                 </Table.Cell>

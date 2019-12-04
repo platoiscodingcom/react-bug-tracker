@@ -58,7 +58,7 @@ var project1 = new Project({
   _id: new mongoose.Types.ObjectId(), 
   name:"testproject",
   status: "open",
-  description: "lorem ipsm",
+  description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
   categories: [category1, category2]
 })
 
@@ -71,11 +71,43 @@ var task1 = new Task({
   _id: new mongoose.Types.ObjectId(), 
   title: "testTask",
   project: project1,
-  description: "desc",
+  description: "dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et a",
   priority: "low",
   status: "open"
 });
 task1.save();
+var task2 = new Task({
+  _id: new mongoose.Types.ObjectId(), 
+  title: "testTask2",
+  project: project1,
+  description: "dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et a",
+  priority: "high",
+  status: "in progress"
+});
+task2.save();
+var task3 = new Task({
+  _id: new mongoose.Types.ObjectId(), 
+  title: "testTask3",
+  project: project1,
+  type: 'feature',
+  description: "it amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, se",
+  priority: "critical",
+  status: "closed"
+});
+task3.save();
+var task4 = new Task({
+  _id: new mongoose.Types.ObjectId(), 
+  title: "testTask4",
+  project: project1,
+  type: 'bug',
+  description: " dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolo",
+  priority: "medium",
+  status: "reopened"
+});
+task4.save();
 
 project1.tasks.push(task1);
+project1.tasks.push(task2);
+project1.tasks.push(task3);
+project1.tasks.push(task4);
 project1.save();

@@ -4,6 +4,11 @@ const Category = require('../models/Category')
 //mongoose = require('mongoose').set('debug', true); //debug
 mongoose = require('mongoose')
 
+const BACKLOG = 'backlog';
+const CLOSED = 'closed';
+const REOPENED = 'reopened';
+const INPROGRESS = 'in progress';
+
 exports.list = (req, res) => {
   Project.find()
     .populate('tasks categories')
@@ -106,7 +111,7 @@ exports.update = (req, res) => {
           })
           .catch(error => {
             console.log(error)
-            res.status(500).send({ message: 'Error 500: projectController:update - save projectRef to categoryModels' })
+            res.status(500).send({ message: 'Error 500: projectController:delete' })
           })
 
       })
@@ -116,7 +121,7 @@ exports.update = (req, res) => {
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({ message: 'Error: 500 in projectController:update' })
+      res.status(500).send({ message: 'Error: 500 in projectController:delete' })
     })
 
 }
@@ -149,5 +154,31 @@ exports.delete = (req, res) => {
   .catch(error => {
     console.log(error)
     res.status(500).send({ message: 'Error occured: 500' })
+  })
+}
+
+exports.close = (req, res) =>{
+  Project.findById(req.params._id)
+  .then(data =>{
+    data.status = CLOSED;
+    data.save();
+    res.status(200).send(data);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in projectController:close' })
+  })
+}
+
+exports.reopen = (req, res) =>{
+  Project.findById(req.params._id)
+  .then(data =>{
+    data.status = REOPENED;
+    data.save();
+    res.status(200).send(data);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in projectController:close' })
   })
 }
