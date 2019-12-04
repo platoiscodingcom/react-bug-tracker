@@ -1,4 +1,5 @@
 const Project = require('../models/Project')
+const Task = require('../models/Task')
 const Category = require('../models/Category')
 //mongoose = require('mongoose').set('debug', true); //debug
 mongoose = require('mongoose')
@@ -121,12 +122,32 @@ exports.update = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-  Project.findByIdAndRemove(req.params._id)
-    .then(data => {
-      res.status(200).send(data)
+  Project.findById(req.params._id)
+  .then(data =>{
+    //remove all tasks related to this project
+    data.tasks.forEach(task =>{
+      Task.findById(task)
+      .then(data =>{
+        data.remove();
+      })
     })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
+
+    //remove ref to this project from category
+    data.categories.forEach(cat =>{
+      Category.findById(cat)
+      .then(data =>{
+        const removeIndex = data.projects.map(item => item._id.toString()).indexOf(req.params._id);
+        data.projects.splice(removeIndex, 1);
+        data.save();
+      })
     })
+
+    //then delete project
+    data.remove();
+    res.status(200).send(data);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  })
 }
