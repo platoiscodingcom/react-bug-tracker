@@ -6,7 +6,7 @@ import './projects.css';
 import uuid from 'uuid';
 import NewTask from '../../components/tasks/NewTask';
 import DetailsLoader from '../../components/loader/DetailsLoader';
-import {StatusColor, TypeIcon} from '../../components/tasks/TaskIcons';
+import {StatusColor, TypeIcon, PriorityCellColor} from '../../components/tasks/TaskIcons';
 import { Redirect } from 'react-router-dom';
 
 const Details = ({match}) =>{
@@ -95,7 +95,7 @@ const Details = ({match}) =>{
           {showNewTask.show && <NewTask project={project} setShowNewTask={setShowNewTask} showNewTask ={showNewTask} loadProject={loadProject}/>}
           
           <Container style={{ marginTop: "15px"}}  textAlign='left'>
-        <Table singleLine columns={4} style={{border: "none", borderRadius: "0"}}>
+        <Table singleLine columns={5} style={{border: "none", borderRadius: "0"}}>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Title</Table.HeaderCell>
@@ -120,7 +120,7 @@ const Details = ({match}) =>{
                 <Table.Cell>{`${title}`}</Table.Cell>
                 <Table.Cell><StatusColor key={uuid.v4()} status = {status}></StatusColor></Table.Cell>
                 <Table.Cell><TypeIcon key={uuid.v4()} type = {type}></TypeIcon></Table.Cell>
-                <Table.Cell>{`${priority}`}</Table.Cell>
+                <PriorityCellColor key={uuid.v4()} priority = {priority}></PriorityCellColor>
                 <Table.Cell textAlign='center' className="button-actions">
                 <Button
                     color='black'

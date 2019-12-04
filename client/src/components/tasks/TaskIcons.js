@@ -1,6 +1,7 @@
 import React from 'react';
-import {Popup} from 'semantic-ui-react';
+import {Popup,  Table} from 'semantic-ui-react';
 import { OPEN, CLOSED, REOPENED, INPROGRESS, UNDEFINED} from '../helper/Select';
+import { HIGH, CRITICAL} from '../helper/Select';
 import { BUG, FEATURE} from '../helper/Select';
 
 export const StatusColor = (props) =>{
@@ -32,5 +33,18 @@ export const TypeIcon = (props) =>{
   }
   else{
     return <span>{`${type}`}</span>;
+  }
+}
+
+export const PriorityCellColor = (props) =>{
+  const priority = props.priority;
+  console.log('priority', priority);
+
+  if(!priority) return <Table.Cell>{UNDEFINED}</Table.Cell>
+  if(priority === HIGH || priority === CRITICAL ){
+    return <Table.Cell style={{fontWeight:'600'}} negative>{`${priority}`}</Table.Cell>
+  }
+  else{
+    return <Table.Cell>{`${priority}`}</Table.Cell>
   }
 }
