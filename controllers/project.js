@@ -8,7 +8,7 @@ mongoose = require('mongoose')
 const CLOSED = 'closed';
 const REOPENED = 'reopened';
 const INPROGRESS = 'in progress';
-const OPEN = 'OPEN';
+const OPEN = 'open';
 
 exports.list = (req, res) => {
   Project.find()

@@ -6,7 +6,8 @@ import './projects.css';
 import uuid from 'uuid';
 import NewTask from '../../components/tasks/NewTask';
 import DetailsLoader from '../../components/loader/DetailsLoader';
-import {StatusColor, TypeIcon, PriorityCellColor} from '../../components/tasks/TaskIcons';
+import {TypeIcon, PriorityCellColor} from '../../components/tasks/TaskIcons';
+import StatusColor from '../../components/projects/status/StatusColor';
 import StatusButton from '../../components/projects/status/StatusButton';
 import { Redirect } from 'react-router-dom';
 

@@ -2,13 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Container, Card, List, Button} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import {StatusColor, TypeIcon} from '../../components/tasks/TaskIcons';
+import {TypeIcon} from '../../components/tasks/TaskIcons';
+import StatusColor from '../../components/projects/status/StatusColor';
 import uuid from 'uuid';
 import { Redirect } from 'react-router-dom';
 import DetailsLoader from '../../components/loader/DetailsLoader';
 
 const Details = ({match}) => {
-  //const [showNewSubTask, setShowNewSubTask] = useState({show: false});
+  
   const [task, setTask] = useState({
     _id: '',
     title: '',

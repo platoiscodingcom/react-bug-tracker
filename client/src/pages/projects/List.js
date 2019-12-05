@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Card, Button, Grid,  Divider}  from 'semantic-ui-react';
 import CardLoader from '../../components/loader/CardLoader';
-import {StatusColor} from '../../components/tasks/TaskIcons';
+import StatusColor from '../../components/projects/status/StatusColor';
 import uuid from 'uuid';
 
 const List = ({ match }) => {
