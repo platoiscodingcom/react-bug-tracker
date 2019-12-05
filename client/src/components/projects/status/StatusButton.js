@@ -1,63 +1,23 @@
 import React from 'react';
-import {OPEN, REOPENED, CLOSED, BACKLOG} from '../../helper/Select';
-import { Button} from 'semantic-ui-react';
+import {OPEN, REOPENED, CLOSED, BACKLOG, INPROGRESS} from '../../helper/Select';
 import OpenButton from './OpenButton';
 import CloseButton from './CloseButton';
 import ReopenButton from './ReopenButton';
 import StartButton from './StartButton';
-
-/*
-export const OpenButton = ({openProject, projectId}) =>{
-  return (
-  <Button  
-    color='grey'
-    onClick={() => openProject(projectId)}>
-    <i className="fas fa-folder-open"></i>{OPEN}
-  </Button>
-  )
-}*/
-
-/*
-export const StartButton = ({startProject, projectId}) =>{
-  return (
-  <Button  
-    color='grey'
-    onClick={() => startProject(projectId)}>
-    <i className="far fa-play-circle"></i>Start Progress
-  </Button>
-  )
-}
-*/
-
-/*
-export const CloseButton = ({closeProject, projectId}) =>{
-  return (
-  <Button  
-    color='grey'
-    onClick={() => closeProject(projectId)}>
-    <i className="fas fa-check"></i>Close
-  </Button>
-  )
-}*/
-
-/*
-export const ReopenButton = ({reopenProject, projectId}) =>{
-  return (
-  <Button  
-    color='grey'
-    onClick={() => reopenProject(projectId)}>
-    <i className="fas fa-folder-open"></i>Reopen
-  </Button>
-  )
-}*/
+import StopButton from './StopButton';
 
 const StateButton = ({status, projectId, setProject}) => {
   return (
     <div>
       {(status === OPEN || status === REOPENED) && 
+      <>
       <CloseButton 
         projectId={projectId} 
-        setProject={setProject}/> 
+        setProject={setProject}/>
+      <StartButton 
+        setProject={setProject} 
+        projectId={projectId}/>
+      </> 
       }
 
       {(status === CLOSED) && 
@@ -65,6 +25,19 @@ const StateButton = ({status, projectId, setProject}) => {
         setProject={setProject} 
         projectId={projectId}/> 
       }
+
+      {(status === INPROGRESS) && 
+        <>
+        <CloseButton 
+        projectId={projectId} 
+        setProject={setProject}/> 
+      
+        <StopButton 
+          setProject={setProject} 
+          projectId={projectId}/> 
+        </>
+      }
+      
 
       {(status === BACKLOG) && 
         <>

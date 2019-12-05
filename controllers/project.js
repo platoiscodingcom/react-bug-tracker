@@ -209,3 +209,16 @@ exports.start = (req, res) =>{
     res.status(500).send({ message: 'Error: 500 in projectController:start' })
   })
 }
+
+exports.stop = (req, res) =>{
+  Project.findById(req.params._id)
+  .then(data =>{
+    data.status = OPEN;
+    data.save();
+    res.status(200).send(data);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in projectController:stop' })
+  })
+}
