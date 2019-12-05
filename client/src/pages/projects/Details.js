@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Card, List, Button, Table} from 'semantic-ui-react';
+import { Container, Card, List, Button, Table,  Dropdown, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './projects.css';
 import uuid from 'uuid';
@@ -63,8 +63,35 @@ const Details = ({match}) =>{
         {redirect && (<Redirect to='/projects' push /> )}
 
           <Container textAlign='left'>
+          {showNewTask.show && 
+            <NewTask 
+              project={project} 
+              setShowNewTask={setShowNewTask} 
+              showNewTask ={showNewTask} 
+              setProject={setProject} 
+              match ={match}/>
+            }
           <Card fluid>
-            <Card.Content header={name} />
+            <Card.Content className="card-header"><span className="card-header-title">{name}</span>
+            <Menu floated="right" horizontal>
+              <Dropdown item text='more'>
+                <Dropdown.Menu>
+                  <Dropdown.Item>
+                    <div onClick={() => setShowNewTask({show: !showNewTask.show})}>
+                      <i className="fas fa-plus"></i>New Task 
+                    </div>
+                  </Dropdown.Item>
+                  <Dropdown.Item text='Edit' icon='pencil alternate' as={Link} to={`/projects/${_id}`}/>
+                  <Dropdown.Item color={'red'}>
+                    <div 
+                      onClick={() => deleteProject(_id)}>
+                      <i className="fas fa-trash"></i>Delete
+                    </div>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Menu>
+            </Card.Content>
             <Card.Content>
               <List>
                 <List.Item>
@@ -77,35 +104,15 @@ const Details = ({match}) =>{
             </Card.Content>
             <Card.Content description= {description} />
             <Card.Content extra>
-              <Button
-                color='black'
-                as={Link}
-                to={`/projects/${_id}`}
-              ><i className="fas fa-pen"></i>Edit</Button>
-
               <StatusButton 
                 status={status} 
                 projectId={_id} 
                 setProject={setProject}/>
-
-              <Button 
-                floated='right'
-                color='red'
-                onClick={() => deleteProject(_id)}>
-                <i className="fas fa-trash"></i>Delete
-              </Button>
             </Card.Content>
           </Card>
           </Container>
 
-          {showNewTask.show && 
-          <NewTask 
-            project={project} 
-            setShowNewTask={setShowNewTask} 
-            showNewTask ={showNewTask} 
-            setProject={setProject} 
-            match ={match}/>
-          }
+          
           
           <Container style={{ marginTop: "15px"}}  textAlign='left'>
         <Table singleLine columns={5} style={{border: "none", borderRadius: "0"}}>
@@ -115,11 +122,7 @@ const Details = ({match}) =>{
               <Table.HeaderCell>Status</Table.HeaderCell>
               <Table.HeaderCell>Type</Table.HeaderCell>
               <Table.HeaderCell>Priority</Table.HeaderCell>
-              <Table.HeaderCell>
-                <Button color='black' floated='right' onClick={() => setShowNewTask({show: !showNewTask.show})}>
-                  <i className="fas fa-plus"></i>New Task 
-                </Button>
-                </Table.HeaderCell>
+              <Table.HeaderCell></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -137,6 +140,9 @@ const Details = ({match}) =>{
                 <PriorityCellColor key={uuid.v4()} priority = {priority}></PriorityCellColor>
                 <Table.Cell textAlign='center' className="button-actions">
                   <Button
+                    circular
+                    compact
+                    size='mini'
                     floated='right'
                     color='black'
                     as={Link}
@@ -144,6 +150,9 @@ const Details = ({match}) =>{
                     <i className="fas fa-eye"></i>
                   </Button>  
                   <Button
+                    circular
+                    compact
+                    size='mini'
                     floated='right'
                     color='black'
                     as={Link}
@@ -151,6 +160,9 @@ const Details = ({match}) =>{
                     <i className="fas fa-pen"></i>
                   </Button>
                   <Button  
+                    circular
+                    compact
+                    size='mini'
                     floated='right' 
                     color='red' 
                     onClick={() => deleteTask(_id)}>
