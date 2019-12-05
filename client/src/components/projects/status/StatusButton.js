@@ -3,7 +3,7 @@ import {OPEN, REOPENED, CLOSED, BACKLOG} from '../../helper/Select';
 import { Button} from 'semantic-ui-react';
 import OpenButton from './OpenButton';
 import CloseButton from './CloseButton';
-//import ReopenButton from './ReopenButton';
+import ReopenButton from './ReopenButton';
 //import StartButton from './StartButton';
 
 /*
@@ -38,6 +38,7 @@ export const CloseButton = ({closeProject, projectId}) =>{
   )
 }*/
 
+/*
 export const ReopenButton = ({reopenProject, projectId}) =>{
   return (
   <Button  
@@ -46,9 +47,9 @@ export const ReopenButton = ({reopenProject, projectId}) =>{
     <i className="fas fa-folder-open"></i>Reopen
   </Button>
   )
-}
+}*/
 
-const StateButton = ({status, reopenProject, projectId, openProject, startProject, setProject}) => {
+const StateButton = ({status, projectId, startProject, setProject}) => {
   return (
     <div>
       {(status === OPEN || status === REOPENED) && 
@@ -59,7 +60,7 @@ const StateButton = ({status, reopenProject, projectId, openProject, startProjec
 
       {(status === CLOSED) && 
       <ReopenButton 
-        reopenProject={reopenProject} 
+        setProject={setProject} 
         projectId={projectId}/> 
       }
 

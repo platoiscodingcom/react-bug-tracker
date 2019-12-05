@@ -14,7 +14,8 @@ export const statusOptions = [
   {key: 's1', value: BACKLOG, text: BACKLOG},
   {key: 's2', value: OPEN, text: OPEN},
   {key: 's3', value: INPROGRESS, text: INPROGRESS},
-  {key: 's4', value: CLOSED, text: CLOSED}
+  {key: 's4', value: CLOSED, text: CLOSED},
+  {key: 's5', value: REOPENED, text: REOPENED}
 ];
 
 

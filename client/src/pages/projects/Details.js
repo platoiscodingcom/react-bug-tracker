@@ -87,6 +87,7 @@ const Details = ({match}) =>{
     })
   }*/
   
+  /*
   const reopenProject = _id =>{
     console.log('reopenProject');
     axios.put(`/api/projects/${_id}/reopen`)
@@ -104,7 +105,7 @@ const Details = ({match}) =>{
     .catch(error => {
       console.log(error)
     })
-  }
+  }*/
 
   /*
   const closeProject = _id =>{
@@ -163,7 +164,7 @@ const Details = ({match}) =>{
                 color='grey'
                 onClick={() => closeProject(_id)}
               ><i className="fas fa-check"></i>Close</Button>*/}
-              <StatusButton status={status} projectId={_id} reopenProject={reopenProject} startProject={startProject} setProject={setProject}/>
+              <StatusButton status={status} projectId={_id} startProject={startProject} setProject={setProject}/>
               <Button 
                 floated='right'
                 color='red'

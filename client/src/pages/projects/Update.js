@@ -48,11 +48,9 @@ const Update = ({ match }) => {
   }
 
   const handleFormSubmission = () => {
-    console.log("before redirect");
     axios
       .put(`/api/projects/${match.params._id}`, project)
       .then(() => {
-        console.log("then redirect");
         setRedirect(true)
       })
       .catch(() => {
@@ -63,6 +61,7 @@ const Update = ({ match }) => {
   const handleFormCancellation = () => {
     setRedirect(true)
   }
+  console.log(project.status);
 
   if(project ==="undefined"|| project === ''){
     return <UpdateLoader />
