@@ -12,5 +12,7 @@ router.delete('/:_id', projectController.delete)
 console.log('in routes');
 router.put('/:_id/close', projectController.close)
 router.put('/:_id/reopen', projectController.reopen)
+router.put('/:_id/open', projectController.open)
+router.put('/:_id/start', projectController.start)
 
 module.exports = router

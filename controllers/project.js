@@ -4,10 +4,11 @@ const Category = require('../models/Category')
 //mongoose = require('mongoose').set('debug', true); //debug
 mongoose = require('mongoose')
 
-const BACKLOG = 'backlog';
+//const BACKLOG = 'backlog';
 const CLOSED = 'closed';
 const REOPENED = 'reopened';
 const INPROGRESS = 'in progress';
+const OPEN = 'OPEN';
 
 exports.list = (req, res) => {
   Project.find()
@@ -179,6 +180,32 @@ exports.reopen = (req, res) =>{
   })
   .catch(error => {
     console.log(error)
-    res.status(500).send({ message: 'Error: 500 in projectController:close' })
+    res.status(500).send({ message: 'Error: 500 in projectController:reopen' })
+  })
+}
+
+exports.open = (req, res) =>{
+  Project.findById(req.params._id)
+  .then(data =>{
+    data.status = OPEN;
+    data.save();
+    res.status(200).send(data);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in projectController:open' })
+  })
+}
+
+exports.start = (req, res) =>{
+  Project.findById(req.params._id)
+  .then(data =>{
+    data.status = INPROGRESS;
+    data.save();
+    res.status(200).send(data);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in projectController:start' })
   })
 }

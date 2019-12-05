@@ -15,7 +15,8 @@ export const StatusColor = ({status}) =>{
   }
   if(status === CLOSED) {
     return <span className="ui horizontal label">{`${status}`}</span>;
-  }else{
+  }
+  else{
     //backlog
     return <span className="ui black horizontal label">{`${status}`}</span>;
   }

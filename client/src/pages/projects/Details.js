@@ -7,6 +7,7 @@ import uuid from 'uuid';
 import NewTask from '../../components/tasks/NewTask';
 import DetailsLoader from '../../components/loader/DetailsLoader';
 import {StatusColor, TypeIcon, PriorityCellColor} from '../../components/tasks/TaskIcons';
+import StatusButton from '../../components/projects/status/StatusButton';
 import { Redirect } from 'react-router-dom';
 
 const Details = ({match}) =>{
@@ -46,6 +47,66 @@ const Details = ({match}) =>{
     })
   }
 
+  //startProject
+  const startProject = _id =>{
+    console.log('startProject');
+    axios.put(`/api/projects/${_id}/start`)
+    .then((res) => {
+      if (res.status === 200) {
+        axios.get(`/api/projects/${match.params._id}`)
+        .then(response => {
+          setProject(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  /*
+  const openProject = _id =>{
+    console.log('openProject');
+    axios.put(`/api/projects/${_id}/open`)
+    .then((res) => {
+      if (res.status === 200) {
+        axios.get(`/api/projects/${match.params._id}`)
+        .then(response => {
+          setProject(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }*/
+  
+  const reopenProject = _id =>{
+    console.log('reopenProject');
+    axios.put(`/api/projects/${_id}/reopen`)
+    .then((res) => {
+      if (res.status === 200) {
+        axios.get(`/api/projects/${match.params._id}`)
+        .then(response => {
+          setProject(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  /*
   const closeProject = _id =>{
     console.log('close');
     axios.put(`/api/projects/${_id}/close`)
@@ -63,7 +124,7 @@ const Details = ({match}) =>{
     .catch(error => {
       console.log(error)
     })
-  }
+  }*/
 
   const {_id, name, status, description, categories, tasks} = project;
   const listCat = categories
@@ -98,10 +159,11 @@ const Details = ({match}) =>{
                 as={Link}
                 to={`/projects/${_id}`}
               ><i className="fas fa-pen"></i>Edit</Button>
-              <Button  
+              {/*<Button  
                 color='grey'
                 onClick={() => closeProject(_id)}
-              ><i className="fas fa-check"></i>Close</Button>
+              ><i className="fas fa-check"></i>Close</Button>*/}
+              <StatusButton status={status} projectId={_id} reopenProject={reopenProject} startProject={startProject} setProject={setProject}/>
               <Button 
                 floated='right'
                 color='red'

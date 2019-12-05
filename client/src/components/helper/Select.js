@@ -1,11 +1,13 @@
 export const UNDEFINED = 'undefined';
 
-//if you edit here - also change in projectController
 export const BACKLOG = 'backlog';
 export const OPEN = 'open';
 export const CLOSED = 'closed';
 export const REOPENED = 'reopened';
 export const INPROGRESS = 'in progress';
+
+export const CLOSE = 'close';
+export const REOPEN = 'reopen';
 
 
 export const statusOptions = [
