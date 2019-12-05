@@ -8,6 +8,8 @@ export const INPROGRESS = 'in progress';
 
 export const CLOSE = 'close';
 export const REOPEN = 'reopen';
+export const STARTPROGRESS = 'start progress';
+export const START = 'start';
 
 
 export const statusOptions = [

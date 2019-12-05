@@ -128,11 +128,11 @@ const Details = ({match}) =>{
   }*/
 
   const {_id, name, status, description, categories, tasks} = project;
-  const listCat = categories
-                    .map((cat) => 
-                      <span key={cat._id} className="ui label">
-                        <Link to={`/categories/${cat._id}`}>{cat.name}</Link>
-                      </span>);
+
+  const listCat = categories.map((cat) => 
+    <span key={cat._id} className="ui label">
+      <Link to={`/categories/${cat._id}`}>{cat.name}</Link>
+    </span>);
 
   if(project ==="undefined"|| project._id === ''){
     return <DetailsLoader />
@@ -140,6 +140,7 @@ const Details = ({match}) =>{
     return(
       <div>
         {redirect && (<Redirect to='/projects' push /> )}
+
           <Container textAlign='left'>
           <Card fluid>
             <Card.Content header={name} />
@@ -160,21 +161,30 @@ const Details = ({match}) =>{
                 as={Link}
                 to={`/projects/${_id}`}
               ><i className="fas fa-pen"></i>Edit</Button>
-              {/*<Button  
-                color='grey'
-                onClick={() => closeProject(_id)}
-              ><i className="fas fa-check"></i>Close</Button>*/}
-              <StatusButton status={status} projectId={_id} startProject={startProject} setProject={setProject}/>
+
+              <StatusButton 
+                status={status} 
+                projectId={_id} 
+                setProject={setProject}/>
+
               <Button 
                 floated='right'
                 color='red'
-                onClick={() => deleteProject(_id)}
-              ><i className="fas fa-trash"></i>Delete</Button>
+                onClick={() => deleteProject(_id)}>
+                <i className="fas fa-trash"></i>Delete
+              </Button>
             </Card.Content>
           </Card>
           </Container>
 
-          {showNewTask.show && <NewTask project={project} setShowNewTask={setShowNewTask} showNewTask ={showNewTask} setProject={setProject} match ={match}/>}
+          {showNewTask.show && 
+          <NewTask 
+            project={project} 
+            setShowNewTask={setShowNewTask} 
+            showNewTask ={showNewTask} 
+            setProject={setProject} 
+            match ={match}/>
+          }
           
           <Container style={{ marginTop: "15px"}}  textAlign='left'>
         <Table singleLine columns={5} style={{border: "none", borderRadius: "0"}}>

@@ -4,7 +4,7 @@ import { Button} from 'semantic-ui-react';
 import OpenButton from './OpenButton';
 import CloseButton from './CloseButton';
 import ReopenButton from './ReopenButton';
-//import StartButton from './StartButton';
+import StartButton from './StartButton';
 
 /*
 export const OpenButton = ({openProject, projectId}) =>{
@@ -17,6 +17,7 @@ export const OpenButton = ({openProject, projectId}) =>{
   )
 }*/
 
+/*
 export const StartButton = ({startProject, projectId}) =>{
   return (
   <Button  
@@ -26,6 +27,7 @@ export const StartButton = ({startProject, projectId}) =>{
   </Button>
   )
 }
+*/
 
 /*
 export const CloseButton = ({closeProject, projectId}) =>{
@@ -49,7 +51,7 @@ export const ReopenButton = ({reopenProject, projectId}) =>{
   )
 }*/
 
-const StateButton = ({status, projectId, startProject, setProject}) => {
+const StateButton = ({status, projectId, setProject}) => {
   return (
     <div>
       {(status === OPEN || status === REOPENED) && 
@@ -71,7 +73,7 @@ const StateButton = ({status, projectId, startProject, setProject}) => {
           projectId={projectId}/>
 
         <StartButton 
-          openProject={startProject} 
+          setProject={setProject} 
           projectId={projectId}/>
         </>
       }                                
