@@ -1,5 +1,5 @@
 import React from 'react';
-import {OPEN, REOPENED, CLOSED, BACKLOG, INPROGRESS} from '../../helper/Select';
+import {OPEN, REOPENED, CLOSED, BACKLOG, INPROGRESS} from '../../Constants';
 import OpenButton from './OpenButton';
 import CloseButton from './CloseButton';
 import ReopenButton from './ReopenButton';

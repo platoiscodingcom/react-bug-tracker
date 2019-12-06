@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button} from 'semantic-ui-react';
-import {STARTPROGRESS, START} from '../../helper/Select';
+import {STARTPROGRESS, START} from '../../Constants';
 
 
 const StartButton = ({projectId, setProject}) => {

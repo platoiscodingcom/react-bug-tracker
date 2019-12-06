@@ -2,7 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom';
 import { Card, Button, Form} from 'semantic-ui-react';
-import { statusOptions, priorityOptions, typeOptions, OPEN } from '../../components/helper/Select';
+import { statusOptions, priorityOptions, typeOptions } from '../../components/helper/MultipleSelect';
+import {OPEN} from '../../components/Constants';
 
 const Create = ({match}) => {
   const [task, setTask] = useState({

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { OPEN, CLOSED, REOPENED, INPROGRESS, UNDEFINED} from '../../helper/Select';
+import { OPEN, CLOSED, REOPENED, INPROGRESS, UNDEFINED} from '../../Constants';
 
 const StatusColor = ({status}) =>{
   

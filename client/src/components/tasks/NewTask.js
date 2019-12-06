@@ -1,7 +1,8 @@
 import React, { useEffect, useState }from 'react';
 import axios from 'axios';
-import { Container, Card, Form, Button} from 'semantic-ui-react';
-import { statusOptions, priorityOptions, typeOptions, OPEN } from '../helper/Select';
+import { Card, Form, Button} from 'semantic-ui-react';
+import { statusOptions, priorityOptions, typeOptions} from '../helper/MultipleSelect';
+import {OPEN} from '../Constants';
 
 const NewTask = ({project, setShowNewTask, showNewTask, setProject, match}) => {
   const [task, setTask] = useState({
@@ -47,25 +48,17 @@ const NewTask = ({project, setShowNewTask, showNewTask, setProject, match}) => {
   }, [])
 
   return (
-    <Container textAlign='left'>
+    <div textAlign='left'>
       <Card fluid style={{ boxShadow: "none", marginTop: "15px", borderRadius: "0"}}>
         <Card.Content header="New Task"/>
         
         <Card.Content >
-          {/*Form */}
           <Form widths='equal'>
             <Form.Group>
               <Form.Input
                   label='Title'
                   name='title'
                   value={task.title}
-                  onChange={handleInputChange}
-                />
-                <Form.Input
-                  disabled
-                  label='Project'
-                  name='project'
-                  value={task.project}
                   onChange={handleInputChange}
                 />
             </Form.Group>
@@ -115,7 +108,7 @@ const NewTask = ({project, setShowNewTask, showNewTask, setProject, match}) => {
           />
         </Card.Content>
       </Card>
-    </Container>
+    </div>
   )
 }
 

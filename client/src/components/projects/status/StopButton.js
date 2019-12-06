@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button} from 'semantic-ui-react';
-import {STOP, STOPPROGRESS} from '../../helper/Select';
+import {STOP, STOPPROGRESS} from '../../Constants';
 
 
 const StopButton = ({projectId, setProject}) => {

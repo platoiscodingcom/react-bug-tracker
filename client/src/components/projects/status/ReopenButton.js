@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button} from 'semantic-ui-react';
-import {REOPEN} from '../../helper/Select';
+import {REOPEN} from '../../Constants';
 
 
 const ReopenButton = ({projectId, setProject}) => {

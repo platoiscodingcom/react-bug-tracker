@@ -2,7 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Card, Button, Form} from 'semantic-ui-react';
-import { statusOptions, OPEN } from '../../components/helper/Select';
+import { statusOptions} from '../../components/helper/MultipleSelect';
+import {OPEN} from '../../components/Constants';
 
 const Create = () => {
   const [project, setProject] = useState({

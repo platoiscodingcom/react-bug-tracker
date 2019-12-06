@@ -1,8 +1,8 @@
 import React from 'react';
 import {Popup,  Table} from 'semantic-ui-react';
-import { UNDEFINED} from '../helper/Select';
-import { HIGH, CRITICAL} from '../helper/Select';
-import { BUG, FEATURE} from '../helper/Select';
+import { UNDEFINED} from '../Constants';
+import { HIGH, CRITICAL} from '../Constants';
+import { BUG, FEATURE} from '../Constants';
 
 export const TypeIcon = ({type}) =>{
   

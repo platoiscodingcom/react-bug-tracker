@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button} from 'semantic-ui-react';
-import {OPEN} from '../../helper/Select';
+import {OPEN} from '../../Constants';
 
 
 const OpenButton = ({projectId, setProject}) => {

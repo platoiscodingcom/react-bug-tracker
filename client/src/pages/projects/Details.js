@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Container, Card, List, Button, Table,  Dropdown, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import './projects.css';
 import uuid from 'uuid';
 import NewTask from '../../components/tasks/NewTask';
 import DetailsLoader from '../../components/loader/DetailsLoader';
@@ -73,9 +72,9 @@ const Details = ({match}) =>{
             }
           <Card fluid>
             <Card.Content className="card-header"><span className="card-header-title">{name}</span>
-            <Menu floated="right" horizontal>
+            <Menu floated="right" horizontal className="card-menu">
               <Dropdown item text='more'>
-                <Dropdown.Menu>
+                <Dropdown.Menu className="card-actions-dropdown">
                   <Dropdown.Item>
                     <div onClick={() => setShowNewTask({show: !showNewTask.show})}>
                       <i className="fas fa-plus"></i>New Task 
@@ -115,7 +114,7 @@ const Details = ({match}) =>{
           
           
           <Container style={{ marginTop: "15px"}}  textAlign='left'>
-        <Table singleLine columns={5} style={{border: "none", borderRadius: "0"}}>
+        <Table  singleLine columns={5} style={{border: "none", borderRadius: "0"}}>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Title</Table.HeaderCell>

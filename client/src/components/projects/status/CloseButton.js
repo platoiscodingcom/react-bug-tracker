@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button} from 'semantic-ui-react';
-import {CLOSE} from '../../helper/Select';
+import {CLOSE} from '../../Constants';
 
 
 const CloseButton = ({projectId, setProject}) => {

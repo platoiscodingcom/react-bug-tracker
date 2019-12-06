@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react';
-import { statusOptions, priorityOptions, typeOptions } from '../../components/helper/Select';
+import { statusOptions, priorityOptions, typeOptions } from '../../components/helper/MultipleSelect';
 import UpdateLoader from '../../components/loader/UpdateLoader';
 
 const Update = ({ match }) => {
