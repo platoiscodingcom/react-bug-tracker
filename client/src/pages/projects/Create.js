@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Card, Button, Form} from 'semantic-ui-react';
 import { statusOptions} from '../../components/helper/MultipleSelect';
-import {OPEN} from '../../components/Constants';
+import {OPEN, PROJECTS_PATH, CATEGORIES_PATH, PROJECTS_HOME} from '../../components/Constants';
 
 const Create = () => {
   const [project, setProject] = useState({
     name: '',
-    status: '',
+    status: OPEN,
     description: '',
     categories: []
   })
@@ -17,7 +17,7 @@ const Create = () => {
 
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    axios.get('/api/categories/').then(response => {
+    axios.get(CATEGORIES_PATH).then(response => {
       setCategories(
         response.data.map(category => ({
           text: `${category.name}`,
@@ -35,7 +35,7 @@ const Create = () => {
   const handleFormSubmission = () => {
     console.log(project);
     axios
-      .post('/api/projects', project)
+      .post(PROJECTS_PATH, project)
       .then(() => {
         setRedirect(true)
       })
@@ -48,11 +48,10 @@ const Create = () => {
     setRedirect(true)
   }
 
-  console.log("project.catgeories:", project.categories)
   return (
     <>
       {redirect ? (
-        <Redirect to='/projects' push />
+        <Redirect to={PROJECTS_HOME} push />
       ) : (
         <>
         <Card fluid>
@@ -70,7 +69,7 @@ const Create = () => {
                 label='Status'
                 name='status'
                 options={statusOptions}
-                defaultValue={OPEN}
+                value={project.status}
                 onChange={handleInputChange}
               />
               <Form.Select

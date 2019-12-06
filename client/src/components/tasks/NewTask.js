@@ -2,7 +2,6 @@ import React, { useEffect, useState }from 'react';
 import axios from 'axios';
 import { Card, Form, Button} from 'semantic-ui-react';
 import { statusOptions, priorityOptions, typeOptions} from '../helper/MultipleSelect';
-import {OPEN} from '../Constants';
 
 const NewTask = ({project, setShowNewTask, showNewTask, setProject, match}) => {
   const [task, setTask] = useState({
@@ -75,7 +74,7 @@ const NewTask = ({project, setShowNewTask, showNewTask, setProject, match}) => {
                 name='status'
                 options={statusOptions}
                 onChange={handleInputChange}
-                defaultValue={OPEN}
+                value={task.status}
               />
               <Form.Select
                 label='Type'
@@ -96,7 +95,7 @@ const NewTask = ({project, setShowNewTask, showNewTask, setProject, match}) => {
           </Form>
         </Card.Content>
 
-        <Card.Content extra textAlign='right'>
+        <Card.Content extra>
           <Button color='black' 
                   onClick={() => setShowNewTask({show: !showNewTask.show})}>
                   Cancel

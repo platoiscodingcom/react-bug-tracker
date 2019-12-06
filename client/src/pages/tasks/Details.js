@@ -43,7 +43,7 @@ const Details = ({match}) => {
   return (
     <div>
     {redirect && (<Redirect to='/projects' push />)}
-      <Container textAlign='left'>
+      <Container>
         <Card fluid>
           <Card.Content header={title} />
 

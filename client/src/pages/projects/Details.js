@@ -9,6 +9,7 @@ import {TypeIcon, PriorityCellColor} from '../../components/tasks/TaskIcons';
 import StatusColor from '../../components/projects/status/StatusColor';
 import StatusButton from '../../components/projects/status/StatusButton';
 import { Redirect } from 'react-router-dom';
+import {PROJECTS_PATH, TASKS_PATH, CATEGORIES_HOME, PROJECTS_HOME, TASKS_HOME, TASKS_DETAILS, UNDEFINED} from '../../components/Constants';
 
 const Details = ({match}) =>{
   const [showNewTask, setShowNewTask] = useState({show: false});
@@ -22,14 +23,14 @@ const Details = ({match}) =>{
   })
 
   useEffect(() => {
-    axios.get(`/api/projects/${match.params._id}`).then(response => {
+    axios.get(`${PROJECTS_PATH}/${match.params._id}`).then(response => {
       setProject(response.data)
     });
   }, [match])
 
   const deleteTask = _id => {
-    axios.delete(`/api/tasks/${_id}`).then(() => {
-      axios.get(`/api/projects/${match.params._id}`).then(response => {
+    axios.delete(`${TASKS_PATH}/${_id}`).then(() => {
+      axios.get(`${PROJECTS_PATH}/${match.params._id}`).then(response => {
         setProject(response.data)
       });
     })
@@ -37,7 +38,7 @@ const Details = ({match}) =>{
 
   const [redirect, setRedirect] = useState(false);
   const deleteProject = _id => {
-    axios.delete(`/api/projects/${_id}`).then((res) => {
+    axios.delete(`${PROJECTS_PATH}/${_id}`).then((res) => {
       if (res.status === 200) {
         setRedirect(true);
       }
@@ -51,15 +52,15 @@ const Details = ({match}) =>{
 
   const listCat = categories.map((cat) => 
     <span key={cat._id} className="ui label">
-      <Link to={`/categories/${cat._id}`}>{cat.name}</Link>
+      <Link to={`${CATEGORIES_HOME}/${cat._id}`}>{cat.name}</Link>
     </span>);
 
-  if(project ==="undefined"|| project._id === ''){
+  if(project === UNDEFINED|| project._id === ''){
     return <DetailsLoader />
   }else{
     return(
       <div>
-        {redirect && (<Redirect to='/projects' push /> )}
+        {redirect && (<Redirect to={PROJECTS_HOME} push /> )}
 
           <Container textAlign='left'>
           {showNewTask.show && 
@@ -72,7 +73,7 @@ const Details = ({match}) =>{
             }
           <Card fluid>
             <Card.Content className="card-header"><span className="card-header-title">{name}</span>
-            <Menu floated="right" horizontal className="card-menu">
+            <Menu floated="right"  className="card-menu">
               <Dropdown item text='more'>
                 <Dropdown.Menu className="card-actions-dropdown">
                   <Dropdown.Item>
@@ -80,7 +81,7 @@ const Details = ({match}) =>{
                       <i className="fas fa-plus"></i>New Task 
                     </div>
                   </Dropdown.Item>
-                  <Dropdown.Item text='Edit' icon='pencil alternate' as={Link} to={`/projects/${_id}`}/>
+                  <Dropdown.Item text='Edit' icon='pencil alternate' as={Link} to={`${PROJECTS_HOME}/${_id}`}/>
                   <Dropdown.Item color={'red'}>
                     <div 
                       onClick={() => deleteProject(_id)}>
@@ -145,7 +146,7 @@ const Details = ({match}) =>{
                     floated='right'
                     color='black'
                     as={Link}
-                    to={`/tasks/details/${_id}`}>
+                    to={`${TASKS_DETAILS}/${_id}`}>
                     <i className="fas fa-eye"></i>
                   </Button>  
                   <Button
@@ -155,7 +156,7 @@ const Details = ({match}) =>{
                     floated='right'
                     color='black'
                     as={Link}
-                    to={`/tasks/${_id}`}>
+                    to={`${TASKS_HOME}/${_id}`}>
                     <i className="fas fa-pen"></i>
                   </Button>
                   <Button  

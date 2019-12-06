@@ -27,6 +27,7 @@ exports.details = (req, res) => {
 }
 
 exports.create = (req, res) => {
+  console.log(req.body);
   const newTask = new Task(req.body)
   newTask._id = new mongoose.Types.ObjectId();
   newTask.save()

@@ -24,3 +24,21 @@ export const CRITICAL = 'critical';
 //TASK TYPES
 export const BUG = 'bug';
 export const FEATURE = 'feature';
+
+//DOCUMENT TYPES
+export const TASK = 'task';
+export const PROJECT = 'project'
+export const CATEGORY = 'category'
+
+//ROUTER PATHS
+export const TASKS_PATH = '/api/tasks';
+export const PROJECTS_PATH = '/api/projects'
+export const CATEGORIES_PATH = '/api/categories'
+
+export const TASKS_HOME = '/tasks';
+export const PROJECTS_HOME = '/projects'
+export const CATEGORIES_HOME = '/categories'
+
+export const TASKS_DETAILS = '/tasks/details';
+export const PROJECTS_DETAILS = '/projects/details'
+export const CATEGORIES_DETAILS = '/categories/details'
