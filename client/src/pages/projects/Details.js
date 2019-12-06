@@ -1,15 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Card, List, Button, Table,  Dropdown, Menu } from 'semantic-ui-react';
+import { Container, Card, List, Dropdown, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import uuid from 'uuid';
 import NewTask from '../../components/tasks/NewTask';
+import TaskTable from '../../components/tasks/TaskTable';
 import DetailsLoader from '../../components/loader/DetailsLoader';
-import {TypeIcon, PriorityCellColor} from '../../components/tasks/TaskIcons';
 import StatusColor from '../../components/projects/status/StatusColor';
 import StatusButton from '../../components/projects/status/StatusButton';
 import { Redirect } from 'react-router-dom';
-import {PROJECTS_PATH, TASKS_PATH, CATEGORIES_HOME, PROJECTS_HOME, TASKS_HOME, TASKS_DETAILS, UNDEFINED} from '../../components/Constants';
+import {PROJECTS_PATH, CATEGORIES_HOME, PROJECTS_HOME, UNDEFINED} from '../../components/Constants';
 
 const Details = ({match}) =>{
   const [showNewTask, setShowNewTask] = useState({show: false});
@@ -28,13 +28,6 @@ const Details = ({match}) =>{
     });
   }, [match])
 
-  const deleteTask = _id => {
-    axios.delete(`${TASKS_PATH}/${_id}`).then(() => {
-      axios.get(`${PROJECTS_PATH}/${match.params._id}`).then(response => {
-        setProject(response.data)
-      });
-    })
-  }
 
   const [redirect, setRedirect] = useState(false);
   const deleteProject = _id => {
@@ -112,70 +105,9 @@ const Details = ({match}) =>{
           </Card>
           </Container>
 
-          
-          
-          <Container style={{ marginTop: "15px"}}  textAlign='left'>
-        <Table  singleLine columns={5} style={{border: "none", borderRadius: "0"}}>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Title</Table.HeaderCell>
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell>Type</Table.HeaderCell>
-              <Table.HeaderCell>Priority</Table.HeaderCell>
-              <Table.HeaderCell></Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
-          <Table.Body>
-          
-          {tasks.map(task => {
-            const { _id, title, type, status, priority} = task;
-            const shortTitle = title.substring(0, 25);
-
-            return (
-              <Table.Row key={_id}>
-                <Table.Cell>{shortTitle}</Table.Cell>
-                <Table.Cell><StatusColor key={uuid.v4()} status = {status}></StatusColor></Table.Cell>
-                <Table.Cell><TypeIcon key={uuid.v4()} type = {type}></TypeIcon></Table.Cell>
-                <PriorityCellColor key={uuid.v4()} priority = {priority}></PriorityCellColor>
-                <Table.Cell textAlign='center' className="button-actions">
-                  <Button
-                    circular
-                    compact
-                    size='mini'
-                    floated='right'
-                    color='black'
-                    as={Link}
-                    to={`${TASKS_DETAILS}/${_id}`}>
-                    <i className="fas fa-eye"></i>
-                  </Button>  
-                  <Button
-                    circular
-                    compact
-                    size='mini'
-                    floated='right'
-                    color='black'
-                    as={Link}
-                    to={`${TASKS_HOME}/${_id}`}>
-                    <i className="fas fa-pen"></i>
-                  </Button>
-                  <Button  
-                    circular
-                    compact
-                    size='mini'
-                    floated='right' 
-                    color='red' 
-                    onClick={() => deleteTask(_id)}>
-                    <i className="fas fa-trash"></i>
-                  </Button>
-                  
-                </Table.Cell>
-              </Table.Row>
-            )
-          })} 
-          </Table.Body>
-        </Table>
-      </Container>
+          <Container  style={{ marginTop: "15px"}} >
+            <TaskTable tasks={tasks} match ={match} setProject={setProject}/>
+          </Container>
       
       </div>
     )}

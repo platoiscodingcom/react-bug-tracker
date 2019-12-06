@@ -70,25 +70,6 @@ const DetailsLoader = () => {
             </Card.Content>
           </Card>
         </Card.Group>
-
-        <Card fluid>
-          <Card.Content>
-            <Placeholder fluid>
-              <Placeholder.Paragraph>
-                <Placeholder.Line />
-                <Placeholder.Line />
-                <Placeholder.Line />
-                <Placeholder.Line />
-                <Placeholder.Line />
-              </Placeholder.Paragraph>
-              <Placeholder.Paragraph>
-                <Placeholder.Line />
-                <Placeholder.Line />
-                <Placeholder.Line />
-              </Placeholder.Paragraph>
-            </Placeholder>
-          </Card.Content>
-        </Card>
       </Container>
     </div>
   )
