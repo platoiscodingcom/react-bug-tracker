@@ -1,18 +1,28 @@
-import React from 'react'
 import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Button } from 'semantic-ui-react'
-import { REOPEN } from '../../Constants'
+import { REOPEN, PROJECTS_PATH, PROJECT, TASKS_PATH } from '../../Constants'
 
-const ReopenButton = ({ projectId, setProject }) => {
-  const reopenProject = projectId => {
+const ReopenButton = ({ id, setDocument, documentType }) => {
+  const [PATH, setPath] = useState('')
+
+  useEffect(() => {
+    if (documentType === PROJECT) {
+      setPath(PROJECTS_PATH)
+    } else {
+      setPath(TASKS_PATH)
+    }
+  }, [documentType])
+
+  const reopen = id => {
     axios
-      .put(`/api/projects/${projectId}/${REOPEN}`)
+      .put(`${PATH}/${id}/${REOPEN}`)
       .then(res => {
         if (res.status === 200) {
           axios
-            .get(`/api/projects/${projectId}`)
+            .get(`${PATH}/${id}`)
             .then(response => {
-              setProject(response.data)
+              setDocument(response.data)
             })
             .catch(error => {
               console.log(error)
@@ -25,7 +35,7 @@ const ReopenButton = ({ projectId, setProject }) => {
   }
 
   return (
-    <Button color='grey' onClick={() => reopenProject(projectId)}>
+    <Button color='grey' onClick={() => reopen(id)}>
       <i className='fas fa-check' />
       {REOPEN}
     </Button>

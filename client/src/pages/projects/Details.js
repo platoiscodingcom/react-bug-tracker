@@ -13,7 +13,8 @@ import {
   PROJECTS_PATH,
   CATEGORIES_HOME,
   PROJECTS_HOME,
-  UNDEFINED
+  UNDEFINED,
+  PROJECT
 } from '../../components/Constants'
 
 const Details = ({ match }) => {
@@ -121,8 +122,9 @@ const Details = ({ match }) => {
             <Card.Content extra>
               <StatusButton
                 status={status}
-                projectId={_id}
-                setProject={setProject}
+                id={_id}
+                setDocument={setProject}
+                documentType={PROJECT}
               />
             </Card.Content>
           </Card>

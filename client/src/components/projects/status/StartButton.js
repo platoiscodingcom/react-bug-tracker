@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Button } from 'semantic-ui-react'
-import { STARTPROGRESS, START } from '../../Constants'
+import { STARTPROGRESS, START, PROJECTS_PATH, PROJECT, TASKS_PATH } from '../../Constants'
 
-const StartButton = ({ projectId, setProject }) => {
-  const startProject = projectId => {
+const StartButton = ({ id, setDocument, documentType}) => {
+  const [PATH, setPath] = useState('')
+
+  useEffect(() => {
+    if (documentType === PROJECT) {
+      setPath(PROJECTS_PATH)
+    } else {
+      setPath(TASKS_PATH)
+    }
+  }, [documentType])
+
+  const start = id => {
     axios
-      .put(`/api/projects/${projectId}/${START}`)
+      .put(`${PATH}/${id}/${START}`)
       .then(res => {
         if (res.status === 200) {
           axios
-            .get(`/api/projects/${projectId}`)
+            .get(`${PATH}/${id}`)
             .then(response => {
-              setProject(response.data)
+              setDocument(response.data)
             })
             .catch(error => {
               console.log(error)
@@ -25,7 +35,7 @@ const StartButton = ({ projectId, setProject }) => {
   }
 
   return (
-    <Button color='grey' onClick={() => startProject(projectId)}>
+    <Button color='grey' onClick={() => start(id)}>
       <i className='far fa-play-circle' />
       {STARTPROGRESS}
     </Button>

@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Button } from 'semantic-ui-react'
-import { STOP, STOPPROGRESS } from '../../Constants'
+import { STOP, STOPPROGRESS, PROJECTS_PATH, PROJECT, TASKS_PATH  } from '../../Constants'
 
-const StopButton = ({ projectId, setProject }) => {
-  const stopProject = projectId => {
+const StopButton = ({ id, setDocument, documentType }) => {
+  const [PATH, setPath] = useState('')
+
+  useEffect(() => {
+    if (documentType === PROJECT) {
+      setPath(PROJECTS_PATH)
+    } else {
+      setPath(TASKS_PATH)
+    }
+  }, [documentType])
+
+  const stop = id => {
     axios
-      .put(`/api/projects/${projectId}/${STOP}`)
+      .put(`${PATH}/${id}/${STOP}`)
       .then(res => {
         if (res.status === 200) {
           axios
-            .get(`/api/projects/${projectId}`)
+            .get(`${PATH}/${id}`)
             .then(response => {
-              setProject(response.data)
+              setDocument(response.data)
             })
             .catch(error => {
               console.log(error)
@@ -25,7 +35,7 @@ const StopButton = ({ projectId, setProject }) => {
   }
 
   return (
-    <Button color='grey' onClick={() => stopProject(projectId)}>
+    <Button color='grey' onClick={() => stop(id)}>
       <i className='fas fa-stop-circle' />
       {STOPPROGRESS}
     </Button>

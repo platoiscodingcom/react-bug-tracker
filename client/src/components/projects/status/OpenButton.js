@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState }  from 'react'
 import axios from 'axios'
 import { Button } from 'semantic-ui-react'
-import { OPEN } from '../../Constants'
+import { OPEN, PROJECTS_PATH, PROJECT, TASKS_PATH  } from '../../Constants'
 
-const OpenButton = ({ projectId, setProject }) => {
-  const openProject = projectId => {
+const OpenButton = ({ id, setDocument, documentType }) => {
+  const [PATH, setPath] = useState('')
+
+  useEffect(() => {
+    if (documentType === PROJECT) {
+      setPath(PROJECTS_PATH)
+    } else {
+      setPath(TASKS_PATH)
+    }
+  }, [documentType])
+
+  const open = id => {
     axios
-      .put(`/api/projects/${projectId}/${OPEN}`)
+      .put(`${PATH}/${id}/${OPEN}`)
       .then(res => {
         if (res.status === 200) {
           axios
-            .get(`/api/projects/${projectId}`)
+            .get(`${PATH}/${id}`)
             .then(response => {
-              setProject(response.data)
+              setDocument(response.data)
             })
             .catch(error => {
               console.log(error)
@@ -25,7 +35,7 @@ const OpenButton = ({ projectId, setProject }) => {
   }
 
   return (
-    <Button color='grey' onClick={() => openProject(projectId)}>
+    <Button color='grey' onClick={() => open(id)}>
       <i className='fas fa-check' />
       {OPEN}
     </Button>

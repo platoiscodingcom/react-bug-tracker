@@ -6,33 +6,61 @@ import ReopenButton from './ReopenButton'
 import StartButton from './StartButton'
 import StopButton from './StopButton'
 
-const StateButton = ({ status, projectId, setProject }) => {
+const StateButton = ({ status, id, setDocument, documentType }) => {
   return (
     <div>
       {(status === OPEN || status === REOPENED) && (
         <>
-          <CloseButton projectId={projectId} setProject={setProject} />
-          <StartButton setProject={setProject} projectId={projectId} />
+          <CloseButton
+            id={id}
+            setDocument={setDocument}
+            documentType={documentType}
+          />
+          <StartButton
+            setDocument={setDocument}
+            id={id}
+            documentType={documentType}
+          />
         </>
       )}
 
       {status === CLOSED && (
-        <ReopenButton setProject={setProject} projectId={projectId} />
+        <ReopenButton
+          setDocument={setDocument}
+          id={id}
+          documentType={documentType}
+        />
       )}
 
       {status === INPROGRESS && (
         <>
-          <CloseButton projectId={projectId} setProject={setProject} />
+          <CloseButton
+            id={id}
+            setDocument={setDocument}
+            documentType={documentType}
+          />
 
-          <StopButton setProject={setProject} projectId={projectId} />
+          <StopButton
+            setDocument={setDocument}
+            id={id}
+            documentType={documentType}
+          />
         </>
       )}
 
       {status === BACKLOG && (
         <>
-          <OpenButton setProject={setProject} projectId={projectId} />
+          <OpenButton
+            setDocument={setDocument}
+            id={id}
+            documentType={documentType}
+          />
 
-          <StartButton setProject={setProject} projectId={projectId} />
+          <StartButton
+            setDocument={setDocument}
+            id={id}
+            documentType={documentType}
+          />
         </>
       )}
     </div>
