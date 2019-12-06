@@ -8,10 +8,13 @@ const Home = () => {
         MVC mit Express, React and MongoDB
       </Header>
       <Container text textAlign='justified'>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit id accusamus rerum sapiente soluta cupiditate voluptate incidunt earum, itaque eum, doloremque nesciunt dolores corporis tempore debitis blanditiis reiciendis voluptates voluptatem.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit id
+        accusamus rerum sapiente soluta cupiditate voluptate incidunt earum,
+        itaque eum, doloremque nesciunt dolores corporis tempore debitis
+        blanditiis reiciendis voluptates voluptatem.
       </Container>
     </div>
   )
 }
 
-export default Home;
+export default Home

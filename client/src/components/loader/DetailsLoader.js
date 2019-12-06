@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container, Card, Placeholder} from 'semantic-ui-react';
+import React from 'react'
+import { Container, Card, Placeholder } from 'semantic-ui-react'
 
 const DetailsLoader = () => {
   return (
@@ -22,47 +22,46 @@ const DetailsLoader = () => {
               </Placeholder.Paragraph>
             </Placeholder>
           </Card.Content>
-          <Card.Content textAlign='right'>
-          </Card.Content>
+          <Card.Content textAlign='right' />
         </Card>
 
-        <Card.Group itemsPerRow={6}  >
-          <Card style= {{border: "none", boxShadow: "none"}}>
+        <Card.Group itemsPerRow={6}>
+          <Card style={{ border: 'none', boxShadow: 'none' }}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
             </Card.Content>
           </Card>
-          <Card style= {{border: "none", boxShadow: "none"}}>
+          <Card style={{ border: 'none', boxShadow: 'none' }}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
             </Card.Content>
           </Card>
-          <Card style= {{border: "none", boxShadow: "none"}}>
+          <Card style={{ border: 'none', boxShadow: 'none' }}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
             </Card.Content>
           </Card>
-          <Card style= {{border: "none", boxShadow: "none"}}>
+          <Card style={{ border: 'none', boxShadow: 'none' }}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
             </Card.Content>
           </Card>
-          <Card style= {{border: "none", boxShadow: "none"}}>
+          <Card style={{ border: 'none', boxShadow: 'none' }}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
               </Placeholder>
             </Card.Content>
           </Card>
-          <Card style= {{border: "none", boxShadow: "none"}}>
+          <Card style={{ border: 'none', boxShadow: 'none' }}>
             <Card.Content>
               <Placeholder>
                 <Placeholder.Image square />
@@ -75,4 +74,4 @@ const DetailsLoader = () => {
   )
 }
 
-export default DetailsLoader;
+export default DetailsLoader

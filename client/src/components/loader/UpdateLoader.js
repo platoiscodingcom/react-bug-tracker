@@ -1,11 +1,11 @@
-import React from 'react';
-import { Card, Placeholder} from 'semantic-ui-react';
+import React from 'react'
+import { Card, Placeholder } from 'semantic-ui-react'
 
 const UpdateLoader = () => {
   return (
     <div>
       <Card fluid>
-        <Card.Content header ="loading ..." />
+        <Card.Content header='loading ...' />
         <Card.Content>
           <Placeholder fluid>
             <Placeholder.Line />
@@ -26,4 +26,4 @@ const UpdateLoader = () => {
   )
 }
 
-export default UpdateLoader;
+export default UpdateLoader

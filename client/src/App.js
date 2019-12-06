@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter as Router,
   NavLink,
@@ -11,16 +11,15 @@ import NoMatch from './pages/NoMatch'
 import Projects from './pages/projects'
 import Tasks from './pages/tasks'
 import Categories from './pages/categories'
-import './App.css';
+import './App.css'
 import { Menu, Segment } from 'semantic-ui-react'
 
-
-function App() {
+function App () {
   return (
     <div>
       <Router>
-        <Segment >
-          <Menu as='nav'  secondary>
+        <Segment>
+          <Menu as='nav' secondary>
             <Menu.Item as={NavLink} to='/' exact name='home' />
             <Menu.Item as={NavLink} to='/projects' name='projects' />
             <Menu.Item as={NavLink} to='/tasks' name='tasks' />
@@ -36,7 +35,7 @@ function App() {
         </Switch>
       </Router>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,9 +1,14 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { Card, Button, Form} from 'semantic-ui-react';
-import { statusOptions} from '../../components/helper/MultipleSelect';
-import {OPEN, PROJECTS_PATH, CATEGORIES_PATH, PROJECTS_HOME} from '../../components/Constants';
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { Redirect } from 'react-router-dom'
+import { Card, Button, Form } from 'semantic-ui-react'
+import { statusOptions } from '../../components/helper/MultipleSelect'
+import {
+  OPEN,
+  PROJECTS_PATH,
+  CATEGORIES_PATH,
+  PROJECTS_HOME
+} from '../../components/Constants'
 
 const Create = () => {
   const [project, setProject] = useState({
@@ -13,9 +18,9 @@ const Create = () => {
     categories: []
   })
 
-  const [redirect, setRedirect] = useState(false);
+  const [redirect, setRedirect] = useState(false)
 
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([])
   useEffect(() => {
     axios.get(CATEGORIES_PATH).then(response => {
       setCategories(
@@ -28,19 +33,19 @@ const Create = () => {
   }, [])
 
   const handleInputChange = (event, { name, value }) => {
-    setProject(previousValue => ({ ...previousValue, [name]: value }));
-    console.log('handle change', {name, value});
+    setProject(previousValue => ({ ...previousValue, [name]: value }))
+    console.log('handle change', { name, value })
   }
 
   const handleFormSubmission = () => {
-    console.log(project);
+    console.log(project)
     axios
       .post(PROJECTS_PATH, project)
       .then(() => {
         setRedirect(true)
       })
       .catch(() => {
-        alert('Error occured when handeling submission');
+        alert('Error occured when handeling submission')
       })
   }
 
@@ -54,65 +59,66 @@ const Create = () => {
         <Redirect to={PROJECTS_HOME} push />
       ) : (
         <>
-        <Card fluid>
-          <Card.Content header ="New Project" />
-          <Card.Content>
-          <Form widths='equal'>
-            <Form.Group>
-              <Form.Input
-                label='Name'
-                name='name'
-                value={project.name}
-                onChange={handleInputChange}
-              />
-              <Form.Select
-                label='Status'
-                name='status'
-                options={statusOptions}
-                value={project.status}
-                onChange={handleInputChange}
-              />
-              <Form.Select
-                label='Categories'
-                name='categories'
-                fluid
-                multiple selection
-                search
-                options={categories}
-                value={project.categories}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.TextArea 
-                label='Description'
-                name='description'
-                value={project.description}
-                onChange={handleInputChange}
-                rows="12"
-              />
-            </Form.Group>
-          </Form>
-          </Card.Content>
-          <Card.Content extra>
+          <Card fluid>
+            <Card.Content header='New Project' />
+            <Card.Content>
+              <Form widths='equal'>
+                <Form.Group>
+                  <Form.Input
+                    label='Name'
+                    name='name'
+                    value={project.name}
+                    onChange={handleInputChange}
+                  />
+                  <Form.Select
+                    label='Status'
+                    name='status'
+                    options={statusOptions}
+                    value={project.status}
+                    onChange={handleInputChange}
+                  />
+                  <Form.Select
+                    label='Categories'
+                    name='categories'
+                    fluid
+                    multiple
+                    selection
+                    search
+                    options={categories}
+                    value={project.categories}
+                    onChange={handleInputChange}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.TextArea
+                    label='Description'
+                    name='description'
+                    value={project.description}
+                    onChange={handleInputChange}
+                    rows='12'
+                  />
+                </Form.Group>
+              </Form>
+            </Card.Content>
+            <Card.Content extra>
               <Button
-              floated='right'
+                floated='right'
                 color='black'
                 content='Cancel'
                 onClick={handleFormCancellation}
               />
               <Button
-              floated='right'
+                floated='right'
                 color='green'
                 content='Save'
                 onClick={handleFormSubmission}
               />
-          </Card.Content>
-        </Card>
+            </Card.Content>
+          </Card>
         </>
       )}
     </>
   )
 }
 
-export default Create;
+export default Create
