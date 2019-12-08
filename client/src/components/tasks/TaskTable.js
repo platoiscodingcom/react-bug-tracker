@@ -62,7 +62,6 @@ const TaskTable = ({ tasks, setProject, match }) => {
                     circular
                     compact
                     size='mini'
-                    floated='right'
                     color='black'
                     as={Link}
                     to={`${TASKS_DETAILS}/${_id}`}
@@ -73,7 +72,6 @@ const TaskTable = ({ tasks, setProject, match }) => {
                     circular
                     compact
                     size='mini'
-                    floated='right'
                     color='black'
                     as={Link}
                     to={`${TASKS_HOME}/${_id}`}
@@ -84,7 +82,6 @@ const TaskTable = ({ tasks, setProject, match }) => {
                     circular
                     compact
                     size='mini'
-                    floated='right'
                     color='red'
                     onClick={() => deleteTask(_id)}
                   >

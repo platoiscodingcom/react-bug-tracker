@@ -91,3 +91,68 @@ exports.tasksByProject = (req, res) => {
       res.status(500).send({ message: 'Error occured: 500' })
     })
 }
+
+exports.close = (req, res) =>{
+  Task.findById(req.params._id)
+  .then(data =>{
+    data.status = CLOSED;
+    data.save();
+    res.status(200).send(data);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in taskController:close' })
+  })
+}
+
+exports.reopen = (req, res) =>{
+  Task.findById(req.params._id)
+  .then(data =>{
+    data.status = REOPENED;
+    data.save();
+    res.status(200).send(data);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in taskController:reopen' })
+  })
+}
+
+exports.open = (req, res) =>{
+  Task.findById(req.params._id)
+  .then(data =>{
+    data.status = OPEN;
+    data.save();
+    res.status(200).send(data);
+  })
+  .Task(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in taskController:open' })
+  })
+}
+
+exports.start = (req, res) =>{
+  Task.findById(req.params._id)
+  .then(data =>{
+    data.status = INPROGRESS;
+    data.save();
+    res.status(200).send(data);
+  })
+  .Task(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in taskController:start' })
+  })
+}
+
+exports.stop = (req, res) =>{
+  Project.findById(req.params._id)
+  .then(data =>{
+    data.status = OPEN;
+    data.save();
+    res.status(200).send(data);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500 in taskController:stop' })
+  })
+}
