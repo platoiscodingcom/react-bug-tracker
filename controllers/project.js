@@ -3,12 +3,7 @@ const Task = require('../models/Task')
 const Category = require('../models/Category')
 //mongoose = require('mongoose').set('debug', true); //debug
 mongoose = require('mongoose')
-
-//const BACKLOG = 'backlog';
-const CLOSED = 'closed';
-const REOPENED = 'reopened';
-const INPROGRESS = 'in progress';
-const OPEN = 'open';
+setStatus = require('./helper/statusFunctions').setStatus
 
 exports.list = (req, res) => {
   Project.find()
@@ -158,67 +153,16 @@ exports.delete = (req, res) => {
   })
 }
 
-exports.close = (req, res) =>{
+exports.statusEvent = (req, res) =>{
   Project.findById(req.params._id)
   .then(data =>{
-    data.status = CLOSED;
+    data.status = setStatus(req.params.event);
+    if(data.status == null) {res.status(404).send(data);}
     data.save();
     res.status(200).send(data);
   })
   .catch(error => {
     console.log(error)
-    res.status(500).send({ message: 'Error: 500 in projectController:close' })
-  })
-}
-
-exports.reopen = (req, res) =>{
-  Project.findById(req.params._id)
-  .then(data =>{
-    data.status = REOPENED;
-    data.save();
-    res.status(200).send(data);
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error: 500 in projectController:reopen' })
-  })
-}
-
-exports.open = (req, res) =>{
-  Project.findById(req.params._id)
-  .then(data =>{
-    data.status = OPEN;
-    data.save();
-    res.status(200).send(data);
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error: 500 in projectController:open' })
-  })
-}
-
-exports.start = (req, res) =>{
-  Project.findById(req.params._id)
-  .then(data =>{
-    data.status = INPROGRESS;
-    data.save();
-    res.status(200).send(data);
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error: 500 in projectController:start' })
-  })
-}
-
-exports.stop = (req, res) =>{
-  Project.findById(req.params._id)
-  .then(data =>{
-    data.status = OPEN;
-    data.save();
-    res.status(200).send(data);
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error: 500 in projectController:stop' })
+    res.status(500).send({ message: 'Error: 500 in projectController:statusEvent' })
   })
 }

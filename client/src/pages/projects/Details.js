@@ -6,8 +6,8 @@ import uuid from 'uuid'
 import NewTask from '../../components/tasks/NewTask'
 import TaskTable from '../../components/tasks/TaskTable'
 import DetailsLoader from '../../components/loader/DetailsLoader'
-import StatusColor from '../../components/projects/status/StatusColor'
-import StatusButton from '../../components/projects/status/StatusButton'
+import StatusColor from '../../components/status/StatusColor'
+import StatusButton from '../../components/status/StatusButton'
 import { Redirect } from 'react-router-dom'
 import {
   PROJECTS_PATH,

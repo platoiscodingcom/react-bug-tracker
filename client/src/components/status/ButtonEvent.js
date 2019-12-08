@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import axios from 'axios'
 import { Button } from 'semantic-ui-react'
-import { PROJECT, TASK, PROJECTS_PATH, TASKS_PATH } from '../../Constants'
-import { CLOSE, OPEN, START, STOP, REOPEN, STOPPROGRESS, STARTPROGRESS } from '../../Constants'
+import { PROJECT, TASK, PROJECTS_PATH, TASKS_PATH } from '../Constants'
+import { CLOSE, OPEN, START, STOP, REOPEN, STOPPROGRESS, STARTPROGRESS } from '../Constants'
 
 
 const ButtonEvent = ({ id, setDocument, documentType, event }) => {
@@ -11,8 +11,11 @@ const ButtonEvent = ({ id, setDocument, documentType, event }) => {
   useEffect(() => {
     if (documentType === PROJECT) {
       setPath(PROJECTS_PATH)
-    } else {
+    } else if(documentType === TASK) {
       setPath(TASKS_PATH)
+    }
+    else{
+      return console.error('no such patch');
     }
   }, [documentType])
 

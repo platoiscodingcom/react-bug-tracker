@@ -9,11 +9,11 @@ import {
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { TypeIcon } from '../../components/tasks/TaskIcons'
-import StatusColor from '../../components/projects/status/StatusColor'
+import StatusColor from '../../components/status/StatusColor'
 import uuid from 'uuid'
 import { Redirect } from 'react-router-dom'
 import DetailsLoader from '../../components/loader/DetailsLoader'
-import StatusButton from '../../components/projects/status/StatusButton'
+import StatusButton from '../../components/status/StatusButton'
 import {
   TASKS_PATH,
   UNDEFINED,

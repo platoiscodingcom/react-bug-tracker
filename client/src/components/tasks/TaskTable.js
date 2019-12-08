@@ -3,7 +3,7 @@ import React from 'react'
 import { Button, Table } from 'semantic-ui-react'
 import ListLoader from '../../components/loader/ListLoader'
 import { TypeIcon, PriorityCellColor } from '../../components/tasks/TaskIcons'
-import StatusColor from '../../components/projects/status/StatusColor'
+import StatusColor from '../status/StatusColor'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
 import {
