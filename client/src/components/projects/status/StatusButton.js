@@ -1,67 +1,71 @@
-import React from 'react'
-import { OPEN, REOPENED, CLOSED, BACKLOG, INPROGRESS } from '../../Constants'
-import OpenButton from './OpenButton'
-import CloseButton from './CloseButton'
-import ReopenButton from './ReopenButton'
-import StartButton from './StartButton'
-import StopButton from './StopButton'
+import React, {Fragment} from 'react'
+import { REOPENED, CLOSED, BACKLOG, INPROGRESS } from '../../Constants'
+import ButtonEvent from './ButtonEvent'
+import { CLOSE, OPEN, START, STOP, REOPEN, STOPPROGRESS, STARTPROGRESS } from '../../Constants'
 
 const StateButton = ({ status, id, setDocument, documentType }) => {
   return (
     <div>
       {(status === OPEN || status === REOPENED) && (
-        <>
-          <CloseButton
+        <Fragment>
+          <ButtonEvent
             id={id}
             setDocument={setDocument}
             documentType={documentType}
+            event = {CLOSE}
           />
-          <StartButton
+          <ButtonEvent
             setDocument={setDocument}
             id={id}
             documentType={documentType}
+            event = {START}
           />
-        </>
+        </Fragment>
       )}
 
       {status === CLOSED && (
-        <ReopenButton
+        <ButtonEvent
           setDocument={setDocument}
           id={id}
           documentType={documentType}
+          event = {REOPEN}
         />
       )}
 
       {status === INPROGRESS && (
-        <>
-          <CloseButton
+        <Fragment>
+          <ButtonEvent
             id={id}
             setDocument={setDocument}
             documentType={documentType}
+            event = {CLOSE}
           />
 
-          <StopButton
+          <ButtonEvent
             setDocument={setDocument}
             id={id}
             documentType={documentType}
+            event = {STOP}
           />
-        </>
+        </Fragment>
       )}
 
       {status === BACKLOG && (
-        <>
-          <OpenButton
+        <Fragment>
+          <ButtonEvent
             setDocument={setDocument}
             id={id}
             documentType={documentType}
+            event = {OPEN}
           />
 
-          <StartButton
+          <ButtonEvent
             setDocument={setDocument}
             id={id}
             documentType={documentType}
+            event = {START}
           />
-        </>
+        </Fragment>
       )}
     </div>
   )
