@@ -23,7 +23,7 @@ const TaskTable = ({ tasks, setProject, match }) => {
     })
   }
 
-  if (tasks === UNDEFINED || tasks.length === 0) {
+  if (tasks == null) {
     return <ListLoader />
   } else {
     return (

@@ -17,7 +17,6 @@ import DetailsLoader from '../../components/loader/DetailsLoader'
 import StatusButton from '../../components/status/StatusButton'
 import {
   TASKS_PATH,
-  UNDEFINED,
   PROJECTS_HOME,
   TASKS_HOME,
   TASK
@@ -54,7 +53,7 @@ const Details = ({ match }) => {
 
   const { _id, title, status, description, project, priority, type, updatedAt, createdAt } = task
 
-  if (task === UNDEFINED || task._id === '') {
+  if (task == null || task._id === '') {
     return <DetailsLoader />
   } else {
     return (

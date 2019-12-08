@@ -1,14 +1,22 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Grid, Table } from 'semantic-ui-react'
+import { Button, Table } from 'semantic-ui-react'
 import ListLoader from '../../components/loader/ListLoader'
+import { TypeIcon, PriorityCellColor } from '../../components/tasks/TaskIcons'
+import StatusColor from '../../components/status/StatusColor'
+import { Link } from 'react-router-dom'
+import uuid from 'uuid'
+import {
+  TASKS_PATH,
+  TASKS_DETAILS,
+  TASKS_HOME
+} from '../../components/Constants'
 
 const List = ({ match }) => {
   const [tasks, setTasks] = useState([])
 
   const loadTasks = () => {
-    axios.get('/api/tasks/').then(response => {
+    axios.get(`${TASKS_PATH}/`).then(response => {
       setTasks(response.data)
     })
   }
@@ -23,24 +31,16 @@ const List = ({ match }) => {
     })
   }
 
-  if (tasks.lenght === 0 || tasks == null) {
+  if (tasks == null) {
     return <ListLoader />
   } else {
     return (
       <>
-        <Grid>
-          <Grid.Column textAlign='right'>
-            <Button
-              floated='right'
-              color='black'
-              as={Link}
-              to={`${match.url}/create`}
-            >
-              <i className='fas fa-plus' />New Task
-            </Button>
-          </Grid.Column>
-        </Grid>
-        <Table singleLine columns={6} striped>
+        <Table
+          singleLine
+          columns={6}
+          style={{ border: 'none', borderRadius: '0' }}
+        >
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Title</Table.HeaderCell>
@@ -48,33 +48,65 @@ const List = ({ match }) => {
               <Table.HeaderCell>Status</Table.HeaderCell>
               <Table.HeaderCell>Priority</Table.HeaderCell>
               <Table.HeaderCell>Type</Table.HeaderCell>
-              <Table.HeaderCell />
+              <Table.HeaderCell>
+                <Button
+                  floated='right'
+                  color='black'
+                  as={Link}
+                  to={`${match.url}/create`}
+                >
+                  <i className='fas fa-plus' />
+                  New Task
+                </Button>
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
           <Table.Body>
             {tasks.map(task => {
               const { _id, title, project, status, priority, type } = task
-              console.log(task)
+              const shortTitle = title.substring(0, 25)
               const { name } = project
               return (
                 <Table.Row key={_id}>
-                  <Table.Cell>{`${title}`}</Table.Cell>
+                  <Table.Cell>{shortTitle}</Table.Cell>
                   <Table.Cell>{`${name}`}</Table.Cell>
-                  <Table.Cell>{`${status}`}</Table.Cell>
-                  <Table.Cell>{`${priority}`}</Table.Cell>
-                  <Table.Cell>{`${type}`}</Table.Cell>
-                  <Table.Cell textAlign='center'>
+                  <Table.Cell>
+                    <StatusColor key={uuid.v4()} status={status} />
+                  </Table.Cell>
+                  <PriorityCellColor key={uuid.v4()} priority={priority} />
+                  <Table.Cell>
+                    <TypeIcon key={uuid.v4()} type={type} />
+                  </Table.Cell>
+                  <Table.Cell textAlign='center' className='button-actions'>
                     <Button
-                      basic
-                      color='blue'
+                      circular
+                      compact
+                      size='mini'
+                      color='black'
                       as={Link}
-                      to={`${match.url}/${_id}`}
+                      to={`${TASKS_DETAILS}/${_id}`}
                     >
-                      Edit
+                      <i className='fas fa-eye' />
                     </Button>
-                    <Button basic color='red' onClick={() => deleteTask(_id)}>
-                      Delete
+                    <Button
+                      circular
+                      compact
+                      size='mini'
+                      color='black'
+                      as={Link}
+                      to={`${TASKS_HOME}/${_id}`}
+                    >
+                      <i className='fas fa-pen' />
+                    </Button>
+                    <Button
+                      circular
+                      compact
+                      size='mini'
+                      color='red'
+                      onClick={() => deleteTask(_id)}
+                    >
+                      <i className='fas fa-trash' />
                     </Button>
                   </Table.Cell>
                 </Table.Row>
