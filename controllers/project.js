@@ -6,8 +6,8 @@ mongoose = require('mongoose')
 setStatus = require('./service/statusFunctions').setStatus
 projectService = require('./service/projectService')
 
-exports.list = (req, res) => {
-  Project.find()
+exports.list = async (req, res) => {
+  await Project.find()
     .populate('tasks categories')
     .then(data => {
       res.status(200).send(data)
@@ -18,8 +18,8 @@ exports.list = (req, res) => {
     })
 }
 
-exports.details = (req, res) => {
-  Project.findById(req.params._id)
+exports.details = async (req, res) => {
+  await Project.findById(req.params._id)
     .populate('tasks categories')
     .then(data => {
       res.status(200).send(data)
@@ -30,10 +30,10 @@ exports.details = (req, res) => {
     })
 }
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   const newProject = new Project(req.body)
   newProject._id = new mongoose.Types.ObjectId()
-  newProject
+  await newProject
     .save()
     .then(data => {
       projectService.addProjectToCategories(newProject._id, req)
@@ -45,9 +45,9 @@ exports.create = (req, res) => {
     })
 }
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   // find project by Id
-  Project.findById(req.params._id)
+  await Project.findById(req.params._id)
     .then(data => {
       projectService.removeProjectFromAllCategories(data._id, data.categories)
 
@@ -55,6 +55,7 @@ exports.update = (req, res) => {
       data.status = req.body.status
       data.description = req.body.description
       data.categories = req.body.categories
+      data.updatedAt = Date.now()
 
       projectService.addProjectToCategories(data._id, req.body.categories)
 
@@ -67,12 +68,12 @@ exports.update = (req, res) => {
     })
 }
 
-exports.delete = (req, res) => {
-  Project.findById(req.params._id)
+exports.delete = async (req, res) => {
+  await Project.findById(req.params._id)
     .then(data => {
-      projectService.deleteAllTasksFromProject(data.tasks);
+      projectService.deleteAllTasksFromProject(data.tasks)
 
-      projectService.removeProjectFromAllCategories(data._id, data.categories);
+      projectService.removeProjectFromAllCategories(data._id, data.categories)
 
       data.remove()
       res.status(200).send(data)
@@ -83,20 +84,19 @@ exports.delete = (req, res) => {
     })
 }
 
-exports.statusEvent = (req, res) => {
-  Project.findById(req.params._id)
+exports.statusEvent = async (req, res) => {
+  await Project.findById(req.params._id)
     .then(data => {
       data.status = setStatus(req.params.event)
       if (data.status == null) {
         res.status(404).send(data)
       }
+      data.updatedAt = Date.now()
       data.save()
       res.status(200).send(data)
     })
     .catch(error => {
       console.log(error)
-      res
-        .status(500)
-        .send({ message: 'Error: 500' })
+      res.status(500).send({ message: 'Error: 500' })
     })
 }

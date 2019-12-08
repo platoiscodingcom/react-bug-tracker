@@ -8,7 +8,9 @@ const projectSchema = new mongoose.Schema ({
   status: String,
   description: String,
   tasks : [{ type: ObjectId, ref: 'Task'}],
-  categories: [{type: ObjectId, ref: 'Category'}]
-})
+  categories: [{type: ObjectId, ref: 'Category'}],
+  createdAt: { type : Date, default: Date.now },
+  updatedAt: Date
+  })
 
 module.exports = mongoose.model('Project', projectSchema)

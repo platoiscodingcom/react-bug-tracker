@@ -9,6 +9,7 @@ import DetailsLoader from '../../components/loader/DetailsLoader'
 import StatusColor from '../../components/status/StatusColor'
 import StatusButton from '../../components/status/StatusButton'
 import { Redirect } from 'react-router-dom'
+import moment from 'moment'
 import {
   PROJECTS_PATH,
   CATEGORIES_HOME,
@@ -38,7 +39,7 @@ const Details = ({ match }) => {
   )
 
   const [redirect, setRedirect] = useState(false)
-  const deleteProject = _id => {
+  const deleteProject = (_id) => {
     axios
       .delete(`${PROJECTS_PATH}/${_id}`)
       .then(res => {
@@ -51,7 +52,7 @@ const Details = ({ match }) => {
       })
   }
 
-  const { _id, name, status, description, categories, tasks } = project
+  const { _id, name, status, description, categories, tasks, updatedAt, createdAt } = project
 
   const listCat = categories.map(cat => (
     <span key={cat._id} className='ui label'>
@@ -112,6 +113,12 @@ const Details = ({ match }) => {
                   <div>
                     Status:<StatusColor key={uuid.v4()} status={status} />
                   </div>
+                </List.Item>
+                <List.Item>
+                    Created At: {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
+                </List.Item>
+                <List.Item>
+                    Updated At: {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
                 </List.Item>
                 <List.Item>
                   <div>Categories:{listCat}</div>

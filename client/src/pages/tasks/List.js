@@ -23,7 +23,7 @@ const List = ({ match }) => {
     })
   }
 
-  if (tasks === 'undefined' || tasks.lenght === 0 || tasks == null) {
+  if (tasks.lenght === 0 || tasks == null) {
     return <ListLoader />
   } else {
     return (

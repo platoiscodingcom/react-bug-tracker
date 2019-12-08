@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import moment from 'moment'
 import {
   Container,
   Card,
@@ -51,7 +52,7 @@ const Details = ({ match }) => {
     })
   }
 
-  const { _id, title, status, description, project, priority, type } = task
+  const { _id, title, status, description, project, priority, type, updatedAt, createdAt } = task
 
   if (task === UNDEFINED || task._id === '') {
     return <DetailsLoader />
@@ -101,6 +102,12 @@ const Details = ({ match }) => {
                   <div>Priority:{`${priority}`}</div>
                 </List.Item>
                 <List.Item>
+                    Created At: {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
+                </List.Item>
+                <List.Item>
+                    Updated At: {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+                </List.Item>
+                <List.Item>
                   <div>
                     Project:<span className='ui label'>{project.name}</span>
                   </div>
@@ -109,13 +116,14 @@ const Details = ({ match }) => {
             </Card.Content>
 
             <Card.Content description={description} />
-
+            <Card.Content extra>
             <StatusButton
                 status={status}
                 id={_id}
                 setDocument={setTask}
                 documentType={TASK}
               />
+            </Card.Content>
           </Card>
         </Container>
       </div>

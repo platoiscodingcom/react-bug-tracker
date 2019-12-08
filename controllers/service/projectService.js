@@ -2,8 +2,8 @@ const Task = require('../../models/Task')
 const Category = require('../../models/Category')
 
 exports.addProjectToCategories = (projectId, categories) => {
-  categories.forEach(cat => {
-    Category.findById(cat)
+  categories.forEach(async (cat) => {
+    await Category.findById(cat)
       .then(data => {
         data.projects.push(projectId)
         data.save()
@@ -16,8 +16,8 @@ exports.addProjectToCategories = (projectId, categories) => {
 }
 
 exports.removeProjectFromAllCategories = (projectId, categories) => {
-  categories.forEach(cat => {
-    Category.findById(cat)
+  categories.forEach(async (cat) => {
+    await Category.findById(cat)
       .then(catData => {
         catData.projects.pull(projectId)
         catData.save()
@@ -32,8 +32,8 @@ exports.removeProjectFromAllCategories = (projectId, categories) => {
 }
 
 exports.deleteAllTasksFromProject = (tasks) =>{
-  tasks.forEach(task => {
-    Task.findById(task).then(data => {
+  tasks.forEach(async (task) => {
+    await Task.findById(task).then(data => {
       data.remove()
     })
   })

@@ -1,8 +1,8 @@
 const Task = require('../../models/Task')
 const Project = require('../../models/Project')
 
-exports.saveTaskToProject = (project, task) =>{
-  Project.findById(project)
+exports.saveTaskToProject = async (project, task) =>{
+  await Project.findById(project)
   .then(projectData => {
     projectData.tasks.push(task);
     projectData.save();
@@ -13,12 +13,10 @@ exports.saveTaskToProject = (project, task) =>{
   })
 }
 
-exports.removeTaskFromProject = (data, req) =>{
-  Project.findById(data.project)
+exports.deleteTaskFromProject = async (data, taskId) =>{
+  await Project.findById(data.project)
   .then(data =>{
-    const removeIndex = data.tasks.map(item => item._id.toString()).indexOf(req.params._id);
-    data.tasks.splice(removeIndex, 1);
-    data.save();
+    data.tasks.pull(taskId);
   })
   .catch(error => {
     console.log(error)
