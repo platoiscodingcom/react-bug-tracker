@@ -1,6 +1,7 @@
 const Category = require('../models/Category')
 const Project = require('../models/Project')
 mongoose = require('mongoose')
+categoryService = require('./service/categoryService')
 
 exports.list = (req, res) => {
   Category.find()
@@ -9,7 +10,7 @@ exports.list = (req, res) => {
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({msg: "Error 500 in categorycontroller.list"})
+      res.status(500).send({msg: "Error 500"})
     })
 }
 
@@ -20,7 +21,7 @@ exports.details = (req, res) => {
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({msg: "Error 500 in categorycontroller.details"})
+      res.status(500).send({msg: "Error 500"})
     })
 }
 
@@ -33,7 +34,7 @@ exports.create = (req, res) => {
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({ msg: "Error 500 in categorycontroller.create" })
+      res.status(500).send({ msg: "Error 500" })
     })
 }
 
@@ -44,38 +45,20 @@ exports.update = (req, res) => {
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({msg: "Error 500 in categorycontroller.update"})
+      res.status(500).send({msg: "Error 500"})
     })
 }
 
 exports.delete = (req, res) => {
-  //delete ref to this category from alll related projects
+  //delete ref to this category from all related projects
 
   Category.findById(req.params._id)
   .then(data =>{
-    data.projects.forEach(project =>{
-      Project.findById(project)
-      .then(data=>{
-        const removeIndex = data.categories.map(item => item._id.toString()).indexOf(req.params._id);
-        data.categories.splice(removeIndex, 1);
-        data.save();
-      })
-      data.remove();
-      res.status(200).send(data);
-    })
+    categoryService.removeCategoryFromAllProjects(data, req)
+    res.status(200).send(data);
   })
   .catch(error => {
     console.log(error)
-    res.status(500).send({ msg: "Error 500 in categorycontroller.delete" })
+    res.status(500).send({ msg: "Error 500" })
   })
-  /*
-  Category.findByIdAndRemove(req.params._id)
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ msg: "Error 500 in categorycontroller.delete" })
-    })
-    */
 }

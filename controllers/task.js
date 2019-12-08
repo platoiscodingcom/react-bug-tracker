@@ -1,7 +1,8 @@
 const Task = require('../models/Task')
 const Project = require('../models/Project')
 mongoose = require('mongoose')
-setStatus = require('./helper/statusFunctions').setStatus
+setStatus = require('./service/statusFunctions').setStatus
+taskService = require('./service/taskService')
 
 exports.list = (req, res) => {
   Task.find()
@@ -33,16 +34,7 @@ exports.create = (req, res) => {
   newTask._id = new mongoose.Types.ObjectId();
   newTask.save()
     .then(data => {
-      Project.findById(req.body.project)
-        .then(projectData => {
-          projectData.tasks.push(newTask);
-          projectData.save();
-        })
-        .catch(error => {
-          console.log(error)
-          res.status(500).send({ message: 'Error occured: 500' })
-        })
-
+      taskService.saveTaskToProject(req.body.project, newTask);
       res.status(200).send(data);
     })
     .catch(error => {
@@ -65,14 +57,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   Task.findById(req.params._id)
     .then(data =>{
-      //find project by task.project
-      //remove the task from project.tasks 
-      Project.findById(data.project)
-      .then(data =>{
-        const removeIndex = data.tasks.map(item => item._id.toString()).indexOf(req.params._id);
-        data.tasks.splice(removeIndex, 1);
-        data.save();
-      })
+      taskService.removeTaskFromProject(data, req);
       data.remove();
       res.status(200).send(data);
     })
