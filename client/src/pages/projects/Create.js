@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react'
 import { statusOptions } from '../../components/helper/MultipleSelect'
 import { validateProject } from '../../validation/validateProject'
-import {errorsEmpty} from '../../validation/validationFunctions'
+import { errorsEmpty } from '../../validation/validationFunctions'
 import {
   OPEN,
   PROJECTS_PATH,
@@ -37,18 +37,21 @@ const Create = () => {
     setRedirect(true)
   }
 
-  useEffect(() =>{
+  useEffect(
+    () => {
       if (errorsEmpty(Object.values(errors)) && isSubmitting) {
-    axios
-      .post(PROJECTS_PATH, project)
-      .then(() => {
-        setRedirect(true)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
-  }, [errors, isSubmitting, project])
+        axios
+          .post(PROJECTS_PATH, project)
+          .then(() => {
+            setRedirect(true)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    [errors, isSubmitting, project]
+  )
 
   useEffect(() => {
     axios
@@ -65,8 +68,6 @@ const Create = () => {
         console.log(error)
       })
   }, [])
-
-
 
   return (
     <>

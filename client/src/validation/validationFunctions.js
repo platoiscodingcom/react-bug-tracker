@@ -11,6 +11,14 @@ export const validateSelect = value => {
   else return null
 }
 
+export const validateText = value => {
+  console.log(value.length)
+  if(!value ) return 'Must have at least 4 characters'
+  else if (value.length < 4) return 'Field is required'
+  else return null
+  
+}
+
 export const errorsEmpty = (data) =>{
   for(var key in data) {
     if(data[key] !== null) {
