@@ -14,7 +14,6 @@ import {
   PROJECTS_PATH,
   CATEGORIES_HOME,
   PROJECTS_HOME,
-  UNDEFINED,
   PROJECT
 } from '../../components/Constants'
 
@@ -60,14 +59,14 @@ const Details = ({ match }) => {
     </span>
   ))
 
-  if (project === UNDEFINED || project._id === '') {
+  if (project == null || project._id === '') {
     return <DetailsLoader />
   } else {
     return (
       <div>
         {redirect && <Redirect to={PROJECTS_HOME} push />}
 
-        <Container textAlign='left'>
+        <Container>
           {showNewTask.show && (
             <NewTask
               project={project}

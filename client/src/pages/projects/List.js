@@ -18,7 +18,7 @@ const List = ({ match }) => {
     [match]
   )
 
-  if (projects === 'undefined' || projects.lenght === 0 || projects === null) {
+  if (projects == null) {
     return <CardLoader />
   } else {
     return (

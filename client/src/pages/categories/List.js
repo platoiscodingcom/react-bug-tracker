@@ -1,14 +1,19 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Grid, Table } from 'semantic-ui-react'
+import { Button, Table } from 'semantic-ui-react'
 import ListLoader from '../../components/loader/ListLoader'
+import {
+  CATEGORIES_DETAILS,
+  CATEGORIES_HOME,
+  CATEGORIES_PATH
+} from '../../components/Constants'
 
 const List = ({ match }) => {
   const [categories, setCategories] = useState([])
 
   const loadCategories = () => {
-    axios.get('/api/categories/').then(response => {
+    axios.get(`${CATEGORIES_PATH}/`).then(response => {
       setCategories(response.data)
     })
   }
@@ -17,32 +22,34 @@ const List = ({ match }) => {
   }, [])
 
   const deleteCategory = _id => {
-    axios.delete(`/api/categories/${_id}`).then(() => {
+    axios.delete(`${CATEGORIES_PATH}/${_id}`).then(() => {
       loadCategories()
     })
   }
 
-  if (
-    categories === 'undefined' ||
-    categories.lenght === 0 ||
-    categories == null
-  ) {
+  if (categories == null) {
     return <ListLoader />
   } else {
     return (
-      <div>
-        <Grid>
-          <Grid.Column textAlign='right'>
-            <Button color='black' as={Link} to={`${match.url}/create`}>
-              <i className='fas fa-plus' />New Category
-            </Button>
-          </Grid.Column>
-        </Grid>
-        <Table singleLine columns={4} striped>
+      <Fragment>
+        <Table
+          singleLine
+          columns={2}
+          style={{ border: 'none', borderRadius: '0' }}
+        >
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Category</Table.HeaderCell>
-              <Table.HeaderCell />
+              <Table.HeaderCell>
+                <Button
+                  color='black'
+                  as={Link}
+                  to={`${CATEGORIES_HOME}/create`}
+                >
+                  <i className='fas fa-plus' />
+                  New Category
+                </Button>
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -52,21 +59,35 @@ const List = ({ match }) => {
               return (
                 <Table.Row key={_id}>
                   <Table.Cell>{name}</Table.Cell>
-                  <Table.Cell textAlign='center'>
+                  <Table.Cell textAlign='right' className='button-actions'>
                     <Button
-                      basic
-                      color='blue'
+                      circular
+                      compact
+                      size='mini'
+                      color='black'
                       as={Link}
-                      to={`${match.url}/${_id}`}
+                      to={`${CATEGORIES_DETAILS}/${_id}`}
                     >
-                      Edit
+                      <i className='fas fa-eye' />
                     </Button>
                     <Button
-                      basic
+                      circular
+                      compact
+                      size='mini'
+                      color='black'
+                      as={Link}
+                      to={`${CATEGORIES_HOME}/${_id}`}
+                    >
+                      <i className='fas fa-pen' />
+                    </Button>
+                    <Button
+                      circular
+                      compact
+                      size='mini'
                       color='red'
                       onClick={() => deleteCategory(_id)}
                     >
-                      Delete
+                      <i className='fas fa-trash' />
                     </Button>
                   </Table.Cell>
                 </Table.Row>
@@ -74,7 +95,7 @@ const List = ({ match }) => {
             })}
           </Table.Body>
         </Table>
-      </div>
+      </Fragment>
     )
   }
 }

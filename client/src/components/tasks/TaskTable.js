@@ -7,7 +7,6 @@ import StatusColor from '../status/StatusColor'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
 import {
-  UNDEFINED,
   TASKS_PATH,
   PROJECTS_PATH,
   TASKS_DETAILS,

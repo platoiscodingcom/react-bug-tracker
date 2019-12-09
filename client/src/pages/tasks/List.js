@@ -26,7 +26,7 @@ const List = ({ match }) => {
   }, [])
 
   const deleteTask = _id => {
-    axios.delete(`/api/tasks/${_id}`).then(() => {
+    axios.delete(`${TASKS_PATH}/${_id}`).then(() => {
       loadTasks()
     })
   }
@@ -53,7 +53,7 @@ const List = ({ match }) => {
                   floated='right'
                   color='black'
                   as={Link}
-                  to={`${match.url}/create`}
+                  to={`${TASKS_HOME}/create`}
                 >
                   <i className='fas fa-plus' />
                   New Task
@@ -78,7 +78,7 @@ const List = ({ match }) => {
                   <Table.Cell>
                     <TypeIcon key={uuid.v4()} type={type} />
                   </Table.Cell>
-                  <Table.Cell textAlign='center' className='button-actions'>
+                  <Table.Cell textAlign='right' className='button-actions'>
                     <Button
                       circular
                       compact
