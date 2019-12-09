@@ -78,7 +78,7 @@ const Update = ({ match }) => {
       })
     }
 
-  }, [errors, isSubmitting, project])
+  }, [errors, isSubmitting, project, match])
 
   const handleFormCancellation = () => {
     setRedirect(true)

@@ -1,4 +1,8 @@
-import { validateString, validateSelect, validateText } from './validationFunctions'
+import {
+  validateString,
+  validateSelect,
+  validateText
+} from './validationFunctions'
 
 export const validateProject = project => {
   let errors = {}
@@ -6,7 +10,6 @@ export const validateProject = project => {
   errors.description = validateText(project.description)
   errors.status = validateSelect(project.status)
   errors.categories = validateSelect(project.categories)
-  
+
   return errors
 }
-
