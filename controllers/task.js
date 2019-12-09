@@ -1,8 +1,8 @@
 const Task = require('../models/Task')
-const Project = require('../models/Project')
 mongoose = require('mongoose')
 setStatus = require('./service/statusFunctions').setStatus
 taskService = require('./service/taskService')
+validation = require('./service/validation')
 
 exports.list = async (req, res) => {
   await Task.find()
@@ -17,6 +17,8 @@ exports.list = async (req, res) => {
 }
 
 exports.details = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
+
   await Task.findById(req.params._id)
     .populate('project')
     .then(data => {
@@ -44,6 +46,7 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Task.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {
       data.updatedAt = Date.now()
@@ -57,6 +60,7 @@ exports.update = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Task.findById(req.params._id)
     .then(data => {
       taskService.deleteTaskFromProject(data, req.params._id)
@@ -70,6 +74,7 @@ exports.delete = async (req, res) => {
 }
 
 exports.tasksByProject = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Task.find({ project: req.params._id })
     .then(data => {
       res.status(200).send(data)
@@ -81,6 +86,7 @@ exports.tasksByProject = async (req, res) => {
 }
 
 exports.statusEvent = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Task.findById(req.params._id)
     .then(data => {
       data.status = setStatus(req.params.event)

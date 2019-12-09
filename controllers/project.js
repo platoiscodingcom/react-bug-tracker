@@ -1,10 +1,9 @@
 const Project = require('../models/Project')
-const Task = require('../models/Task')
-const Category = require('../models/Category')
 // mongoose = require('mongoose').set('debug', true); //debug
 mongoose = require('mongoose')
 setStatus = require('./service/statusFunctions').setStatus
 projectService = require('./service/projectService')
+validation = require('./service/validation')
 
 exports.list = async (req, res) => {
   await Project.find()
@@ -19,6 +18,7 @@ exports.list = async (req, res) => {
 }
 
 exports.details = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Project.findById(req.params._id)
     .populate('tasks categories')
     .then(data => {
@@ -46,6 +46,7 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Project.findById(req.params._id)
     .then(data => {
       projectService.removeProjectFromAllCategories(data._id, data.categories)
@@ -68,6 +69,7 @@ exports.update = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Project.findById(req.params._id)
     .then(data => {
       projectService.deleteAllTasksFromProject(data.tasks)
@@ -84,6 +86,7 @@ exports.delete = async (req, res) => {
 }
 
 exports.statusEvent = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Project.findById(req.params._id)
     .then(data => {
       data.status = setStatus(req.params.event)

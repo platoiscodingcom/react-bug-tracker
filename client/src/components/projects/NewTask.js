@@ -56,7 +56,7 @@ const NewTask = ({
   useEffect(() => {}, [])
 
   return (
-    <div textAlign='left'>
+    <div>
       <Card
         fluid
         style={{ boxShadow: 'none', marginTop: '15px', borderRadius: '0' }}

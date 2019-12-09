@@ -1,6 +1,7 @@
 const Category = require('../models/Category')
 mongoose = require('mongoose')
 categoryService = require('./service/categoryService')
+validation = require('./service/validation')
 
 exports.list = async (req, res) => {
   await Category.find()
@@ -14,6 +15,7 @@ exports.list = async (req, res) => {
 }
 
 exports.details = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Category.findById(req.params._id)
     .populate('projects')
     .then(data => {
@@ -40,6 +42,7 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Category.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {
       res.status(200).send(data)
@@ -51,9 +54,13 @@ exports.update = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
+  validation.mongoIdValid(req.params._id)
   await Category.findById(req.params._id)
     .then(data => {
-      categoryService.removeCategoryFromAllProjects(data.projects, req.params._id)
+      categoryService.removeCategoryFromAllProjects(
+        data.projects,
+        req.params._id
+      )
       data.remove()
       res.status(200).send(data)
     })

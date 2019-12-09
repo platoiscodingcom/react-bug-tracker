@@ -44,7 +44,7 @@ const Details = ({ match }) => {
 
   const { _id, name, projects } = category
 
-  if (category == null) {
+  if (category == null || category._id === '') {
     return <DetailsLoader />
   } else {
     return (

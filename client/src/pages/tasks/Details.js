@@ -56,6 +56,7 @@ const Details = ({ match }) => {
     })
     .catch((error) => {
       console.log(error)
+      
     })
   }
 
