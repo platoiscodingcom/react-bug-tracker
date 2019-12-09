@@ -5,14 +5,9 @@ import { Link } from 'react-router-dom'
 import DetailsLoader from '../../components/loader/DetailsLoader'
 import { Redirect } from 'react-router-dom'
 import ProjectTable from '../../components/projects/ProjectTable'
-import NewProject from '../../components/projects/NewProject'
-import {
-  CATEGORIES_PATH,
-  CATEGORIES_HOME
-} from '../../components/Constants'
+import { CATEGORIES_PATH, CATEGORIES_HOME } from '../../components/Constants'
 
 const Details = ({ match }) => {
-  const [showNewProject, setShowNewProject] = useState({show: false})
   const [category, setCategory] = useState({
     _id: '',
     name: '',
@@ -35,9 +30,14 @@ const Details = ({ match }) => {
 
   useEffect(
     () => {
-      axios.get(`${CATEGORIES_PATH}/${match.params._id}`).then(response => {
-        setCategory(response.data)
-      })
+      axios
+        .get(`${CATEGORIES_PATH}/${match.params._id}`)
+        .then(response => {
+          setCategory(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     [match]
   )
@@ -48,36 +48,16 @@ const Details = ({ match }) => {
     return <DetailsLoader />
   } else {
     return (
-      <>
+      <div>
         {redirect && <Redirect to={CATEGORIES_HOME} push />}
 
         <Container>
-          {showNewProject.show && (
-            <NewProject
-              category={category}
-              setShowNewProject={setShowNewProject}
-              showNewProject={showNewProject}
-              setCategory={setCategory}
-              match={match}
-            />
-          )}
-
           <Card fluid>
             <Card.Content className='card-header'>
               <span className='card-header-title'>{name}</span>
               <Menu floated='right' className='card-menu'>
                 <Dropdown item text='more'>
                   <Dropdown.Menu className='card-actions-dropdown'>
-                    <Dropdown.Item>
-                      <div
-                        onClick={() =>
-                          setShowNewProject({show: !showNewProject.show })
-                        }
-                      >
-                        <i className='fas fa-plus' />
-                        New Project
-                      </div>
-                    </Dropdown.Item>
                     <Dropdown.Item
                       text='Edit'
                       icon='pencil alternate'
@@ -96,18 +76,20 @@ const Details = ({ match }) => {
             </Card.Content>
             <Card.Content>
               <List>
-                <List.Item>
-                    Name: {name}
-                </List.Item>
+                <List.Item>Name: {name}</List.Item>
               </List>
             </Card.Content>
           </Card>
         </Container>
 
-        <Container>
-          <ProjectTable setCategory = {setCategory} match = {match} projects = {projects}/>
+        <Container style={{ marginTop: '15px' }}>
+          <ProjectTable
+            setCategory={setCategory}
+            match={match}
+            projects={projects}
+          />
         </Container>
-      </>
+      </div>
     )
   }
 }

@@ -22,14 +22,19 @@ const Create = () => {
 
   const [categories, setCategories] = useState([])
   useEffect(() => {
-    axios.get(CATEGORIES_PATH).then(response => {
-      setCategories(
-        response.data.map(category => ({
-          text: `${category.name}`,
-          value: category._id
-        }))
-      )
-    })
+    axios
+      .get(CATEGORIES_PATH)
+      .then(response => {
+        setCategories(
+          response.data.map(category => ({
+            text: `${category.name}`,
+            value: category._id
+          }))
+        )
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }, [])
 
   const handleInputChange = (event, { name, value }) => {
@@ -44,8 +49,8 @@ const Create = () => {
       .then(() => {
         setRedirect(true)
       })
-      .catch(() => {
-        alert('Error occured when handeling submission')
+      .catch(error => {
+        console.log(error)
       })
   }
 

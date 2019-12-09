@@ -15,10 +15,17 @@ import {
 
 const TaskTable = ({ tasks, setProject, match }) => {
   const deleteTask = _id => {
-    axios.delete(`${TASKS_PATH}/${_id}`).then(() => {
+    axios.delete(`${TASKS_PATH}/${_id}`)
+    .then(() => {
       axios.get(`${PROJECTS_PATH}/${match.params._id}`).then(response => {
         setProject(response.data)
       })
+      .catch(error => {
+        console.log(error)
+      })
+    })
+    .catch(error => {
+      console.log(error)
     })
   }
 

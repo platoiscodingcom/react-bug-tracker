@@ -38,7 +38,7 @@ const ButtonEvent = ({ id, setDocument, documentType, event }) => {
         console.log(error)
       })
   }
-console.log(event);
+  
   return (
     
     <Button color='grey' onClick={() => applyButtonEvent(id)}>

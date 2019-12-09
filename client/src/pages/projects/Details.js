@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom'
 import moment from 'moment'
 import {
   PROJECTS_PATH,
-  CATEGORIES_HOME,
+  CATEGORIES_DETAILS,
   PROJECTS_HOME,
   PROJECT
 } from '../../components/Constants'
@@ -33,12 +33,15 @@ const Details = ({ match }) => {
       axios.get(`${PROJECTS_PATH}/${match.params._id}`).then(response => {
         setProject(response.data)
       })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     [match]
   )
 
   const [redirect, setRedirect] = useState(false)
-  const deleteProject = (_id) => {
+  const deleteProject = _id => {
     axios
       .delete(`${PROJECTS_PATH}/${_id}`)
       .then(res => {
@@ -51,11 +54,20 @@ const Details = ({ match }) => {
       })
   }
 
-  const { _id, name, status, description, categories, tasks, updatedAt, createdAt } = project
+  const {
+    _id,
+    name,
+    status,
+    description,
+    categories,
+    tasks,
+    updatedAt,
+    createdAt
+  } = project
 
   const listCat = categories.map(cat => (
     <span key={cat._id} className='ui label'>
-      <Link to={`${CATEGORIES_HOME}/${cat._id}`}>{cat.name}</Link>
+      <Link to={`${CATEGORIES_DETAILS}/${cat._id}`}>{cat.name}</Link>
     </span>
   ))
 
@@ -88,7 +100,8 @@ const Details = ({ match }) => {
                           setShowNewTask({ show: !showNewTask.show })
                         }
                       >
-                        <i className='fas fa-plus' />New Task
+                        <i className='fas fa-plus' />
+                        New Task
                       </div>
                     </Dropdown.Item>
                     <Dropdown.Item
@@ -99,7 +112,8 @@ const Details = ({ match }) => {
                     />
                     <Dropdown.Item color={'red'}>
                       <div onClick={() => deleteProject(_id)}>
-                        <i className='fas fa-trash' />Delete
+                        <i className='fas fa-trash' />
+                        Delete
                       </div>
                     </Dropdown.Item>
                   </Dropdown.Menu>
@@ -110,14 +124,17 @@ const Details = ({ match }) => {
               <List>
                 <List.Item>
                   <div>
-                    Status:<StatusColor key={uuid.v4()} status={status} />
+                    Status:
+                    <StatusColor key={uuid.v4()} status={status} />
                   </div>
                 </List.Item>
                 <List.Item>
-                    Created At: {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
+                  Created At:{' '}
+                  {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
                 </List.Item>
                 <List.Item>
-                    Updated At: {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+                  Updated At:{' '}
+                  {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
                 </List.Item>
                 <List.Item>
                   <div>Categories:{listCat}</div>

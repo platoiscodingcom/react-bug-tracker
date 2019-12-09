@@ -35,8 +35,12 @@ const Details = ({ match }) => {
 
   useEffect(
     () => {
-      axios.get(`${TASKS_PATH}/${match.params._id}`).then(response => {
+      axios.get(`${TASKS_PATH}/${match.params._id}`)
+      .then(response => {
         setTask(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
       })
     },
     [match]
@@ -44,10 +48,14 @@ const Details = ({ match }) => {
 
   const [redirect, setRedirect] = useState(false)
   const deleteTask = _id => {
-    axios.delete(`${TASKS_PATH}/${_id}`).then(res => {
+    axios.delete(`${TASKS_PATH}/${_id}`)
+    .then(res => {
       if (res.status === 200) {
         setRedirect(true)
       }
+    })
+    .catch((error) => {
+      console.log(error)
     })
   }
 

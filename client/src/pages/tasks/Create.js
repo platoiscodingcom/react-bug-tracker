@@ -21,13 +21,17 @@ const Create = ({ match }) => {
   const [projects, setProjects] = useState([])
   useEffect(
     () => {
-      axios.get('/api/projects/').then(response => {
+      axios.get('/api/projects/')
+      .then(response => {
         setProjects(
           response.data.map(project => ({
             text: `${project.name}`,
             value: project._id
           }))
         )
+      })
+      .catch((error) => {
+        console.log(error)
       })
     },
     [match]

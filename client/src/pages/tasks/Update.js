@@ -23,6 +23,9 @@ const Update = ({ match }) => {
       axios.get(`/api/tasks/${match.params._id}`).then(response => {
         setTask(response.data)
       })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     [match]
   )
@@ -36,6 +39,9 @@ const Update = ({ match }) => {
           value: project._id
         }))
       )
+    })
+    .catch((error) => {
+      console.log(error)
     })
   }, [])
 

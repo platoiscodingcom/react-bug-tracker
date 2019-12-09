@@ -13,8 +13,12 @@ const List = ({ match }) => {
   const [categories, setCategories] = useState([])
 
   const loadCategories = () => {
-    axios.get(`${CATEGORIES_PATH}/`).then(response => {
+    axios.get(`${CATEGORIES_PATH}/`)
+    .then(response => {
       setCategories(response.data)
+    })
+    .catch(error => {
+      console.log(error)
     })
   }
   useEffect(() => {
@@ -24,6 +28,9 @@ const List = ({ match }) => {
   const deleteCategory = _id => {
     axios.delete(`${CATEGORIES_PATH}/${_id}`).then(() => {
       loadCategories()
+    })
+    .catch(error => {
+      console.log(error)
     })
   }
 

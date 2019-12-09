@@ -36,7 +36,7 @@ exports.create = async (req, res) => {
   await newProject
     .save()
     .then(data => {
-      projectService.addProjectToCategories(newProject._id, req)
+      projectService.addProjectToCategories(newProject._id, req.body.categories)
       res.status(200).send(data)
     })
     .catch(error => {
@@ -46,7 +46,6 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-  // find project by Id
   await Project.findById(req.params._id)
     .then(data => {
       projectService.removeProjectFromAllCategories(data._id, data.categories)

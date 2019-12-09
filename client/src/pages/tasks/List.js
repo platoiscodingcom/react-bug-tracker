@@ -19,6 +19,9 @@ const List = ({ match }) => {
     axios.get(`${TASKS_PATH}/`).then(response => {
       setTasks(response.data)
     })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   useEffect(() => {
@@ -28,6 +31,9 @@ const List = ({ match }) => {
   const deleteTask = _id => {
     axios.delete(`${TASKS_PATH}/${_id}`).then(() => {
       loadTasks()
+    })
+    .catch((error) => {
+      console.log(error)
     })
   }
 

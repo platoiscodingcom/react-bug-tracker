@@ -23,6 +23,9 @@ const Update = ({ match }) => {
         }))
       )
     })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   useEffect(

@@ -14,6 +14,9 @@ const Update = ({ match }) => {
       axios.get(`/api/categories/${match.params._id}`).then(res => {
         setCategory(res.data)
       })
+      .catch(error => {
+        console.log(error)
+      })
     },
     [match]
   )
@@ -30,8 +33,8 @@ const Update = ({ match }) => {
       .then(() => {
         setRedirect(true)
       })
-      .catch(() => {
-        alert('Error occured')
+      .catch((error) => {
+        console.log(error)
       })
   }
 

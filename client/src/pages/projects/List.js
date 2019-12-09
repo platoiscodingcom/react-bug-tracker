@@ -14,6 +14,9 @@ const List = ({ match }) => {
       axios.get('/api/projects/').then(res => {
         setProject(res.data)
       })
+      .catch((error) => {
+        console.log(error)
+      })
     },
     [match]
   )

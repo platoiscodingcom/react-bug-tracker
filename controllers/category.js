@@ -1,5 +1,4 @@
 const Category = require('../models/Category')
-const Project = require('../models/Project')
 mongoose = require('mongoose')
 categoryService = require('./service/categoryService')
 
@@ -54,7 +53,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   await Category.findById(req.params._id)
     .then(data => {
-      categoryService.removeCategoryFromAllProjects(data, req)
+      categoryService.removeCategoryFromAllProjects(data.projects, req.params._id)
       res.status(200).send(data)
     })
     .catch(error => {
