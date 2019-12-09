@@ -54,6 +54,7 @@ exports.delete = async (req, res) => {
   await Category.findById(req.params._id)
     .then(data => {
       categoryService.removeCategoryFromAllProjects(data.projects, req.params._id)
+      data.remove()
       res.status(200).send(data)
     })
     .catch(error => {

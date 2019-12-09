@@ -39,11 +39,10 @@ const Create = () => {
 
   const handleInputChange = (event, { name, value }) => {
     setProject(previousValue => ({ ...previousValue, [name]: value }))
-    console.log('handle change', { name, value })
+    //console.log('handle change', { name, value })
   }
 
   const handleFormSubmission = () => {
-    console.log(project)
     axios
       .post(PROJECTS_PATH, project)
       .then(() => {
