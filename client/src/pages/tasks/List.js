@@ -9,14 +9,15 @@ import uuid from 'uuid'
 import {
   TASKS_PATH,
   TASKS_DETAILS,
-  TASKS_HOME
+  TASKS_HOME,
+  TASKS_CREATE
 } from '../../components/Constants'
 
 const List = ({ match }) => {
   const [tasks, setTasks] = useState([])
 
   const loadTasks = () => {
-    axios.get(`${TASKS_PATH}/`).then(response => {
+    axios.get(TASKS_PATH).then(response => {
       setTasks(response.data)
     })
     .catch((error) => {
@@ -37,7 +38,7 @@ const List = ({ match }) => {
     })
   }
 
-  if (tasks == null) {
+  if (tasks == null || tasks.lenght === 0) {
     return <ListLoader />
   } else {
     return (
@@ -59,7 +60,7 @@ const List = ({ match }) => {
                   floated='right'
                   color='black'
                   as={Link}
-                  to={`${TASKS_HOME}/create`}
+                  to={TASKS_CREATE}
                 >
                   <i className='fas fa-plus' />
                   New Task

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react'
 import { CATEGORIES_HOME, CATEGORIES_PATH } from '../../components/Constants'
-import { validateNewCategory } from '../../validation/NewCategoryValid'
+import { validateNewCategory } from '../../validation/validateCategory'
 
 const Create = () => {
   const [category, setCategory] = useState({ name: '' })

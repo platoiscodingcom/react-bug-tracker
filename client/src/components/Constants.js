@@ -42,3 +42,8 @@ export const CATEGORIES_HOME = '/categories'
 export const TASKS_DETAILS = '/tasks/details'
 export const PROJECTS_DETAILS = '/projects/details'
 export const CATEGORIES_DETAILS = '/categories/details'
+
+export const TASKS_CREATE = "/tasks/create"
+export const PROJECTS_CREATE = '/projects/create'
+export const CATEGORIES_CREATE = "/categories/create"
+

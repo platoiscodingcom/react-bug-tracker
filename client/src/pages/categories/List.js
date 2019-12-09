@@ -6,14 +6,15 @@ import ListLoader from '../../components/loader/ListLoader'
 import {
   CATEGORIES_DETAILS,
   CATEGORIES_HOME,
-  CATEGORIES_PATH
+  CATEGORIES_PATH,
+  CATEGORIES_CREATE
 } from '../../components/Constants'
 
 const List = ({ match }) => {
   const [categories, setCategories] = useState([])
 
   const loadCategories = async () => {
-    await axios.get(`${CATEGORIES_PATH}/`)
+    await axios.get(CATEGORIES_PATH)
     .then(response => {
       setCategories(response.data)
     })
@@ -36,7 +37,7 @@ const List = ({ match }) => {
     })
   }
 
-  if (categories == null) {
+  if (categories == null || categories.lenght === 0) {
     return <ListLoader />
   } else {
     return (
@@ -53,7 +54,7 @@ const List = ({ match }) => {
                 <Button
                   color='black'
                   as={Link}
-                  to={`${CATEGORIES_HOME}/create`}
+                  to={CATEGORIES_CREATE}
                 >
                   <i className='fas fa-plus' />
                   New Category

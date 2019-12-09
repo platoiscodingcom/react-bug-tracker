@@ -5,13 +5,20 @@ import { Container, Card, Button, Grid, Divider } from 'semantic-ui-react'
 import CardLoader from '../../components/loader/CardLoader'
 import StatusColor from '../../components/status/StatusColor'
 import uuid from 'uuid'
+import {
+  PROJECTS_PATH,
+  PROJECTS_DETAILS,
+  PROJECTS_HOME,
+  PROJECTS_CREATE,
+  CATEGORIES_DETAILS
+} from '../../components/Constants'
 
 const List = ({ match }) => {
   const [projects, setProject] = useState([])
 
   useEffect(
     () => {
-      axios.get('/api/projects/').then(res => {
+      axios.get(PROJECTS_PATH).then(res => {
         setProject(res.data)
       })
       .catch((error) => {
@@ -28,7 +35,7 @@ const List = ({ match }) => {
       <Container>
         <Grid>
           <Grid.Column textAlign='right'>
-            <Button color='black' as={Link} to={`${match.url}/create`}>
+            <Button color='black' as={Link} to={PROJECTS_CREATE}>
               <i className='fas fa-plus' />New Project
             </Button>
           </Grid.Column>
@@ -55,7 +62,7 @@ const List = ({ match }) => {
                         style={{ marginTop: '5px', borderRadius: '5px' }}
                         className='ui label'
                         as={Link}
-                        to={`/categories/${cat._id}`}
+                        to={`${CATEGORIES_DETAILS}/${cat._id}`}
                         key={cat._id}
                       >
                         {`${cat.name}`}
@@ -68,13 +75,13 @@ const List = ({ match }) => {
                   <div className='ui two buttons'>
                     <Button
                       as={Link}
-                      to={`projects/details/${_id}`}
+                      to={`${PROJECTS_DETAILS}/${_id}`}
                       basic
                       color='black'
                     >
                       Details
                     </Button>
-                    <Button as={Link} to={`${match.url}/${_id}`} color='black'>
+                    <Button as={Link} to={`${PROJECTS_HOME}/${_id}`} color='black'>
                       Edit
                     </Button>
                   </div>
