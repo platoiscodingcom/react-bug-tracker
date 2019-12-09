@@ -1,11 +1,7 @@
-import { NAME_REGEX } from './RegExConstants'
+import { validateString } from './validationFunctions'
 
-export const validateNewCategory = category => {
+export const validateCategory = category => {
   let errors = {}
-  if (!category.name) {
-    errors.name = 'Name is required'
-  } else if (!NAME_REGEX.test(category.name)) {
-    errors.name = 'Name must have at least 4 characters'
-  }
+  errors.name = validateString(category.name)
   return errors
 }

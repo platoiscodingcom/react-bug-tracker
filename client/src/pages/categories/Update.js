@@ -4,7 +4,8 @@ import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react'
 import UpdateLoader from '../../components/loader/UpdateLoader'
 import { CATEGORIES_HOME, CATEGORIES_PATH } from '../../components/Constants'
-import { validateNewCategory } from '../../validation/validateCategory'
+import { validateCategory } from '../../validation/validateCategory'
+import {errorsEmpty} from '../../validation/validationFunctions'
 
 const Update = ({ match }) => {
   const [category, setCategory] = useState({ name: '' })
@@ -17,7 +18,7 @@ const Update = ({ match }) => {
   }
 
   const handleFormSubmission = () => {
-    setErrors(validateNewCategory(category))
+    setErrors(validateCategory(category))
     setIsSubmitting(true)
   }
 
@@ -38,7 +39,7 @@ const Update = ({ match }) => {
 
   useEffect(
     () => {
-      if (Object.keys(errors).length === 0 && isSubmitting) {
+      if (errorsEmpty(Object.values(errors)) && isSubmitting) {
         axios
           .put(`${CATEGORIES_PATH}/${match.params._id}`, category)
           .then(() => {

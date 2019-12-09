@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react'
 import { CATEGORIES_HOME, CATEGORIES_PATH } from '../../components/Constants'
-import { validateNewCategory } from '../../validation/validateCategory'
+import { validateCategory } from '../../validation/validateCategory'
+import {errorsEmpty} from '../../validation/validationFunctions'
 
 const Create = () => {
   const [category, setCategory] = useState({ name: '' })
@@ -16,7 +17,7 @@ const Create = () => {
   }
 
   const handleFormSubmission = () => {
-    setErrors(validateNewCategory(category))
+    setErrors(validateCategory(category))
     setIsSubmitting(true)
   }
 
@@ -26,7 +27,7 @@ const Create = () => {
 
   useEffect(
     () => {
-      if (Object.keys(errors).length === 0 && isSubmitting) {
+      if (errorsEmpty(Object.values(errors))  && isSubmitting) {
         axios
           .post(CATEGORIES_PATH, category)
           .then(() => {

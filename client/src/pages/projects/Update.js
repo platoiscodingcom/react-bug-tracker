@@ -4,6 +4,11 @@ import { Redirect } from 'react-router-dom'
 import { Button, Container, Form, Card } from 'semantic-ui-react'
 import { statusOptions } from '../../components/helper/MultipleSelect'
 import UpdateLoader from '../../components/loader/UpdateLoader'
+import {
+  PROJECTS_PATH,
+  CATEGORIES_PATH,
+  PROJECTS_DETAILS
+} from '../../components/Constants'
 
 const Update = ({ match }) => {
   const [project, setProject] = useState({
@@ -15,7 +20,7 @@ const Update = ({ match }) => {
 
   const [categoryOptions, setCategoryOptions] = useState([])
   const loadCategoryOptions = () => {
-    axios.get('/api/categories/').then(response => {
+    axios.get(CATEGORIES_PATH).then(response => {
       setCategoryOptions(
         response.data.map(category => ({
           text: `${category.name}`,
@@ -31,7 +36,7 @@ const Update = ({ match }) => {
   useEffect(
     () => {
       // loadProject
-      axios.get(`/api/projects/${match.params._id}`).then(response => {
+      axios.get(`${PROJECTS_PATH}/${match.params._id}`).then(response => {
         setProject({
           name: response.data.name,
           status: response.data.status,
@@ -54,27 +59,26 @@ const Update = ({ match }) => {
 
   const handleFormSubmission = () => {
     axios
-      .put(`/api/projects/${match.params._id}`, project)
+      .put(`${PROJECTS_PATH}/${match.params._id}`, project)
       .then(() => {
         setRedirect(true)
       })
-      .catch(() => {
-        console.log('error')
+      .catch((error) => {
+        console.log(error)
       })
   }
 
   const handleFormCancellation = () => {
     setRedirect(true)
   }
-  console.log(project.status)
 
-  if (project === 'undefined' || project === '') {
+  if (project == null || project === '') {
     return <UpdateLoader />
   } else {
     return (
       <>
         {redirect ? (
-          <Redirect to={`/projects/details/${match.params._id}`} push />
+          <Redirect to={`${PROJECTS_DETAILS}/${match.params._id}`} push />
         ) : (
           <Container>
             <Card fluid>

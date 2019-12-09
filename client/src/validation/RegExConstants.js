@@ -1,4 +1,5 @@
-export const NAME_REGEX = new RegExp(/^([a-z0-9 ]*[a-z]){4}[a-z0-9]*$/i)
+//at least 4 characters and spaces allowed
+export const STRING_REGEX = new RegExp(/^([a-z0-9 ]*[a-z]){4}[a-z0-9]*$/i)
 
 export const EMAIL_REGEX = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/

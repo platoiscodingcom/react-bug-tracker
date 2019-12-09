@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react'
 import { statusOptions } from '../../components/helper/MultipleSelect'
+import { validateProject } from '../../validation/validateProject'
+import {errorsEmpty} from '../../validation/validationFunctions'
 import {
   OPEN,
   PROJECTS_PATH,
@@ -17,10 +19,37 @@ const Create = () => {
     description: '',
     categories: []
   })
-
   const [redirect, setRedirect] = useState(false)
-
   const [categories, setCategories] = useState([])
+  const [errors, setErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleInputChange = (event, { name, value }) => {
+    setProject(previousValue => ({ ...previousValue, [name]: value }))
+  }
+
+  const handleFormSubmission = () => {
+    setErrors(validateProject(project))
+    setIsSubmitting(true)
+  }
+
+  const handleFormCancellation = () => {
+    setRedirect(true)
+  }
+
+  useEffect(() =>{
+      if (errorsEmpty(Object.values(errors)) && isSubmitting) {
+    axios
+      .post(PROJECTS_PATH, project)
+      .then(() => {
+        setRedirect(true)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  }, [errors, isSubmitting, project])
+
   useEffect(() => {
     axios
       .get(CATEGORIES_PATH)
@@ -37,25 +66,7 @@ const Create = () => {
       })
   }, [])
 
-  const handleInputChange = (event, { name, value }) => {
-    setProject(previousValue => ({ ...previousValue, [name]: value }))
-    //console.log('handle change', { name, value })
-  }
 
-  const handleFormSubmission = () => {
-    axios
-      .post(PROJECTS_PATH, project)
-      .then(() => {
-        setRedirect(true)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
-  const handleFormCancellation = () => {
-    setRedirect(true)
-  }
 
   return (
     <>
@@ -73,6 +84,7 @@ const Create = () => {
                     name='name'
                     value={project.name}
                     onChange={handleInputChange}
+                    error={errors.name}
                   />
                   <Form.Select
                     label='Status'
@@ -80,6 +92,7 @@ const Create = () => {
                     options={statusOptions}
                     value={project.status}
                     onChange={handleInputChange}
+                    error={errors.status}
                   />
                   <Form.Select
                     label='Categories'
@@ -91,6 +104,7 @@ const Create = () => {
                     options={categories}
                     value={project.categories}
                     onChange={handleInputChange}
+                    error={errors.categories}
                   />
                 </Form.Group>
                 <Form.Group>
@@ -100,6 +114,7 @@ const Create = () => {
                     value={project.description}
                     onChange={handleInputChange}
                     rows='12'
+                    error={errors.description}
                   />
                 </Form.Group>
               </Form>
