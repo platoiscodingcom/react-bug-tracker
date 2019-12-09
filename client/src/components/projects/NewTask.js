@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Card, Form, Button } from 'semantic-ui-react'
+import { validateTask } from '../../validation/validateTask'
+import { errorsEmpty } from '../../validation/validationFunctions'
 import {
   statusOptions,
   priorityOptions,
   typeOptions
 } from '../helper/MultipleSelect'
+import { OPEN, FEATURE, LOW, TASKS_PATH, PROJECTS_PATH } from '../Constants'
 
 const NewTask = ({
   project,
@@ -14,13 +17,15 @@ const NewTask = ({
   setProject,
   match
 }) => {
+  const [errors, setErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [task, setTask] = useState({
     title: '',
     project: project._id,
     description: '',
-    status: '',
-    priority: '',
-    type: ''
+    status: OPEN,
+    priority: LOW,
+    type: FEATURE
   })
 
   const handleInputChange = (event, { name, value }) => {
@@ -32,28 +37,38 @@ const NewTask = ({
       title: '',
       project: project._id,
       description: '',
-      status: '',
-      priority: '',
-      type: ''
+      status: OPEN,
+      priority: LOW,
+      type: FEATURE
     })
     setShowNewTask({ show: !showNewTask.show })
-    axios.get(`/api/projects/${match.params._id}`).then(response => {
-      setProject(response.data)
-    })
+    axios
+      .get(`${PROJECTS_PATH}/${match.params._id}`)
+      .then(response => {
+        setProject(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const handleFormSubmission = () => {
-    axios
-      .post('/api/tasks', task)
-      .then(() => {
-        resetForm()
-      })
-      .catch(() => {
-        alert('Error occured')
-      })
+    setErrors(validateTask(task))
+    setIsSubmitting(true)
   }
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (errorsEmpty(Object.values(errors)) && isSubmitting) {
+      axios
+        .post(TASKS_PATH, task)
+        .then(() => {
+          resetForm()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }, [errors, isSubmitting])
 
   return (
     <div>
@@ -71,6 +86,7 @@ const NewTask = ({
                 name='title'
                 value={task.title}
                 onChange={handleInputChange}
+                error={errors.title}
               />
             </Form.Group>
             <Form.Group>
@@ -80,6 +96,7 @@ const NewTask = ({
                 options={priorityOptions}
                 value={task.priority}
                 onChange={handleInputChange}
+                error={errors.priority}
               />
               <Form.Select
                 label='Status'
@@ -87,6 +104,7 @@ const NewTask = ({
                 options={statusOptions}
                 onChange={handleInputChange}
                 value={task.status}
+                error={errors.status}
               />
               <Form.Select
                 label='Type'
@@ -94,6 +112,7 @@ const NewTask = ({
                 options={typeOptions}
                 value={task.type}
                 onChange={handleInputChange}
+                error={errors.type}
               />
             </Form.Group>
             <Form.Group>
@@ -102,6 +121,8 @@ const NewTask = ({
                 name='description'
                 value={task.description}
                 onChange={handleInputChange}
+                rows='8'
+                error={errors.description}
               />
             </Form.Group>
           </Form>
