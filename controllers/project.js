@@ -21,7 +21,7 @@ exports.list = async (req, res) => {
 exports.details = async (req, res) => {
   validation.mongoIdValid(req.params._id)
   await Project.findById(req.params._id)
-    .populate('tasks categories')
+    .populate('tasks categories files')
     .then(data => {
       res.status(200).send(data)
     })
@@ -66,6 +66,7 @@ exports.update = async (req, res) => {
       data.status = req.body.status
       data.description = req.body.description
       data.categories = req.body.categories
+      data.files = req.body.files
       data.updatedAt = Date.now()
 
       projectService.addProjectToCategories(data._id, req.body.categories)
@@ -86,6 +87,8 @@ exports.delete = async (req, res) => {
       projectService.deleteAllTasksFromProject(data.tasks)
 
       projectService.removeProjectFromAllCategories(data._id, data.categories)
+
+      //remove all related Files
 
       data.remove()
       res.status(200).send(data)

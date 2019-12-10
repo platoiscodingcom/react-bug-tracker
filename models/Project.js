@@ -9,6 +9,7 @@ const projectSchema = new mongoose.Schema({
   description: { type: String, required: true },
   tasks: [{ type: ObjectId, ref: 'Task' }],
   categories: [{ type: ObjectId, ref: 'Category', required: true }],
+  files: [{ type: ObjectId, ref: 'File'}],
   createdAt: { type: Date, default: Date.now },
   updatedAt: Date
 })

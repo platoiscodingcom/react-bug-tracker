@@ -34,6 +34,7 @@ export const CATEGORY = 'category'
 export const TASKS_PATH = '/api/tasks'
 export const PROJECTS_PATH = '/api/projects'
 export const CATEGORIES_PATH = '/api/categories'
+export const FILES_PATH = '/api/files'
 
 export const TASKS_HOME = '/tasks'
 export const PROJECTS_HOME = '/projects'

@@ -10,6 +10,7 @@ import StatusColor from '../../components/status/StatusColor'
 import StatusButton from '../../components/status/StatusButton'
 import { Redirect } from 'react-router-dom'
 import moment from 'moment'
+import FileUpload from '../../components/gallery/FileUpload'
 import {
   PROJECTS_PATH,
   CATEGORIES_DETAILS,
@@ -30,12 +31,14 @@ const Details = ({ match }) => {
 
   useEffect(
     () => {
-      axios.get(`${PROJECTS_PATH}/${match.params._id}`).then(response => {
-        setProject(response.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      axios
+        .get(`${PROJECTS_PATH}/${match.params._id}`)
+        .then(response => {
+          setProject(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     [match]
   )
@@ -151,6 +154,10 @@ const Details = ({ match }) => {
               />
             </Card.Content>
           </Card>
+        </Container>
+
+        <Container style={{ marginTop: '15px' }}>
+          <FileUpload setProject={setProject}/>
         </Container>
 
         <Container style={{ marginTop: '15px' }}>
