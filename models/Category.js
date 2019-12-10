@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const categorySchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
-  name: String,
-  projects: [{ type: ObjectId, ref: 'Project' }]
+  name: { type: String, required: true },
+  projects: [{ type: ObjectId, ref: 'Project'}]
 })
 
 module.exports = mongoose.model('Category', categorySchema);

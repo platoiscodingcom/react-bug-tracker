@@ -4,6 +4,7 @@ mongoose = require('mongoose')
 setStatus = require('./service/statusFunctions').setStatus
 projectService = require('./service/projectService')
 validation = require('./service/validation')
+const { validationResult} = require('express-validator')
 
 exports.list = async (req, res) => {
   await Project.find()
@@ -31,6 +32,11 @@ exports.details = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
   const newProject = new Project(req.body)
   newProject._id = new mongoose.Types.ObjectId()
   await newProject
@@ -46,6 +52,11 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
   validation.mongoIdValid(req.params._id)
   await Project.findById(req.params._id)
     .then(data => {

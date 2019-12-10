@@ -78,7 +78,8 @@ var task1 = new Task({
   description:
     'dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et a',
   priority: 'low',
-  status: 'open'
+  status: 'open',
+  type: 'bug'
 })
 task1.save()
 var task2 = new Task({
@@ -88,7 +89,8 @@ var task2 = new Task({
   description:
     'dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et a',
   priority: 'high',
-  status: 'in progress'
+  status: 'in progress',
+  type: 'feature'
 })
 task2.save()
 var task3 = new Task({
@@ -99,7 +101,8 @@ var task3 = new Task({
   description:
     'it amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, se',
   priority: 'critical',
-  status: 'closed'
+  status: 'closed',
+  type: 'bug'
 })
 task3.save()
 var task4 = new Task({
@@ -110,7 +113,8 @@ var task4 = new Task({
   description:
     ' dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolo',
   priority: 'medium',
-  status: 'reopened'
+  status: 'reopened',
+  type: 'feature'
 })
 task4.save()
 

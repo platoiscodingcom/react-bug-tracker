@@ -3,6 +3,7 @@ mongoose = require('mongoose')
 setStatus = require('./service/statusFunctions').setStatus
 taskService = require('./service/taskService')
 validation = require('./service/validation')
+const { validationResult} = require('express-validator')
 
 exports.list = async (req, res) => {
   await Task.find()
@@ -31,6 +32,11 @@ exports.details = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
   const newTask = new Task(req.body)
   newTask._id = new mongoose.Types.ObjectId()
   await newTask
@@ -46,6 +52,11 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+  
   validation.mongoIdValid(req.params._id)
   await Task.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {

@@ -1,16 +1,16 @@
-const mongoose = require('mongoose');
-const ObjectId = mongoose.Schema.Types.ObjectId;
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const ObjectId = mongoose.Schema.Types.ObjectId
+const Schema = mongoose.Schema
 
-const projectSchema = new mongoose.Schema ({
+const projectSchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
-  name: String,
-  status: String,
-  description: String,
-  tasks : [{ type: ObjectId, ref: 'Task'}],
-  categories: [{type: ObjectId, ref: 'Category'}],
-  createdAt: { type : Date, default: Date.now },
+  name: { type: String, required: true },
+  status: { type: String, required: true },
+  description: { type: String, required: true },
+  tasks: [{ type: ObjectId, ref: 'Task' }],
+  categories: [{ type: ObjectId, ref: 'Category', required: true }],
+  createdAt: { type: Date, default: Date.now },
   updatedAt: Date
-  })
+})
 
 module.exports = mongoose.model('Project', projectSchema)

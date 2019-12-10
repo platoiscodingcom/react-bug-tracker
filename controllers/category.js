@@ -2,6 +2,7 @@ const Category = require('../models/Category')
 mongoose = require('mongoose')
 categoryService = require('./service/categoryService')
 validation = require('./service/validation')
+const { validationResult} = require('express-validator')
 
 exports.list = async (req, res) => {
   await Category.find()
@@ -28,6 +29,11 @@ exports.details = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
   const newCategory = new Category(req.body)
   newCategory._id = new mongoose.Types.ObjectId()
   await newCategory
@@ -42,6 +48,11 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+  
   validation.mongoIdValid(req.params._id)
   await Category.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {
