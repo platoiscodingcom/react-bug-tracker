@@ -7,6 +7,7 @@ const fileSchema = new mongoose.Schema({
   file: { type: Buffer, required: true },
   filename: { type: String, required: true },
   mimetype: { type: String, required: true },
+  description: String,
   createdAt: { type: Date, default: Date.now }
 })
 

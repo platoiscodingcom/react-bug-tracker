@@ -33,7 +33,10 @@ router.put(
   projectController.update
 )
 router.delete('/:_id', projectController.delete)
-
+// /upload must be above /:event
+router.put('/:_id/upload', projectController.upload)
 router.put('/:_id/:event', projectController.statusEvent)
+
+
 
 module.exports = router

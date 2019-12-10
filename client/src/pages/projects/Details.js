@@ -15,6 +15,7 @@ import {
   PROJECTS_PATH,
   CATEGORIES_DETAILS,
   PROJECTS_HOME,
+  PROJECTS_DETAILS,
   PROJECT
 } from '../../components/Constants'
 
@@ -26,7 +27,8 @@ const Details = ({ match }) => {
     status: '',
     description: '',
     categories: [],
-    tasks: []
+    tasks: [],
+    files: []
   })
 
   useEffect(
@@ -40,7 +42,7 @@ const Details = ({ match }) => {
           console.log(error)
         })
     },
-    [match]
+    [match, project]
   )
 
   const [redirect, setRedirect] = useState(false)
@@ -56,27 +58,31 @@ const Details = ({ match }) => {
         console.log(error)
       })
   }
+  
+    const {
+      _id,
+      name,
+      status,
+      description,
+      categories,
+      tasks,
+      updatedAt,
+      createdAt
+    } = project
 
-  const {
-    _id,
-    name,
-    status,
-    description,
-    categories,
-    tasks,
-    updatedAt,
-    createdAt
-  } = project
+    
+    const listCat = categories.map(cat => (
+      <span key={cat._id} className='ui label'>
+        <Link to={`${CATEGORIES_DETAILS}/${cat._id}`}>{cat.name}</Link>
+      </span>
+    ))
 
-  const listCat = categories.map(cat => (
-    <span key={cat._id} className='ui label'>
-      <Link to={`${CATEGORIES_DETAILS}/${cat._id}`}>{cat.name}</Link>
-    </span>
-  ))
-
-  if (project == null || project._id === '') {
-    return <DetailsLoader />
-  } else {
+    if (
+      project == null ||
+      project._id === ''
+    ) {
+      return <DetailsLoader />
+    } else {
     return (
       <div>
         {redirect && <Redirect to={PROJECTS_HOME} push />}
@@ -139,9 +145,10 @@ const Details = ({ match }) => {
                   Updated At:{' '}
                   {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
                 </List.Item>
+                
                 <List.Item>
                   <div>Categories:{listCat}</div>
-                </List.Item>
+                      </List.Item> 
               </List>
             </Card.Content>
             <Card.Content description={description} />
@@ -157,7 +164,12 @@ const Details = ({ match }) => {
         </Container>
 
         <Container style={{ marginTop: '15px' }}>
-          <FileUpload setProject={setProject}/>
+          <FileUpload
+            setDocument={setProject}
+            documentPath={PROJECTS_PATH}
+            documentId={match.params._id}
+            documentDetailsPath={PROJECTS_DETAILS}
+          />
         </Container>
 
         <Container style={{ marginTop: '15px' }}>

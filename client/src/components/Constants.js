@@ -44,7 +44,19 @@ export const TASKS_DETAILS = '/tasks/details'
 export const PROJECTS_DETAILS = '/projects/details'
 export const CATEGORIES_DETAILS = '/categories/details'
 
-export const TASKS_CREATE = "/tasks/create"
+export const TASKS_CREATE = '/tasks/create'
 export const PROJECTS_CREATE = '/projects/create'
-export const CATEGORIES_CREATE = "/categories/create"
+export const CATEGORIES_CREATE = '/categories/create'
 
+//FILE UPLOAD
+export const FILE_TYPES = [
+  'image/png',
+  'image/jpeg',
+  'image/gif',
+  'application/pdf',
+  'text/*',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+]

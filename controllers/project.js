@@ -1,10 +1,11 @@
 const Project = require('../models/Project')
-// mongoose = require('mongoose').set('debug', true); //debug
-mongoose = require('mongoose')
+const File = require('../models/File')
+mongoose = require('mongoose').set('debug', false)
 setStatus = require('./service/statusFunctions').setStatus
 projectService = require('./service/projectService')
+formidable = require('formidable')
 validation = require('./service/validation')
-const { validationResult} = require('express-validator')
+const { validationResult } = require('express-validator')
 
 exports.list = async (req, res) => {
   await Project.find()
@@ -88,7 +89,7 @@ exports.delete = async (req, res) => {
 
       projectService.removeProjectFromAllCategories(data._id, data.categories)
 
-      //remove all related Files
+      // remove all related Files
 
       data.remove()
       res.status(200).send(data)
@@ -104,9 +105,6 @@ exports.statusEvent = async (req, res) => {
   await Project.findById(req.params._id)
     .then(data => {
       data.status = setStatus(req.params.event)
-      if (data.status == null) {
-        res.status(404).send(data)
-      }
       data.updatedAt = Date.now()
       data.save()
       res.status(200).send(data)
@@ -115,4 +113,27 @@ exports.statusEvent = async (req, res) => {
       console.log(error)
       res.status(500).send({ message: 'Error: 500' })
     })
+}
+
+exports.upload = (req, res) => {
+  let form = new formidable.IncomingForm()
+  form.parse(req, (err, fields, files) => {
+    const newFile = new File({
+      _id: new mongoose.Types.ObjectId(),
+      file: files.file.path,
+      filename: fields.filename,
+      mimetype: fields.mimetype,
+      description: fields.description
+    })
+    newFile
+      .save()
+      .then(data => {
+        projectService.saveFileToProject(req.params._id, data)
+        res.status(200).send(data)
+      })
+      .catch(error => {
+        console.log(error)
+        res.status(500).send({ message: 'Error occured: 500' })
+      })
+  })
 }

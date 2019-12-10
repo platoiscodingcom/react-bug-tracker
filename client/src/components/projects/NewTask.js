@@ -67,7 +67,7 @@ const NewTask = ({
         .catch(error => {
           console.log(error)
         })
-    }
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors, isSubmitting])
 
   return (
