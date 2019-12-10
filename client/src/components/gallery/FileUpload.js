@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Form, Button } from 'semantic-ui-react'
+import { Form, Modal, Button } from 'semantic-ui-react'
 import axios from 'axios'
 import {
   checkMimeType,
-  checkSize,
-  inspectFormData
+  checkSize
 } from '../../validation/validationFunctions'
 
-const FileUpload = ({ setDocument, documentPath, documentId }) => {
-  const [file, setFile] = useState({
-    description: ''
-  })
-
-  useEffect(() => {
-    setFile({
-      description: ''
-    })
-  }, [])
+const FileUpload = ({
+  setDocument,
+  documentPath,
+  documentId,
+  isUploadOpen,
+  setIsUploadOpen
+}) => {
+  const [file, setFile] = useState({})
+  const [filename, setFilename] = useState('')
 
   const handleFile = event => {
     if (checkMimeType(event) && checkSize(event)) {
       const formData = new FormData()
       formData.append('file', event.target.files[0])
       formData.append('filename', event.target.files[0].name)
-      if (file.description) {
-        formData.append('description', file.description)
-      }
       formData.append('mimetype', event.target.files[0].type)
-      inspectFormData(formData)
-
+      setFilename(event.target.files[0].name)
       setFile(formData)
     }
   }
@@ -38,6 +32,7 @@ const FileUpload = ({ setDocument, documentPath, documentId }) => {
       axios
         .put(`${documentPath}/${documentId}/upload`, file)
         .then(response => {
+          setIsUploadOpen({ show: false })
           setDocument(response.data)
         })
         .catch(error => {
@@ -46,13 +41,10 @@ const FileUpload = ({ setDocument, documentPath, documentId }) => {
     }
   }
 
-  const handleInputChange = (event, { name, value }) => {
-    setFile(previousValue => ({ ...previousValue, [name]: value }))
-  }
-
   return (
-    <Card fluid>
-      <Card.Content>
+    <Modal open={isUploadOpen.show} centered>
+      <Modal.Header>Upload File </Modal.Header>
+      <Modal.Content>
         <Form widths='equal'>
           <Form.Group>
             <Form.Input
@@ -65,24 +57,23 @@ const FileUpload = ({ setDocument, documentPath, documentId }) => {
             <label htmlFor='file'>Choose a file</label>
 
             <Button
-              color='grey'
+              color='green'
               content='Upload'
               onClick={uploadFile}
               icon='upload'
             />
           </Form.Group>
-          <Form.Group>
-            <Form.TextArea
-              label='description'
-              name='description'
-              value={file.description}
-              onChange={handleInputChange}
-              rows='3'
-            />
-          </Form.Group>
         </Form>
-      </Card.Content>
-    </Card>
+        {filename && <span>{filename}</span>}
+      </Modal.Content>
+      <Modal.Actions>
+        <Button
+          color='black'
+          content='Close'
+          onClick={() => setIsUploadOpen({ show: false })}
+        />
+      </Modal.Actions>
+    </Modal>
   )
 }
 

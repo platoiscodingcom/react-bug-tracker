@@ -117,18 +117,21 @@ exports.statusEvent = async (req, res) => {
 
 exports.upload = (req, res) => {
   let form = new formidable.IncomingForm()
-  form.parse(req, (err, fields, files) => {
+  form.parse(req, (error, fields, files) => {
+    form.on('error', (err) => {
+      request.resume()
+    });
     const newFile = new File({
       _id: new mongoose.Types.ObjectId(),
       file: files.file.path,
       filename: fields.filename,
-      mimetype: fields.mimetype,
-      description: fields.description
+      mimetype: fields.mimetype
     })
     newFile
       .save()
       .then(data => {
         projectService.saveFileToProject(req.params._id, data)
+        console.log('upload success')
         res.status(200).send(data)
       })
       .catch(error => {

@@ -15,12 +15,12 @@ import {
   PROJECTS_PATH,
   CATEGORIES_DETAILS,
   PROJECTS_HOME,
-  PROJECTS_DETAILS,
   PROJECT
 } from '../../components/Constants'
 
 const Details = ({ match }) => {
   const [showNewTask, setShowNewTask] = useState({ show: false })
+  const [isUploadOpen, setIsUploadOpen] = useState({ show: false })
   const [project, setProject] = useState({
     _id: '',
     name: '',
@@ -41,6 +41,7 @@ const Details = ({ match }) => {
         .catch(error => {
           console.log(error)
         })
+      
     },
     [match, project]
   )
@@ -58,31 +59,31 @@ const Details = ({ match }) => {
         console.log(error)
       })
   }
-  
-    const {
-      _id,
-      name,
-      status,
-      description,
-      categories,
-      tasks,
-      updatedAt,
-      createdAt
-    } = project
 
-    
-    const listCat = categories.map(cat => (
+  const {
+    _id,
+    name,
+    status,
+    description,
+    categories,
+    tasks,
+    files,
+    updatedAt,
+    createdAt
+  } = project
+
+  let listCat = []
+  if (project.categories) {
+    listCat = categories.map(cat => (
       <span key={cat._id} className='ui label'>
         <Link to={`${CATEGORIES_DETAILS}/${cat._id}`}>{cat.name}</Link>
       </span>
     ))
+  }
 
-    if (
-      project == null ||
-      project._id === ''
-    ) {
-      return <DetailsLoader />
-    } else {
+  if (project == null || project._id === '') {
+    return <DetailsLoader />
+  } else {
     return (
       <div>
         {redirect && <Redirect to={PROJECTS_HOME} push />}
@@ -111,6 +112,16 @@ const Details = ({ match }) => {
                       >
                         <i className='fas fa-plus' />
                         New Task
+                      </div>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <div
+                        onClick={() =>
+                          setIsUploadOpen({ show: !setIsUploadOpen.show })
+                        }
+                      >
+                        <i className='fas fa-upload' />
+                        Upload File
                       </div>
                     </Dropdown.Item>
                     <Dropdown.Item
@@ -145,10 +156,10 @@ const Details = ({ match }) => {
                   Updated At:{' '}
                   {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
                 </List.Item>
-                
+
                 <List.Item>
                   <div>Categories:{listCat}</div>
-                      </List.Item> 
+                </List.Item>
               </List>
             </Card.Content>
             <Card.Content description={description} />
@@ -164,17 +175,16 @@ const Details = ({ match }) => {
         </Container>
 
         <Container style={{ marginTop: '15px' }}>
-          <FileUpload
-            setDocument={setProject}
-            documentPath={PROJECTS_PATH}
-            documentId={match.params._id}
-            documentDetailsPath={PROJECTS_DETAILS}
-          />
-        </Container>
-
-        <Container style={{ marginTop: '15px' }}>
           <TaskTable tasks={tasks} match={match} setProject={setProject} />
         </Container>
+
+        <FileUpload
+          setDocument={setProject}
+          documentPath={PROJECTS_PATH}
+          documentId={match.params._id}
+          isUploadOpen={isUploadOpen}
+          setIsUploadOpen={setIsUploadOpen}
+        />
       </div>
     )
   }
