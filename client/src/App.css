@@ -11,6 +11,7 @@ body {
 .ui.fluid.card{
   box-shadow: none;
   border-radius: 0px;
+  border:none;
 }
 .ui.button{
   border-radius: 0px;

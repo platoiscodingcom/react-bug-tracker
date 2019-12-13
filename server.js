@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const fileUpload = require('express-fileupload');
 
 const projects = require('./routes/projects')
 const tasks = require('./routes/tasks')
@@ -29,9 +30,18 @@ app.use('/api/projects', projects)
 app.use('/api/tasks', tasks)
 app.use('/api/categories', categories)
 
+app.use(fileUpload({
+  limits: { fileSize: 16 * 1024 * 1024 },
+}));
+
 app.listen({ port }, () => {
   console.log(`Server is listeing to port http://localhost:${port}`)
 })
+
+//file-upload
+const path = require('path');
+exports.DIR = path.join(__dirname, '/client/public');
+
 
 // Get the default connection
 var db = mongoose.connection

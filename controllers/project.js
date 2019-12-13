@@ -1,5 +1,6 @@
 const Project = require('../models/Project')
 const File = require('../models/File')
+
 mongoose = require('mongoose').set('debug', false)
 setStatus = require('./service/statusFunctions').setStatus
 projectService = require('./service/projectService')
@@ -115,18 +116,31 @@ exports.statusEvent = async (req, res) => {
     })
 }
 
+const server = require('../server');
+var mv = require('mv');
+
 exports.upload = (req, res) => {
   let form = new formidable.IncomingForm()
   form.parse(req, (error, fields, files) => {
-    form.on('error', (err) => {
-      request.resume()
-    });
+
     const newFile = new File({
       _id: new mongoose.Types.ObjectId(),
-      file: files.file.path,
+      path: `/projects/${fields.filename}`,
       filename: fields.filename,
       mimetype: fields.mimetype
     })
+    
+    var uploadPath =  server.DIR + '\\projects\\' + fields.filename
+    
+    console.log('uploadPath', uploadPath)
+    console.log('newFile.path', newFile.path)
+    //move from oldpath(Temp) to newpath(uploadPath)
+    mv(files.file.path, uploadPath, function(err) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+    });
+
     newFile
       .save()
       .then(data => {

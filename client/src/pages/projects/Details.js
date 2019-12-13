@@ -1,9 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Container, Card, List, Dropdown, Menu } from 'semantic-ui-react'
+import { Container, Card, List, Dropdown, Menu, Tab } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
-import NewTask from '../../components/projects/NewTask'
 import TaskTable from '../../components/tasks/TaskTable'
 import DetailsLoader from '../../components/loader/DetailsLoader'
 import StatusColor from '../../components/status/StatusColor'
@@ -11,6 +10,7 @@ import StatusButton from '../../components/status/StatusButton'
 import { Redirect } from 'react-router-dom'
 import moment from 'moment'
 import FileUpload from '../../components/gallery/FileUpload'
+import DetailsGallery from '../../components/gallery/DetailsGallery'
 import {
   PROJECTS_PATH,
   CATEGORIES_DETAILS,
@@ -31,20 +31,21 @@ const Details = ({ match }) => {
     files: []
   })
 
-  useEffect(
-    () => {
-      axios
-        .get(`${PROJECTS_PATH}/${match.params._id}`)
-        .then(response => {
-          setProject(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-      
-    },
-    [match, project]
-  )
+  const loadProject = () =>{
+    axios
+    .get(`${PROJECTS_PATH}/${match.params._id}`)
+    .then(response => {
+      setProject(response.data)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  useEffect(() => {
+    loadProject()
+  }, // eslint-disable-next-line react-hooks/exhaustive-deps
+  [match])
 
   const [redirect, setRedirect] = useState(false)
   const deleteProject = _id => {
@@ -81,6 +82,24 @@ const Details = ({ match }) => {
     ))
   }
 
+  const panes = [
+    {
+      menuItem: 'All Tasks',
+      render: () => (
+        <Tab.Pane>
+          <TaskTable tasks={tasks} match={match} setProject={setProject} />
+        </Tab.Pane>
+      )
+    },
+    { menuItem: 'open', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
+    {
+      menuItem: 'in progress',
+      render: () => <Tab.Pane>Tab 3 Content</Tab.Pane>
+    },
+    { menuItem: 'backlog', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
+    { menuItem: 'closed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> }
+  ]
+
   if (project == null || project._id === '') {
     return <DetailsLoader />
   } else {
@@ -89,15 +108,6 @@ const Details = ({ match }) => {
         {redirect && <Redirect to={PROJECTS_HOME} push />}
 
         <Container>
-          {showNewTask.show && (
-            <NewTask
-              project={project}
-              setShowNewTask={setShowNewTask}
-              showNewTask={showNewTask}
-              setProject={setProject}
-              match={match}
-            />
-          )}
           <Card fluid>
             <Card.Content className='card-header'>
               <span className='card-header-title'>{name}</span>
@@ -171,19 +181,21 @@ const Details = ({ match }) => {
                 documentType={PROJECT}
               />
             </Card.Content>
+
+            <Card.Content extra>
+              <DetailsGallery files={files} loadProject = {loadProject}/>
+            </Card.Content>
           </Card>
         </Container>
 
-        <Container style={{ marginTop: '15px' }}>
-          <TaskTable tasks={tasks} match={match} setProject={setProject} />
-        </Container>
+        <Tab style={{ marginTop: '15px' }} panes={panes} />
 
         <FileUpload
-          setDocument={setProject}
           documentPath={PROJECTS_PATH}
           documentId={match.params._id}
           isUploadOpen={isUploadOpen}
           setIsUploadOpen={setIsUploadOpen}
+          
         />
       </div>
     )

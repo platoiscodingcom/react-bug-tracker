@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Form, Modal, Button } from 'semantic-ui-react'
 import axios from 'axios'
 import {
@@ -7,7 +7,6 @@ import {
 } from '../../validation/validationFunctions'
 
 const FileUpload = ({
-  setDocument,
   documentPath,
   documentId,
   isUploadOpen,
@@ -20,12 +19,16 @@ const FileUpload = ({
     if (checkMimeType(event) && checkSize(event)) {
       const formData = new FormData()
       formData.append('file', event.target.files[0])
-      formData.append('filename', event.target.files[0].name)
+      formData.append('filename', Date.now() + event.target.files[0].name)
+
+      console.log('filename: ', Date.now() + event.target.files[0].name)
+
       formData.append('mimetype', event.target.files[0].type)
       setFilename(event.target.files[0].name)
       setFile(formData)
     }
   }
+
 
   const uploadFile = () => {
     if (file) {
@@ -33,12 +36,12 @@ const FileUpload = ({
         .put(`${documentPath}/${documentId}/upload`, file)
         .then(response => {
           setIsUploadOpen({ show: false })
-          setDocument(response.data)
         })
         .catch(error => {
           console.log(error)
         })
     }
+    setFilename('')
   }
 
   return (

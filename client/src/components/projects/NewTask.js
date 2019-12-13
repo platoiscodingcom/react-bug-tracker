@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Card, Form, Button } from 'semantic-ui-react'
+import { Modal, Form, Button } from 'semantic-ui-react'
 import { validateTask } from '../../validation/validateTask'
 import { errorsEmpty } from '../../validation/validationFunctions'
 import {
@@ -57,28 +57,27 @@ const NewTask = ({
     setIsSubmitting(true)
   }
 
-  useEffect(() => {
-    if (errorsEmpty(Object.values(errors)) && isSubmitting) {
-      axios
-        .post(TASKS_PATH, task)
-        .then(() => {
-          resetForm()
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errors, isSubmitting])
+  useEffect(
+    () => {
+      if (errorsEmpty(Object.values(errors)) && isSubmitting) {
+        axios
+          .post(TASKS_PATH, task)
+          .then(() => {
+            resetForm()
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } 
+    },// eslint-disable-next-line react-hooks/exhaustive-deps
+    [errors, isSubmitting]
+  )
 
   return (
     <div>
-      <Card
-        fluid
-        style={{ boxShadow: 'none', marginTop: '15px', borderRadius: '0' }}
-      >
-        <Card.Content header='New Task' />
-
-        <Card.Content>
+      <Modal open={showNewTask.show} centered>
+        <Modal.Header>Upload File </Modal.Header>
+        <Modal.Content>
           <Form widths='equal'>
             <Form.Group>
               <Form.Input
@@ -126,9 +125,9 @@ const NewTask = ({
               />
             </Form.Group>
           </Form>
-        </Card.Content>
+        </Modal.Content>
 
-        <Card.Content extra>
+        <Modal.Actions>
           <Button
             color='black'
             onClick={() => setShowNewTask({ show: !showNewTask.show })}
@@ -136,8 +135,8 @@ const NewTask = ({
             Cancel
           </Button>
           <Button color='green' content='Save' onClick={handleFormSubmission} />
-        </Card.Content>
-      </Card>
+        </Modal.Actions>
+      </Modal>
     </div>
   )
 }
