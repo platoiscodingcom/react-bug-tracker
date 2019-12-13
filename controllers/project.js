@@ -116,36 +116,45 @@ exports.statusEvent = async (req, res) => {
     })
 }
 
-const server = require('../server');
-var mv = require('mv');
+const server = require('../server')
+var mv = require('mv')
+var fs = require('fs')
 
 exports.upload = (req, res) => {
   let form = new formidable.IncomingForm()
   form.parse(req, (error, fields, files) => {
-
     const newFile = new File({
       _id: new mongoose.Types.ObjectId(),
-      path: `/projects/${fields.filename}`,
+      path: `/projects/${req.params._id}/${fields.filename}`,
       filename: fields.filename,
       mimetype: fields.mimetype
     })
-    
-    var uploadPath =  server.DIR + '\\projects\\' + fields.filename
-    
-    console.log('uploadPath', uploadPath)
-    console.log('newFile.path', newFile.path)
+
+    //create public/projects folder if doesn't exist yet
+    var projects_dir = server.DIR + '\\projects' 
+    if (!fs.existsSync(projects_dir)) {
+      fs.mkdirSync(projects_dir)
+    }
+
+    //create public/projects/project_id folder if doesn't exist yet
+    var dir = server.DIR + '\\projects\\' + req.params._id
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir)
+    }
+
+    var uploadPath = server.DIR + '\\projects\\' + req.params._id + '\\' + fields.filename
+
     //move from oldpath(Temp) to newpath(uploadPath)
-    mv(files.file.path, uploadPath, function(err) {
+    mv(files.file.path, uploadPath, function (err) {
       if (err) {
-        return res.status(500).send(err);
+        return res.status(500).send(err)
       }
-    });
+    })
 
     newFile
       .save()
       .then(data => {
         projectService.saveFileToProject(req.params._id, data)
-        console.log('upload success')
         res.status(200).send(data)
       })
       .catch(error => {

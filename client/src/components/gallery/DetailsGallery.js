@@ -1,14 +1,7 @@
-import axios from 'axios'
-import React, { Fragment, useEffect, useState } from 'react'
-import { Image, Card, Grid, Modal, Button, Header } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
-import uuid from 'uuid'
+import React, { Fragment } from 'react'
+import { Image, Card, Grid } from 'semantic-ui-react'
 
-const DetailsGallery = ({ files, loadProject }) => {
-  /*
-useEffect(() => {
-  loadProject()
-}, [])*/
+const DetailsGallery = ({ files }) => {
 
   const filesList = files.map(file => (
     <Grid.Column>
@@ -24,14 +17,15 @@ useEffect(() => {
   console.log('files', files)
   return (
     <Fragment>
-    <Grid>
-      <Grid.Row columns={6}>{filesList}</Grid.Row>
-    </Grid>
+      <Grid>
+        <Grid.Row columns={6}>{filesList}</Grid.Row>
+      </Grid>
 
-    {
-      //Modal
-    }
-  </Fragment>
+      {
+        //Modal
+        //make new component and set img_id and path to props
+      }
+    </Fragment>
   )
 }
 
