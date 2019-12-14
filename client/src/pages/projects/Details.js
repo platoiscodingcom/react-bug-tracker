@@ -183,7 +183,7 @@ const Details = ({ match }) => {
             </Card.Content>
 
             <Card.Content extra>
-              <DetailsGallery files={files}/>
+              <DetailsGallery files={files} loadProject={loadProject}/>
             </Card.Content>
           </Card>
         </Container>
