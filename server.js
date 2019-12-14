@@ -47,7 +47,19 @@ exports.DIR = path.join(__dirname, '/client/public');
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
-/// //////////////////////////////
+//////////////////////////////////
+//RESTART SERVER PROCEDURE
+//////////////////////////////////
+
+// remove folders with images
+var rimraf = require("rimraf");
+rimraf(__dirname + '\\client\\public\\projects\\', err =>{
+  if(err) console.log(err);
+})
+rimraf(__dirname + '\\client\\public\\tasks\\', err =>{
+  if(err) console.log(err);
+})
+
 // prepare db
 db.dropDatabase()
 
