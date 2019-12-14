@@ -8,6 +8,11 @@ formidable = require('formidable')
 validation = require('./service/validation')
 const { validationResult } = require('express-validator')
 
+const server = require('../server')
+var mv = require('mv')
+var fs = require('fs')
+var rimraf = require("rimraf");
+
 exports.list = async (req, res) => {
   await Project.find()
     .populate('tasks categories')
@@ -90,7 +95,30 @@ exports.delete = async (req, res) => {
 
       projectService.removeProjectFromAllCategories(data._id, data.categories)
 
-      // remove all related Files
+      //remove AllFilesFromProject
+      data.files.forEach(file =>{
+        File.findById(file._id)
+          .then(data =>{
+            //remove from folder
+            fs.unlink(server.DIR + data.path, err => {
+              if (err) {
+                console.log(err)
+                res.status(500).send({ message: 'Error occured: 500' })
+              }
+            })
+            data.remove()
+          })
+          .catch(error => {
+            console.log(error)
+            res.status(500).send({ message: 'Error occured: 500' })
+          })
+      })
+
+      //remove den lokalen projects/project_id folder
+      console.log('Bug Erinnerung: Project-folder wird beim löschen des Projects nicht entfernt')
+      rimraf(server.DIR + '\\client\\public\\projects\\' + data._id +'\\', err =>{
+        if(err) console.log(err);
+      })
 
       data.remove()
       res.status(200).send(data)
@@ -116,9 +144,7 @@ exports.statusEvent = async (req, res) => {
     })
 }
 
-const server = require('../server')
-var mv = require('mv')
-var fs = require('fs')
+
 
 exports.upload = (req, res) => {
   let form = new formidable.IncomingForm()

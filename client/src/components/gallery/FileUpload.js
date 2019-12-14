@@ -10,7 +10,8 @@ const FileUpload = ({
   documentPath,
   documentId,
   isUploadOpen,
-  setIsUploadOpen
+  setIsUploadOpen,
+  setFileUploaded
 }) => {
   const [file, setFile] = useState({})
   const [filename, setFilename] = useState('')
@@ -42,6 +43,7 @@ const FileUpload = ({
         })
     }
     setFilename('')
+    setFileUploaded(true)
   }
 
   return (

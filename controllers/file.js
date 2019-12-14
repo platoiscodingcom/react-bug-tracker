@@ -4,7 +4,7 @@ mongoose = require('mongoose')
 validation = require('./service/validation')
 //fileService = require('./service/fileService')
 formidable = require('formidable')
-fs = require('fs')
+var fs = require('fs')
 
 exports.list = async (req, res) => {
   await File.find()

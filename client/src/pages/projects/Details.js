@@ -21,6 +21,7 @@ import {
 const Details = ({ match }) => {
   const [showNewTask, setShowNewTask] = useState({ show: false })
   const [isUploadOpen, setIsUploadOpen] = useState({ show: false })
+  const [fileUploaded, setFileUploaded] = useState(false)
   const [project, setProject] = useState({
     _id: '',
     name: '',
@@ -46,6 +47,15 @@ const Details = ({ match }) => {
     loadProject()
   }, // eslint-disable-next-line react-hooks/exhaustive-deps
   [match])
+
+  //reload Details after FileUpload
+  useEffect(() =>{
+    if(fileUploaded){
+      loadProject()
+      setFileUploaded(false)
+    }
+  }, 
+  [fileUploaded])
 
   const [redirect, setRedirect] = useState(false)
   const deleteProject = _id => {
@@ -195,7 +205,8 @@ const Details = ({ match }) => {
           documentId={match.params._id}
           isUploadOpen={isUploadOpen}
           setIsUploadOpen={setIsUploadOpen}
-          
+          loadDocument={loadProject}
+          setFileUploaded={setFileUploaded}
         />
       </div>
     )
