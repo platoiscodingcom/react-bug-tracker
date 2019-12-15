@@ -13,10 +13,12 @@ import Tasks from './pages/tasks'
 import Categories from './pages/categories'
 import './App.css'
 import { Menu, Segment } from 'semantic-ui-react'
+import {Provider} from 'react-redux'
+import store from "./store";
 
 function App () {
   return (
-    <div>
+    <Provider store={store}>
       <Router>
         <Segment>
           <Menu as='nav' secondary>
@@ -34,7 +36,7 @@ function App () {
           <Route component={NoMatch} />
         </Switch>
       </Router>
-    </div>
+    </Provider>
   )
 }
 

@@ -15,11 +15,7 @@ exports.details = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
-  }
-
+  
   const newCategory = new Category(req.body)
   newCategory._id = new mongoose.Types.ObjectId()
   await newCategory

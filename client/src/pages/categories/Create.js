@@ -1,44 +1,34 @@
-import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react'
-import { CATEGORIES_HOME, CATEGORIES_PATH } from '../../components/Constants'
-import { validateCategory } from '../../validation/validateCategory'
-import {errorsEmpty} from '../../validation/validationFunctions'
+import { CATEGORIES_HOME } from '../../components/Constants'
+import { createCategory } from '../../actions/categoryActions'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-const Create = () => {
+const Create = props => {
   const [category, setCategory] = useState({ name: '' })
   const [redirect, setRedirect] = useState(false)
   const [errors, setErrors] = useState({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleInputChange = (event, { name, value }) => {
     setCategory(previousValue => ({ ...previousValue, [name]: value }))
   }
 
   const handleFormSubmission = () => {
-    setErrors(validateCategory(category))
-    setIsSubmitting(true)
+    props.createCategory(category, props.history)
   }
 
   const handleFormCancellation = () => {
     setRedirect(true)
   }
 
-  useEffect(
-    () => {
-      if (errorsEmpty(Object.values(errors))  && isSubmitting) {
-        axios
-          .post(CATEGORIES_PATH, category)
-          .then(() => {
-            setRedirect(true)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      }
-    }, [errors, isSubmitting, category]
-  )
+  //äqu for will receiveprops(nextprops)
+  useEffect(() => {
+    if (props.errors) {
+      setErrors(props.errors)
+    }
+  }, [props.errors])
 
   return (
     <div>
@@ -80,4 +70,13 @@ const Create = () => {
   )
 }
 
-export default Create
+Create.propTypes = {
+  createCategory: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  errors: state.errors
+})
+
+export default connect(mapStateToProps, { createCategory })(Create)

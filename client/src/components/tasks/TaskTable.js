@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, {Fragment, useState, useEffect}from 'react'
+import React, {Fragment}from 'react'
 import { Button, Table } from 'semantic-ui-react'
 import ListLoader from '../../components/loader/ListLoader'
 import { TypeIcon, PriorityCellColor } from '../../components/tasks/TaskIcons'
