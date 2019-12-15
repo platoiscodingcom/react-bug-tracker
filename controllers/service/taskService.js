@@ -1,5 +1,6 @@
 const Task = require('../../models/Task')
 const Project = require('../../models/Project')
+setStatus = require('./statusFunctions').setStatus
 
 exports.saveTaskToProject = async (project, task) => {
   await Project.findById(project)
@@ -22,4 +23,56 @@ exports.deleteTaskFromProject = async (data, taskId) => {
       console.log(error)
       res.status(500).send({ message: 'Error occured: 500' })
     })
+}
+
+exports.findAllTasks = async (res) =>{
+  await Task.find()
+  .populate('project')
+  .then(data => {
+    res.status(200).send(data)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  })
+}
+
+exports.findTaskById = async (taskId, res) =>{
+  await Task.findById(taskId)
+    .populate('project')
+    .then(data => {
+      res.status(200).send(data)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error occured: 500' })
+    })
+}
+
+exports.findTaskByProjectId = async (projectId, res) =>{
+  await Task.find({ project: projectId })
+  .then(data => {
+    res.status(200).send(data)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  })
+}
+
+exports.updateStatus = async (req, res) =>{
+  await Task.findById(req.params._id)
+  .then(data => {
+    data.status = setStatus(req.params.event)
+    if (data.status == null) {
+      res.status(404).send(data)
+    }
+    data.updatedAt = Date.now()
+    data.save()
+    res.status(200).send(data)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500' })
+  })
 }

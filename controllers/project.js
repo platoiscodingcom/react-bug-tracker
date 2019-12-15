@@ -4,38 +4,19 @@ const File = require('../models/File')
 mongoose = require('mongoose').set('debug', false)
 setStatus = require('./service/statusFunctions').setStatus
 projectService = require('./service/projectService')
+fileService = require('./service/fileService')
+localStorageService = require('./service/localStorageService')
 formidable = require('formidable')
 validation = require('./service/validation')
 const { validationResult } = require('express-validator')
 
-const server = require('../server')
-var mv = require('mv')
-var fs = require('fs')
-var rimraf = require("rimraf");
-
-exports.list = async (req, res) => {
-  await Project.find()
-    .populate('tasks categories')
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
+exports.list = (req, res) => {
+  projectService.findAllProjects(res)
 }
 
-exports.details = async (req, res) => {
+exports.details = (req, res) => {
   validation.mongoIdValid(req.params._id)
-  await Project.findById(req.params._id)
-    .populate('tasks categories files')
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
+  projectService.findProjectById(req.params._id, res)
 }
 
 exports.create = async (req, res) => {
@@ -95,30 +76,10 @@ exports.delete = async (req, res) => {
 
       projectService.removeProjectFromAllCategories(data._id, data.categories)
 
-      //remove AllFilesFromProject
-      data.files.forEach(file =>{
-        File.findById(file._id)
-          .then(data =>{
-            //remove from folder
-            fs.unlink(server.DIR + data.path, err => {
-              if (err) {
-                console.log(err)
-                res.status(500).send({ message: 'Error occured: 500' })
-              }
-            })
-            data.remove()
-          })
-          .catch(error => {
-            console.log(error)
-            res.status(500).send({ message: 'Error occured: 500' })
-          })
-      })
+      fileService.deleteAllFilesFromProject(data.files, res)
 
-      //remove den lokalen projects/project_id folder
-      console.log('Bug Erinnerung: Project-folder wird beim löschen des Projects nicht entfernt')
-      rimraf(server.DIR + '\\client\\public\\projects\\' + data._id +'\\', err =>{
-        if(err) console.log(err);
-      })
+      //remove local client/public/projects/project_id folder
+      localStorageService.removeLocalProjectIdFolder(data._id)
 
       data.remove()
       res.status(200).send(data)
@@ -129,22 +90,11 @@ exports.delete = async (req, res) => {
     })
 }
 
-exports.statusEvent = async (req, res) => {
+exports.statusEvent = (req, res) => {
   validation.mongoIdValid(req.params._id)
-  await Project.findById(req.params._id)
-    .then(data => {
-      data.status = setStatus(req.params.event)
-      data.updatedAt = Date.now()
-      data.save()
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error: 500' })
-    })
+  projectService.updateStatus(req, res)
+  
 }
-
-
 
 exports.upload = (req, res) => {
   let form = new formidable.IncomingForm()
@@ -156,26 +106,18 @@ exports.upload = (req, res) => {
       mimetype: fields.mimetype
     })
 
-    //create public/projects folder if doesn't exist yet
-    var projects_dir = server.DIR + '\\projects' 
-    if (!fs.existsSync(projects_dir)) {
-      fs.mkdirSync(projects_dir)
-    }
+    if (error) return res.status(500).send(error)
 
-    //create public/projects/project_id folder if doesn't exist yet
-    var dir = server.DIR + '\\projects\\' + req.params._id
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir)
-    }
+    //public/projects
+    localStorageService.createLocalProjectsFolder()
+    //public/projects/project_id
+    localStorageService.createLocalProjectIdFolder(req.params._id)
 
-    var uploadPath = server.DIR + '\\projects\\' + req.params._id + '\\' + fields.filename
-
-    //move from oldpath(Temp) to newpath(uploadPath)
-    mv(files.file.path, uploadPath, function (err) {
-      if (err) {
-        return res.status(500).send(err)
-      }
-    })
+    localStorageService.saveProjectFileLocally(
+      req.params._id,
+      fields.filename,
+      files.file.path
+    )
 
     newFile
       .save()

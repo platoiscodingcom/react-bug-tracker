@@ -4,28 +4,14 @@ categoryService = require('./service/categoryService')
 validation = require('./service/validation')
 const { validationResult} = require('express-validator')
 
-exports.list = async (req, res) => {
-  await Category.find()
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ msg: 'Error 500' })
-    })
+exports.list =  (req, res) => {
+  categoryService.findAllCategories(res)
 }
 
-exports.details = async (req, res) => {
+exports.details = (req, res) => {
   validation.mongoIdValid(req.params._id)
-  await Category.findById(req.params._id)
-    .populate('projects')
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ msg: 'Error 500' })
-    })
+  categoryService.findCategoryById(req.params._id, res)
+  
 }
 
 exports.create = async (req, res) => {

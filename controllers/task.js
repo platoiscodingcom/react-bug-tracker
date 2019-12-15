@@ -5,30 +5,13 @@ taskService = require('./service/taskService')
 validation = require('./service/validation')
 const { validationResult} = require('express-validator')
 
-exports.list = async (req, res) => {
-  await Task.find()
-    .populate('project')
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
+exports.list = (req, res) => {
+  taskService.findAllTasks(res)
 }
 
-exports.details = async (req, res) => {
+exports.details = (req, res) => {
   validation.mongoIdValid(req.params._id)
-
-  await Task.findById(req.params._id)
-    .populate('project')
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
+  taskService.findTaskById(req.params._id, res)
 }
 
 exports.create = async (req, res) => {
@@ -84,32 +67,13 @@ exports.delete = async (req, res) => {
     })
 }
 
-exports.tasksByProject = async (req, res) => {
+exports.tasksByProject = (req, res) => {
   validation.mongoIdValid(req.params._id)
-  await Task.find({ project: req.params._id })
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
+  taskService.findTaskByProjectId(req.params._id, res)
 }
 
-exports.statusEvent = async (req, res) => {
+exports.statusEvent = (req, res) => {
   validation.mongoIdValid(req.params._id)
-  await Task.findById(req.params._id)
-    .then(data => {
-      data.status = setStatus(req.params.event)
-      if (data.status == null) {
-        res.status(404).send(data)
-      }
-      data.updatedAt = Date.now()
-      data.save()
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error: 500' })
-    })
+  taskService.updateStatus(req, res)
+  
 }

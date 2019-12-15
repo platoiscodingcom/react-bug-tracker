@@ -14,3 +14,26 @@ exports.removeCategoryFromAllProjects = (projects, catId) => {
     data.remove()
   })
 }
+
+exports.findAllCategories = async (res) =>{
+  await Category.find()
+  .then(data => {
+    res.status(200).send(data)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ msg: 'Error 500' })
+  })
+}
+
+exports.findCategoryById = async (catId, res) =>{
+  await Category.findById(req.params._id)
+  .populate('projects')
+  .then(data => {
+    res.status(200).send(data)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ msg: 'Error 500' })
+  })
+}
