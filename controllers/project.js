@@ -31,6 +31,7 @@ exports.create = async (req, res) => {
     .save()
     .then(data => {
       projectService.addProjectToCategories(newProject._id, req.body.categories)
+      
       res.status(200).send(data)
     })
     .catch(error => {
@@ -72,14 +73,10 @@ exports.delete = async (req, res) => {
   validation.mongoIdValid(req.params._id)
   await Project.findById(req.params._id)
     .then(data => {
-      projectService.deleteAllTasksFromProject(data.tasks)
-
-      projectService.removeProjectFromAllCategories(data._id, data.categories)
-
-      fileService.deleteAllFilesFromProject(data.files, res)
-
-      //remove local client/public/projects/project_id folder
-      localStorageService.removeLocalProjectIdFolder(data._id)
+      
+      //delete all projectTasks and -Files
+      //remove Project from Categories
+      projectService.removeProjectRelations(data, res)
 
       data.remove()
       res.status(200).send(data)
@@ -108,16 +105,7 @@ exports.upload = (req, res) => {
 
     if (error) return res.status(500).send(error)
 
-    //public/projects
-    localStorageService.createLocalProjectsFolder()
-    //public/projects/project_id
-    localStorageService.createLocalProjectIdFolder(req.params._id)
-
-    localStorageService.saveProjectFileLocally(
-      req.params._id,
-      fields.filename,
-      files.file.path
-    )
+    localStorageService.saveProjectFile(req, files, fields)
 
     newFile
       .save()

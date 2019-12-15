@@ -1,4 +1,5 @@
 const Project = require('../../models/Project')
+const Category = require('../../models/Category')
 
 exports.removeCategoryFromAllProjects = (projects, catId) => {
   projects.forEach(async project => {
@@ -27,7 +28,7 @@ exports.findAllCategories = async (res) =>{
 }
 
 exports.findCategoryById = async (catId, res) =>{
-  await Category.findById(req.params._id)
+  await Category.findById(catId)
   .populate('projects')
   .then(data => {
     res.status(200).send(data)

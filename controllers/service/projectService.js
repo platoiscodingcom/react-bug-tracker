@@ -2,6 +2,8 @@ const Task = require('../../models/Task')
 const Category = require('../../models/Category')
 const Project = require('../../models/Project')
 setStatus = require('./statusFunctions').setStatus
+fileService = require('./fileService')
+localStorageService = require('./localStorageService')
 
 exports.findAllProjects = async (res) =>{
   await Project.find()
@@ -96,4 +98,15 @@ exports.updateStatus = async (req, res) =>{
     console.log(error)
     res.status(500).send({ message: 'Error: 500' })
   })
+}
+
+exports.removeProjectRelations = (data, res) =>{
+  this.deleteAllTasksFromProject(data.tasks)
+
+  this.removeProjectFromAllCategories(data._id, data.categories)
+
+  fileService.deleteAllFilesFromProject(data.files, res)
+
+  //remove local client/public/projects/project_id folder
+  localStorageService.removeLocalProjectIdFolder(data._id)
 }

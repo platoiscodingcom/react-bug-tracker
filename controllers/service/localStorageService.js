@@ -50,3 +50,16 @@ exports.deleteFileLocally = (data) =>{
     }
   })
 }
+
+exports.saveProjectFile = (req, files, fields) =>{
+  //public/projects
+  this.createLocalProjectsFolder()
+  //public/projects/project_id
+  this.createLocalProjectIdFolder(req.params._id)
+
+  this.saveProjectFileLocally(
+    req.params._id,
+    fields.filename,
+    files.file.path
+  )
+}
