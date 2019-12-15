@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Container, Card, List, Dropdown, Menu, Tab } from 'semantic-ui-react'
+import { Container, Card, List, Dropdown, Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
 import TaskTable from '../../components/tasks/TaskTable'
@@ -92,23 +92,6 @@ const Details = ({ match }) => {
     ))
   }
 
-  const panes = [
-    {
-      menuItem: 'All Tasks',
-      render: () => (
-        <Tab.Pane>
-          <TaskTable tasks={tasks} match={match} setProject={setProject} />
-        </Tab.Pane>
-      )
-    },
-    { menuItem: 'open', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
-    {
-      menuItem: 'in progress',
-      render: () => <Tab.Pane>Tab 3 Content</Tab.Pane>
-    },
-    { menuItem: 'backlog', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
-    { menuItem: 'closed', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> }
-  ]
 
   if (project == null || project._id === '') {
     return <DetailsLoader />
@@ -198,7 +181,7 @@ const Details = ({ match }) => {
           </Card>
         </Container>
 
-        <Tab style={{ marginTop: '15px' }} panes={panes} />
+        <TaskTable tasks={tasks} match={match} setProject={setProject} />
 
         <FileUpload
           documentPath={PROJECTS_PATH}
