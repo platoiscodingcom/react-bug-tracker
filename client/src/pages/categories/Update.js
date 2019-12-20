@@ -4,22 +4,20 @@ import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react'
 import UpdateLoader from '../../components/loader/UpdateLoader'
 import { CATEGORIES_HOME, CATEGORIES_PATH } from '../../components/Constants'
-import { validateCategory } from '../../validation/validateCategory'
-import {errorsEmpty} from '../../validation/validationFunctions'
+import { updateCategory } from '../../actions/categoryActions'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-const Update = ({ match }) => {
+const Update = ({updateCategory, errors, history, match}) => {
   const [category, setCategory] = useState({ name: '' })
   const [redirect, setRedirect] = useState(false)
-  const [errors, setErrors] = useState({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleInputChange = (event, { name, value }) => {
     setCategory(prevValue => ({ ...prevValue, [name]: value }))
   }
 
   const handleFormSubmission = () => {
-    setErrors(validateCategory(category))
-    setIsSubmitting(true)
+    updateCategory(category, history)
   }
 
   const handleFormCancellation = () => {
@@ -36,22 +34,6 @@ const Update = ({ match }) => {
         console.log(error)
       })
   }, [match])
-
-  useEffect(
-    () => {
-      if (errorsEmpty(Object.values(errors)) && isSubmitting) {
-        axios
-          .put(`${CATEGORIES_PATH}/${match.params._id}`, category)
-          .then(() => {
-            setRedirect(true)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      }
-    },
-    [errors, isSubmitting, category, match.params._id]
-  )
 
   if (category == null || category === '') {
     return <UpdateLoader />
@@ -97,4 +79,13 @@ const Update = ({ match }) => {
   }
 }
 
-export default Update
+Update.propTypes = {
+  updateCategory: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  errors: state.errors
+})
+
+export default connect(mapStateToProps, {updateCategory})(Update)

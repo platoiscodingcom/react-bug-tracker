@@ -10,7 +10,7 @@ import {
   CATEGORIES_CREATE
 } from '../../components/Constants'
 
-const List = ({ match }) => {
+const List = () => {
   const [categories, setCategories] = useState([])
 
   const loadCategories = async () => {

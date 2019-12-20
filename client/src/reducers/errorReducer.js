@@ -1,12 +1,10 @@
-import { GET_ERRORS } from "../actions/types"
+import { GET_CATEGORY_ERRORS } from "../actions/types"
 
 const initialState = {};
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_ERRORS:
-      //payload contains errors
-      console.log('in errorReducer, action:', action)
+    case GET_CATEGORY_ERRORS:
       return action.payload;
 
     default:

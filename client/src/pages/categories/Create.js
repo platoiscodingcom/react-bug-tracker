@@ -6,29 +6,21 @@ import { createCategory } from '../../actions/categoryActions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-const Create = props => {
+const Create = ({createCategory, errors, history}) => {
   const [category, setCategory] = useState({ name: '' })
   const [redirect, setRedirect] = useState(false)
-  const [errors, setErrors] = useState({})
 
   const handleInputChange = (event, { name, value }) => {
     setCategory(previousValue => ({ ...previousValue, [name]: value }))
   }
 
   const handleFormSubmission = () => {
-    props.createCategory(category, props.history)
+    createCategory(category, history)
   }
 
   const handleFormCancellation = () => {
     setRedirect(true)
   }
-
-  //äqu for will receiveprops(nextprops)
-  useEffect(() => {
-    if (props.errors) {
-      setErrors(props.errors)
-    }
-  }, [props.errors])
 
   return (
     <div>
