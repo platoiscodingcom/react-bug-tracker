@@ -20,7 +20,58 @@ export const createTask = (task, history) => async dispatch => {
       console.log(error)
     })
 }
+
 export const updateTask = () => async dispatch => {}
-export const getTasks = () => async dispatch => {}
-export const getTask = () => async dispatch => {}
-export const deleteTask = () => async dispatch => {}
+
+export const getTasks = () => async dispatch => {
+  await axios
+    .get(TASKS_PATH)
+    .then(res => {
+      dispatch({
+        type: GET_TASKS,
+        payload: res.data
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_TASK_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+    })
+}
+export const getTask = (id, history) => async dispatch => {
+  await axios
+    .get(`${TASKS_PATH}/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_TASK,
+        payload: res.data
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_TASK_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+      history.push(TASKS_HOME)
+    })
+}
+export const deleteTask = id => async dispatch => {
+  await axios
+    .delete(`${TASKS_PATH}/${id}`)
+    .then(res => {
+      dispatch({
+        type: DELETE_TASK,
+        payload: id
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_TASK_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+    })
+}

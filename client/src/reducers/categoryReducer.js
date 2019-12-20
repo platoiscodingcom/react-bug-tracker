@@ -14,7 +14,7 @@ export default function (state = initialState, action) {
         categories: state.categories.filter(
           category => category._id !== action.payload
         )
-      };
+      }
     case GET_CATEGORIES:
       return {
         ...state,

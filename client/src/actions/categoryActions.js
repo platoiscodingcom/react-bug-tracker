@@ -67,7 +67,7 @@ export const getCategory = (id, history) => async dispatch => {
     })
 }
 
-export const getCategories = (id, history) => async dispatch => {
+export const getCategories = () => async dispatch => {
   await axios
     .get(CATEGORIES_PATH)
     .then(res => {
@@ -82,11 +82,10 @@ export const getCategories = (id, history) => async dispatch => {
         payload: error.response.data
       })
       console.log(error)
-      history.push('/')
     })
 }
 
-export const deleteCategory = (id, history) => async dispatch => {
+export const deleteCategory = (id) => async dispatch => {
   await axios
     .delete(`${CATEGORIES_PATH}/${id}`)
     .then(res => {
