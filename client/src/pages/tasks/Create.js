@@ -118,7 +118,7 @@ const Create = ({ createTask, errors, history, match }) => {
           floated='right'
           color='black'
           content='Cancel'
-          onClick={e => history.push(TASKS_HOME)}
+          onClick={() => history.push(TASKS_HOME)}
         />
         <Button
           floated='right'

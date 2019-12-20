@@ -7,7 +7,23 @@ import {
 } from './types'
 import { PROJECTS_HOME, PROJECTS_PATH } from '../components/Constants'
 
-export const createProject = () => async dispatch => {}
+export const createProject = (project, history) => async dispatch => {
+  await axios
+    .post(PROJECTS_PATH, project)
+    .then(() => {
+      dispatch({
+        type: GET_PROJECT_ERRORS,
+        payload: {}
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_PROJECT_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+    })
+}
 export const updateProject = () => async dispatch => {}
 export const getProject = () => async dispatch => {}
 export const getProjects = () => async dispatch => {}
