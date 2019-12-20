@@ -1,4 +1,4 @@
-import { GET_CATEGORY } from '../actions/types'
+import { GET_CATEGORY, GET_CATEGORIES, DELETE_CATEGORY } from '../actions/types'
 
 const initialState = {
   categories: [],
@@ -7,6 +7,18 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+        categories: state.categories.filter(
+          category => category._id !== action.payload
+        )
+      };
+    case GET_CATEGORIES:
+      return {
+        ...state,
+        categories: action.payload
+      }
     case GET_CATEGORY:
       return {
         ...state,
