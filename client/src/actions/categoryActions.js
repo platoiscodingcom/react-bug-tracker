@@ -1,10 +1,10 @@
 import axios from 'axios'
-import { GET_CATEGORY_ERRORS, GET_CATEGORY, UPDATE_CATEGORY } from './types'
+import { GET_CATEGORY_ERRORS, GET_CATEGORY } from './types'
 import { CATEGORIES_HOME, CATEGORIES_PATH } from '../components/Constants'
 
 export const createCategory = (category, history) => async dispatch => {
   try {
-    const res = await axios.post(CATEGORIES_PATH, category)
+    await axios.post(CATEGORIES_PATH, category)
     history.push(CATEGORIES_HOME)
     dispatch({
       type: GET_CATEGORY_ERRORS,
@@ -49,6 +49,11 @@ export const getCategory = (id, history) => async dispatch =>{
     });
   })
   .catch(error => {
+    /*dispatch({
+      type: CATEGORY_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+    */
     history.push(CATEGORIES_HOME)
   })
 }

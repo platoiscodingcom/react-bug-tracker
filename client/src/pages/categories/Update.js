@@ -1,6 +1,4 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react'
 import UpdateLoader from '../../components/loader/UpdateLoader'
 import { CATEGORIES_HOME } from '../../components/Constants'
@@ -16,26 +14,24 @@ const Update = ({
   history,
   match
 }) => {
-  const [formData, setFormData] = useState({
-    name: ''
-  })
+  const [formData, setFormData] = useState({ name: '' })
 
   useEffect(() => {
     getCategory(match.params._id, history)
-    setFormData({
-      name: '' || !category.name ? '' : category.name
-    })
-  }, [getCategory, match.params._id]) 
+    if(category.name) setFormData({ name: category.name })
+  }, [getCategory, category.name, match.params._id, history])
 
-  const onChange = e =>
+  const onChange = e => {
+    e.preventDefault()
     setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
   const onSubmit = e => {
     e.preventDefault()
-    console.log('onSubmit', formData)
     updateCategory(category, formData, history)
   }
-  if (category == null || category === '') return <UpdateLoader />
+
+  if (category.name == null || category.name === '') return <UpdateLoader />
   return (
     <Card fluid>
       <Card.Content header={category.name} />
@@ -57,7 +53,7 @@ const Update = ({
           floated='right'
           color='black'
           content='Cancel'
-          onClick={() => {return <Redirect to={CATEGORIES_HOME} push />}}
+          onClick={e => history.push(CATEGORIES_HOME)}
         />
         <Button
           floated='right'
