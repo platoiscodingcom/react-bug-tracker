@@ -21,7 +21,7 @@ const List = ({ category: { categories }, getCategories, deleteCategory }) => {
   }
 
   return (
-    <Table singleLine columns={2} style={{ border: 'none', borderRadius: '0' }}>
+    <Table singleLine columns={2}>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Category</Table.HeaderCell>

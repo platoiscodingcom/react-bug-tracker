@@ -11,7 +11,7 @@ import NoMatch from '../NoMatch'
 const Categories = ({ match }) => {
   return (
     <div>
-      <Container style={{ marginBottom: '50px' }}>
+      <Container>
         <Switch>
           <Route exact path={match.path} component={List} />
           <Route exact path={`${match.path}/create`} component={Create} />

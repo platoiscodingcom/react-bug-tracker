@@ -57,7 +57,7 @@ const Details = ({
         </Card>
       </Container>
 
-      <Container style={{ marginTop: '15px' }}>
+      <Container >
         <ProjectTable />
       </Container>
     </Fragment>
