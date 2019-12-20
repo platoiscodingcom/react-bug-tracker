@@ -2,8 +2,28 @@ const { body, validationResult } = require('express-validator')
 const categoryValidationRules = () => {
   return [
     body('name')
-    .isLength({ min: 4 })
-    .withMessage('must be at least 4 chars long')
+      .isLength({ min: 4 })
+      .withMessage('must be at least 4 chars long')
+  ]
+}
+
+const projectValidationRules = () => {
+  return [
+    body('name')
+      .isLength({ min: 4 })
+      .withMessage('must be at least 4 chars long'),
+    body('status')
+      .not()
+      .isEmpty()
+      .withMessage('status is required'),
+    body('description')
+      .not()
+      .isEmpty()
+      .withMessage('description is required'),
+    body('categories')
+      .not()
+      .isEmpty()
+      .withMessage('must have at least one category')
   ]
 }
 
@@ -17,11 +37,12 @@ const validate = (req, res, next) => {
   errors.array().map(err => {
     extractedErrors = Object.assign(extractedErrors, { [err.param]: err.msg })
   })
-  console.log('extractedErrors',extractedErrors)
+  console.log('extractedErrors', extractedErrors)
   return res.status(422).json(extractedErrors)
 }
 
 module.exports = {
   categoryValidationRules,
-  validate,
+  projectValidationRules,
+  validate
 }
