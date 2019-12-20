@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
 import { Card, Button, Form } from 'semantic-ui-react'
 import { CATEGORIES_HOME } from '../../components/Constants'
 import { createCategory } from '../../actions/categoryActions'
@@ -8,7 +7,6 @@ import { connect } from 'react-redux'
 
 const Create = ({createCategory, errors, history}) => {
   const [category, setCategory] = useState({ name: '' })
-  const [redirect, setRedirect] = useState(false)
 
   const handleInputChange = (event, { name, value }) => {
     setCategory(previousValue => ({ ...previousValue, [name]: value }))
@@ -18,15 +16,7 @@ const Create = ({createCategory, errors, history}) => {
     createCategory(category, history)
   }
 
-  const handleFormCancellation = () => {
-    setRedirect(true)
-  }
-
   return (
-    <div>
-      {redirect ? (
-        <Redirect to={CATEGORIES_HOME} push />
-      ) : (
         <Card fluid>
           <Card.Content header='New Category' />
           <Card.Content>
@@ -47,7 +37,7 @@ const Create = ({createCategory, errors, history}) => {
               floated='right'
               color='black'
               content='Cancel'
-              onClick={handleFormCancellation}
+              onClick={e => history.push(CATEGORIES_HOME)}
             />
             <Button
               floated='right'
@@ -57,8 +47,6 @@ const Create = ({createCategory, errors, history}) => {
             />
           </Card.Content>
         </Card>
-      )}
-    </div>
   )
 }
 
