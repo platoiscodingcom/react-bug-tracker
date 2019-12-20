@@ -1,5 +1,4 @@
 const router = require('express').Router()
-const { check } = require('express-validator')
 const categoryController = require('../controllers/category')
 const { categoryValidationRules, validate } = require('./validator.js')
 

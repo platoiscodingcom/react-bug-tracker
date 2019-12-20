@@ -27,6 +27,34 @@ const projectValidationRules = () => {
   ]
 }
 
+const taskValidationRules = () => {
+  return [
+    body('title')
+      .isLength({ min: 4 })
+      .withMessage('must be at least 4 chars long'),
+    body('status')
+      .not()
+      .isEmpty()
+      .withMessage('status is required'),
+    body('priority')
+      .not()
+      .isEmpty()
+      .withMessage('status is required'),
+    body('type')
+      .not()
+      .isEmpty()
+      .withMessage('status is required'),
+    body('description')
+      .not()
+      .isEmpty()
+      .withMessage('description is required'),
+    body('project')
+      .not()
+      .isEmpty()
+      .withMessage('must belong to a project')
+  ]
+}
+
 const validate = (req, res, next) => {
   const errors = validationResult(req)
   if (errors.isEmpty()) {
@@ -44,5 +72,6 @@ const validate = (req, res, next) => {
 module.exports = {
   categoryValidationRules,
   projectValidationRules,
+  taskValidationRules,
   validate
 }
