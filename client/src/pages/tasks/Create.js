@@ -13,7 +13,6 @@ import {
   OPEN,
   FEATURE,
   LOW,
-  TASKS_PATH,
   PROJECTS_PATH,
   TASKS_HOME
 } from '../../components/Constants'

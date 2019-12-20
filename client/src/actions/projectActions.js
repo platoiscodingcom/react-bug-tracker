@@ -7,8 +7,24 @@ import {
 } from './types'
 import { PROJECTS_HOME, PROJECTS_PATH } from '../components/Constants'
 
-export const createProject  = () => async dispatch => {}
-export const updateProject  = () => async dispatch => {}
-export const getProject  = () => async dispatch => {}
-export const getProjects  = () => async dispatch => {}
-export const deleteProject  = () => async dispatch => {}
+export const createProject = () => async dispatch => {}
+export const updateProject = () => async dispatch => {}
+export const getProject = () => async dispatch => {}
+export const getProjects = () => async dispatch => {}
+export const deleteProject = id => async dispatch => {
+  await axios
+    .delete(`${PROJECTS_PATH}/${id}`)
+    .then(res => {
+      dispatch({
+        type: DELETE_PROJECT,
+        payload: id
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_PROJECT_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+    })
+}

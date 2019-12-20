@@ -78,3 +78,7 @@ body {
   background-color: rgb(107, 107, 107);
   cursor: pointer;
 }
+.ui.table {
+ border: none;
+ border-radius: 0px !important;
+}

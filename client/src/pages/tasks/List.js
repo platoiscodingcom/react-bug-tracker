@@ -23,7 +23,7 @@ const List = ({ task: { tasks }, getTasks, deleteTask }) => {
     return <ListLoader />
   }
   return (
-    <Table singleLine columns={6} style={{ border: 'none', borderRadius: '0' }}>
+    <Table singleLine columns={6}>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Title</Table.HeaderCell>

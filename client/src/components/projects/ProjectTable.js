@@ -1,38 +1,34 @@
-import React from 'react'
-import axios from 'axios'
-import {
-  CATEGORIES_PATH,
-  PROJECTS_PATH,
-  PROJECTS_HOME,
-  PROJECTS_DETAILS
-} from '../Constants'
+import React, { useEffect, useState } from 'react'
+import { PROJECTS_HOME, PROJECTS_DETAILS } from '../Constants'
 import { Button, Table } from 'semantic-ui-react'
 import moment from 'moment'
 import StatusColor from '../status/StatusColor'
 import uuid from 'uuid'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { deleteProject } from '../../actions/projectActions'
+import { getCategory } from '../../actions/categoryActions'
 
-const ProjectTable = ({ projects, setCategory, match }) => {
-  const deleteProject = _id => {
-    axios
-      .delete(`${PROJECTS_PATH}/${_id}`)
-      .then(() => {
-        axios
-          .get(`${CATEGORIES_PATH}/${match.params._id}`)
-          .then(response => {
-            setCategory(response.data)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      })
-      .catch(error => {
-        console.log(error)
-      })
+const ProjectTable = ({
+  category: { category },
+  deleteProject,
+  getCategory,
+  history
+}) => {
+  const [projects, setProjects] = useState([])
+
+  useEffect(() => {
+    if (category.projects) setProjects(category.projects)
+  }, [category.projects, deleteProject])
+
+  const removeProject = id => {
+    deleteProject(id)
+    getCategory(category._id, history)
   }
 
   return (
-    <Table singleLine columns={4} style={{ border: 'none', borderRadius: '0' }}>
+    <Table singleLine columns={4}>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Name</Table.HeaderCell>
@@ -79,7 +75,7 @@ const ProjectTable = ({ projects, setCategory, match }) => {
                   compact
                   size='mini'
                   color='red'
-                  onClick={() => deleteProject(_id)}
+                  onClick={() => removeProject(_id)}
                 >
                   <i className='fas fa-trash' />
                 </Button>
@@ -92,4 +88,16 @@ const ProjectTable = ({ projects, setCategory, match }) => {
   )
 }
 
-export default ProjectTable
+ProjectTable.propTypes = {
+  deleteProject: PropTypes.func.isRequired,
+  getCategory: PropTypes.func.isRequired,
+  category: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  category: state.category
+})
+
+export default connect(mapStateToProps, { deleteProject, getCategory })(
+  ProjectTable
+)

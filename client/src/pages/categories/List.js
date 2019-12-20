@@ -9,7 +9,7 @@ import {
   CATEGORIES_CREATE
 } from '../../components/Constants'
 import { connect } from 'react-redux'
-import { deleteCategory, getCategories } from './../../actions/categoryActions'
+import { deleteCategory, getCategories } from '../../actions/categoryActions'
 
 const List = ({ category: { categories }, getCategories, deleteCategory }) => {
   useEffect(() => {

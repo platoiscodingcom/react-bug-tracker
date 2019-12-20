@@ -1,97 +1,79 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, Fragment } from 'react'
 import { Container, Card, List, Dropdown, Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import DetailsLoader from '../../components/loader/DetailsLoader'
-import { Redirect } from 'react-router-dom'
 import ProjectTable from '../../components/projects/ProjectTable'
-import { CATEGORIES_PATH, CATEGORIES_HOME } from '../../components/Constants'
+import { CATEGORIES_HOME } from '../../components/Constants'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { deleteCategory, getCategory } from '../../actions/categoryActions'
 
-const Details = ({ match }) => {
-  const [category, setCategory] = useState({
-    _id: '',
-    name: '',
-    projects: []
-  })
+const Details = ({
+  category: { category },
+  deleteCategory,
+  getCategory,
+  history,
+  match
+}) => {
+  useEffect(() => {
+    getCategory(match.params._id, history)
+  }, [getCategory, match, history])
 
-  const [redirect, setRedirect] = useState(false)
-  const deleteCategory = _id => {
-    axios
-      .delete(`${CATEGORIES_PATH}/${_id}`)
-      .then(res => {
-        if (res.status === 200) {
-          setRedirect(true)
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
-  useEffect(
-    () => {
-      axios
-        .get(`${CATEGORIES_PATH}/${match.params._id}`)
-        .then(response => {
-          setCategory(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    [match]
-  )
-
-  const { _id, name, projects } = category
+  const { _id, name } = category
 
   if (category == null || category._id === '') {
     return <DetailsLoader />
-  } else {
-    return (
-      <div>
-        {redirect && <Redirect to={CATEGORIES_HOME} push />}
-
-        <Container>
-          <Card fluid>
-            <Card.Content className='card-header'>
-              <span className='card-header-title'>{name}</span>
-              <Menu floated='right' className='card-menu'>
-                <Dropdown item text='more'>
-                  <Dropdown.Menu className='card-actions-dropdown'>
-                    <Dropdown.Item
-                      text='Edit'
-                      icon='pencil alternate'
-                      as={Link}
-                      to={`${CATEGORIES_HOME}/${_id}`}
-                    />
-                    <Dropdown.Item color={'red'}>
-                      <div onClick={() => deleteCategory(_id)}>
-                        <i className='fas fa-trash' />
-                        Delete
-                      </div>
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Menu>
-            </Card.Content>
-            <Card.Content>
-              <List>
-                <List.Item>Name: {name}</List.Item>
-              </List>
-            </Card.Content>
-          </Card>
-        </Container>
-
-        <Container style={{ marginTop: '15px' }}>
-          <ProjectTable
-            setCategory={setCategory}
-            match={match}
-            projects={projects}
-          />
-        </Container>
-      </div>
-    )
   }
+  return (
+    <Fragment>
+      <Container>
+        <Card fluid>
+          <Card.Content className='card-header'>
+            <span className='card-header-title'>{name}</span>
+            <Menu floated='right' className='card-menu'>
+              <Dropdown item text='more'>
+                <Dropdown.Menu className='card-actions-dropdown'>
+                  <Dropdown.Item
+                    text='Edit'
+                    icon='pencil alternate'
+                    as={Link}
+                    to={`${CATEGORIES_HOME}/${_id}`}
+                  />
+                  <Dropdown.Item color={'red'}>
+                    <div onClick={() => deleteCategory(_id)}>
+                      <i className='fas fa-trash' />
+                      Delete
+                    </div>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Menu>
+          </Card.Content>
+          <Card.Content>
+            <List>
+              <List.Item>Name: {name}</List.Item>
+            </List>
+          </Card.Content>
+        </Card>
+      </Container>
+
+      <Container style={{ marginTop: '15px' }}>
+        <ProjectTable />
+      </Container>
+    </Fragment>
+  )
 }
 
-export default Details
+Details.propTypes = {
+  deleteCategory: PropTypes.func.isRequired,
+  getCategory: PropTypes.func.isRequired,
+  category: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  category: state.category
+})
+
+export default connect(mapStateToProps, { deleteCategory, getCategory })(
+  Details
+)
