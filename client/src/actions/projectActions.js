@@ -15,6 +15,7 @@ export const createProject = (project, history) => async dispatch => {
         type: GET_PROJECT_ERRORS,
         payload: {}
       })
+      history.push(PROJECTS_HOME)
     })
     .catch(error => {
       dispatch({
@@ -25,8 +26,42 @@ export const createProject = (project, history) => async dispatch => {
     })
 }
 export const updateProject = () => async dispatch => {}
-export const getProject = () => async dispatch => {}
-export const getProjects = () => async dispatch => {}
+
+export const getProject = (id, history) => async dispatch => {
+  await axios
+    .get(`${PROJECTS_PATH}/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_PROJECT,
+        payload: res.data
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_PROJECT_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+      history.push(PROJECTS_HOME)
+    })
+}
+export const getProjects = () => async dispatch => {
+  await axios
+    .get(PROJECTS_PATH)
+    .then(res => {
+      dispatch({
+        type: GET_PROJECTS,
+        payload: res.data
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_PROJECT_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+    })
+}
 export const deleteProject = id => async dispatch => {
   await axios
     .delete(`${PROJECTS_PATH}/${id}`)

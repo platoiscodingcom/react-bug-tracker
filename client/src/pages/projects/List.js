@@ -16,30 +16,22 @@ import {
 const List = ({ match }) => {
   const [projects, setProject] = useState([])
 
-  useEffect(
-    () => {
-      axios.get(PROJECTS_PATH).then(res => {
+  useEffect(() => {
+    axios
+      .get(PROJECTS_PATH)
+      .then(res => {
         setProject(res.data)
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error)
       })
-    },
-    [match]
-  )
+  }, [match])
 
   if (projects == null) {
     return <CardLoader />
   } else {
     return (
-      <Container>
-        <Grid>
-          <Grid.Column textAlign='right'>
-            <Button color='black' as={Link} to={PROJECTS_CREATE}>
-              <i className='fas fa-plus' />New Project
-            </Button>
-          </Grid.Column>
-        </Grid>
+      <Container >
         <Card.Group>
           {projects.map(project => {
             const { _id, name, status, categories, description } = project
@@ -47,9 +39,9 @@ const List = ({ match }) => {
             const shortDesc = description.substring(0, 150)
 
             return (
-              <Card style={{ boxShadow: 'none', borderRadius: '0' }} key={_id}>
+              <Card key={_id}>
                 <Card.Content>
-                  <Card.Header style={{ marginTop: '10px' }}>
+                  <Card.Header textAlign='center' style={{ marginTop: '10px' }}>
                     {shortName}
                   </Card.Header>
                   <Divider />
@@ -81,7 +73,11 @@ const List = ({ match }) => {
                     >
                       Details
                     </Button>
-                    <Button as={Link} to={`${PROJECTS_HOME}/${_id}`} color='black'>
+                    <Button
+                      as={Link}
+                      to={`${PROJECTS_HOME}/${_id}`}
+                      color='black'
+                    >
                       Edit
                     </Button>
                   </div>
@@ -89,6 +85,15 @@ const List = ({ match }) => {
               </Card>
             )
           })}
+
+          <Card>
+            <Card.Content>
+              <Button color='white' as={Link} to={PROJECTS_CREATE}>
+                <i className='fas fa-plus' />
+                New Project
+              </Button>
+            </Card.Content>
+          </Card>
         </Card.Group>
       </Container>
     )
