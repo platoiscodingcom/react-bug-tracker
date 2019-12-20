@@ -18,7 +18,9 @@ export const createCategory = (category, history) => async dispatch => {
   }
 }
 
-export const updateCategory = (category, history) => async dispatch => {
+export const updateCategory = (category, formData, history) => async dispatch => {
+  console.log('updateCategory', category)
+  category.name = formData.name;
   axios
     .put(`${CATEGORIES_PATH}/${category._id}`, category)
     .then(() => {
