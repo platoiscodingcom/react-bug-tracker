@@ -14,7 +14,7 @@ const DetailsGallery = ({
   history,
   deleteFile
 }) => {
-  //const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   const [modalImage, setModalImage] = useState({})
 
   const [files, setFiles] = useState([])
@@ -37,8 +37,8 @@ const DetailsGallery = ({
             size='small'
             style={{ cursor: 'pointer' }}
             onClick={() => {
-              //setModalOpen(true)
-              //setModalImage(file)
+              setModalOpen(true)
+              setModalImage(file)
             }}
           />
         </Card.Content>
@@ -61,7 +61,7 @@ const DetailsGallery = ({
     //mach erstmal zwei FileUpload files für jew. Project und Task
     console.log('deleteFile')
     deleteFile(id, PROJECT)
-    //setModalOpen(false)
+    setModalOpen(false)
     getProject(project._id, history)
   }
 
@@ -73,14 +73,12 @@ const DetailsGallery = ({
         </Grid.Row>
       </Grid>
 
-      {/* 
+      
       <ImageModal
-        key={modalImage._id}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         modalImage={modalImage}
-        removeFile={removeFile}
-      />*/}
+      />
     </Fragment>
   )
 }
