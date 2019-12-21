@@ -12,24 +12,17 @@ import {
   PROJECTS_CREATE,
   CATEGORIES_DETAILS
 } from '../../components/Constants'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { deleteProject, getProjects } from './../../actions/projectActions';
 
-const List = ({ match }) => {
-  const [projects, setProject] = useState([])
+const List = ({project: {projects}, getProjects, deleteProject, match }) => {
 
   useEffect(() => {
-    axios
-      .get(PROJECTS_PATH)
-      .then(res => {
-        setProject(res.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }, [match])
+    getProjects()
+  }, [getProjects])
 
-  if (projects == null) {
-    return <CardLoader />
-  } else {
+  if (projects == null) return <CardLoader />
     return (
       <Card.Group>
         {projects.map(project => {
@@ -96,7 +89,17 @@ const List = ({ match }) => {
         </Card>
       </Card.Group>
     )
-  }
+  
 }
 
-export default List
+List.propTypes = {
+  deleteProject: PropTypes.func.isRequired,
+  getProjects: PropTypes.func.isRequired,
+  project: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  project: state.project
+})
+
+export default connect(mapStateToProps, {deleteProject, getProjects})(List)
