@@ -3,7 +3,11 @@ import {
   GET_PROJECT_ERRORS,
   GET_PROJECT,
   GET_PROJECTS,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  OPEN_UPLOAD_MODAL,
+  CLOSE_UPLOAD_MODAL,
+  SET_FILE_UPLOADED_TRUE,
+  SET_FILE_UPLOADED_FALSE
 } from './types'
 import { PROJECTS_HOME, PROJECTS_PATH } from '../components/Constants'
 
@@ -78,4 +82,33 @@ export const deleteProject = id => async dispatch => {
       })
       console.log(error)
     })
+}
+
+export const setUploadModalOpen = (change) => dispatch =>{
+  if(change){
+    dispatch({
+      type: OPEN_UPLOAD_MODAL,
+      payload: {}
+    })
+  }else{
+    dispatch({
+      type: CLOSE_UPLOAD_MODAL,
+      payload: {}
+    })
+  }
+  
+}
+export const setFileUploaded = (change) => dispatch =>{
+  if(change){
+    dispatch({
+      type: SET_FILE_UPLOADED_TRUE,
+      payload: {}
+    })
+  }else{
+    dispatch({
+      type: SET_FILE_UPLOADED_FALSE,
+      payload: {}
+    })
+  }
+  
 }

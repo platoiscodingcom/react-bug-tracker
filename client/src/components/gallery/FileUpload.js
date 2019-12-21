@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import { Form, Modal, Button } from 'semantic-ui-react'
-import axios from 'axios'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { createFile } from '../../actions/fileActions'
+import { checkMimeType, checkSize } from '../../validation/validationFunctions'
+import { PROJECTS_PATH } from './../Constants'
 import {
-  checkMimeType,
-  checkSize
-} from '../../validation/validationFunctions'
+  setUploadModalOpen
+} from './../../actions/projectActions'
+import {getProject} from '../../actions/projectActions'
 
 const FileUpload = ({
-  documentPath,
-  documentId,
-  isUploadOpen,
-  setIsUploadOpen,
-  setFileUploaded
+  setUploadModalOpen,
+  createFile,
+  project: { project, modalOpen},
+  getProject,
+  history
 }) => {
   const [file, setFile] = useState({})
   const [filename, setFilename] = useState('')
@@ -19,35 +23,29 @@ const FileUpload = ({
   const handleFile = event => {
     if (checkMimeType(event) && checkSize(event)) {
       const formData = new FormData()
+
       formData.append('file', event.target.files[0])
       formData.append('filename', Date.now() + event.target.files[0].name)
-
-      console.log('filename: ', Date.now() + event.target.files[0].name)
-
       formData.append('mimetype', event.target.files[0].type)
+
       setFilename(event.target.files[0].name)
       setFile(formData)
     }
   }
 
+  const documentPath = PROJECTS_PATH
 
   const uploadFile = () => {
     if (file) {
-      axios
-        .put(`${documentPath}/${documentId}/upload`, file)
-        .then(response => {
-          setIsUploadOpen({ show: false })
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      createFile(file, documentPath, project._id)
+      setUploadModalOpen(false)
+      setFilename('')
+      getProject(project._id, history)
     }
-    setFilename('')
-    setFileUploaded(true)
   }
 
   return (
-    <Modal open={isUploadOpen.show} centered>
+    <Modal open={modalOpen} centered>
       <Modal.Header>Upload File </Modal.Header>
       <Modal.Content>
         <Form widths='equal'>
@@ -75,11 +73,26 @@ const FileUpload = ({
         <Button
           color='black'
           content='Close'
-          onClick={() => setIsUploadOpen({ show: false })}
+          onClick={() => setUploadModalOpen(false)}
         />
       </Modal.Actions>
     </Modal>
   )
 }
 
-export default FileUpload
+FileUpload.propTypes = {
+  createFile: PropTypes.func.isRequired,
+  setUploadModalOpen: PropTypes.func.isRequired,
+  getProject: PropTypes.func.isRequired,
+  project: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  project: state.project
+})
+
+export default connect(mapStateToProps, {
+  createFile,
+  setUploadModalOpen,
+  getProject
+})(FileUpload)

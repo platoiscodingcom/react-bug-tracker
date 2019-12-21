@@ -10,7 +10,7 @@ export default function (state = initialState, action) {
     case DELETE_CATEGORY:
       return {
         ...state,
-        //remvove from state without page reload
+        //remove from state without page reload
         categories: state.categories.filter(
           category => category._id !== action.payload
         )

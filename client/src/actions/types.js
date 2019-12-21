@@ -8,7 +8,19 @@ export const GET_PROJECTS = "GET_PROJECTS"
 export const GET_PROJECT = "GET_PROJECT"
 export const DELETE_PROJECT = "DELETE_PROJECT"
 
-export const GET_TASK_ERRORS = "GET_PROJECT_ERRORS"
-export const GET_TASKS = "GET_PROJECTS"
-export const GET_TASK = "GET_PROJECT"
-export const DELETE_TASK = "DELETE_PROJECT"
+export const GET_TASK_ERRORS = "GET_TASK_ERRORS"
+export const GET_TASKS = "GET_TASKS"
+export const GET_TASK = "GET_TASK"
+export const DELETE_TASK = "DELETE_TASK"
+
+export const GET_FILE_ERRORS = "GET_FILE_ERRORS"
+export const GET_FILES = "GET_FILES"
+export const GET_FILE = "GET_FILE"
+export const DELETE_FILE = "DELETE_FILE"
+
+export const CLOSE_UPLOAD_MODAL = 'CLOSE_UPLOAD_MODAL'
+export const OPEN_UPLOAD_MODAL = 'OPEN_UPLOAD_MODAL'
+export const SET_FILE_UPLOADED_TRUE = 'SET_FILE_UPLOADED_TRUE'
+export const SET_FILE_UPLOADED_FALSE = 'SET_FILE_UPLOADED_FALSE'
+
+

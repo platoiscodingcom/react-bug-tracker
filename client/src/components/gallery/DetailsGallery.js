@@ -1,11 +1,19 @@
-import axios from 'axios'
+
 import React, { Fragment, useState } from 'react'
 import { Image, Card, Grid, Button } from 'semantic-ui-react'
 import ImageModal from './ImageModal'
 import uuid from 'uuid'
-import { FILES_PATH } from '../Constants'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { getProject } from '../../actions/projectActions'
+import {deleteFile} from '../../actions/fileActions'
+import {PROJECT} from '../Constants'
 
-const DetailsGallery = ({ files, loadProject }) => {
+const DetailsGallery = ({
+  getProject,
+  project: { project },
+  history
+}) => {
   const [modalOpen, setModalOpen] = useState(false)
   const [modalImage, setModalImage] = useState({})
 
@@ -13,51 +21,45 @@ const DetailsGallery = ({ files, loadProject }) => {
   //filter if image, then display image
   //display placeholder for every file that is not an image
 
-  const filesList = files.map(file => (
-    <Grid.Column key={uuid.v4()}>
-      <Card key={file._id}>
-        <Card.Content>
-          <Image
-            key={uuid.v4()}
-            src={file.path}
-            size='small'
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              setModalOpen(true)
-              setModalImage(file)
-            }}
-          />
-        </Card.Content>
-        <Card.Content extra>
-          <Button
-            color='red'
-            circular
-            compact
-            size='mini'
-            onClick={() => deleteFile(file._id)}
-          >
-            <i className='fa fa-trash' aria-hidden='true'></i>
-          </Button>
-        </Card.Content>
-      </Card>
-    </Grid.Column>
-  ))
+  let filesList = []
+  if(project.files){
+    filesList = project.files.map(file => (
+      <Grid.Column key={uuid.v4()}>
+        <Card key={file._id}>
+          <Card.Content>
+            <Image
+              key={uuid.v4()}
+              src={file.path}
+              size='small'
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setModalOpen(true)
+                setModalImage(file)
+              }}
+            />
+          </Card.Content>
+          <Card.Content extra>
+            <Button
+              color='red'
+              circular
+              compact
+              size='mini'
+              onClick={() => removeFile(file._id)}
+            >
+              <i className='fa fa-trash' aria-hidden='true'></i>
+            </Button>
+          </Card.Content>
+        </Card>
+      </Grid.Column>
+    ))
+  }
+  
 
-  //erstelle ein fileController
-  //suche dort innerhalb der projects nach einem project der diese file hat
-  //lösche von dort die file
-  //außerdem: impl. löschcng der file bei löschung des projeccts
-  //und zwar sowohl die verknüpfung als auch die file und den ordner
-  const deleteFile = _id => {
-    axios
-      .delete(`${FILES_PATH}/deleteFromProject/${_id}`)
-      .then(() => {
-        setModalOpen(false)
-        loadProject()
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  const removeFile = id => {
+    //mach erstmal zwei FileUpload files für jew. Project und Task
+    deleteFile(id, PROJECT)
+    //setModalOpen(false)
+    getProject(project._id, history)
   }
 
   return (
@@ -73,10 +75,19 @@ const DetailsGallery = ({ files, loadProject }) => {
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         modalImage={modalImage}
-        deleteFile={deleteFile}
+        removeFile={removeFile}
       />
     </Fragment>
   )
 }
 
-export default DetailsGallery
+DetailsGallery.propTypes = {
+  project: PropTypes.object.isRequired,
+  getProject: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = state => ({
+  project: state.project
+})
+
+export default connect(mapStateToProps, { getProject })(DetailsGallery)

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Card, Button, Grid, Divider } from 'semantic-ui-react'
+import {Card, Button, Divider } from 'semantic-ui-react'
 import CardLoader from '../../components/loader/CardLoader'
 import StatusColor from '../../components/status/StatusColor'
 import uuid from 'uuid'
@@ -31,71 +31,70 @@ const List = ({ match }) => {
     return <CardLoader />
   } else {
     return (
-      <Container >
-        <Card.Group>
-          {projects.map(project => {
-            const { _id, name, status, categories, description } = project
-            const shortName = name.substring(0, 25)
-            const shortDesc = description.substring(0, 150)
+      <Card.Group>
+        {projects.map(project => {
+          const { _id, name, status, categories, description } = project
+          const shortName = name.substring(0, 25)
+          const shortDesc = description.substring(0, 150)
 
-            return (
-              <Card key={_id}>
-                <Card.Content>
-                  <Card.Header textAlign='center' style={{ marginTop: '10px' }}>
-                    {shortName}
-                  </Card.Header>
-                  <Divider />
-                  <Card.Description>{shortDesc}</Card.Description>
-                  <Divider />
-                  <Card.Description>
-                    <StatusColor key={uuid.v4()} status={status} />
-                    {categories.map(cat => (
-                      <Button
-                        style={{ marginTop: '5px', borderRadius: '5px' }}
-                        className='ui label'
-                        as={Link}
-                        to={`${CATEGORIES_DETAILS}/${cat._id}`}
-                        key={cat._id}
-                      >
-                        {`${cat.name}`}
-                      </Button>
-                    ))}
-                  </Card.Description>
-                </Card.Content>
-
-                <Card.Content extra>
-                  <div className='ui two buttons'>
+          return (
+            <Card key={_id}>
+              <Card.Content>
+                <Card.Header textAlign='center' style={{ marginTop: '10px' }}>
+                  {shortName}
+                </Card.Header>
+                <Divider />
+                <Card.Description>{shortDesc}</Card.Description>
+                <Divider />
+                <Card.Description>
+                  <StatusColor key={uuid.v4()} status={status} />
+                  {categories.map(cat => (
                     <Button
+                      style={{ marginTop: '5px', borderRadius: '5px' }}
+                      className='ui label'
                       as={Link}
-                      to={`${PROJECTS_DETAILS}/${_id}`}
-                      basic
-                      color='black'
+                      to={`${CATEGORIES_DETAILS}/${cat._id}`}
+                      key={cat._id}
                     >
-                      Details
+                      {`${cat.name}`}
                     </Button>
-                    <Button
-                      as={Link}
-                      to={`${PROJECTS_HOME}/${_id}`}
-                      color='black'
-                    >
-                      Edit
-                    </Button>
-                  </div>
-                </Card.Content>
-              </Card>
-            )
-          })}
+                  ))}
+                </Card.Description>
+              </Card.Content>
 
-          <Card>
-            <Card.Content>
-              <Button color='white' as={Link} to={PROJECTS_CREATE}>
-                <i className='fas fa-plus' />
-                New Project
-              </Button>
-            </Card.Content>
-          </Card>
-        </Card.Group>
-      </Container>
+              <Card.Content extra>
+                <div className='ui two buttons'>
+                  <Button
+                    as={Link}
+                    to={`${PROJECTS_DETAILS}/${_id}`}
+                    basic
+                    color='grey'
+                    style={{ fontWeight: '700' }}
+                  >
+                    Details
+                  </Button>
+                  <Button
+                    as={Link}
+                    to={`${PROJECTS_HOME}/${_id}`}
+                    color='green'
+                  >
+                    Edit
+                  </Button>
+                </div>
+              </Card.Content>
+            </Card>
+          )
+        })}
+
+        <Card>
+          <Card.Content>
+            <Button color='white' as={Link} to={PROJECTS_CREATE}>
+              <i className='fas fa-plus' />
+              New Project
+            </Button>
+          </Card.Content>
+        </Card>
+      </Card.Group>
     )
   }
 }
