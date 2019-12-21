@@ -1,10 +1,6 @@
-const File = require('../models/File')
-const Project = require('../models/Project')
 mongoose = require('mongoose')
-validation = require('./service/validation')
 fileService = require('./service/fileService')
 formidable = require('formidable')
-
 
 exports.list = (req, res) => {
   fileService.findAllFiles(res)

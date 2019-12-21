@@ -40,7 +40,7 @@ const FileUpload = ({
       createFile(file, documentPath, project._id)
       setUploadModalOpen(false)
       setFilename('')
-      getProject(project._id, history)
+      //getProject(project._id, history)
     }
   }
 

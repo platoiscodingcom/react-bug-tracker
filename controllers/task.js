@@ -2,24 +2,16 @@ const Task = require('../models/Task')
 mongoose = require('mongoose')
 setStatus = require('./service/statusFunctions').setStatus
 taskService = require('./service/taskService')
-validation = require('./service/validation')
-const { validationResult} = require('express-validator')
 
 exports.list = (req, res) => {
   taskService.findAllTasks(res)
 }
 
 exports.details = (req, res) => {
-  validation.mongoIdValid(req.params._id)
   taskService.findTaskById(req.params._id, res)
 }
 
 exports.create = async (req, res) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
-  }
-
   const newTask = new Task(req.body)
   newTask._id = new mongoose.Types.ObjectId()
   await newTask
@@ -35,12 +27,6 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
-  }
-  
-  validation.mongoIdValid(req.params._id)
   await Task.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {
       data.updatedAt = Date.now()
@@ -54,7 +40,6 @@ exports.update = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
-  validation.mongoIdValid(req.params._id)
   await Task.findById(req.params._id)
     .then(data => {
       taskService.deleteTaskFromProject(data, req.params._id)
@@ -68,12 +53,9 @@ exports.delete = async (req, res) => {
 }
 
 exports.tasksByProject = (req, res) => {
-  validation.mongoIdValid(req.params._id)
   taskService.findTaskByProjectId(req.params._id, res)
 }
 
 exports.statusEvent = (req, res) => {
-  validation.mongoIdValid(req.params._id)
   taskService.updateStatus(req, res)
-  
 }

@@ -34,10 +34,6 @@ export const deleteFile = (id, documentType) => async dispatch => {
   if (documentType === PROJECT) {
     axios
       .delete(`${FILES_PATH}/deleteFromProject/${id}`)
-      .then(() => {
-        //close modal?
-        console.log('file uploaded to project')
-      })
       .catch(error => {
         dispatch({
           type: GET_FILE_ERRORS,
@@ -48,6 +44,6 @@ export const deleteFile = (id, documentType) => async dispatch => {
   } else if (documentType === TASK) {
     console.log('delete File from Task')
   } else {
-    console.log('error')
+    console.log('error no such docType')
   }
 }

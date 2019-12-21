@@ -7,20 +7,16 @@ projectService = require('./service/projectService')
 fileService = require('./service/fileService')
 localStorageService = require('./service/localStorageService')
 formidable = require('formidable')
-validation = require('./service/validation')
-const { validationResult } = require('express-validator')
 
 exports.list = (req, res) => {
   projectService.findAllProjects(res)
 }
 
 exports.details = (req, res) => {
-  validation.mongoIdValid(req.params._id)
   projectService.findProjectById(req.params._id, res)
 }
 
 exports.create = async (req, res) => {
-  const errors = validationResult(req)
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() })
   }
@@ -41,12 +37,6 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() })
-  }
-
-  validation.mongoIdValid(req.params._id)
   await Project.findById(req.params._id)
     .then(data => {
       projectService.removeProjectFromAllCategories(data._id, data.categories)
@@ -70,7 +60,6 @@ exports.update = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
-  validation.mongoIdValid(req.params._id)
   await Project.findById(req.params._id)
     .then(data => {
       
@@ -88,7 +77,6 @@ exports.delete = async (req, res) => {
 }
 
 exports.statusEvent = (req, res) => {
-  validation.mongoIdValid(req.params._id)
   projectService.updateStatus(req, res)
   
 }
