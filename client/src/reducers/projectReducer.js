@@ -21,8 +21,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         project: action.payload,
-        modalOpen: false,
-        fileUploaded: false
       }
     case CLOSE_UPLOAD_MODAL:
       return {

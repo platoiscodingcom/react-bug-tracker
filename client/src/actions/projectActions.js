@@ -99,6 +99,7 @@ export const setUploadModalOpen = (change) => dispatch =>{
   
 }
 export const setFileUploaded = (change) => dispatch =>{
+  console.log("setFileUploaded:change", change)
   if(change){
     dispatch({
       type: SET_FILE_UPLOADED_TRUE,

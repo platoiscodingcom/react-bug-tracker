@@ -15,7 +15,6 @@ import {
   deleteProject,
   getProject,
   setUploadModalOpen,
-  setFileUploaded
 } from '../../actions/projectActions'
 import { CATEGORIES_DETAILS, PROJECTS_HOME } from '../../components/Constants'
 
@@ -147,7 +146,6 @@ Details.propTypes = {
   deleteProject: PropTypes.func.isRequired,
   getProject: PropTypes.func.isRequired,
   setUploadModalOpen: PropTypes.func.isRequired,
-  setFileUploaded: PropTypes.func.isRequired,
   project: PropTypes.object.isRequired
 }
 
@@ -158,6 +156,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   deleteProject,
   getProject,
-  setUploadModalOpen,
-  setFileUploaded
+  setUploadModalOpen
 })(Details)

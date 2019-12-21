@@ -10,7 +10,7 @@ import { PROJECT } from '../Constants'
 
 const DetailsGallery = ({
   getProject,
-  project: { project, modalOpen },
+  project: { project },
   history,
   deleteFile
 }) => {
@@ -19,14 +19,13 @@ const DetailsGallery = ({
 
   const [files, setFiles] = useState([])
 
-  useEffect(() => {
-    console.log('useEffect in detailsGallery')
-    if (project.files) setFiles(project.files)
-  }, [project.files, modalOpen])
-
   //todo:
   //filter if image, then display image
   //display placeholder for every file that is not an image
+
+  useEffect(() =>{
+    if(project.files) setFiles(project.files)
+  },[project.files])
 
   const filesList = files.map(file => (
     <Grid.Column key={uuid.v4()}>

@@ -88,7 +88,7 @@ const List = ({ match }) => {
 
         <Card>
           <Card.Content>
-            <Button color='white' as={Link} to={PROJECTS_CREATE}>
+            <Button as={Link} to={PROJECTS_CREATE}>
               <i className='fas fa-plus' />
               New Project
             </Button>

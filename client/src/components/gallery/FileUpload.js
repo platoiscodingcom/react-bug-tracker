@@ -14,8 +14,6 @@ const FileUpload = ({
   setUploadModalOpen,
   createFile,
   project: { project, modalOpen},
-  getProject,
-  history
 }) => {
   const [file, setFile] = useState({})
   const [filename, setFilename] = useState('')
@@ -40,9 +38,9 @@ const FileUpload = ({
       createFile(file, documentPath, project._id)
       setUploadModalOpen(false)
       setFilename('')
-      //getProject(project._id, history)
     }
   }
+
 
   return (
     <Modal open={modalOpen} centered>
