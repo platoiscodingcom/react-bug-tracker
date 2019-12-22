@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Container, Card, List, Dropdown, Menu } from 'semantic-ui-react'
+import React, { useEffect, useState } from 'react'
+import { Card, List, Dropdown, Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
 import TaskTable from '../../components/tasks/TaskTable'
@@ -17,6 +17,7 @@ import {
   setUploadModalOpen,
 } from '../../actions/projectActions'
 import { CATEGORIES_DETAILS, PROJECTS_HOME } from '../../components/Constants'
+import NewTask from './../../components/projects/NewTask';
 
 const Details = ({
   match,
@@ -26,7 +27,7 @@ const Details = ({
   setUploadModalOpen,
   project: { project }
 }) => {
-  //const [showNewTask, setShowNewTask] = useState({ show: false })
+  const [showNewTask, setShowNewTask] = useState(false)
 
   useEffect(() => {
     getProject(match.params._id, history)
@@ -55,25 +56,26 @@ const Details = ({
 
   return (
     <div>
-      <Container>
+        <NewTask showNewTask={showNewTask} setShowNewTask={setShowNewTask} match={match} history={history}/>
+      
         <Card fluid>
           <Card.Content className='card-header'>
             <span className='card-header-title'>{name}</span>
             <Menu floated='right' className='card-menu'>
               <Dropdown item text='more'>
                 <Dropdown.Menu className='card-actions-dropdown'>
-                  {/*
+                  
                   <Dropdown.Item>
                     <div
                       onClick={() =>
-                        setShowNewTask({ show: !showNewTask.show })
+                        setShowNewTask(true)
                       }
                     >
                       <i className='fas fa-plus' />
                       New Task
                     </div>
                   </Dropdown.Item>
-                   */}
+                   
                   <Dropdown.Item>
                     <div onClick={() => setUploadModalOpen(true)}>
                       <i className='fas fa-upload' />
@@ -133,7 +135,7 @@ const Details = ({
             <DetailsGallery />
           </Card.Content>
         </Card>
-      </Container>
+      
 
       <TaskTable />
 

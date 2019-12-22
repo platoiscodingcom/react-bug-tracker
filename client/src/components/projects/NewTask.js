@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Modal, Form, Button } from 'semantic-ui-react'
-import { validateTask } from '../../validation/validateTask'
-import { errorsEmpty } from '../../validation/validationFunctions'
 import {
   statusOptions,
   priorityOptions,
   typeOptions
 } from '../helper/MultipleSelect'
-import { OPEN, FEATURE, LOW, TASKS_PATH, PROJECTS_PATH } from '../Constants'
+import { OPEN, FEATURE, LOW } from '../Constants'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { createTask } from './../../actions/taskActions'
+import { PROJECTS_DETAILS } from './../Constants';
 
 const NewTask = ({
-  project,
+  createTask,
+  errors,
   setShowNewTask,
   showNewTask,
-  setProject,
-  match
+  match,
+  history,
 }) => {
-  const [errors, setErrors] = useState({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [task, setTask] = useState({
     title: '',
-    project: project._id,
     description: '',
+    project: match.params._id,
     status: OPEN,
     priority: LOW,
     type: FEATURE
@@ -32,50 +32,39 @@ const NewTask = ({
     setTask(previousValue => ({ ...previousValue, [name]: value }))
   }
 
+  const cancel = () => {
+    resetForm()
+  }
+
   const resetForm = () => {
     setTask({
       title: '',
-      project: project._id,
+      project: '',
       description: '',
       status: OPEN,
       priority: LOW,
       type: FEATURE
     })
-    setShowNewTask({ show: !showNewTask.show })
-    axios
-      .get(`${PROJECTS_PATH}/${match.params._id}`)
-      .then(response => {
-        setProject(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    setShowNewTask(false)
   }
 
+  const [submitting, setSubmitting] = useState(false)
   const handleFormSubmission = () => {
-    setErrors(validateTask(task))
-    setIsSubmitting(true)
+    createTask(task)
+    setSubmitting(true)
+  
   }
 
-  useEffect(
-    () => {
-      if (errorsEmpty(Object.values(errors)) && isSubmitting) {
-        axios
-          .post(TASKS_PATH, task)
-          .then(() => {
-            resetForm()
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      } 
-    },// eslint-disable-next-line react-hooks/exhaustive-deps
-    [errors, isSubmitting]
-  )
-
+  useEffect(()=>{
+    if(!Object.keys(errors).length && submitting ) {
+      resetForm()
+      history.push(PROJECTS_DETAILS + '/' + match.params._id)
+    }
+  },[ errors])
+  
   return (
     <div>
-      <Modal open={showNewTask.show} centered>
+      <Modal open={showNewTask} centered>
         <Modal.Header>Upload File </Modal.Header>
         <Modal.Content>
           <Form widths='equal'>
@@ -128,10 +117,7 @@ const NewTask = ({
         </Modal.Content>
 
         <Modal.Actions>
-          <Button
-            color='black'
-            onClick={() => setShowNewTask({ show: !showNewTask.show })}
-          >
+          <Button color='black' onClick={() => cancel()}>
             Cancel
           </Button>
           <Button color='green' content='Save' onClick={handleFormSubmission} />
@@ -141,4 +127,13 @@ const NewTask = ({
   )
 }
 
-export default NewTask
+NewTask.propTypes = {
+  createTask: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+  errors: state.errors
+})
+
+export default connect(mapStateToProps, { createTask })(NewTask)

@@ -50,7 +50,8 @@ const Create = ({ createTask, errors, history, match }) => {
   }
 
   const handleFormSubmission = () => {
-    createTask(task, history)
+    createTask(task)
+    history.push(TASKS_HOME)
   }
 
   return (
