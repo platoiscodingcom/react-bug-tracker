@@ -10,11 +10,11 @@ import { CATEGORIES_HOME, CATEGORIES_PATH } from '../components/Constants'
 export const createCategory = (category, history) => async dispatch => {
   try {
     await axios.post(CATEGORIES_PATH, category)
-    history.push(CATEGORIES_HOME)
     dispatch({
       type: GET_CATEGORY_ERRORS,
       payload: {}
     })
+    history.push(CATEGORIES_HOME)
   } catch (error) {
     dispatch({
       type: GET_CATEGORY_ERRORS,
@@ -28,16 +28,15 @@ export const updateCategory = (
   formData,
   history
 ) => async dispatch => {
-  console.log('updateCategory', category)
   category.name = formData.name
   await axios
     .put(`${CATEGORIES_PATH}/${category._id}`, category)
     .then(() => {
-      history.push(CATEGORIES_HOME)
       dispatch({
         type: GET_CATEGORY_ERRORS,
         payload: {}
       })
+      history.push(CATEGORIES_HOME)
     })
     .catch(error => {
       dispatch({

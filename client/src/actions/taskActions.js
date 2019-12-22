@@ -21,7 +21,31 @@ export const createTask = (task, history) => async dispatch => {
     })
 }
 
-export const updateTask = () => async dispatch => {}
+export const updateTask = (task, formData, history) => async dispatch => {
+  task.title = formData.title
+  task.project = formData.project
+  task.priority = formData.priority
+  task.status = formData.status
+  task.description = formData.description
+  task.type = formData.type
+
+  await axios
+    .put(`${TASKS_PATH}/${task._id}`, task)
+    .then(() => {
+      dispatch({
+        type: GET_TASK_ERRORS,
+        payload: {}
+      })
+      history.push(TASKS_HOME)
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_TASK_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+    })
+}
 
 export const getTasks = () => async dispatch => {
   await axios

@@ -29,7 +29,25 @@ export const createProject = (project, history) => async dispatch => {
       console.log(error)
     })
 }
-export const updateProject = () => async dispatch => {}
+export const updateProject = (project, formData, history) => async dispatch => {
+
+  await axios
+    .put(`${PROJECTS_PATH}/${project._id}`, formData)
+    .then(() => {
+      dispatch({
+        type: GET_PROJECT_ERRORS,
+        payload: {}
+      })
+      history.push(PROJECTS_HOME)
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_PROJECT_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+    })
+}
 
 export const getProject = (id, history) => async dispatch => {
   await axios
@@ -84,32 +102,30 @@ export const deleteProject = id => async dispatch => {
     })
 }
 
-export const setUploadModalOpen = (change) => dispatch =>{
-  if(change){
+export const setUploadModalOpen = change => dispatch => {
+  if (change) {
     dispatch({
       type: OPEN_UPLOAD_MODAL,
       payload: {}
     })
-  }else{
+  } else {
     dispatch({
       type: CLOSE_UPLOAD_MODAL,
       payload: {}
     })
   }
-  
 }
-export const setFileUploaded = (change) => dispatch =>{
-  console.log("setFileUploaded:change", change)
-  if(change){
+export const setFileUploaded = change => dispatch => {
+  console.log('setFileUploaded:change', change)
+  if (change) {
     dispatch({
       type: SET_FILE_UPLOADED_TRUE,
       payload: {}
     })
-  }else{
+  } else {
     dispatch({
       type: SET_FILE_UPLOADED_FALSE,
       payload: {}
     })
   }
-  
 }

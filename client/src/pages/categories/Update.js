@@ -53,7 +53,7 @@ const Update = ({
           floated='right'
           color='black'
           content='Cancel'
-          onClick={e => history.push(CATEGORIES_HOME)}
+          onClick={() => history.push(CATEGORIES_HOME)}
         />
         <Button
           floated='right'

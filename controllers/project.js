@@ -45,7 +45,7 @@ exports.update = async (req, res) => {
       data.status = req.body.status
       data.description = req.body.description
       data.categories = req.body.categories
-      data.files = req.body.files
+      //data.files = req.body.files
       data.updatedAt = Date.now()
 
       projectService.addProjectToCategories(data._id, req.body.categories)

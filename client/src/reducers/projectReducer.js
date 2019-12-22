@@ -12,7 +12,8 @@ const initialState = {
   projects: [],
   project: {},
   modalOpen: false,
-  fileUploaded: false
+  fileUploaded: false,
+	loading: true,
 }
 
 export default function (state = initialState, action) {
@@ -21,6 +22,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         project: action.payload,
+        loading: false
       }
     case CLOSE_UPLOAD_MODAL:
       return {
