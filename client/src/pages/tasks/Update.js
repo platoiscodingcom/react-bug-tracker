@@ -17,7 +17,7 @@ const Update = ({
   match,
   getTask,
   updateTask,
-  task: { task },
+  task: { task, loading },
   history
 }) => {
   const [projects, setProjects] = useState([])
@@ -30,8 +30,8 @@ const Update = ({
     type: ''
   })
 
-  const loadProjects = () => {
-    axios
+  const loadProjects = async( ) => {
+    await axios
     .get(PROJECTS_PATH)
     .then(response => {
       setProjects(
@@ -47,27 +47,22 @@ const Update = ({
   }
 
   useEffect(() => {
-    getTask(match.params._id, history)
     loadProjects()
-    if (task) {
-      setFormData({
-        title: task.title,
-        status: task.status,
-        description: task.description,
-        type: task.type,
-        priority: task.priority,
-        project: task.project
-      })
-    }
-    console.log('heho')
-  }, [getTask, task, match, history])
-
-
+    getTask(match.params._id, history)
     
+    setFormData({
+      title: loading || !task.title ? '' : task.title,
+      status: loading || !task.status ? '' : task.status,
+      description: loading || !task.description ? '' : task.description,
+      type: loading || !task.type ? '' : task.type,
+      priority: loading || !task.priority ? '' : task.priority,
+      project: loading || !task.project ? '' : task.project
+    })// eslint-disable-next-line
+  }, [getTask, loading, match.params._id, history])
 
-  const onChange = e => {
-    e.preventDefault()
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+
+  const handleInputChange = (event, { name, value }) => {
+    setFormData(formData => ({ ...formData, [name]: value }))
   }
 
   const onSubmit = e => {
@@ -76,6 +71,8 @@ const Update = ({
   }
 
   if (task == null || task === '') return <UpdateLoader />
+
+  const {title, status, description, type, priority, project} = formData
 
   return (
     <Card fluid>
@@ -86,16 +83,16 @@ const Update = ({
             <Form.Input
               label='title'
               name='title'
-              value={formData.title}
-              onChange={e => onChange(e)}
+              value={title}
+              onChange={handleInputChange}
               error={errors.title}
             />
             <Form.Select
               label='Project'
               name='project'
               options={projects}
-              value={formData.project._id}
-              onChange={e => onChange(e)}
+              value={project._id}
+              onChange={handleInputChange}
               error={errors.project}
             />
           </Form.Group>
@@ -104,24 +101,24 @@ const Update = ({
               label='Priority'
               name='priority'
               options={priorityOptions}
-              value={formData.priority}
-              onChange={e => onChange(e)}
+              value={priority}
+              onChange={handleInputChange}
               error={errors.priority}
             />
             <Form.Select
               label='Status'
               name='status'
               options={statusOptions}
-              value={formData.status}
-              onChange={e => onChange(e)}
+              value={status}
+              onChange={handleInputChange}
               error={errors.status}
             />
             <Form.Select
               label='Type'
               name='type'
               options={typeOptions}
-              value={formData.type}
-              onChange={e => onChange(e)}
+              value={type}
+              onChange={handleInputChange}
               error={errors.type}
             />
           </Form.Group>
@@ -129,8 +126,8 @@ const Update = ({
             <Form.TextArea
               label='Description'
               name='description'
-              value={formData.description}
-              onChange={e => onChange(e)}
+              value={description}
+              onChange={handleInputChange}
               rows='12'
               error={errors.description}
             />

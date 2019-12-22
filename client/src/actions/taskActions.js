@@ -22,15 +22,9 @@ export const createTask = (task, history) => async dispatch => {
 }
 
 export const updateTask = (task, formData, history) => async dispatch => {
-  task.title = formData.title
-  task.project = formData.project
-  task.priority = formData.priority
-  task.status = formData.status
-  task.description = formData.description
-  task.type = formData.type
 
   await axios
-    .put(`${TASKS_PATH}/${task._id}`, task)
+    .put(`${TASKS_PATH}/${task._id}`, formData)
     .then(() => {
       dispatch({
         type: GET_TASK_ERRORS,

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Button, Container, Form, Card } from 'semantic-ui-react'
+import { Button, Form, Card } from 'semantic-ui-react'
 import { statusOptions } from '../../components/helper/MultipleSelect'
 import UpdateLoader from '../../components/loader/UpdateLoader'
 import { CATEGORIES_PATH, PROJECTS_HOME } from '../../components/Constants'
@@ -16,27 +16,16 @@ const Update = ({
   history,
   match
 }) => {
+  const [categoryOptions, setCategoryOptions] = useState([])
   const [formData, setFormData] = useState({
     name: '',
     categories: [],
     status: '',
     description: ''
   })
-  
-  useEffect(() => {
-    loadCategoryOptions()
-    getProject(match.params._id, history)
-    setFormData({
-      name: loading || !project.name ? '' : project.name,
-      status: loading || !project.status ? '' : project.status,
-      description: loading || !project.description ? '' : project.description,
-      categories: loading || !project.categories ? [] : project.categories.map(cat => cat._id)
-    })// eslint-disable-next-line
-  }, [getProject, loading, history, match.params._id])
 
-  const [categoryOptions, setCategoryOptions] = useState([])
-  const loadCategoryOptions = () => {
-    axios
+  const loadCategoryOptions = async () => {
+    await axios
       .get(CATEGORIES_PATH)
       .then(response => {
         setCategoryOptions(
@@ -51,6 +40,20 @@ const Update = ({
       })
   }
 
+  useEffect(() => {
+    loadCategoryOptions()
+    getProject(match.params._id, history)
+    setFormData({
+      name: loading || !project.name ? '' : project.name,
+      status: loading || !project.status ? '' : project.status,
+      description: loading || !project.description ? '' : project.description,
+      categories:
+        loading || !project.categories
+          ? []
+          : project.categories.map(cat => cat._id)
+    }) // eslint-disable-next-line
+  }, [getProject, loading, history, match.params._id])
+
   const handleInputChange = (event, { name, value }) => {
     setFormData(formData => ({ ...formData, [name]: value }))
   }
@@ -62,66 +65,64 @@ const Update = ({
 
   if (project == null || project === '') return <UpdateLoader />
 
-  const {name, status, description, categories} = formData
+  const { name, status, description, categories } = formData
   return (
-    <Container>
-      <Card fluid>
-        <Card.Content header='Edit' />
-        <Card.Content>
-          <Form widths='equal'>
-            <Form.Group>
-              <Form.Input
-                label='name'
-                name='name'
-                value={name}
-                onChange={handleInputChange}
-                error={errors.name}
-              />
-              <Form.Select
-                label='Status'
-                name='status'
-                options={statusOptions}
-                value={status}
-                onChange={handleInputChange}
-                error={errors.status}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Select
-                label='Categories'
-                name='categories'
-                fluid
-                multiple
-                selection
-                search
-                options={categoryOptions}
-                value={categories}
-                onChange={handleInputChange}
-                error={errors.categories}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.TextArea
-                label='Description'
-                name='description'
-                value={description}
-                onChange={handleInputChange}
-                rows='12'
-                error={errors.description}
-              />
-            </Form.Group>
-          </Form>
-          <Card.Content extra textAlign='right'>
-            <Button
-              color='black'
-              content='Cancel'
-              onClick={() => history.push(PROJECTS_HOME)}
+    <Card fluid>
+      <Card.Content header='Edit' />
+      <Card.Content>
+        <Form widths='equal'>
+          <Form.Group>
+            <Form.Input
+              label='name'
+              name='name'
+              value={name}
+              onChange={handleInputChange}
+              error={errors.name}
             />
-            <Button color='green' content='Save' onClick={e => onSubmit(e)} />
-          </Card.Content>
+            <Form.Select
+              label='Status'
+              name='status'
+              options={statusOptions}
+              value={status}
+              onChange={handleInputChange}
+              error={errors.status}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Select
+              label='Categories'
+              name='categories'
+              fluid
+              multiple
+              selection
+              search
+              options={categoryOptions}
+              value={categories}
+              onChange={handleInputChange}
+              error={errors.categories}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.TextArea
+              label='Description'
+              name='description'
+              value={description}
+              onChange={handleInputChange}
+              rows='12'
+              error={errors.description}
+            />
+          </Form.Group>
+        </Form>
+        <Card.Content extra textAlign='right'>
+          <Button
+            color='black'
+            content='Cancel'
+            onClick={() => history.push(PROJECTS_HOME)}
+          />
+          <Button color='green' content='Save' onClick={e => onSubmit(e)} />
         </Card.Content>
-      </Card>
-    </Container>
+      </Card.Content>
+    </Card>
   )
 }
 

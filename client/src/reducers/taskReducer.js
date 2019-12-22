@@ -2,7 +2,8 @@ import { GET_TASK, GET_TASKS, DELETE_TASK } from '../actions/types'
 
 const initialState = {
   tasks: [],
-  task: {}
+  task: {},
+  loading: true,
 }
 
 export default function (state = initialState, action){
@@ -10,7 +11,8 @@ export default function (state = initialState, action){
     case GET_TASK:
       return {
         ...state,
-        task: action.payload
+        task: action.payload,
+        loading: false
       }
     case GET_TASKS:
       return {
