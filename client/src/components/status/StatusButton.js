@@ -3,20 +3,16 @@ import { REOPENED, CLOSED, BACKLOG, INPROGRESS } from '../Constants'
 import ButtonEvent from './ButtonEvent'
 import { CLOSE, OPEN, START, STOP, REOPEN} from '../Constants'
 
-const StateButton = ({ status, id, setDocument, documentType }) => {
+const StateButton = ({ status, documentType }) => {
   return (
     <div>
       {(status === OPEN || status === REOPENED) && (
         <Fragment>
           <ButtonEvent
-            id={id}
-            setDocument={setDocument}
             documentType={documentType}
             event = {CLOSE}
           />
           <ButtonEvent
-            setDocument={setDocument}
-            id={id}
             documentType={documentType}
             event = {START}
           />
@@ -25,8 +21,6 @@ const StateButton = ({ status, id, setDocument, documentType }) => {
 
       {status === CLOSED && (
         <ButtonEvent
-          setDocument={setDocument}
-          id={id}
           documentType={documentType}
           event = {REOPEN}
         />
@@ -35,15 +29,11 @@ const StateButton = ({ status, id, setDocument, documentType }) => {
       {status === INPROGRESS && (
         <Fragment>
           <ButtonEvent
-            id={id}
-            setDocument={setDocument}
             documentType={documentType}
             event = {CLOSE}
           />
 
           <ButtonEvent
-            setDocument={setDocument}
-            id={id}
             documentType={documentType}
             event = {STOP}
           />
@@ -53,15 +43,11 @@ const StateButton = ({ status, id, setDocument, documentType }) => {
       {status === BACKLOG && (
         <Fragment>
           <ButtonEvent
-            setDocument={setDocument}
-            id={id}
             documentType={documentType}
             event = {OPEN}
           />
 
           <ButtonEvent
-            setDocument={setDocument}
-            id={id}
             documentType={documentType}
             event = {START}
           />

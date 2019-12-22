@@ -5,7 +5,7 @@ import uuid from 'uuid'
 import TaskTable from '../../components/tasks/TaskTable'
 import DetailsLoader from '../../components/loader/DetailsLoader'
 import StatusColor from '../../components/status/StatusColor'
-//import StatusButton from '../../components/status/StatusButton'
+import StatusButton from '../../components/status/StatusButton'
 import moment from 'moment'
 import FileUpload from '../../components/gallery/FileUpload'
 import DetailsGallery from '../../components/gallery/DetailsGallery'
@@ -14,10 +14,14 @@ import { connect } from 'react-redux'
 import {
   deleteProject,
   getProject,
-  setUploadModalOpen,
+  setUploadModalOpen
 } from '../../actions/projectActions'
-import { CATEGORIES_DETAILS, PROJECTS_HOME } from '../../components/Constants'
-import NewTask from './../../components/projects/NewTask';
+import {
+  CATEGORIES_DETAILS,
+  PROJECTS_HOME,
+  PROJECT
+} from '../../components/Constants'
+import NewTask from './../../components/projects/NewTask'
 
 const Details = ({
   match,
@@ -56,86 +60,72 @@ const Details = ({
 
   return (
     <div>
-        <NewTask showNewTask={showNewTask} setShowNewTask={setShowNewTask} match={match} history={history}/>
-      
-        <Card fluid>
-          <Card.Content className='card-header'>
-            <span className='card-header-title'>{name}</span>
-            <Menu floated='right' className='card-menu'>
-              <Dropdown item text='more'>
-                <Dropdown.Menu className='card-actions-dropdown'>
-                  
-                  <Dropdown.Item>
-                    <div
-                      onClick={() =>
-                        setShowNewTask(true)
-                      }
-                    >
-                      <i className='fas fa-plus' />
-                      New Task
-                    </div>
-                  </Dropdown.Item>
-                   
-                  <Dropdown.Item>
-                    <div onClick={() => setUploadModalOpen(true)}>
-                      <i className='fas fa-upload' />
-                      Upload File
-                    </div>
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    text='Edit'
-                    icon='pencil alternate'
-                    as={Link}
-                    to={`${PROJECTS_HOME}/${_id}`}
-                  />
-                  <Dropdown.Item color={'red'}>
-                    <div onClick={() => deleteProject(_id)}>
-                      <i className='fas fa-trash' />
-                      Delete
-                    </div>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Menu>
-          </Card.Content>
-          <Card.Content>
-            <List>
-              <List.Item>
-                <div>
-                  Status:
-                  <StatusColor key={uuid.v4()} status={status} />
-                </div>
-              </List.Item>
-              <List.Item>
-                Created At:{' '}
-                {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
-              </List.Item>
-              <List.Item>
-                Updated At:{' '}
-                {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
-              </List.Item>
+      <NewTask showNewTask={showNewTask} setShowNewTask={setShowNewTask} />
 
-              <List.Item>
-                <div>Categories:{listCat}</div>
-              </List.Item>
-            </List>
-          </Card.Content>
-          <Card.Content description={description} />
-          {/* <Card.Content extra>
-            
-              <StatusButton
-                status={status}
-                id={_id}
-                setDocument={setProject}
-                documentType={PROJECT}
-              />
-            </Card.Content>
-*/}
-          <Card.Content extra>
-            <DetailsGallery />
-          </Card.Content>
-        </Card>
-      
+      <Card fluid>
+        <Card.Content className='card-header'>
+          <span className='card-header-title'>{name}</span>
+          <Menu floated='right' className='card-menu'>
+            <Dropdown item text='more'>
+              <Dropdown.Menu className='card-actions-dropdown'>
+                <Dropdown.Item>
+                  <div onClick={() => setShowNewTask(true)}>
+                    <i className='fas fa-plus' />
+                    New Task
+                  </div>
+                </Dropdown.Item>
+
+                <Dropdown.Item>
+                  <div onClick={() => setUploadModalOpen(true)}>
+                    <i className='fas fa-upload' />
+                    Upload File
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Item
+                  text='Edit'
+                  icon='pencil alternate'
+                  as={Link}
+                  to={`${PROJECTS_HOME}/${_id}`}
+                />
+                <Dropdown.Item color={'red'}>
+                  <div onClick={() => deleteProject(_id)}>
+                    <i className='fas fa-trash' />
+                    Delete
+                  </div>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu>
+        </Card.Content>
+        <Card.Content>
+          <List>
+            <List.Item>
+              <div>
+                Status:
+                <StatusColor key={uuid.v4()} status={status} />
+              </div>
+            </List.Item>
+            <List.Item>
+              Created At: {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
+            </List.Item>
+            <List.Item>
+              Updated At: {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+            </List.Item>
+
+            <List.Item>
+              <div>Categories:{listCat}</div>
+            </List.Item>
+          </List>
+        </Card.Content>
+        <Card.Content description={description} />
+        <Card.Content extra>
+          <StatusButton status={status} documentType={PROJECT} />
+        </Card.Content>
+
+        <Card.Content extra>
+          <DetailsGallery />
+        </Card.Content>
+      </Card>
 
       <TaskTable />
 

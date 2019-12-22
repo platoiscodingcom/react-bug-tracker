@@ -9,7 +9,8 @@ import { OPEN, FEATURE, LOW } from '../Constants'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createTask } from './../../actions/taskActions'
-import { PROJECTS_DETAILS } from './../Constants';
+import { PROJECTS_DETAILS } from './../Constants'
+import { withRouter } from 'react-router';
 
 const NewTask = ({
   createTask,
@@ -17,7 +18,7 @@ const NewTask = ({
   setShowNewTask,
   showNewTask,
   match,
-  history,
+  history
 }) => {
   const [task, setTask] = useState({
     title: '',
@@ -52,16 +53,15 @@ const NewTask = ({
   const handleFormSubmission = () => {
     createTask(task)
     setSubmitting(true)
-  
   }
 
-  useEffect(()=>{
-    if(!Object.keys(errors).length && submitting ) {
+  useEffect(() => {
+    if (!Object.keys(errors).length && submitting) {
       resetForm()
       history.push(PROJECTS_DETAILS + '/' + match.params._id)
     }
-  },[ errors])
-  
+  }, [errors])
+
   return (
     <div>
       <Modal open={showNewTask} centered>
@@ -129,11 +129,11 @@ const NewTask = ({
 
 NewTask.propTypes = {
   createTask: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { createTask })(NewTask)
+export default withRouter(connect(mapStateToProps, { createTask })(NewTask))
