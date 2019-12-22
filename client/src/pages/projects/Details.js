@@ -11,6 +11,7 @@ import FileUpload from '../../components/gallery/FileUpload'
 import DetailsGallery from '../../components/gallery/DetailsGallery'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import {
   deleteProject,
   getProject,
@@ -148,8 +149,8 @@ const mapStateToProps = state => ({
   project: state.project
 })
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   deleteProject,
   getProject,
   setUploadModalOpen
-})(Details)
+})(Details))

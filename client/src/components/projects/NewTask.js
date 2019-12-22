@@ -40,7 +40,7 @@ const NewTask = ({
   const resetForm = () => {
     setTask({
       title: '',
-      project: '',
+      project: match.params._id,
       description: '',
       status: OPEN,
       priority: LOW,
