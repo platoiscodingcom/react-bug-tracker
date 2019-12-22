@@ -11,6 +11,7 @@ import {
 import UpdateLoader from '../../components/loader/UpdateLoader'
 import { PROJECTS_PATH, TASKS_HOME } from '../../components/Constants'
 import { getTask, updateTask } from './../../actions/taskActions'
+import useIsMounted from 'ismounted'
 
 const Update = ({
   errors,
@@ -22,6 +23,7 @@ const Update = ({
 }) => {
   const [projects, setProjects] = useState([])
   const [formData, setFormData] = useState({
+    _id: match.params.id,
     title: '',
     project: '',
     description: '',
@@ -30,22 +32,48 @@ const Update = ({
     type: ''
   })
 
-  const loadProjects = async( ) => {
+  const { title, status, description, type, priority, project } = formData
+
+  useEffect(() => {
+    loadProjects()
+    getTask(match.params._id, history)
+    // eslint-disable-next-line
+  }, [])
+
+  //check if it's mounted -> cannot set state on unmounted component
+  const isMounted = useIsMounted()
+  useEffect(() => {
+    //only if loading is false and still mounted
+    if (!loading && isMounted.current && task) {
+      const { title, status, description, type, priority, project } = task
+      setFormData({
+        title,
+        status,
+        description,
+        type,
+        priority,
+        project
+      })
+    }
+  }, [task, isMounted, loading])
+
+  const loadProjects = async () => {
     await axios
-    .get(PROJECTS_PATH)
-    .then(response => {
-      setProjects(
-        response.data.map(project => ({
-          text: `${project.name}`,
-          value: project._id
-        }))
-      )
-    })
-    .catch(error => {
-      console.log(error)
-    })
+      .get(PROJECTS_PATH)
+      .then(response => {
+        setProjects(
+          response.data.map(project => ({
+            text: `${project.name}`,
+            value: project._id
+          }))
+        )
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
+  /*
   useEffect(() => {
     loadProjects()
     getTask(match.params._id, history)
@@ -59,7 +87,7 @@ const Update = ({
       project: loading || !task.project ? '' : task.project
     })// eslint-disable-next-line
   }, [getTask, loading, match.params._id, history])
-
+*/
 
   const handleInputChange = (event, { name, value }) => {
     setFormData(formData => ({ ...formData, [name]: value }))
@@ -71,8 +99,6 @@ const Update = ({
   }
 
   if (task == null || task === '') return <UpdateLoader />
-
-  const {title, status, description, type, priority, project} = formData
 
   return (
     <Card fluid>
