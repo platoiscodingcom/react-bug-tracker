@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createTask } from './../../actions/taskActions'
 import { PROJECTS_DETAILS } from './../Constants'
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router'
 
 const NewTask = ({
   createTask,

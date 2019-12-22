@@ -60,7 +60,10 @@ const Details = ({
 
   return (
     <div>
-      <NewTask showNewTask={showNewTask} setShowNewTask={setShowNewTask} />
+      <NewTask
+        showNewTask={showNewTask}
+        setShowNewTask={setShowNewTask}
+      />
 
       <Card fluid>
         <Card.Content className='card-header'>
