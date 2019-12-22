@@ -31,6 +31,7 @@ export const createProject = (project, history) => async dispatch => {
 }
 export const updateProject = (project, formData, history) => async dispatch => {
 
+  
   await axios
     .put(`${PROJECTS_PATH}/${project._id}`, formData)
     .then(() => {

@@ -1,12 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { withRouter } from 'react-router-dom';
 import { Button, Form, Card } from 'semantic-ui-react'
 import { statusOptions } from '../../components/helper/MultipleSelect'
 import UpdateLoader from '../../components/loader/UpdateLoader'
 import { CATEGORIES_PATH, PROJECTS_HOME } from '../../components/Constants'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { getProject, updateProject } from './../../actions/projectActions'
+import { getProject, updateProject } from '../../actions/projectActions'
 
 const Update = ({
   project: { project, loading },
@@ -138,4 +139,4 @@ const mapStateToProps = state => ({
   project: state.project
 })
 
-export default connect(mapStateToProps, { updateProject, getProject })(Update)
+export default connect(mapStateToProps, { updateProject, getProject })(withRouter(Update))

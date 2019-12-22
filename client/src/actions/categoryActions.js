@@ -8,19 +8,22 @@ import {
 import { CATEGORIES_HOME, CATEGORIES_PATH } from '../components/Constants'
 
 export const createCategory = (category, history) => async dispatch => {
-  try {
-    await axios.post(CATEGORIES_PATH, category)
-    dispatch({
-      type: GET_CATEGORY_ERRORS,
-      payload: {}
+  await axios
+    .post(CATEGORIES_PATH, category)
+    .then(() => {
+      dispatch({
+        type: GET_CATEGORY_ERRORS,
+        payload: {}
+      })
+      history.push(CATEGORIES_HOME)
     })
-    history.push(CATEGORIES_HOME)
-  } catch (error) {
-    dispatch({
-      type: GET_CATEGORY_ERRORS,
-      payload: error.response.data
+    .catch((error) => {
+      dispatch({
+        type: GET_CATEGORY_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
     })
-  }
 }
 
 export const updateCategory = (
@@ -28,9 +31,8 @@ export const updateCategory = (
   formData,
   history
 ) => async dispatch => {
-  category.name = formData.name
   await axios
-    .put(`${CATEGORIES_PATH}/${category._id}`, category)
+    .put(`${CATEGORIES_PATH}/${category._id}`, formData)
     .then(() => {
       dispatch({
         type: GET_CATEGORY_ERRORS,
@@ -84,7 +86,7 @@ export const getCategories = () => async dispatch => {
     })
 }
 
-export const deleteCategory = (id) => async dispatch => {
+export const deleteCategory = id => async dispatch => {
   await axios
     .delete(`${CATEGORIES_PATH}/${id}`)
     .then(res => {

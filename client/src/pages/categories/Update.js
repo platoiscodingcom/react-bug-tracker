@@ -5,21 +5,35 @@ import { CATEGORIES_HOME } from '../../components/Constants'
 import { updateCategory, getCategory } from '../../actions/categoryActions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import useIsMounted from 'ismounted'
 
 const Update = ({
-  category: { category },
+  category: { category, loading },
   getCategory,
   updateCategory,
   errors,
   history,
   match
 }) => {
-  const [formData, setFormData] = useState({ name: '' })
-
+  const [formData, setFormData] = useState({ _id: match.params.id, name: '' })
+  const { name } = formData
+  //only get category by id when id changed
   useEffect(() => {
     getCategory(match.params._id, history)
-    if(category.name) setFormData({ name: category.name })
-  }, [getCategory, category.name, match.params._id, history])
+    // eslint-disable-next-line
+  }, [])
+
+  //check if it's mounted -> cannot set state on unmounted component
+  const isMounted = useIsMounted()
+  useEffect(() => {
+    //only if loading is false and still mounted
+    if (!loading && isMounted.current && category) {
+      const { name } = category
+      setFormData({
+        name
+      })
+    }
+  }, [category, isMounted, loading])
 
   const onChange = e => {
     e.preventDefault()
@@ -31,7 +45,8 @@ const Update = ({
     updateCategory(category, formData, history)
   }
 
-  if (category.name == null || category.name === '') return <UpdateLoader />
+  if (category == null || category === '') return <UpdateLoader />
+
   return (
     <Card fluid>
       <Card.Content header={category.name} />
@@ -41,7 +56,7 @@ const Update = ({
             <Form.Input
               label='name'
               name='name'
-              value={formData.name}
+              value={name}
               onChange={e => onChange(e)}
               error={errors.name}
             />

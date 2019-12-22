@@ -2,7 +2,8 @@ import { GET_CATEGORY, GET_CATEGORIES, DELETE_CATEGORY } from '../actions/types'
 
 const initialState = {
   categories: [],
-  category: {}
+  category: {},
+  loading: true
 }
 
 export default function (state = initialState, action) {
@@ -23,7 +24,8 @@ export default function (state = initialState, action) {
     case GET_CATEGORY:
       return {
         ...state,
-        category: action.payload
+        category: action.payload,
+        loading: false
       }
     default:
       return state
