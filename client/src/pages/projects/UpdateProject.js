@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 import { Button, Form, Card } from 'semantic-ui-react'
 import { statusOptions } from '../../components/helper/MultipleSelect'
 import UpdateLoader from '../../components/loader/UpdateLoader'
@@ -8,6 +8,7 @@ import { CATEGORIES_PATH, PROJECTS_HOME } from '../../components/Constants'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getProject, updateProject } from '../../actions/projectActions'
+import useIsMounted from 'ismounted'
 
 const Update = ({
   project: { project, loading },
@@ -19,11 +20,34 @@ const Update = ({
 }) => {
   const [categoryOptions, setCategoryOptions] = useState([])
   const [formData, setFormData] = useState({
+    _id: match.params.id,
     name: '',
     categories: [],
     status: '',
     description: ''
   })
+  const { name, status, description, categories } = formData
+
+  useEffect(() => {
+    loadCategoryOptions()
+    getProject(match.params._id, history)
+    // eslint-disable-next-line
+  }, [])
+
+  //check if it's mounted -> cannot set state on unmounted component
+  const isMounted = useIsMounted()
+  useEffect(() => {
+    //only if loading is false and still mounted
+    if (!loading && isMounted.current && project) {
+      const { name, status, description, categories } = project
+      setFormData({
+        name,
+        status,
+        description,
+        categories: categories.map(cat => cat._id)
+      })
+    }
+  }, [project, isMounted, loading])
 
   const loadCategoryOptions = async () => {
     await axios
@@ -41,20 +65,6 @@ const Update = ({
       })
   }
 
-  useEffect(() => {
-    loadCategoryOptions()
-    getProject(match.params._id, history)
-    setFormData({
-      name: loading || !project.name ? '' : project.name,
-      status: loading || !project.status ? '' : project.status,
-      description: loading || !project.description ? '' : project.description,
-      categories:
-        loading || !project.categories
-          ? []
-          : project.categories.map(cat => cat._id)
-    }) // eslint-disable-next-line
-  }, [getProject, loading, history, match.params._id])
-
   const handleInputChange = (event, { name, value }) => {
     setFormData(formData => ({ ...formData, [name]: value }))
   }
@@ -66,7 +76,6 @@ const Update = ({
 
   if (project == null || project === '') return <UpdateLoader />
 
-  const { name, status, description, categories } = formData
   return (
     <Card fluid>
       <Card.Content header='Edit' />
@@ -139,4 +148,6 @@ const mapStateToProps = state => ({
   project: state.project
 })
 
-export default connect(mapStateToProps, { updateProject, getProject })(withRouter(Update))
+export default connect(mapStateToProps, { updateProject, getProject })(
+  withRouter(Update)
+)
