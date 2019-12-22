@@ -59,13 +59,13 @@ const NewTask = ({
     if (!Object.keys(errors).length && submitting) {
       resetForm()
       history.push(PROJECTS_DETAILS + '/' + match.params._id)
-    }
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors])
 
   return (
     <div>
       <Modal open={showNewTask} centered>
-        <Modal.Header>Upload File </Modal.Header>
+        <Modal.Header>New Task </Modal.Header>
         <Modal.Content>
           <Form widths='equal'>
             <Form.Group>

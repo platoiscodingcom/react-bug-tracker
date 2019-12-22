@@ -23,7 +23,6 @@ const Details = ({ match, history, getTask, deleteTask, task: { task } }) => {
     title,
     status,
     description,
-    project,
     priority,
     type,
     updatedAt,

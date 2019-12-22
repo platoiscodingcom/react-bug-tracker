@@ -1,76 +1,58 @@
 import React, { useState } from 'react'
-import { Card, Form, Button } from 'semantic-ui-react'
-import {
-  statusOptions,
-  priorityOptions,
-  typeOptions
-} from '../helper/MultipleSelect'
+import {Card } from 'semantic-ui-react'
+import ReactSearchBox from 'react-search-box'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+import PropTypes from 'prop-types'
+import SearchResult from './SearchResult';
 
-const SearchBar = ({ tasks }) => {
-  const [task, setTask] = useState({
-    title: '',
-    status: '',
-    priority: '',
-    type: ''
-  })
-
-  const handleInputChange = (event, { name, value }) => {
-    setTask(previousValue => ({ ...previousValue, [name]: value }))
+const SearchBar = ({ project: { project } }) => {
+  let tasksTitles = []
+  if (project.tasks) {
+    tasksTitles = project.tasks.map(task => ({
+      key: task.title,
+      value: task.title,
+      status: task.status,
+      priority: task.priority,
+      type: task.type,
+      id: task._id
+    }))
   }
 
-  const searchTask = searchTaskProperties => {
-    let results = []
-    tasks.forEach(task => {
-      if (task.status === searchTaskProperties.status) {
-        results.push(task)
-      }
-    })
+  const [recordFound, setRecordFound] = useState(false)
+  const [searchResult, setSearchResult] = useState({})
+
+  const showRecord = record => {
+    setRecordFound(true)
+    setSearchResult(record)
+  }
+  const cleanResult = () =>{
+    setSearchResult({})
+    setRecordFound(false)
   }
 
   return (
     <Card fluid>
       <Card.Content>
-        <Form widths='equal'>
-          <Form.Group>
-            <Form.Input
-              label='Title'
-              name='title'
-              value={task.title}
-              onChange={handleInputChange}
-            />
-            <Form.Select
-              label='Priority'
-              name='priority'
-              options={priorityOptions}
-              value={task.priority}
-              onChange={handleInputChange}
-            />
-            <Form.Select
-              label='Status'
-              name='status'
-              options={statusOptions}
-              onChange={handleInputChange}
-              value={task.status}
-            />
-            <Form.Select
-              label='Type'
-              name='type'
-              options={typeOptions}
-              value={task.type}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-        </Form>
-
-        <Button
-          color='green'
-          icon='search'
-          content='Search Task'
-          onClick={() => searchTask(task)}
-        ></Button>
+        <ReactSearchBox
+          placeholder='Search for Tasks'
+          data={tasksTitles}
+          onSelect={record => showRecord(record)}
+          value=''
+        />
       </Card.Content>
+
+      {recordFound && <SearchResult cleanResult= {cleanResult} result = {searchResult}/>}
     </Card>
   )
 }
 
-export default SearchBar
+SearchBar.propTypes = {
+  project: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+  project: state.project
+})
+
+export default withRouter(connect(mapStateToProps, { })(SearchBar))

@@ -20,7 +20,8 @@
     "formidable": "^1.2.1",
     "fs": "0.0.1-security",
     "mongoose": "^5.6.5",
-    "mv": "^2.1.1"
+    "mv": "^2.1.1",
+    "react-search-box": "^2.0.2"
   },
   "devDependencies": {
     "concurrently": "^4.1.1",
