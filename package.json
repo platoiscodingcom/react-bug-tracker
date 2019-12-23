@@ -14,14 +14,22 @@
   "keywords": [],
   "author": "Maria Hildebrandt",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "crypto": "^1.0.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
     "express-validator": "^6.3.0",
     "formidable": "^1.2.1",
     "fs": "0.0.1-security",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.5",
     "mv": "^2.1.1",
-    "react-search-box": "^2.0.2"
+    "nodemailer": "^6.4.2",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "react-search-box": "^2.0.2",
+    "validator": "^12.1.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.1",
