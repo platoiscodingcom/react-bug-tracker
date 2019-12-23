@@ -1,20 +1,25 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const fileUpload = require('express-fileupload');
+const fileUpload = require('express-fileupload')
 
 const projects = require('./routes/projects')
 const tasks = require('./routes/tasks')
 const categories = require('./routes/categories')
 const files = require('./routes/files')
+const users = require('./routes/user')
+
+const passport = require('passport')
+require('./passport')(passport)
 
 const port = 5000
 const mongo_uri = 'mongodb://localhost:27017/bugtracker'
 
 mongoose
-  .connect(
-    mongo_uri,
-    { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true }
-  )
+  .connect(mongo_uri, {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+  })
   .then(() => {
     console.log(`connecting to database: ${mongo_uri}`)
   })
@@ -27,21 +32,22 @@ mongoose
 const app = express()
 
 app.use(express.json())
+app.use(passport.initialize())
+app.use(fileUpload({ limits: { fileSize: 16 * 1024 * 1024 } }))
+
 app.use('/api/projects', projects)
 app.use('/api/tasks', tasks)
 app.use('/api/categories', categories)
 app.use('/api/files', files)
-
-app.use(fileUpload({limits: { fileSize: 16 * 1024 * 1024 },}));
+app.use('/api/users', users)
 
 app.listen({ port }, () => {
   console.log(`Server is listeing to port http://localhost:${port}`)
 })
 
 //file-upload
-const path = require('path');
-exports.DIR = path.join(__dirname, '/client/public');
-
+const path = require('path')
+exports.DIR = path.join(__dirname, '/client/public')
 
 // Get the default connection
 var db = mongoose.connection
@@ -52,12 +58,12 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 //////////////////////////////////
 
 // remove folders with images
-var rimraf = require("rimraf");
-rimraf(__dirname + '\\client\\public\\projects\\', err =>{
-  if(err) console.log(err);
+var rimraf = require('rimraf')
+rimraf(__dirname + '\\client\\public\\projects\\', err => {
+  if (err) console.log(err)
 })
-rimraf(__dirname + '\\client\\public\\tasks\\', err =>{
-  if(err) console.log(err);
+rimraf(__dirname + '\\client\\public\\tasks\\', err => {
+  if (err) console.log(err)
 })
 
 // prepare db
