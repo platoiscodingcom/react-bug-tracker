@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 
-const initalState = {};
+const initialState = {};
 const middleware = [thunk];
 
 let store;
@@ -10,7 +10,7 @@ let store;
 if (window.navigator.userAgent.includes("Chrome")) {
   store = createStore(
     rootReducer,
-    initalState,
+    initialState,
     compose(
       applyMiddleware(...middleware),
       window.__REDUX_DEVTOOLS_EXTENSION__ &&
@@ -20,7 +20,7 @@ if (window.navigator.userAgent.includes("Chrome")) {
 } else {
   store = createStore(
     rootReducer,
-    initalState,
+    initialState,
     compose(applyMiddleware(...middleware))
   );
 }
