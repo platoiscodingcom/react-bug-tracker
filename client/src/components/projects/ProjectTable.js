@@ -48,7 +48,7 @@ const ProjectTable = ({
               <Table.Cell>
                 <StatusColor key={uuid.v4()} status={status} />
               </Table.Cell>
-              <Table.Cell>{moment(updatedAt).format()}</Table.Cell>
+              <Table.Cell>{moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</Table.Cell>
               <Table.Cell textAlign='center' className='button-actions'>
                 <Button
                   circular

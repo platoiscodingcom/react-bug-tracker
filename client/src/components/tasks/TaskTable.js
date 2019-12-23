@@ -51,7 +51,7 @@ const TaskTable = ({
         <Table.Body>
           {tasks.map(task => {
             const { _id, title, type, status, priority } = task
-            const shortTitle = title.substring(0, 25)
+            const shortTitle = title.substring(0, 40)
 
             return (
               <Table.Row key={_id}>

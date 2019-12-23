@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, List, Dropdown, Menu } from 'semantic-ui-react'
+import { Card, List, Header, Dropdown, Menu, Grid } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
 import TaskTable from '../../components/tasks/TaskTable'
@@ -61,10 +61,7 @@ const Details = ({
 
   return (
     <div>
-      <NewTask
-        showNewTask={showNewTask}
-        setShowNewTask={setShowNewTask}
-      />
+      <NewTask showNewTask={showNewTask} setShowNewTask={setShowNewTask} />
 
       <Card fluid>
         <Card.Content className='card-header'>
@@ -102,24 +99,63 @@ const Details = ({
           </Menu>
         </Card.Content>
         <Card.Content>
-          <List>
-            <List.Item>
-              <div>
-                Status:
-                <StatusColor key={uuid.v4()} status={status} />
-              </div>
-            </List.Item>
-            <List.Item>
-              Created At: {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
-            </List.Item>
-            <List.Item>
-              Updated At: {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
-            </List.Item>
+          <Grid>
+            <Grid.Row columns={2}>
+              <Grid.Column>
+                <List>
+                  <List.Item>
+                    <Header as='h4' floated='left'>
+                      Status:
+                    </Header>
+                    <StatusColor key={uuid.v4()} status={status} />
+                  </List.Item>
+                  <List.Item>
+                    <Header as='h4' floated='left'>
+                      Created At:{' '}
+                    </Header>
+                    {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
+                  </List.Item>
+                  <List.Item>
+                    <Header as='h4' floated='left'>
+                      Updated At:{' '}
+                    </Header>
+                    {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+                  </List.Item>
+                  <List.Item>
+                    <Header as='h4' floated='left'>
+                      Categories:{listCat}
+                    </Header>
+                  </List.Item>
+                </List>
+              </Grid.Column>
+              <Grid.Column>
+                <List>
+                  <List.Item>
+                    <Header as='h4' floated='left'>
+                      Author:
+                    </Header>
+                  </List.Item>
 
-            <List.Item>
-              <div>Categories:{listCat}</div>
-            </List.Item>
-          </List>
+                  <List.Item>
+                    <Header as='h4' floated='left'>
+                      Assigned to:
+                    </Header>
+                  </List.Item>
+                  <List.Item>
+                    <Header as='h4' floated='left'>
+                      Due Date:{' '}
+                    </Header>
+                    {/*{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')} */}
+                  </List.Item>
+                  <List.Item>
+                    <Header as='h4' floated='left'>
+                      Estimated Working Time:
+                    </Header>
+                  </List.Item>
+                </List>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </Card.Content>
         <Card.Content description={description} />
         <Card.Content extra>
@@ -149,8 +185,10 @@ const mapStateToProps = state => ({
   project: state.project
 })
 
-export default withRouter(connect(mapStateToProps, {
-  deleteProject,
-  getProject,
-  setUploadModalOpen
-})(Details))
+export default withRouter(
+  connect(mapStateToProps, {
+    deleteProject,
+    getProject,
+    setUploadModalOpen
+  })(Details)
+)
