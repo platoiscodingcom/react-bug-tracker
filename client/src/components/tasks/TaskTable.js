@@ -1,31 +1,21 @@
-
-import React, { Fragment, useEffect, useState} from 'react'
+import React, { Fragment} from 'react'
 import { Button, Table } from 'semantic-ui-react'
 import { TypeIcon, PriorityCellColor } from '../../components/tasks/TaskIcons'
 import StatusColor from '../status/StatusColor'
-import SearchBar from './SearchBar'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
-import {
-  TASKS_DETAILS,
-  TASKS_HOME
-} from '../Constants'
+import { TASKS_DETAILS, TASKS_HOME } from '../Constants'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { deleteTask } from '../../actions/taskActions'
 import { getProject } from '../../actions/projectActions'
 
-const TaskTable = ({
-  project: { project },
+const TaskTable = ({ sortedTasks, project: {project},
   deleteTask,
   getProject,
   history
 }) => {
-  const [tasks, setTasks] = useState([])
 
-  useEffect(() => {
-    if (project.tasks) setTasks(project.tasks)
-  }, [project.tasks, deleteTask])
 
   const removeTask = id => {
     deleteTask(id)
@@ -34,8 +24,7 @@ const TaskTable = ({
 
   return (
     <Fragment>
-
-      <SearchBar/>
+      
 
       <Table singleLine columns={5}>
         <Table.Header>
@@ -49,7 +38,7 @@ const TaskTable = ({
         </Table.Header>
 
         <Table.Body>
-          {tasks.map(task => {
+          {sortedTasks.map(task => {
             const { _id, title, type, status, priority } = task
             const shortTitle = title.substring(0, 40)
 

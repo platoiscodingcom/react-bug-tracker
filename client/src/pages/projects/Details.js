@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Card, List, Header, Dropdown, Menu, Grid } from 'semantic-ui-react'
+import { Card, List, Header, Dropdown, Menu, Grid, Tab } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
-import TaskTable from '../../components/tasks/TaskTable'
+import TableTabs from '../../components/tasks/TableTabs'
 import DetailsLoader from '../../components/loader/DetailsLoader'
 import StatusColor from '../../components/status/StatusColor'
 import StatusButton from '../../components/status/StatusButton'
@@ -23,6 +23,7 @@ import {
   PROJECT
 } from '../../components/Constants'
 import NewTask from './../../components/projects/NewTask'
+import SearchBar from './../../components/tasks/SearchBar';
 
 const Details = ({
   match,
@@ -56,6 +57,8 @@ const Details = ({
       </span>
     ))
   }
+
+
 
   if (project == null || project._id === '') return <DetailsLoader />
 
@@ -167,7 +170,9 @@ const Details = ({
         </Card.Content>
       </Card>
 
-      <TaskTable />
+      <SearchBar />
+
+      <TableTabs />
 
       <FileUpload />
     </div>
