@@ -41,6 +41,7 @@ exports.update = async (req, res) => {
       data.status = req.body.status
       data.description = req.body.description
       data.categories = req.body.categories
+      data.dueDate = req.body.dueDate
       //data.files = req.body.files
       data.updatedAt = Date.now()
 

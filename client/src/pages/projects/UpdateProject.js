@@ -9,6 +9,9 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getProject, updateProject } from '../../actions/projectActions'
 import useIsMounted from 'ismounted'
+import SemanticDatepicker from 'react-semantic-ui-datepickers'
+import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css'
+import moment from 'moment'
 
 const Update = ({
   project: { project, loading },
@@ -24,9 +27,11 @@ const Update = ({
     name: '',
     categories: [],
     status: '',
-    description: ''
+    description: '',
+    dueDate: ''
   })
-  const { name, status, description, categories } = formData
+  const newDueDate = null
+  const { name, status, description, categories, dueDate } = formData
 
   useEffect(() => {
     loadCategoryOptions()
@@ -39,12 +44,13 @@ const Update = ({
   useEffect(() => {
     //only if loading is false and still mounted
     if (!loading && isMounted.current && project) {
-      const { name, status, description, categories } = project
+      const { name, status, description, categories, dueDate } = project
       setFormData({
         name,
         status,
         description,
-        categories: categories.map(cat => cat._id)
+        categories: categories.map(cat => cat._id),
+        dueDate
       })
     }
   }, [project, isMounted, loading])
@@ -66,7 +72,7 @@ const Update = ({
   }
 
   const handleInputChange = (event, { name, value }) => {
-    setFormData(formData => ({ ...formData, [name]: value }))
+      setFormData(formData => ({ ...formData, [name]: value }))
   }
 
   const onSubmit = e => {
@@ -89,14 +95,15 @@ const Update = ({
               onChange={handleInputChange}
               error={errors.name}
             />
-            <Form.Select
-              label='Status'
-              name='status'
-              options={statusOptions}
-              value={status}
+            <SemanticDatepicker
+              clearable
+              name='dueDate'
+              label={`Due Date: ${moment(dueDate).format('MMMM Do YYYY')}`}
               onChange={handleInputChange}
-              error={errors.status}
+              value= {newDueDate}
+              format='MMMM Do YYYY'
             />
+            
           </Form.Group>
           <Form.Group>
             <Form.Select
@@ -110,6 +117,14 @@ const Update = ({
               value={categories}
               onChange={handleInputChange}
               error={errors.categories}
+            />
+            <Form.Select
+              label='Status'
+              name='status'
+              options={statusOptions}
+              value={status}
+              onChange={handleInputChange}
+              error={errors.status}
             />
           </Form.Group>
           <Form.Group>

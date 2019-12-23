@@ -10,6 +10,8 @@ import {
   CATEGORIES_PATH,
   PROJECTS_HOME
 } from '../../components/Constants'
+import SemanticDatepicker from 'react-semantic-ui-datepickers'
+import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css'
 
 const Create = ({ createProject, errors, history }) => {
   const [categories, setCategories] = useState([])
@@ -17,7 +19,8 @@ const Create = ({ createProject, errors, history }) => {
     name: '',
     status: OPEN,
     description: '',
-    categories: []
+    categories: [],
+    dueDate: ''
   })
 
   const handleInputChange = (event, { name, value }) => {
@@ -57,6 +60,18 @@ const Create = ({ createProject, errors, history }) => {
               onChange={handleInputChange}
               error={errors.name}
             />
+            <SemanticDatepicker
+              clearOnSameDateClick
+              datePickerOnly
+              clearable
+              name='dueDate'
+              label='Due Date'
+              onChange={handleInputChange}
+              value={project.dueDate}
+              format='MMMM Do YYYY'
+            />
+          </Form.Group>
+          <Form.Group>
             <Form.Select
               label='Status'
               name='status'

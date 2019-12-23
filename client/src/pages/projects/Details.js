@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, List, Header, Dropdown, Menu, Grid, Tab } from 'semantic-ui-react'
+import { Card, List, Header, Dropdown, Menu, Grid} from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
 import TableTabs from '../../components/tasks/TableTabs'
@@ -46,7 +46,8 @@ const Details = ({
     description,
     categories,
     updatedAt,
-    createdAt
+    createdAt,
+    dueDate
   } = project
 
   let listCat = []
@@ -148,7 +149,7 @@ const Details = ({
                     <Header as='h4' floated='left'>
                       Due Date:{' '}
                     </Header>
-                    {/*{moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')} */}
+                    {moment(dueDate).format('MMMM Do YYYY')} 
                   </List.Item>
                   <List.Item>
                     <Header as='h4' floated='left'>

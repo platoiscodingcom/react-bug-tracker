@@ -11,7 +11,8 @@ const projectSchema = new mongoose.Schema({
   categories: [{ type: ObjectId, ref: 'Category', required: true }],
   files: [{ type: ObjectId, ref: 'File'}],
   createdAt: { type: Date, default: Date.now },
-  updatedAt: Date
+  updatedAt: Date,
+  dueDate: Date
 })
 
 module.exports = mongoose.model('Project', projectSchema)
