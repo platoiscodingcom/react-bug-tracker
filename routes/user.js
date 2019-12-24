@@ -7,7 +7,7 @@ router.post('/login', userController.login)
 router.get('/me', passport.authenticate('jwt', { session: false }), userController.me)
 
 //token, email-verfication
-router.get('/confirmation', userController.confirmationPost);
+router.put('/confirmation/:token', userController.confirmRegistration);
 router.post('/resend', userController.resendTokenPost);
 
 module.exports = router;

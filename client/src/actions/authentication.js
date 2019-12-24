@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ERRORS, SET_CURRENT_USER } from './types';
+import { GET_ERRORS, SET_CURRENT_USER, CONFIRM_REGISTRATION } from './types';
 import setAuthToken from '../setAuthToken';
 import jwt_decode from 'jwt-decode';
 
@@ -43,4 +43,24 @@ export const logoutUser = (history) => dispatch => {
     setAuthToken(false);
     dispatch(setCurrentUser({}));
     history.push('/login');
+}
+
+export const confirmRegistration = (token) => async dispatch => {
+    //cannot load route
+    console.log('/api/users/confirmation/' + token)
+    await axios.put('/api/users/confirmation/' + token)
+    .then(res => {
+        console.log('dispatching this', res.data)
+        dispatch({
+            type: CONFIRM_REGISTRATION,
+            payload: res.data
+        });
+        
+    })
+    .catch(err => {
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        });
+    });
 }

@@ -155,15 +155,20 @@ exports.me = (req, res) => {
 /**
 * POST /confirmation
 */
-exports.confirmationPost = (req, res, next) => {
-
+exports.confirmRegistration = (req, res, next) => {
+  console.log('req.params.token', req.params.token)
   // Find a matching token
-  Token.findOne({ token: req.body.token }, function (err, token) {
+  Token.findOne({ token: req.params.token }, function (err, token) {
+    
+    console.log('token', token)
       if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
 
       // If we found a token, find a matching user
-      User.findOne({ _id: token._userId, email: req.body.email }, function (err, user) {
+      User.findOne({ _id: token._userId}, function (err, user) {
+        console.log('user', user)
           if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+
+          console.log('user.isVerified', user.isVerified)
           if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
 
           // Verify and save the user
