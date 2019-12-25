@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logoutUser } from '../actions/authentication'
@@ -13,23 +13,24 @@ export const Navbar = ({ logoutUser, history, auth }) => {
   }
 
   const authLinks = (
-    <Menu as='nav' color={'green'} inverted secondary>
+    <Menu as='nav' inverted secondary>
       <Menu.Item as={NavLink} to='/projects' exact name='projects' />
       <Menu.Item as={NavLink} to='/tasks' exact name='tasks' />
       <Menu.Item as={NavLink} to='/categories' exact name='categories' />
-      <Menu.Item exact name='logout' onClick={onLogout} />
+      <Menu.Menu position='right'>
+        <Menu.Item  name='logout' onClick={onLogout} />
+      </Menu.Menu>
     </Menu>
   )
 
   const guestLinks = (
-    <Menu as='nav' color={'green'} inverted secondary>
-      <Menu.Item as={NavLink} to='/' exact name='home' />
-      <Menu.Item as={NavLink} to='/register' exact name='Sign Up' />
-      <Menu.Item as={NavLink} to='/login' exact name='Sign In' />
+    <Menu as='nav' inverted secondary>
+      <Menu.Item as={NavLink} to='/register'  name='Sign Up' />
+      <Menu.Item as={NavLink} to='/login'  name='Sign In' />
     </Menu>
   )
 
-  const { isAuthenticated, user } = auth
+  const { isAuthenticated } = auth
 
   return (
     <Segment color={'green'} inverted>

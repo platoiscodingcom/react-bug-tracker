@@ -5,7 +5,9 @@ const Schema = mongoose.Schema;
 const taskSchema = new mongoose.Schema({
   _id: Schema.Types.ObjectId,
   title: { type: String, required: true },
-  project: { type: ObjectId, ref: 'Project' ,required: true},
+  author: { type: ObjectId, ref: 'User'},
+  assignedTo: { type: ObjectId, ref: 'User'},
+  project: { type: ObjectId, ref: 'Project' },
   description: { type: String, required: true },
   priority: { type: String, required: true },
   status: { type: String, required: true },

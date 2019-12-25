@@ -75,31 +75,6 @@ const Task = require('./models/Task')
 const User = require('./models/User')
 const Token = require('./models/Token')
 
-var category1 = new Category({
-  _id: new mongoose.Types.ObjectId(),
-  name: 'Software Projects',
-  projects: []
-})
-
-var category2 = new Category({
-  _id: new mongoose.Types.ObjectId(),
-  name: 'Crafts Projects',
-  projects: []
-})
-
-var project1 = new Project({
-  _id: new mongoose.Types.ObjectId(),
-  name: 'testproject',
-  status: 'open',
-  description:
-    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-  categories: [category1, category2]
-})
-
-category1.projects.push(project1)
-category1.save()
-category2.projects.push(project1)
-category2.save()
 
 var admin = new User({
   _id: mongoose.Types.ObjectId('5e03b858ae3b1f326073bad1'),
@@ -119,10 +94,61 @@ var adminToken = new Token({
 })
 adminToken.save()
 
+
+var moderator = new User({
+  _id: mongoose.Types.ObjectId('5e03cf928bd9bf2f2c1f81c1'),
+  isVerified: true,
+  name: 'Moderator Moderator',
+  email: 'moderator@gmail.com',
+  password: '$2a$10$e8TAb9/HDfHD338AXC7Vq.O6iykf08peIjIxJlYD8/jwcufxYVn9S',
+  avatar:
+    '//www.gravatar.com/avatar/c324ed03ecc94765cf7852aa1ee7df8f?s=200&r=pg&d=mm'
+}) //pw is 'password'
+moderator.save()
+
+var moderatorToken = new Token({
+  _id: mongoose.Types.ObjectId('5e03cf928bd9bf2f2c1f81c2'),
+  _userId: mongoose.Types.ObjectId('5e03cf928bd9bf2f2c1f81c1'),
+  token: '28d821f4b86ef14e6a2868a964847053'
+})
+moderatorToken.save()
+
+var category1 = new Category({
+  _id: new mongoose.Types.ObjectId(),
+  name: 'Software Projects',
+  //author: admin,
+  projects: []
+})
+
+var category2 = new Category({
+  _id: new mongoose.Types.ObjectId(),
+  name: 'Crafts Projects',
+  //author: admin,
+  projects: []
+})
+
+var project1 = new Project({
+  _id: new mongoose.Types.ObjectId(),
+  name: 'testproject',
+  status: 'open',
+  author: admin.name,
+  assignedTo: admin,
+  description:
+    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+  categories: [category1, category2]
+})
+
+category1.projects.push(project1)
+category1.save()
+category2.projects.push(project1)
+category2.save()
+
 var task1 = new Task({
   _id: new mongoose.Types.ObjectId(),
   title: 'testTask',
   project: project1,
+  //author: admin,
+  //assignedTo: admin,
   description:
     'dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et a',
   priority: 'low',
@@ -134,6 +160,8 @@ var task2 = new Task({
   _id: new mongoose.Types.ObjectId(),
   title: 'testTask2',
   project: project1,
+  //author: admin,
+  //assignedTo: admin,
   description:
     'dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et a',
   priority: 'high',
@@ -145,6 +173,8 @@ var task3 = new Task({
   _id: new mongoose.Types.ObjectId(),
   title: 'testTask3',
   project: project1,
+  //author: admin,
+  //assignedTo: admin,
   type: 'feature',
   description:
     'it amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, se',
@@ -157,6 +187,8 @@ var task4 = new Task({
   _id: new mongoose.Types.ObjectId(),
   title: 'testTask4',
   project: project1,
+  //author: admin,
+  //assignedTo: admin,
   type: 'bug',
   description:
     ' dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolo',

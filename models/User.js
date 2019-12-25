@@ -28,9 +28,10 @@ const UserSchema = new Schema({
     isVerified: { 
         type: Boolean, 
         default: false 
-    }
+    },
+    author_of_projects: [{ type: Schema.Types.ObjectId, ref: 'Project'}],
 });
 
-const User = mongoose.model('users', UserSchema);
+const User = mongoose.model('User', UserSchema, 'users');
 
 module.exports = User;

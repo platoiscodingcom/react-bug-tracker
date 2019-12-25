@@ -7,6 +7,18 @@ var crypto = require('crypto')
 var nodemailer = require('nodemailer')
 const gravatar = require('gravatar')
 
+exports.findAllUsers = async (res) =>{
+  await User.find()
+  .populate('projects')
+  .then(data => {
+    res.status(200).send(data)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  })
+}
+
 exports.createMailOptions = (newUser, token) => {
   return (mailOptions = {
     from: 'jonasackermann90@gmx.de',
@@ -83,7 +95,8 @@ exports.comparePasswords = (password, user, res) => {
       }
 
       // Login successful, write token, and send back user
-      res.send({ token: generateToken(user), user: user.toJSON() })
+      //res.send({ token: generateToken(user), user: user.toJSON() })
+      
     } else {
       errors.password = 'Incorrect Password'
       return res.status(400).json(errors)
@@ -91,6 +104,7 @@ exports.comparePasswords = (password, user, res) => {
   })
 }
 
+/*
 exports.generateToken = user => {
   var token = new Token({
     _userId: user._id,
@@ -104,7 +118,7 @@ exports.generateToken = user => {
   })
 
   return token
-}
+}*/
 
 exports.createTokenAndConfirmationMail = (newUser, res) => {
   var token = new Token({

@@ -25,13 +25,29 @@ const Login = ({loginUser, errors, history, auth}) =>{
     loginUser(user)
   }
 
+  const handleAdminLogin = e =>{
+    e.preventDefault()
+    const admin = {
+      email: 'admin@gmail.com',
+      password: 'password'
+    }
+    loginUser(admin)
+  }
+
+  const handleModLogin = e =>{
+    e.preventDefault()
+    const moderator = {
+      email: 'moderator@gmail.com',
+      password: 'password'
+    }
+    loginUser(moderator)
+  }
+
   useEffect(() => {
     if (auth.isAuthenticated) {
-      console.log('is auth')
-      history.push('/home')
+      history.push('/projects')
     }
-    console.log('useEffect auth login')
-  }, [auth])
+  }, [auth, history])
 
   return(
     <Container>
@@ -66,6 +82,8 @@ const Login = ({loginUser, errors, history, auth}) =>{
           </Form.Group>
         </Form>
         <Button color='green' content='Login' onClick={handleSubmit} />
+        <Button color='blue' content='Login as Admin' onClick={handleAdminLogin} />
+        <Button color='blue' content='Login as Moderator' onClick={handleModLogin} />
       </Card.Content>
     </Card>
   </Container>

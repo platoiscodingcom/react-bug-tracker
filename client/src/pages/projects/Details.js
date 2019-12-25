@@ -47,7 +47,8 @@ const Details = ({
     categories,
     updatedAt,
     createdAt,
-    dueDate
+    dueDate,
+    author
   } = project
 
   let listCat = []
@@ -136,8 +137,9 @@ const Details = ({
                 <List>
                   <List.Item>
                     <Header as='h4' floated='left'>
-                      Author:
+                      Author: 
                     </Header>
+                    {author}
                   </List.Item>
 
                   <List.Item>

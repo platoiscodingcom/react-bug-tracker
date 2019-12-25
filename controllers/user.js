@@ -7,6 +7,12 @@ const validateRegisterInput = require('../validation/register')
 const validateLoginInput = require('../validation/login')
 const userService = require('./service/userService')
 
+
+exports.list = (req, res) =>{
+  console.log('list')
+  userService.findAllUsers(res)
+}
+
 exports.register = (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body)
 
@@ -44,8 +50,6 @@ exports.register = (req, res) => {
 
 exports.login = (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body)
-  console.log("errors", errors)
-  console.log("isValid", isValid)
 
   if (!isValid) {
     return res.status(400).json(errors)

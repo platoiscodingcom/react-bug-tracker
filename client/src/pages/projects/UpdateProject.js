@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { Button, Form, Card } from 'semantic-ui-react'
 import { statusOptions } from '../../components/helper/MultipleSelect'
 import UpdateLoader from '../../components/loader/UpdateLoader'
-import { CATEGORIES_PATH, PROJECTS_HOME } from '../../components/Constants'
+import { CATEGORIES_PATH, PROJECTS_HOME, USERS_PATH } from '../../components/Constants'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getProject, updateProject } from '../../actions/projectActions'
@@ -21,6 +21,7 @@ const Update = ({
   history,
   match
 }) => {
+  const [userOptions, setUserOptions] = useState([])
   const [categoryOptions, setCategoryOptions] = useState([])
   const [formData, setFormData] = useState({
     _id: match.params.id,
@@ -28,15 +29,19 @@ const Update = ({
     categories: [],
     status: '',
     description: '',
-    dueDate: ''
+    dueDate: '',
+    author: ''
   })
   const newDueDate = null
-  const { name, status, description, categories, dueDate } = formData
+  const { name, status, description, categories, dueDate, author,assignedTo } = formData
 
   useEffect(() => {
+    loadUsersOptions()
     loadCategoryOptions()
     getProject(match.params._id, history)
     // eslint-disable-next-line
+    console.log('userOptions', userOptions)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   //check if it's mounted -> cannot set state on unmounted component
@@ -44,13 +49,15 @@ const Update = ({
   useEffect(() => {
     //only if loading is false and still mounted
     if (!loading && isMounted.current && project) {
-      const { name, status, description, categories, dueDate } = project
+      const { name, status, description, categories, dueDate, author,assignedTo } = project
       setFormData({
         name,
         status,
         description,
         categories: categories.map(cat => cat._id),
-        dueDate
+        dueDate,
+        author,
+        assignedTo
       })
     }
   }, [project, isMounted, loading])
@@ -63,6 +70,25 @@ const Update = ({
           response.data.map(category => ({
             text: `${category.name}`,
             value: category._id
+          }))
+        )
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  //currently loads all users
+  //later should only load users that are invited to project
+  const loadUsersOptions = async () =>{
+    console.log('loadUserOptions')
+    await axios
+      .get(USERS_PATH)
+      .then(response => {
+        setUserOptions(
+          response.data.map(user => ({
+            text: `${user.name}`,
+            value: user._id
           }))
         )
       })
@@ -87,9 +113,26 @@ const Update = ({
       <Card.Content header='Edit' />
       <Card.Content>
         <Form widths='equal'>
+        <Form.Group>
+            <Form.Input
+              label='Author'
+              name='author'
+              value={author}
+              error={errors.author}
+              disabled
+            />
+            <Form.Select
+              label='Assign To:'
+              name='assignedTo'
+              options={userOptions}
+              value={assignedTo}
+              error={errors.assignedTo}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
           <Form.Group>
             <Form.Input
-              label='name'
+              label='Name'
               name='name'
               value={name}
               onChange={handleInputChange}

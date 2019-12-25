@@ -33,7 +33,7 @@ const Register = ({ registerUser, auth, errors, history }) => {
     if (auth.isAuthenticated) {
       history.push('/')
     }
-  }, [auth])
+  }, [auth, history])
 
   return (
     <Container>
