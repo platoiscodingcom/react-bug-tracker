@@ -31,7 +31,7 @@ const Register = ({ registerUser, auth, errors, history }) => {
 
   useEffect(() => {
     if (auth.isAuthenticated) {
-      this.props.history.push('/')
+      history.push('/')
     }
   }, [auth])
 

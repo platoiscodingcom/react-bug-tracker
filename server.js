@@ -73,6 +73,7 @@ const Category = require('./models/Category')
 const Project = require('./models/Project')
 const Task = require('./models/Task')
 const User = require('./models/User')
+const Token = require('./models/Token')
 
 var category1 = new Category({
   _id: new mongoose.Types.ObjectId(),
@@ -100,19 +101,23 @@ category1.save()
 category2.projects.push(project1)
 category2.save()
 
-/*
 var admin = new User({
-  _id: new mongoose.Types.ObjectId(),
-  "name" : "admin",
-  "isVerified" : true,
-  "email" : "admin@gmail.com",
-  "password" : "$2a$10$4AWBCkwqNRmWUlbayg3KdelWrvzpMokVvUlfOUGnPYfAHR3bfKTZu",
-  "avatar" : "//www.gravatar.com/avatar/c324ed03ecc94765cf7852aa1ee7df8f?s=200&r=pg&d=mm",
-   "date" : ISODate("2019-12-24T12:18:39.771Z")
-})//pw is 'password'
-admin.save()*/
-//needs token with user_id
+  _id: mongoose.Types.ObjectId('5e03b858ae3b1f326073bad1'),
+  isVerified: true,
+  name: 'Maria Hildebrandt',
+  email: 'admin@gmail.com',
+  password: '$2a$10$Vql4r9OuKtq3jrKuA/J0XO2RUDApMppGXtf/vbjxbCkAtA0mhIZ5.',
+  avatar:
+    '//www.gravatar.com/avatar/c324ed03ecc94765cf7852aa1ee7df8f?s=200&r=pg&d=mm'
+}) //pw is 'password'
+admin.save()
 
+var adminToken = new Token({
+  _id: mongoose.Types.ObjectId('5e03b858ae3b1f326073bad2'),
+  _userId: mongoose.Types.ObjectId('5e03b858ae3b1f326073bad1'),
+  token: '10cd8843a4ce784e4254c1b79b2c783c'
+})
+adminToken.save()
 
 var task1 = new Task({
   _id: new mongoose.Types.ObjectId(),

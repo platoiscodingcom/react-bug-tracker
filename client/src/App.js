@@ -39,15 +39,6 @@ function App () {
     <Provider store={store}>
       <Router>
       <Navbar />
-      {/* 
-        <Segment color={'green'} inverted>
-          <Menu as='nav' color={'green'} inverted secondary>
-            <Menu.Item as={NavLink} to='/' exact name='home' />
-            <Menu.Item as={NavLink} to='/projects' exact name='projects' />
-            <Menu.Item as={NavLink} to='/tasks' exact name='tasks' />
-            <Menu.Item as={NavLink} to='/categories' exact name='categories' />
-          </Menu>
-        </Segment>*/}
         <Switch>
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />

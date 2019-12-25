@@ -1,87 +1,76 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { loginUser } from '../../actions/authentication'
 import { Form, Button, Container, Card } from 'semantic-ui-react'
 
-class Login extends Component {
-  state = {
+const Login = ({loginUser, errors, history, auth}) =>{
+  const [formData, setFormData] = useState({
     email: '',
     password: '',
-    errors: {}
-  }
-  handleInputChange (e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+  })
+
+  const handleInputChange = (event, { name, value }) => {
+    setFormData(formData => ({ ...formData, [name]: value }))
   }
 
-  handleSubmit (e) {
+  const {email, password } = formData
+  const handleSubmit = e => {
     e.preventDefault()
     const user = {
-      email: this.state.email,
-      password: this.state.password
+      email,
+      password
     }
-    this.props.loginUser(user)
+    loginUser(user)
   }
 
-  componentDidMount () {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/')
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      console.log('is auth')
+      history.push('/home')
     }
-  }
+    console.log('useEffect auth login')
+  }, [auth])
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/')
-    }
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      })
-    }
-  }
+  return(
+    <Container>
+    <Card fluid>
+      <Card.Content>
+        <Card.Header>Login</Card.Header>
+      </Card.Content>
 
-  render () {
-    const { errors } = this.state
-    return (
-      <Container>
-        <Card fluid>
-          <Card.Content>
-            <Card.Header>Login</Card.Header>
-          </Card.Content>
+      <Card.Content>
+        <Form widths='equal'>
+          <Form.Group>
+            <Form.Input
+              type='email'
+              placeholder='Email'
+              label='email'
+              name='email'
+              onChange={handleInputChange}
+              value={email}
+              error={errors.email}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Input
+              type='password'
+              placeholder='Password'
+              label='password'
+              name='password'
+              onChange={handleInputChange}
+              value={password}
+              error={errors.password}
+            />
+          </Form.Group>
+        </Form>
+        <Button color='green' content='Login' onClick={handleSubmit} />
+      </Card.Content>
+    </Card>
+  </Container>
+  )
 
-          <Card.Content>
-            <Form widths='equal'>
-              <Form.Group>
-                <Form.Input
-                  type='email'
-                  placeholder='Email'
-                  label='email'
-                  name='email'
-                  onChange={this.handleInputChange}
-                  value={this.state.email}
-                  error={errors.email}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Input
-                  type='password'
-                  placeholder='Password'
-                  label='password'
-                  name='password'
-                  onChange={this.handleInputChange}
-                  value={this.state.password}
-                  error={errors.password}
-                />
-              </Form.Group>
-            </Form>
-            <Button color='green' content='Login' onClick={this.handleSubmit} />
-          </Card.Content>
-        </Card>
-      </Container>
-    )
-  }
 }
 
 Login.propTypes = {
@@ -95,4 +84,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { loginUser })(Login)
+export default withRouter(connect(mapStateToProps, { loginUser })(Login))

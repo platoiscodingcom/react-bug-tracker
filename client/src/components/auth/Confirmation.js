@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { confirmRegistration } from './../../actions/authentication';
+//import {Card, Container} from 'semantic-ui-react'
 
 const Confirmation = ({match, history, auth, confirmRegistration}) => {
 
@@ -16,10 +17,7 @@ const Confirmation = ({match, history, auth, confirmRegistration}) => {
     if(auth)console.log('auth', auth)
   }, [auth])
 
-  return (
-    <div>
-      confirmation
-    </div>
+  return ("confirm"
   )
 }
 
