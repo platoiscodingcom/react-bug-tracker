@@ -13,10 +13,12 @@ const projectValidationRules = () => {
       .isLength({ min: 4 })
       .withMessage('must be at least 4 chars long'),
     body('author')
-      .exists()
+      .not()
+      .isEmpty()
       .withMessage('author not specified'),
     body('assignedTo')
-      .exists()
+      .not()
+      .isEmpty()
       .withMessage('project must be assigned to a user'),
     body('status')
       .not()

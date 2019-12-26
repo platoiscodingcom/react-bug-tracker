@@ -8,19 +8,23 @@ import { createProject } from '../../actions/projectActions'
 import {
   OPEN,
   CATEGORIES_PATH,
-  PROJECTS_HOME
+  PROJECTS_HOME,
+  USERS_PATH
 } from '../../components/Constants'
 import SemanticDatepicker from 'react-semantic-ui-datepickers'
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css'
 
-const Create = ({ createProject, errors, history }) => {
+const Create = ({ createProject, errors, history, auth: { user } }) => {
+  const [userOptions, setUserOptions] = useState([])
   const [categories, setCategories] = useState([])
   const [project, setProject] = useState({
     name: '',
     status: OPEN,
     description: '',
     categories: [],
-    dueDate: ''
+    dueDate: '',
+    author: user.id,
+    assignedTo: user.id
   })
 
   const handleInputChange = (event, { name, value }) => {
@@ -28,11 +32,12 @@ const Create = ({ createProject, errors, history }) => {
   }
 
   const handleFormSubmission = () => {
+    console.log('project', project)
     createProject(project, history)
   }
 
-  useEffect(() => {
-    axios
+  const loadCategories = async () => {
+    await axios
       .get(CATEGORIES_PATH)
       .then(response => {
         setCategories(
@@ -45,13 +50,55 @@ const Create = ({ createProject, errors, history }) => {
       .catch(error => {
         console.log(error)
       })
+  }
+
+  //currently loads all users
+  //later should only load users that are invited to project
+  const loadUsersOptions = async () => {
+    await axios
+      .get(USERS_PATH)
+      .then(response => {
+        setUserOptions(
+          response.data.map(user => ({
+            text: `${user.name}`,
+            value: user._id
+          }))
+        )
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    loadCategories()
+    loadUsersOptions()
+    console.log("project", project)
   }, [])
+
 
   return (
     <Card fluid>
       <Card.Content header='New Project' />
       <Card.Content>
         <Form widths='equal'>
+          <Form.Group>
+            <Form.Input
+              label='Author'
+              name='author'
+              value={project.author ? user.name : ''}
+              error={errors.author}
+              disabled
+            />
+            <Form.Select
+              label='Assign To:'
+              name='assignedTo'
+              options={userOptions}
+              value={project.assignedTo ? project.assignedTo : ''}
+              error={errors.assignedTo}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
           <Form.Group>
             <Form.Input
               label='Name'
@@ -125,11 +172,13 @@ const Create = ({ createProject, errors, history }) => {
 
 Create.propTypes = {
   createProject: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { createProject })(Create)
