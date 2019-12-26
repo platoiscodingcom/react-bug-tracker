@@ -1,15 +1,16 @@
-import React, { useEffect, useState, Fragment} from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { Grid, Header } from 'semantic-ui-react'
+import { withRouter, Link } from 'react-router-dom'
+import { Grid, Header, Button } from 'semantic-ui-react'
 import KanbanColumn from './KanbanComponents/KanbanColumn'
 import {
   OPEN,
   INPROGRESS,
   CLOSED,
   BACKLOG,
-  REOPENED
+  REOPENED,
+  PROJECTS_DETAILS
 } from '../../components/Constants'
 import { getProject } from './../../actions/projectActions'
 
@@ -31,16 +32,29 @@ const Kanban = ({ project: { project }, match, history, getProject }) => {
 
   return (
     <Fragment>
-    <Header as='h2'>{project.name}</Header>
-    <Grid style={{ width: '150%' }}>
-      <Grid.Row columns={5}>
-        {sortTasks(OPEN)}
-        {sortTasks(REOPENED)}
-        {sortTasks(INPROGRESS)}
-        {sortTasks(CLOSED)}
-        {sortTasks(BACKLOG)}
-      </Grid.Row>
-    </Grid>
+      <Header as='h2'>
+        {project.name}
+        <Button
+          as={Link}
+          to={`${PROJECTS_DETAILS}/${project._id}`}
+          mini
+          compact
+          circular
+          color='black'
+          style={{ fontWeight: '700' }}
+        >
+          Details
+        </Button>
+      </Header>
+      <Grid style={{ width: '150%' }}>
+        <Grid.Row columns={5}>
+          {sortTasks(OPEN)}
+          {sortTasks(REOPENED)}
+          {sortTasks(INPROGRESS)}
+          {sortTasks(CLOSED)}
+          {sortTasks(BACKLOG)}
+        </Grid.Row>
+      </Grid>
     </Fragment>
   )
 }
