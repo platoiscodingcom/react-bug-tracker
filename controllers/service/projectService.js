@@ -6,8 +6,8 @@ setStatus = require('./statusFunctions').setStatus
 fileService = require('./fileService')
 localStorageService = require('./localStorageService')
 
-exports.findAllProjects = async res => {
-  await Project.find()
+exports.findAllProjects = async (req, res) => {
+  await Project.find({author: req.user._id})
     .populate('tasks categories author assignedTo')
     .then(data => {
       res.status(200).send(data)
@@ -18,8 +18,9 @@ exports.findAllProjects = async res => {
     })
 }
 
-exports.findProjectById = async (projectId, res) => {
-  await Project.findById(projectId)
+exports.findProjectById = async (projectId, res, req) => {
+  //await Project.findById(projectId)
+  await Project.findOne({_id: projectId, author: req.user._id})
     .populate('tasks categories author assignedTo')
     .then(data => {
       res.status(200).send(data)

@@ -34,7 +34,7 @@ const Details = ({
   project: { project }
 }) => {
   const [showNewTask, setShowNewTask] = useState(false)
-
+  
   useEffect(() => {
     getProject(match.params._id, history)
   }, [getProject, match, history])
@@ -63,7 +63,7 @@ const Details = ({
 
 
 
-  if (project == null || project._id === '') return <DetailsLoader />
+  if (project == null || project === '') return <DetailsLoader />
 
   return (
     <div>

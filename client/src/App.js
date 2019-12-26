@@ -21,6 +21,7 @@ import { setCurrentUser, logoutUser } from './actions/authentication'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import Confirmation from './components/auth/Confirmation'
+import Dashboard from './pages/dashboard/Dashboard'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -47,6 +48,7 @@ function App () {
           <Route path='/projects' component={Projects} />
           <Route path='/tasks' component={Tasks} />
           <Route path='/categories' component={Categories} />
+          <Route path='/dashboard' component={Dashboard} />
           <Route component={NoMatch} />
         </Switch>
       </Router>

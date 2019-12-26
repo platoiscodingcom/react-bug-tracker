@@ -17,6 +17,7 @@ export const Navbar = ({ logoutUser, history, auth }) => {
       <Menu.Item as={NavLink} to='/projects' exact name='projects' />
       <Menu.Item as={NavLink} to='/tasks' exact name='tasks' />
       <Menu.Item as={NavLink} to='/categories' exact name='categories' />
+      <Menu.Item as={NavLink} to='/dashboard' exact name='dashboard' />
       <Menu.Menu position='right'>
         <Menu.Item  name='logout' onClick={onLogout} />
       </Menu.Menu>

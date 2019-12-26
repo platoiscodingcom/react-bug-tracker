@@ -9,11 +9,11 @@ localStorageService = require('./service/localStorageService')
 formidable = require('formidable')
 
 exports.list = (req, res) => {
-  projectService.findAllProjects(res)
+  projectService.findAllProjects(req,res)
 }
 
 exports.details = (req, res) => {
-  projectService.findProjectById(req.params._id, res)
+  projectService.findProjectById(req.params._id, res, req)
 }
 
 exports.create = async (req, res) => {
