@@ -6,7 +6,7 @@ import StatusColor from '../../components/status/StatusColor'
 import uuid from 'uuid'
 import {
   PROJECTS_DETAILS,
-  PROJECTS_HOME,
+  PROJECTS_KANBAN,
   PROJECTS_CREATE,
   CATEGORIES_DETAILS
 } from '../../components/Constants'
@@ -63,8 +63,8 @@ const List = ({ project: { projects }, getProjects, deleteProject, match }) => {
                 >
                   Details
                 </Button>
-                <Button as={Link} to={`${PROJECTS_HOME}/${_id}`} color='green'>
-                  Edit
+                <Button as={Link} to={`${PROJECTS_KANBAN}/${_id}`} color='green'>
+                  Kanban
                 </Button>
               </div>
             </Card.Content>

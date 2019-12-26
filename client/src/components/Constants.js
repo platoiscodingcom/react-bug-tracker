@@ -49,6 +49,8 @@ export const TASKS_CREATE = '/tasks/create'
 export const PROJECTS_CREATE = '/projects/create'
 export const CATEGORIES_CREATE = '/categories/create'
 
+export const PROJECTS_KANBAN = '/projects/kanban'
+
 //FILE UPLOAD
 export const FILE_TYPES = [
   'image/png',

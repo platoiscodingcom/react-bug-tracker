@@ -1,17 +1,15 @@
-import React, { useEffect, useState }from 'react'
+import React, { useEffect}from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import { getProjects } from '../../actions/projectActions'
-import { Card, Button, Divider, Grid, Tab, Container, Table } from 'semantic-ui-react'
+import {  Button, Table } from 'semantic-ui-react'
 import CardLoader from '../../components/loader/CardLoader'
 import uuid from 'uuid'
 import StatusColor from '../../components/status/StatusColor'
 import {
   PROJECTS_DETAILS,
-  PROJECTS_HOME,
-  PROJECTS_CREATE,
-  CATEGORIES_DETAILS
+  PROJECTS_HOME
 } from '../../components/Constants'
 
 const ProjectList = ({ project: { projects }, getProjects, deleteProject, match, auth:{user} }) => {
