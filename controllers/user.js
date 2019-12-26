@@ -9,7 +9,6 @@ const userService = require('./service/userService')
 
 
 exports.list = (req, res) =>{
-  console.log('list')
   userService.findAllUsers(res)
 }
 

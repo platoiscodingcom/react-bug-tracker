@@ -79,7 +79,7 @@ const Token = require('./models/Token')
 var admin = new User({
   _id: mongoose.Types.ObjectId('5e03b858ae3b1f326073bad1'),
   isVerified: true,
-  name: 'Maria Hildebrandt',
+  name: 'Admin Admin',
   email: 'admin@gmail.com',
   password: '$2a$10$Vql4r9OuKtq3jrKuA/J0XO2RUDApMppGXtf/vbjxbCkAtA0mhIZ5.',
   avatar:
@@ -131,12 +131,14 @@ var project1 = new Project({
   _id: new mongoose.Types.ObjectId(),
   name: 'testproject',
   status: 'open',
-  author: admin.name,
-  assignedTo: admin,
+  author: admin,
+  assignedTo: moderator,
   description:
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
   categories: [category1, category2]
 })
+admin.author_of_projects.push(project1)
+moderator.assigned_to_projects.push(project1)
 
 category1.projects.push(project1)
 category1.save()

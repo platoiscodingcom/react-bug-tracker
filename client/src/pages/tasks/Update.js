@@ -73,22 +73,6 @@ const Update = ({
       })
   }
 
-  /*
-  useEffect(() => {
-    loadProjects()
-    getTask(match.params._id, history)
-    
-    setFormData({
-      title: loading || !task.title ? '' : task.title,
-      status: loading || !task.status ? '' : task.status,
-      description: loading || !task.description ? '' : task.description,
-      type: loading || !task.type ? '' : task.type,
-      priority: loading || !task.priority ? '' : task.priority,
-      project: loading || !task.project ? '' : task.project
-    })// eslint-disable-next-line
-  }, [getTask, loading, match.params._id, history])
-*/
-
   const handleInputChange = (event, { name, value }) => {
     setFormData(formData => ({ ...formData, [name]: value }))
   }

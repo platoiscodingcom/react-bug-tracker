@@ -22,8 +22,9 @@ exports.create = async (req, res) => {
   await newProject
     .save()
     .then(data => {
+      projectService.addProjectToAuthor(newProject._id, req.body.author)
       projectService.addProjectToCategories(newProject._id, req.body.categories)
-      
+
       res.status(200).send(data)
     })
     .catch(error => {
@@ -33,20 +34,13 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-  await Project.findById(req.params._id)
+  await Project.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {
       projectService.removeProjectFromAllCategories(data._id, data.categories)
-
-      data.name = req.body.name
-      data.status = req.body.status
-      data.description = req.body.description
-      data.categories = req.body.categories
-      data.dueDate = req.body.dueDate
-      //data.files = req.body.files
-      data.updatedAt = Date.now()
-
+      projectService.addProjectToAssignee(data._id, data.assignedTo._id)
       projectService.addProjectToCategories(data._id, req.body.categories)
 
+      data.updatedAt = Date.now()
       data.save()
       res.status(200).send(data)
     })
@@ -59,9 +53,6 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   await Project.findById(req.params._id)
     .then(data => {
-      
-      //delete all projectTasks and -Files
-      //remove Project from Categories
       projectService.removeProjectRelations(data, res)
 
       data.remove()
@@ -75,7 +66,6 @@ exports.delete = async (req, res) => {
 
 exports.statusEvent = (req, res) => {
   projectService.updateStatus(req, res)
-  
 }
 
 exports.upload = (req, res) => {

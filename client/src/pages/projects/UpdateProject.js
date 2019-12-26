@@ -4,7 +4,11 @@ import { withRouter } from 'react-router-dom'
 import { Button, Form, Card } from 'semantic-ui-react'
 import { statusOptions } from '../../components/helper/MultipleSelect'
 import UpdateLoader from '../../components/loader/UpdateLoader'
-import { CATEGORIES_PATH, PROJECTS_HOME, USERS_PATH } from '../../components/Constants'
+import {
+  CATEGORIES_PATH,
+  PROJECTS_HOME,
+  USERS_PATH
+} from '../../components/Constants'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getProject, updateProject } from '../../actions/projectActions'
@@ -33,14 +37,20 @@ const Update = ({
     author: ''
   })
   const newDueDate = null
-  const { name, status, description, categories, dueDate, author,assignedTo } = formData
+  const {
+    name,
+    status,
+    description,
+    categories,
+    dueDate,
+    author,
+    assignedTo
+  } = formData
 
   useEffect(() => {
     loadUsersOptions()
     loadCategoryOptions()
     getProject(match.params._id, history)
-    // eslint-disable-next-line
-    console.log('userOptions', userOptions)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -49,7 +59,15 @@ const Update = ({
   useEffect(() => {
     //only if loading is false and still mounted
     if (!loading && isMounted.current && project) {
-      const { name, status, description, categories, dueDate, author,assignedTo } = project
+      const {
+        name,
+        status,
+        description,
+        categories,
+        dueDate,
+        author,
+        assignedTo
+      } = project
       setFormData({
         name,
         status,
@@ -80,8 +98,7 @@ const Update = ({
 
   //currently loads all users
   //later should only load users that are invited to project
-  const loadUsersOptions = async () =>{
-    console.log('loadUserOptions')
+  const loadUsersOptions = async () => {
     await axios
       .get(USERS_PATH)
       .then(response => {
@@ -98,7 +115,7 @@ const Update = ({
   }
 
   const handleInputChange = (event, { name, value }) => {
-      setFormData(formData => ({ ...formData, [name]: value }))
+    setFormData(formData => ({ ...formData, [name]: value }))
   }
 
   const onSubmit = e => {
@@ -113,11 +130,11 @@ const Update = ({
       <Card.Content header='Edit' />
       <Card.Content>
         <Form widths='equal'>
-        <Form.Group>
+          <Form.Group>
             <Form.Input
               label='Author'
               name='author'
-              value={author}
+              value={author ? author.name : ''}
               error={errors.author}
               disabled
             />
@@ -125,7 +142,7 @@ const Update = ({
               label='Assign To:'
               name='assignedTo'
               options={userOptions}
-              value={assignedTo}
+              value={assignedTo ? assignedTo._id : ''}
               error={errors.assignedTo}
               onChange={handleInputChange}
             />
@@ -143,10 +160,9 @@ const Update = ({
               name='dueDate'
               label={`Due Date: ${moment(dueDate).format('MMMM Do YYYY')}`}
               onChange={handleInputChange}
-              value= {newDueDate}
+              value={newDueDate}
               format='MMMM Do YYYY'
             />
-            
           </Form.Group>
           <Form.Group>
             <Form.Select

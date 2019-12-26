@@ -2,7 +2,6 @@ const router = require('express').Router();
 const passport = require('passport');
 
 const userController = require ('../controllers/user');
-console.log('user router')
 router.get('/', userController.list)
 router.post('/register', userController.register)
 router.post('/login', userController.login)

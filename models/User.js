@@ -30,6 +30,7 @@ const UserSchema = new Schema({
         default: false 
     },
     author_of_projects: [{ type: Schema.Types.ObjectId, ref: 'Project'}],
+    assigned_to_projects: [{ type: Schema.Types.ObjectId, ref: 'Project'}],
 });
 
 const User = mongoose.model('User', UserSchema, 'users');
