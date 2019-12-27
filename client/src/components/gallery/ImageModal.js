@@ -4,7 +4,7 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { deleteFile } from './../../actions/fileActions';
-import {PROJECT} from '../Constants'
+import {PROJECT} from '../../Constants'
 import { getProject } from './../../actions/projectActions';
 
 

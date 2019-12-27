@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createFile } from '../../actions/fileActions'
 import { checkMimeType, checkSize } from '../../validation/validationFunctions'
-import { PROJECTS_PATH } from './../Constants'
+import { PROJECTS_PATH } from './../../Constants'
 import {
   setUploadModalOpen
 } from './../../actions/projectActions'

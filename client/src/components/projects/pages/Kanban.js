@@ -2,17 +2,17 @@ import React, { useEffect, useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import { Grid, Header, Button } from 'semantic-ui-react'
-import KanbanColumn from './KanbanComponents/KanbanColumn'
+import { Grid, Header, Button, Menu } from 'semantic-ui-react'
+import KanbanColumn from '../KanbanColumn'
+import { NavLink } from 'react-router-dom'
 import {
   OPEN,
   INPROGRESS,
   CLOSED,
-  BACKLOG,
   REOPENED,
   PROJECTS_DETAILS
-} from '../../components/Constants'
-import { getProject } from './../../actions/projectActions'
+} from '../../../Constants'
+import { getProject } from './../../../actions/projectActions'
 
 const Kanban = ({ project: { project }, match, history, getProject }) => {
   const [tasks, setTasks] = useState([])
@@ -32,12 +32,25 @@ const Kanban = ({ project: { project }, match, history, getProject }) => {
 
   return (
     <Fragment>
+      <Menu secondary>
+        <Menu.Item
+          name='Details'
+          as={NavLink}
+          to={'/projects/details/' + match.params._id}
+          header
+        />
+        <Menu.Item
+          active
+          name='Kanban'
+          as={NavLink}
+          to={'/projects/kanban/' + match.params._id}
+        />
+      </Menu>
       <Header as='h2'>
         {project.name}
         <Button
           as={Link}
           to={`${PROJECTS_DETAILS}/${project._id}`}
-          mini
           compact
           circular
           color='black'
@@ -46,13 +59,12 @@ const Kanban = ({ project: { project }, match, history, getProject }) => {
           Details
         </Button>
       </Header>
-      <Grid style={{ width: '150%' }}>
-        <Grid.Row columns={5}>
+      <Grid>
+        <Grid.Row columns={4}>
           {sortTasks(OPEN)}
           {sortTasks(REOPENED)}
           {sortTasks(INPROGRESS)}
           {sortTasks(CLOSED)}
-          {sortTasks(BACKLOG)}
         </Grid.Row>
       </Grid>
     </Fragment>

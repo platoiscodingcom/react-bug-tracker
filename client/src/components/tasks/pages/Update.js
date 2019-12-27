@@ -3,34 +3,63 @@ import React, { useEffect, useState } from 'react'
 import { Card, Button, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createTask } from '../../actions/taskActions'
+import UpdateLoader from '../../loader/UpdateLoader'
 import {
-  statusOptions,
-  priorityOptions,
-  typeOptions
-} from '../../components/helper/MultipleSelect'
-import {
-  OPEN,
-  FEATURE,
-  LOW,
   PROJECTS_PATH,
-  TASKS_HOME
-} from '../../components/Constants'
+  TASKS_HOME,
+  TYPE_OPTIONS,
+  STATUS_OPTIONS,
+  PRIORITY_OPTIONS
+} from '../../../Constants'
+import { getTask, updateTask } from './../../../actions/taskActions'
+import useIsMounted from 'ismounted'
 
-const Create = ({ createTask, errors, history, match }) => {
+const Update = ({
+  errors,
+  match,
+  getTask,
+  updateTask,
+  task: { task, loading },
+  history
+}) => {
   const [projects, setProjects] = useState([])
-  const [task, setTask] = useState({
+  const [formData, setFormData] = useState({
+    _id: match.params.id,
     title: '',
     project: '',
     description: '',
-    status: OPEN,
-    priority: LOW,
-    type: FEATURE
+    status: '',
+    priority: '',
+    type: ''
   })
 
+  const { title, status, description, type, priority, project } = formData
+
   useEffect(() => {
-    //getProjects
-    axios
+    loadProjects()
+    getTask(match.params._id, history)
+    // eslint-disable-next-line
+  }, [])
+
+  //check if it's mounted -> cannot set state on unmounted component
+  const isMounted = useIsMounted()
+  useEffect(() => {
+    //only if loading is false and still mounted
+    if (!loading && isMounted.current && task) {
+      const { title, status, description, type, priority, project } = task
+      setFormData({
+        title,
+        status,
+        description,
+        type,
+        priority,
+        project
+      })
+    }
+  }, [task, isMounted, loading])
+
+  const loadProjects = async () => {
+    await axios
       .get(PROJECTS_PATH)
       .then(response => {
         setProjects(
@@ -43,27 +72,29 @@ const Create = ({ createTask, errors, history, match }) => {
       .catch(error => {
         console.log(error)
       })
-  }, [match])
+  }
 
   const handleInputChange = (event, { name, value }) => {
-    setTask(previousValue => ({ ...previousValue, [name]: value }))
+    setFormData(formData => ({ ...formData, [name]: value }))
   }
 
-  const handleFormSubmission = () => {
-    createTask(task)
-    history.push(TASKS_HOME)
+  const onSubmit = e => {
+    e.preventDefault()
+    updateTask(task, formData, history)
   }
+
+  if (task == null || task === '') return <UpdateLoader />
 
   return (
     <Card fluid>
-      <Card.Content header='New Task' />
+      <Card.Content header={task.title} />
       <Card.Content>
         <Form widths='equal'>
           <Form.Group>
             <Form.Input
-              label='Title'
+              label='title'
               name='title'
-              value={task.title}
+              value={title}
               onChange={handleInputChange}
               error={errors.title}
             />
@@ -71,7 +102,7 @@ const Create = ({ createTask, errors, history, match }) => {
               label='Project'
               name='project'
               options={projects}
-              value={task.project}
+              value={project._id}
               onChange={handleInputChange}
               error={errors.project}
             />
@@ -80,24 +111,24 @@ const Create = ({ createTask, errors, history, match }) => {
             <Form.Select
               label='Priority'
               name='priority'
-              options={priorityOptions}
-              value={task.priority}
+              options={PRIORITY_OPTIONS}
+              value={priority}
               onChange={handleInputChange}
               error={errors.priority}
             />
             <Form.Select
               label='Status'
               name='status'
-              options={statusOptions}
+              options={STATUS_OPTIONS}
+              value={status}
               onChange={handleInputChange}
-              value={task.status}
               error={errors.status}
             />
             <Form.Select
               label='Type'
               name='type'
-              options={typeOptions}
-              value={task.type}
+              options={TYPE_OPTIONS}
+              value={type}
               onChange={handleInputChange}
               error={errors.type}
             />
@@ -106,7 +137,7 @@ const Create = ({ createTask, errors, history, match }) => {
             <Form.TextArea
               label='Description'
               name='description'
-              value={task.description}
+              value={description}
               onChange={handleInputChange}
               rows='12'
               error={errors.description}
@@ -125,20 +156,23 @@ const Create = ({ createTask, errors, history, match }) => {
           floated='right'
           color='green'
           content='Save'
-          onClick={handleFormSubmission}
+          onClick={e => onSubmit(e)}
         />
       </Card.Content>
     </Card>
   )
 }
 
-Create.propTypes = {
-  createTask: PropTypes.func.isRequired,
+Update.propTypes = {
+  updateTask: PropTypes.func.isRequired,
+  getTask: PropTypes.func.isRequired,
+  task: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  task: state.task
 })
 
-export default connect(mapStateToProps, {createTask})(Create)
+export default connect(mapStateToProps, { updateTask, getTask })(Update)

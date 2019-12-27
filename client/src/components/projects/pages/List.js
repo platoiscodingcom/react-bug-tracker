@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Button, Divider } from 'semantic-ui-react'
-import CardLoader from '../../components/loader/CardLoader'
-import StatusColor from '../../components/status/StatusColor'
+import CardLoader from '../../loader/CardLoader'
+import StatusColor from '../../status/StatusColor'
 import uuid from 'uuid'
 import {
   PROJECTS_DETAILS,
   PROJECTS_KANBAN,
   PROJECTS_CREATE,
   CATEGORIES_DETAILS
-} from '../../components/Constants'
+} from '../../../Constants'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { deleteProject, getProjects } from './../../actions/projectActions'
+import { getProjects } from './../../../actions/projectActions'
 
-const List = ({ project: { projects }, getProjects, deleteProject, match }) => {
+const List = ({ project: { projects }, getProjects}) => {
   useEffect(() => {
     getProjects()
   }, [getProjects])
@@ -85,7 +85,6 @@ const List = ({ project: { projects }, getProjects, deleteProject, match }) => {
 }
 
 List.propTypes = {
-  deleteProject: PropTypes.func.isRequired,
   getProjects: PropTypes.func.isRequired,
   project: PropTypes.object.isRequired
 }
@@ -94,4 +93,4 @@ const mapStateToProps = state => ({
   project: state.project
 })
 
-export default connect(mapStateToProps, { deleteProject, getProjects })(List)
+export default connect(mapStateToProps, { getProjects })(List)

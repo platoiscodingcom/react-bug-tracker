@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Button } from 'semantic-ui-react'
-import {
-  statusOptions,
-  priorityOptions,
-  typeOptions
-} from '../helper/MultipleSelect'
-import { OPEN, FEATURE, LOW } from '../Constants'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createTask } from './../../actions/taskActions'
-import { PROJECTS_DETAILS } from './../Constants'
+import { PROJECTS_DETAILS, TYPE_OPTIONS, PRIORITY_OPTIONS, STATUS_OPTIONS, OPEN, FEATURE, LOW } from './../../Constants'
 import { withRouter } from 'react-router'
 
 const NewTask = ({
@@ -81,7 +75,7 @@ const NewTask = ({
               <Form.Select
                 label='Priority'
                 name='priority'
-                options={priorityOptions}
+                options={PRIORITY_OPTIONS}
                 value={task.priority}
                 onChange={handleInputChange}
                 error={errors.priority}
@@ -89,7 +83,7 @@ const NewTask = ({
               <Form.Select
                 label='Status'
                 name='status'
-                options={statusOptions}
+                options={STATUS_OPTIONS}
                 onChange={handleInputChange}
                 value={task.status}
                 error={errors.status}
@@ -97,7 +91,7 @@ const NewTask = ({
               <Form.Select
                 label='Type'
                 name='type'
-                options={typeOptions}
+                options={TYPE_OPTIONS}
                 value={task.type}
                 onChange={handleInputChange}
                 error={errors.type}

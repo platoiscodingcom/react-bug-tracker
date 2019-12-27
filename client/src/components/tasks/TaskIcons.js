@@ -1,8 +1,8 @@
 import React from 'react'
 import { Popup, Table } from 'semantic-ui-react'
-import { UNDEFINED } from '../Constants'
-import { HIGH, CRITICAL } from '../Constants'
-import { BUG, FEATURE } from '../Constants'
+import { UNDEFINED } from '../../Constants'
+import { HIGH, CRITICAL } from '../../Constants'
+import { BUG, FEATURE } from '../../Constants'
 
 export const TypeIcon = ({ type }) => {
   if (!type) {

@@ -6,12 +6,12 @@ import Create from './Create'
 import List from './List'
 import Update from './Update'
 import Details from './Details'
-import NoMatch from '../NoMatch'
+import NoMatch from '../../NoMatch'
 import {
   TASKS_HOME,
   TASKS_DETAILS,
   TASKS_CREATE
-} from '../../components/Constants'
+} from '../../../Constants'
 
 const Tasks = ({ match }) => {
   return (

@@ -9,7 +9,7 @@ import {
   SET_FILE_UPLOADED_TRUE,
   SET_FILE_UPLOADED_FALSE
 } from './types'
-import { PROJECTS_HOME, PROJECTS_PATH } from '../components/Constants'
+import { PROJECTS_HOME, PROJECTS_PATH } from '../Constants'
 
 export const createProject = (project, history) => async dispatch => {
   await axios

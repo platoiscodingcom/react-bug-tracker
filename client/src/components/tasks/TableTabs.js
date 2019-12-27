@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Tab } from 'semantic-ui-react'
-import { OPEN, INPROGRESS, CLOSED, BACKLOG, REOPENED } from '../Constants'
+import { OPEN, INPROGRESS, CLOSED, BACKLOG, REOPENED } from '../../Constants'
 import TaskTable from './TaskTable'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { GET_TASK_ERRORS, GET_TASK, GET_TASKS, DELETE_TASK } from './types'
-import { TASKS_HOME, TASKS_PATH } from '../components/Constants'
+import { TASKS_HOME, TASKS_PATH } from '../Constants'
 
 export const createTask = (task) => async dispatch => {
   await axios

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Table } from 'semantic-ui-react'
-import ListLoader from '../../components/loader/ListLoader'
+import ListLoader from '../loader/ListLoader'
 import PropTypes from 'prop-types'
 import {
   CATEGORIES_DETAILS,
   CATEGORIES_HOME,
   CATEGORIES_CREATE
-} from '../../components/Constants'
+} from '../../Constants'
 import { connect } from 'react-redux'
 import { deleteCategory, getCategories } from '../../actions/categoryActions'
 

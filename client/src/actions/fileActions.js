@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { GET_FILE_ERRORS, /*GET_FILE, GET_FILES, DELETE_FILE*/ } from './types'
-import {PROJECT, TASK, FILES_PATH} from '../components/Constants'
+import {PROJECT, TASK, FILES_PATH} from '../Constants'
 
 export const createFile = (
   file,

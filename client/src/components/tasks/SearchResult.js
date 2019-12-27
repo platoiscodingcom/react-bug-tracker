@@ -1,13 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import uuid from 'uuid'
 import StatusColor from './../status/StatusColor'
 import { TypeIcon, PriorityCellColor } from './TaskIcons'
-import { TASKS_DETAILS, TASKS_HOME, PROJECTS_DETAILS } from './../Constants'
+import { TASKS_DETAILS, TASKS_HOME, PROJECTS_DETAILS } from './../../Constants'
 import { Button, Table } from 'semantic-ui-react'
 import { deleteTask } from './../../actions/taskActions'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 
 const SearchResult = ({cleanResult, result, deleteTask, match, history}) => {

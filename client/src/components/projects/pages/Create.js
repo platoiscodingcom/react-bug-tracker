@@ -1,16 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Card, Button, Form } from 'semantic-ui-react'
-import { statusOptions } from '../../components/helper/MultipleSelect'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { createProject } from '../../actions/projectActions'
+import { createProject } from './../../../actions/projectActions'
 import {
   OPEN,
   CATEGORIES_PATH,
   PROJECTS_HOME,
-  USERS_PATH
-} from '../../components/Constants'
+  USERS_PATH,
+  STATUS_OPTIONS
+} from '../../../Constants'
 import SemanticDatepicker from 'react-semantic-ui-datepickers'
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css'
 
@@ -122,7 +122,7 @@ const Create = ({ createProject, errors, history, auth: { user } }) => {
             <Form.Select
               label='Status'
               name='status'
-              options={statusOptions}
+              options={STATUS_OPTIONS}
               value={project.status}
               onChange={handleInputChange}
               error={errors.status}

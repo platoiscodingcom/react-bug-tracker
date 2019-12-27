@@ -63,3 +63,24 @@ export const FILE_TYPES = [
   'application/vnd.ms-excel',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 ]
+
+export const STATUS_OPTIONS = [
+  { key: BACKLOG, value: BACKLOG, text: BACKLOG },
+  { key: OPEN, value: OPEN, text: OPEN },
+  { key: INPROGRESS, value: INPROGRESS, text: INPROGRESS },
+  { key: CLOSED, value: CLOSED, text: CLOSED },
+  { key: REOPENED, value: REOPENED, text: REOPENED }
+]
+
+export const PRIORITY_OPTIONS = [
+  { key: LOW, value: LOW, text: LOW },
+  { key: MEDIUM, value: MEDIUM, text: MEDIUM },
+  { key: HIGH, value: HIGH, text: HIGH },
+  { key: CRITICAL, value: CRITICAL, text: CRITICAL }
+]
+
+export const TYPE_OPTIONS = [
+  { key: BUG, value: BUG, text: BUG },
+  { key: FEATURE, value: FEATURE, text: FEATURE }
+]
+

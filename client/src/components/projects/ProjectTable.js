@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { PROJECTS_HOME, PROJECTS_DETAILS } from '../Constants'
+import { PROJECTS_HOME, PROJECTS_DETAILS } from '../../Constants'
 import { Button, Table } from 'semantic-ui-react'
 import moment from 'moment'
 import StatusColor from '../status/StatusColor'

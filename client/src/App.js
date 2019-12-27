@@ -5,12 +5,12 @@ import {
   Switch
 } from 'react-router-dom'
 
-import Home from './pages/Home'
+import Home from './components/Home'
 import Navbar from './components/Navbar'
-import NoMatch from './pages/NoMatch'
-import Projects from './pages/projects'
-import Tasks from './pages/tasks'
-import Categories from './pages/categories'
+import NoMatch from './components/NoMatch'
+import Projects from './components/projects/pages'
+import Tasks from './components/tasks/pages'
+import Categories from './components/categories/index'
 import './App.css'
 import { Provider } from 'react-redux'
 import store from './store'
@@ -21,7 +21,7 @@ import { setCurrentUser, logoutUser } from './actions/authentication'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import Confirmation from './components/auth/Confirmation'
-import Dashboard from './pages/dashboard/Dashboard'
+import Dashboard from './components/dashboard/'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)

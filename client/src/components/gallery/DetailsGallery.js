@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getProject } from '../../actions/projectActions'
 import { deleteFile } from '../../actions/fileActions'
-import { PROJECT } from '../Constants'
+import { PROJECT } from '../../Constants'
 
 const DetailsGallery = ({
   getProject,

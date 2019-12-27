@@ -1,5 +1,5 @@
 import { STRING_REGEX } from './RegExConstants'
-import { FILE_TYPES } from '../components/Constants'
+import { FILE_TYPES } from '../Constants'
 
 export const validateString = value => {
   if (!value) return 'Field is required'

@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
 import { Button, Table } from 'semantic-ui-react'
-import ListLoader from '../../components/loader/ListLoader'
-import { TypeIcon, PriorityCellColor } from '../../components/tasks/TaskIcons'
-import StatusColor from '../../components/status/StatusColor'
+import ListLoader from '../../loader/ListLoader'
+import { TypeIcon, PriorityCellColor } from '../TaskIcons'
+import StatusColor from '../../status/StatusColor'
 import { Link } from 'react-router-dom'
 import uuid from 'uuid'
 import {
   TASKS_DETAILS,
   TASKS_HOME,
   TASKS_CREATE
-} from '../../components/Constants'
+} from '../../../Constants'
 import { connect } from 'react-redux'
-import { getTasks, deleteTask } from './../../actions/taskActions'
+import { getTasks, deleteTask } from './../../../actions/taskActions'
 import PropTypes from 'prop-types'
 
 const List = ({ task: { tasks }, getTasks, deleteTask }) => {

@@ -5,7 +5,7 @@ import {
   GET_CATEGORIES,
   DELETE_CATEGORY
 } from './types'
-import { CATEGORIES_HOME, CATEGORIES_PATH } from '../components/Constants'
+import { CATEGORIES_HOME, CATEGORIES_PATH } from '../Constants'
 
 export const createCategory = (category, history) => async dispatch => {
   await axios

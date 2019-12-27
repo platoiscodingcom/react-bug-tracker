@@ -1,21 +1,26 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { Button, Form, Card } from 'semantic-ui-react'
-import { statusOptions } from '../../components/helper/MultipleSelect'
-import UpdateLoader from '../../components/loader/UpdateLoader'
+import SemanticDatepicker from 'react-semantic-ui-datepickers'
+import moment from 'moment'
+import useIsMounted from 'ismounted'
+import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css'
+import UpdateLoader from '../../loader/UpdateLoader'
+import { getProject, updateProject } from './../../../actions/projectActions'
 import {
   CATEGORIES_PATH,
   PROJECTS_HOME,
-  USERS_PATH
-} from '../../components/Constants'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { getProject, updateProject } from '../../actions/projectActions'
-import useIsMounted from 'ismounted'
-import SemanticDatepicker from 'react-semantic-ui-datepickers'
-import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css'
-import moment from 'moment'
+  USERS_PATH,
+  STATUS_OPTIONS
+} from '../../../Constants'
+
+
+
+
+
 
 const Update = ({
   project: { project, loading },
@@ -180,7 +185,7 @@ const Update = ({
             <Form.Select
               label='Status'
               name='status'
-              options={statusOptions}
+              options={STATUS_OPTIONS}
               value={status}
               onChange={handleInputChange}
               error={errors.status}

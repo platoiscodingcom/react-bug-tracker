@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Card, Button, Form } from 'semantic-ui-react'
-import { CATEGORIES_HOME } from '../../components/Constants'
+import { CATEGORIES_HOME } from '../../Constants'
 import { createCategory } from '../../actions/categoryActions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'

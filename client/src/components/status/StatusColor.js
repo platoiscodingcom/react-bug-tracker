@@ -1,5 +1,5 @@
 import React from 'react'
-import { OPEN, CLOSED, REOPENED, INPROGRESS, UNDEFINED } from '../Constants'
+import { OPEN, CLOSED, REOPENED, INPROGRESS, UNDEFINED } from '../../Constants'
 
 const StatusColor = ({ status }) => {
   if (!status) return UNDEFINED

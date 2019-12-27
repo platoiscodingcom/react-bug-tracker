@@ -4,10 +4,10 @@ import { Container } from 'semantic-ui-react'
 
 import Create from './Create'
 import List from './List'
-import Update from './UpdateProject'
+import Update from './Update'
 import Details from './Details'
 import Kanban from './Kanban'
-import NoMatch from '../NoMatch'
+import NoMatch from '../../NoMatch'
 
 const Projects = ({ match }) => {
   return (

@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react'
-import { REOPENED, CLOSED, BACKLOG, INPROGRESS } from '../Constants'
+import { REOPENED, CLOSED, BACKLOG, INPROGRESS } from '../../Constants'
 import ButtonEvent from './ButtonEvent'
-import { CLOSE, OPEN, START, STOP, REOPEN} from '../Constants'
+import { CLOSE, OPEN, START, STOP, REOPEN} from '../../Constants'
 
 const StateButton = ({ status, documentType }) => {
   return (

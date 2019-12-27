@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
-import { getProjects } from '../../actions/projectActions'
-import { Card, Button, Divider, Grid, Tab, Container } from 'semantic-ui-react'
+import { withRouter} from 'react-router-dom'
+import {Grid, Tab, Container } from 'semantic-ui-react'
 import ProjectList  from './ProjectList';
 
-const Dashboard = ({ match, history, auth: {user}}) => {
+const Dashboard = () => {
 
   const panes = [
     {
@@ -39,11 +36,7 @@ const Dashboard = ({ match, history, auth: {user}}) => {
 }
 
 Dashboard.propTypes = {
-  auth: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
-})
 
-export default withRouter(connect(mapStateToProps, {  })(Dashboard))
+export default withRouter(connect(null, {  })(Dashboard))
