@@ -63,7 +63,8 @@ exports.sendConfirmationMail = (newUser, token) => {
 }
 
 exports.comparePasswords = (password, user, res) => {
-  bcrypt.compare(password, user.password).then(isMatch => {
+  bcrypt.compare(password, user.password)
+  .then(isMatch => {
     if (isMatch) {
       const payload = {
         id: user.id,
@@ -101,6 +102,10 @@ exports.comparePasswords = (password, user, res) => {
       errors.password = 'Incorrect Password'
       return res.status(400).json(errors)
     }
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error 500' })
   })
 }
 

@@ -32,8 +32,8 @@ exports.deleteFileFromDBAndLocally = async (fileId, res) =>{
 }
 
 exports.deleteAllFilesFromProject = (files, res) =>{
-  files.forEach(file =>{
-    File.findById(file._id)
+  files.forEach(async file =>{
+    await File.findById(file._id)
       .then(data =>{
         localStorageService.deleteFileLocally(data)
 

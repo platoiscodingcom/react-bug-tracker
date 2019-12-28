@@ -45,6 +45,10 @@ exports.register = (req, res) => {
       })
     }
   })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error 500' })
+  })
 }
 
 exports.login = (req, res) => {
@@ -57,12 +61,17 @@ exports.login = (req, res) => {
   const email = req.body.email
   const password = req.body.password
 
-  User.findOne({ email }).then(user => {
+  User.findOne({ email })
+  .then(user => {
     if (!user) {
       errors.email = 'User not found'
       return res.status(404).json(errors)
     }
     userService.comparePasswords(password, user, res)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error 500' })
   })
 }
 
@@ -91,6 +100,14 @@ exports.confirmRegistration = (req, res, next) => {
       userService.checkIfUserFoundOrAlreadyVerfied(user, res)
       userService.verfiyUser(user, res)
     })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error 500' })
+    })
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error 500' })
   })
 }
 
@@ -109,5 +126,9 @@ exports.resendTokenPost = (req, res, next) => {
   User.findOne({ email: req.body.email }, function (err, user) {
     userService.checkIfUserFoundOrAlreadyVerfied(user, res)
     userService.createTokenAndConfirmationMail(user, res)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error 500' })
   })
 }

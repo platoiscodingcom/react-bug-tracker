@@ -14,6 +14,10 @@ exports.removeCategoryFromAllProjects = (projects, catId) => {
       })
     data.remove()
   })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error 500' })
+  })
 }
 
 exports.findAllCategories = async (res) =>{
