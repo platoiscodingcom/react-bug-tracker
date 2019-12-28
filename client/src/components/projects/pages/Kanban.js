@@ -37,7 +37,7 @@ const Kanban = ({ project: { project }, match, history, getProject }) => {
           name='Details'
           as={NavLink}
           to={'/projects/details/' + match.params._id}
-          header
+          
         />
         <Menu.Item
           active
@@ -47,17 +47,6 @@ const Kanban = ({ project: { project }, match, history, getProject }) => {
         />
       </Menu>
       <Header as='h2'>
-        {project.name}
-        <Button
-          as={Link}
-          to={`${PROJECTS_DETAILS}/${project._id}`}
-          compact
-          circular
-          color='black'
-          style={{ fontWeight: '700' }}
-        >
-          Details
-        </Button>
       </Header>
       <Grid>
         <Grid.Row columns={4}>

@@ -19,7 +19,6 @@ exports.findAllProjects = async (req, res) => {
 }
 
 exports.findProjectById = async (projectId, res, req) => {
-  //await Project.findById(projectId)
   await Project.findOne({_id: projectId, author: req.user._id})
     .populate('tasks categories author assignedTo files')
     .then(data => {

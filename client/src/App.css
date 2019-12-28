@@ -6,7 +6,7 @@
 body {
   font-family: 'Ropa Sans', sans-serif;
   margin-top:0px;
-  background: #eee;
+  background: rgba(250, 248, 248, 0.966)
 }
 
 .ui.fluid.card{
@@ -81,6 +81,12 @@ body {
   border: none !important;
 }
 
+.ui.segment{
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.1) !important;
+  border: none !important;
+  border-radius: 0px !important;
+}
+
 .ui.table {
   border-radius: 5px !important;
   border: none !important;
@@ -90,7 +96,7 @@ body {
 .ui.card{
   border-radius: 5px !important;
   border: none !important;
-  box-shadow: none !important;
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;
 }
 
 .ui.placeholder{
@@ -100,9 +106,11 @@ body {
 
 .ui.tabular.menu .active.item{
   border: none !important;
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;
 }
 
 .ui.bottom.attached.segment.active.tab{
   border: none !important;
   box-shadow: none !important;
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;
 }
