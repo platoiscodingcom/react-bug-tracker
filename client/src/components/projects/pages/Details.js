@@ -95,7 +95,7 @@ const Details = ({
             <Card.Content className='card-header'>
               <span className='card-header-title'>{name}</span>
               <Menu floated='right' className='card-menu'>
-                <Dropdown item text='more'>
+                <Dropdown className="more-details-button" item text='more'>
                   <Dropdown.Menu className='card-actions-dropdown'>
                     <Dropdown.Item>
                       <div onClick={() => setShowNewTask(true)}>

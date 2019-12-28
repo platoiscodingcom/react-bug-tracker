@@ -73,8 +73,7 @@ const Create = ({ createProject, errors, history, auth: { user } }) => {
   useEffect(() => {
     loadCategories()
     loadUsersOptions()
-    console.log("project", project)
-  }, [])
+  }, [project])
 
 
   return (

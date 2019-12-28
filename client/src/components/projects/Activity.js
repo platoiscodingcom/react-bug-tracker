@@ -1,49 +1,32 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Feed, Card} from 'semantic-ui-react'
-import { withRouter } from 'react-router-dom'
+import { Feed, Card, Container } from 'semantic-ui-react'
+import { withRouter, Link } from 'react-router-dom'
 
 const Activity = () => {
   return (
+    <Container fluid style={{marginTop: '15px'}}>
     <Card>
-    <Card.Content>
-      <Card.Header>Recent Activity</Card.Header>
-    </Card.Content>
-    <Card.Content>
-      <Feed>
-        <Feed.Event>
-          <Feed.Label icon='folder open' />
-          <Feed.Content>
-            <Feed.Date content='1 day ago' />
-            <Feed.Summary>
-              You added <a>Jenny Hess</a> to your <a>coworker</a> group.
-            </Feed.Summary>
-          </Feed.Content>
-        </Feed.Event>
-
-        <Feed.Event>
-          <Feed.Label icon='folder open'/>
-          <Feed.Content>
-            <Feed.Date content='3 days ago' />
-            <Feed.Summary>
-              You added <a>Molly Malone</a> as a friend.
-            </Feed.Summary>
-          </Feed.Content>
-        </Feed.Event>
-
-        <Feed.Event>
-          <Feed.Label icon='folder open' />
-          <Feed.Content>
-            <Feed.Date content='4 days ago' />
-            <Feed.Summary>
-              You added <a>Elliot Baker</a> to your <a>musicians</a> group.
-            </Feed.Summary>
-          </Feed.Content>
-        </Feed.Event>
-      </Feed>
-    </Card.Content>
-  </Card>
+      <Card.Content>
+        <Card.Header>Recent Activity</Card.Header>
+      </Card.Content>
+      <Card.Content>
+        <Feed>
+          <Feed.Event>
+            <Feed.Label icon='folder open' />
+            <Feed.Content>
+              <Feed.Date content='1 day ago' />
+              <Feed.Summary>
+                You added <Link>Jenny Hess</Link> to your <Link>coworker</Link>{' '}
+                group.
+              </Feed.Summary>
+            </Feed.Content>
+          </Feed.Event>
+        </Feed>
+      </Card.Content>
+    </Card>
+    </Container>
   )
 }
 

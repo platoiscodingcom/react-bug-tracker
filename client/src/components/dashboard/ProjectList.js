@@ -30,7 +30,7 @@ const ProjectList = ({ project: { projects }, getProjects }) => {
 
       <Table.Body>
         {projects.map(project => {
-          const { _id, name, status, author, assignedTo, categories } = project
+          const { _id, name, status, author, assignedTo } = project
           const shortName = name.substring(0, 25)
 
           return (
