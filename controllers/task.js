@@ -31,9 +31,9 @@ exports.update = async (req, res) => {
   await Task.findById(req.params._id).then(data => {
     if (data.assignedTo !== req.body.assignedTo) {
       //remove from former assignee
-      projectService.removeTaskFromAssignee(data._id, data.assignedTo)
+      taskService.removeTaskFromAssignee(data._id, data.assignedTo)
       //add to new assignee
-      projectService.addTaskToAssignee(data._id, req.body.assignedTo)
+      taskService.addTaskToAssignee(data._id, req.body.assignedTo)
     }
   })
   await Task.findByIdAndUpdate(req.params._id, req.body)
