@@ -28,7 +28,7 @@ exports.deleteTaskFromProject = async (data, taskId) => {
 
 exports.findAllTasks = async (res) =>{
   await Task.find()
-  .populate('project')
+  .populate('project', 'name')
   .then(data => {
     res.status(200).send(data)
   })
@@ -40,7 +40,10 @@ exports.findAllTasks = async (res) =>{
 
 exports.findTaskById = async (taskId, res) =>{
   await Task.findById(taskId)
-    .populate('project')
+    //.populate('project author assignedTo')
+    .populate('project', 'name')
+    .populate('author', 'name')
+    .populate('assignedTo', 'name')
     .then(data => {
       res.status(200).send(data)
     })

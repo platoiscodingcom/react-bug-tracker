@@ -66,73 +66,75 @@ const Details = ({ match, history, getTask, deleteTask, task: { task } }) => {
       </Card.Content>
 
       <Card.Content>
-      <Grid>
-                <Grid.Row columns={2}>
-                  <Grid.Column>
-        <List>
-          <List.Item>
-            <div>
-              Status:
-              <StatusColor key={uuid.v4()} status={status} />
-            </div>
-          </List.Item>
-          <List.Item>
-            <div>
-              Type:
-              <TypeIcon key={uuid.v4()} type={type} />
-            </div>
-          </List.Item>
-          <List.Item>
-            <div>Priority:{`${priority}`}</div>
-          </List.Item>
-          <List.Item>
-            Created At: {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
-          </List.Item>
-          <List.Item>
-            Updated At: {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
-          </List.Item>
-          <List.Item>
-            <div>
-              Project:
-              <span className='ui label'>
-                <Link to={`${PROJECTS_DETAILS}/${projectId}`}>
-                  {projectName}
-                </Link>
-              </span>
-            </div>
-          </List.Item>
-        </List>
-        </Grid.Column>
-                  <Grid.Column>
-                    <List>
-                      <List.Item>
-                        <Header as='h4' floated='left'>
-                          Author:
-                        </Header>
-                        {author ? author.name : ''}
-                      </List.Item>
+        <Grid>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <List>
+                <List.Item>
+                  <div>
+                    Status:
+                    <StatusColor key={uuid.v4()} status={status} />
+                  </div>
+                </List.Item>
+                <List.Item>
+                  <div>
+                    Type:
+                    <TypeIcon key={uuid.v4()} type={type} />
+                  </div>
+                </List.Item>
+                <List.Item>
+                  <div>Priority:{`${priority}`}</div>
+                </List.Item>
+                <List.Item>
+                  Created At:{' '}
+                  {moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}
+                </List.Item>
+                <List.Item>
+                  Updated At:{' '}
+                  {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+                </List.Item>
+                <List.Item>
+                  <div>
+                    Project:
+                    <span className='ui label'>
+                      <Link to={`${PROJECTS_DETAILS}/${projectId}`}>
+                        {projectName}
+                      </Link>
+                    </span>
+                  </div>
+                </List.Item>
+              </List>
+            </Grid.Column>
+            <Grid.Column>
+              <List>
+                <List.Item>
+                  <Header as='h4' floated='left'>
+                    Author:
+                  </Header>
+                  {author ? author.name : ''}
+                </List.Item>
 
-                      <List.Item>
-                        <Header as='h4' floated='left'>
-                          Assigned to:
-                        </Header>
-                        {assignedTo ? assignedTo.name : ''}
-                      </List.Item>
-                      <List.Item>
-                        <Header as='h4' floated='left'>
-                          Due Date:{' '}
-                        </Header>
-                        {moment(dueDate).format('MMMM Do YYYY')}
-                      </List.Item>
-                      <List.Item>
-                        <Header as='h4' floated='left'>
-                          Estimated Working Time:
-                        </Header>
-                      </List.Item>
-                    </List>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
+                <List.Item>
+                  <Header as='h4' floated='left'>
+                    Assigned to:
+                  </Header>
+                  {assignedTo ? assignedTo.name : ''}
+                </List.Item>
+                <List.Item>
+                  <Header as='h4' floated='left'>
+                    Due Date:{' '}
+                  </Header>
+                  {moment(dueDate).format('MMMM Do YYYY')}
+                </List.Item>
+                <List.Item>
+                  <Header as='h4' floated='left'>
+                    Estimated Working Time:
+                  </Header>
+                </List.Item>
+              </List>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </Card.Content>
 
       <Card.Content description={description} />

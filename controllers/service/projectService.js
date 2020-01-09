@@ -8,7 +8,7 @@ localStorageService = require('./localStorageService')
 
 exports.findAllProjects = async (req, res) => {
   await Project.find({author: req.user._id})
-    .populate('categories')
+    .populate('categories', 'name')
     .then(data => {
       res.status(200).send(data)
     })
@@ -20,7 +20,10 @@ exports.findAllProjects = async (req, res) => {
 
 exports.findProjectById = async (projectId, res, req) => {
   await Project.findOne({_id: projectId, author: req.user._id})
-    .populate('tasks categories author assignedTo files')
+    .populate('tasks files')
+    .populate('categories', 'name')
+    .populate('author', 'name')
+    .populate('assignedTo', 'name')
     .then(data => {
       res.status(200).send(data)
     })
