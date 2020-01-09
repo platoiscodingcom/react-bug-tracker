@@ -9,7 +9,8 @@ import {
   TASKS_HOME,
   TYPE_OPTIONS,
   STATUS_OPTIONS,
-  PRIORITY_OPTIONS
+  PRIORITY_OPTIONS,
+  USERS_PATH
 } from '../../../Constants'
 import { getTask, updateTask } from './../../../actions/taskActions'
 import useIsMounted from 'ismounted'
@@ -22,6 +23,7 @@ const Update = ({
   task: { task, loading },
   history
 }) => {
+  const [userOptions, setUserOptions] = useState([])
   const [projects, setProjects] = useState([])
   const [formData, setFormData] = useState({
     _id: match.params.id,
@@ -30,12 +32,24 @@ const Update = ({
     description: '',
     status: '',
     priority: '',
-    type: ''
+    type: '',
+    author: '',
+    assignedTo: ''
   })
 
-  const { title, status, description, type, priority, project } = formData
+  const {
+    title,
+    status,
+    description,
+    type,
+    priority,
+    project,
+    author,
+    assignedTo
+  } = formData
 
   useEffect(() => {
+    loadUsersOptions()
     loadProjects()
     getTask(match.params._id, history)
     // eslint-disable-next-line
@@ -46,17 +60,46 @@ const Update = ({
   useEffect(() => {
     //only if loading is false and still mounted
     if (!loading && isMounted.current && task) {
-      const { title, status, description, type, priority, project } = task
+      const {
+        title,
+        status,
+        description,
+        type,
+        priority,
+        project,
+        author,
+        assignedTo
+      } = task
       setFormData({
         title,
         status,
         description,
         type,
         priority,
-        project
+        project,
+        author,
+        assignedTo
       })
     }
   }, [task, isMounted, loading])
+
+  //currently loads all users
+  //later should only load users that are invited to project
+  const loadUsersOptions = async () => {
+    await axios
+      .get(USERS_PATH)
+      .then(response => {
+        setUserOptions(
+          response.data.map(user => ({
+            text: `${user.name}`,
+            value: user._id
+          }))
+        )
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
   const loadProjects = async () => {
     await axios
@@ -92,7 +135,24 @@ const Update = ({
         <Form widths='equal'>
           <Form.Group>
             <Form.Input
-              label='title'
+              label='Author'
+              name='author'
+              value={author ? author.name : ''}
+              error={errors.author}
+              disabled
+            />
+            <Form.Select
+              label='Assign To:'
+              name='assignedTo'
+              options={userOptions}
+              value={assignedTo ? assignedTo._id : ''}
+              error={errors.assignedTo}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Input
+              label='Title'
               name='title'
               value={title}
               onChange={handleInputChange}

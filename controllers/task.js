@@ -51,7 +51,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   await Task.findById(req.params._id)
     .then(data => {
-      taskService.deleteTaskFromProject(data, req.params._id)
+      taskService.removeTaskRelations(data, res)
       data.remove()
       res.status(200).send(data)
     })

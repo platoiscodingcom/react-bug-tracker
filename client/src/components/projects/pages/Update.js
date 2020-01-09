@@ -17,11 +17,6 @@ import {
   STATUS_OPTIONS
 } from '../../../Constants'
 
-
-
-
-
-
 const Update = ({
   project: { project, loading },
   getProject,
@@ -39,7 +34,8 @@ const Update = ({
     status: '',
     description: '',
     dueDate: '',
-    author: ''
+    author: '',
+    assignedTo: ''
   })
   const newDueDate = null
   const {

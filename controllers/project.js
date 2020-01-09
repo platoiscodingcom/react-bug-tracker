@@ -61,7 +61,6 @@ exports.delete = async (req, res) => {
   await Project.findById(req.params._id)
     .then(data => {
       projectService.removeProjectRelations(data, res)
-
       data.remove()
       res.status(200).send(data)
     })

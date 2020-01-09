@@ -125,3 +125,9 @@ exports.removeTaskFromAuthor = async (taskId, authorId) => {
       res.status(500).send({ message: 'Error 500' })
     })
 }
+
+exports.removeTaskRelations(data, res){
+  this.deleteTaskFromProject(data, req.params._id)
+  this.removeTaskFromAuthor(taskId, authorId)
+  this.removeTaskFromAssignee(taskId, assigneeId)
+}
