@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import moment from 'moment'
-import { Card, List, Dropdown, Menu } from 'semantic-ui-react'
+import { Card, List, Dropdown, Menu, Grid, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { TypeIcon } from '../TaskIcons'
 import StatusColor from '../../status/StatusColor'
@@ -26,7 +26,10 @@ const Details = ({ match, history, getTask, deleteTask, task: { task } }) => {
     priority,
     type,
     updatedAt,
-    createdAt
+    createdAt,
+    dueDate,
+    author,
+    assignedTo
   } = task
 
   if (task == null || task === '') return <DetailsLoader />
@@ -63,6 +66,9 @@ const Details = ({ match, history, getTask, deleteTask, task: { task } }) => {
       </Card.Content>
 
       <Card.Content>
+      <Grid>
+                <Grid.Row columns={2}>
+                  <Grid.Column>
         <List>
           <List.Item>
             <div>
@@ -96,6 +102,37 @@ const Details = ({ match, history, getTask, deleteTask, task: { task } }) => {
             </div>
           </List.Item>
         </List>
+        </Grid.Column>
+                  <Grid.Column>
+                    <List>
+                      <List.Item>
+                        <Header as='h4' floated='left'>
+                          Author:
+                        </Header>
+                        {author ? author.name : ''}
+                      </List.Item>
+
+                      <List.Item>
+                        <Header as='h4' floated='left'>
+                          Assigned to:
+                        </Header>
+                        {assignedTo ? assignedTo.name : ''}
+                      </List.Item>
+                      <List.Item>
+                        <Header as='h4' floated='left'>
+                          Due Date:{' '}
+                        </Header>
+                        {moment(dueDate).format('MMMM Do YYYY')}
+                      </List.Item>
+                      <List.Item>
+                        <Header as='h4' floated='left'>
+                          Estimated Working Time:
+                        </Header>
+                      </List.Item>
+                    </List>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
       </Card.Content>
 
       <Card.Content description={description} />

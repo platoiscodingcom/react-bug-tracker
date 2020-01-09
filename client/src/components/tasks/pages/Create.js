@@ -4,6 +4,7 @@ import { Card, Button, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createTask } from './../../../actions/taskActions'
+import SemanticDatepicker from 'react-semantic-ui-datepickers'
 import {
   OPEN,
   FEATURE,
@@ -27,6 +28,7 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
     priority: LOW,
     type: FEATURE,
     author: user.id,
+    dueDate: '',
     assignedTo: user.id
   })
 
@@ -134,6 +136,8 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
               value={task.status}
               error={errors.status}
             />
+          </Form.Group>
+          <Form.Group>
             <Form.Select
               label='Type'
               name='type'
@@ -141,6 +145,16 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
               value={task.type}
               onChange={handleInputChange}
               error={errors.type}
+            />
+            <SemanticDatepicker
+              clearOnSameDateClick
+              datePickerOnly
+              clearable
+              name='dueDate'
+              label='Due Date'
+              onChange={handleInputChange}
+              value={task.dueDate}
+              format='MMMM Do YYYY'
             />
           </Form.Group>
           <Form.Group>

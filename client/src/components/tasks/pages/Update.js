@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { Card, Button, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import UpdateLoader from '../../loader/UpdateLoader'
+import SemanticDatepicker from 'react-semantic-ui-datepickers'
+import moment from 'moment'
 import {
   PROJECTS_PATH,
   TASKS_HOME,
@@ -33,10 +36,12 @@ const Update = ({
     status: '',
     priority: '',
     type: '',
+    dueDate: '',
     author: '',
     assignedTo: ''
   })
 
+  const newDueDate = null
   const {
     title,
     status,
@@ -44,6 +49,7 @@ const Update = ({
     type,
     priority,
     project,
+    dueDate,
     author,
     assignedTo
   } = formData
@@ -67,6 +73,7 @@ const Update = ({
         type,
         priority,
         project,
+        dueDate,
         author,
         assignedTo
       } = task
@@ -75,6 +82,7 @@ const Update = ({
         status,
         description,
         type,
+        dueDate,
         priority,
         project,
         author,
@@ -184,6 +192,8 @@ const Update = ({
               onChange={handleInputChange}
               error={errors.status}
             />
+          </Form.Group>
+          <Form.Group>
             <Form.Select
               label='Type'
               name='type'
@@ -191,6 +201,14 @@ const Update = ({
               value={type}
               onChange={handleInputChange}
               error={errors.type}
+            />
+            <SemanticDatepicker
+              clearable
+              name='dueDate'
+              label={`Due Date: ${moment(dueDate).format('MMMM Do YYYY')}`}
+              onChange={handleInputChange}
+              value={newDueDate ? newDueDate : ''}
+              format='MMMM Do YYYY'
             />
           </Form.Group>
           <Form.Group>
@@ -235,4 +253,4 @@ const mapStateToProps = state => ({
   task: state.task
 })
 
-export default connect(mapStateToProps, { updateTask, getTask })(Update)
+export default connect(mapStateToProps, { updateTask, getTask })(withRouter(Update))
