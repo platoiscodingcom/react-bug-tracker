@@ -31,6 +31,8 @@ const UserSchema = new Schema({
     },
     author_of_projects: [{ type: Schema.Types.ObjectId, ref: 'Project'}],
     assigned_to_projects: [{ type: Schema.Types.ObjectId, ref: 'Project'}],
+    author_of_tasks: [{ type: Schema.Types.ObjectId, ref: 'Task'}],
+    assigned_to_tasks: [{ type: Schema.Types.ObjectId, ref: 'Task'}],
 });
 
 const User = mongoose.model('User', UserSchema, 'users');

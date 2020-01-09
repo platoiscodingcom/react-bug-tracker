@@ -12,10 +12,12 @@ import {
   TASKS_HOME,
   TYPE_OPTIONS,
   STATUS_OPTIONS,
-  PRIORITY_OPTIONS
+  PRIORITY_OPTIONS,
+  USERS_PATH
 } from '../../../Constants'
 
-const Create = ({ createTask, errors, history, match }) => {
+const Create = ({ createTask, errors, history, match, auth: { user } }) => {
+  const [userOptions, setUserOptions] = useState([])
   const [projects, setProjects] = useState([])
   const [task, setTask] = useState({
     title: '',
@@ -23,7 +25,9 @@ const Create = ({ createTask, errors, history, match }) => {
     description: '',
     status: OPEN,
     priority: LOW,
-    type: FEATURE
+    type: FEATURE,
+    author: user.id,
+    assignedTo: user.id
   })
 
   useEffect(() => {
@@ -43,6 +47,28 @@ const Create = ({ createTask, errors, history, match }) => {
       })
   }, [match])
 
+  //currently loads all users
+  //later should only load users that are invited to project
+  const loadUsersOptions = async () => {
+    await axios
+      .get(USERS_PATH)
+      .then(response => {
+        setUserOptions(
+          response.data.map(user => ({
+            text: `${user.name}`,
+            value: user._id
+          }))
+        )
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    loadUsersOptions()
+  }, [task])
+
   const handleInputChange = (event, { name, value }) => {
     setTask(previousValue => ({ ...previousValue, [name]: value }))
   }
@@ -57,6 +83,23 @@ const Create = ({ createTask, errors, history, match }) => {
       <Card.Content header='New Task' />
       <Card.Content>
         <Form widths='equal'>
+          <Form.Group>
+            <Form.Input
+              label='Author'
+              name='author'
+              value={task.author ? user.name : ''}
+              error={errors.author}
+              disabled
+            />
+            <Form.Select
+              label='Assign To:'
+              name='assignedTo'
+              options={userOptions}
+              value={task.assignedTo ? task.assignedTo : ''}
+              error={errors.assignedTo}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
           <Form.Group>
             <Form.Input
               label='Title'
@@ -132,11 +175,13 @@ const Create = ({ createTask, errors, history, match }) => {
 
 Create.propTypes = {
   createTask: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  auth: state.auth
 })
 
-export default connect(mapStateToProps, {createTask})(Create)
+export default connect(mapStateToProps, { createTask })(Create)

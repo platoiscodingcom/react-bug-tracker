@@ -85,7 +85,7 @@ var admin = new User({
   avatar:
     '//www.gravatar.com/avatar/c324ed03ecc94765cf7852aa1ee7df8f?s=200&r=pg&d=mm'
 }) //pw is 'password'
-admin.save()
+//admin.save()
 
 var adminToken = new Token({
   _id: mongoose.Types.ObjectId('5e03b858ae3b1f326073bad2'),
@@ -104,7 +104,7 @@ var moderator = new User({
   avatar:
     '//www.gravatar.com/avatar/c324ed03ecc94765cf7852aa1ee7df8f?s=200&r=pg&d=mm'
 }) //pw is 'password'
-moderator.save()
+//moderator.save()
 
 var moderatorToken = new Token({
   _id: mongoose.Types.ObjectId('5e03cf928bd9bf2f2c1f81c2'),
@@ -137,10 +137,20 @@ var project1 = new Project({
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
   categories: [category1, category2]
 })
-admin.author_of_projects.push(project1)
-moderator.assigned_to_projects.push(project1)
+
+var project2 = new Project({
+  _id: new mongoose.Types.ObjectId(),
+  name: 'project for Mod',
+  status: 'open',
+  author: moderator,
+  assignedTo: moderator,
+  description:
+    'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+  categories: [category1]
+})
 
 category1.projects.push(project1)
+category1.projects.push(project2)
 category1.save()
 category2.projects.push(project1)
 category2.save()
@@ -149,8 +159,8 @@ var task1 = new Task({
   _id: new mongoose.Types.ObjectId(),
   title: 'testTask',
   project: project1,
-  //author: admin,
-  //assignedTo: admin,
+  author: admin,
+  assignedTo: moderator,
   description:
     'dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et a',
   priority: 'low',
@@ -162,8 +172,8 @@ var task2 = new Task({
   _id: new mongoose.Types.ObjectId(),
   title: 'testTask2',
   project: project1,
-  //author: admin,
-  //assignedTo: admin,
+  author: admin,
+  assignedTo: moderator,
   description:
     'dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et a',
   priority: 'high',
@@ -171,12 +181,13 @@ var task2 = new Task({
   type: 'feature'
 })
 task2.save()
+
 var task3 = new Task({
   _id: new mongoose.Types.ObjectId(),
   title: 'testTask3',
   project: project1,
-  //author: admin,
-  //assignedTo: admin,
+  author: admin,
+  assignedTo: admin,
   type: 'feature',
   description:
     'it amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, se',
@@ -189,8 +200,8 @@ var task4 = new Task({
   _id: new mongoose.Types.ObjectId(),
   title: 'testTask4',
   project: project1,
-  //author: admin,
-  //assignedTo: admin,
+  author: admin,
+  assignedTo: admin,
   type: 'bug',
   description:
     ' dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolo',
@@ -205,3 +216,20 @@ project1.tasks.push(task2)
 project1.tasks.push(task3)
 project1.tasks.push(task4)
 project1.save()
+
+project2.save()
+
+admin.author_of_projects.push(project1)
+admin.author_of_tasks.push(task1)
+admin.author_of_tasks.push(task2)
+admin.author_of_tasks.push(task3)
+admin.author_of_tasks.push(task4)
+admin.assigned_to_tasks.push(task3)
+admin.assigned_to_tasks.push(task4)
+admin.save()
+moderator.author_of_projects.push(project2)
+moderator.assigned_to_tasks.push(task1)
+moderator.assigned_to_tasks.push(task2)
+moderator.assigned_to_projects.push(project1)
+moderator.assigned_to_projects.push(project2)
+moderator.save()

@@ -32,7 +32,6 @@ const Create = ({ createProject, errors, history, auth: { user } }) => {
   }
 
   const handleFormSubmission = () => {
-    console.log('project', project)
     createProject(project, history)
   }
 

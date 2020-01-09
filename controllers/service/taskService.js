@@ -1,4 +1,5 @@
 const Task = require('../../models/Task')
+const User = require('../../models/User')
 const Project = require('../../models/Project')
 setStatus = require('./statusFunctions').setStatus
 
@@ -75,4 +76,52 @@ exports.updateStatus = async (req, res) =>{
     console.log(error)
     res.status(500).send({ message: 'Error: 500' })
   })
+}
+
+exports.addTaskToAuthor = async (taskId, authorId) =>{
+  await User.findById(authorId)
+  .then(data => {
+    data.author_of_tasks.push(taskId)
+    data.save()
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error 500' })
+  })
+}
+
+exports.addTaskToAssignee = async (taskId, assigneeId) => {
+  await User.findById(assigneeId)
+    .then(data => {
+      data.assigned_to_tasks.push(taskId)
+      data.save()
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error 500' })
+    })
+}
+
+exports.removeTaskFromAssignee = async (taskId, assigneeId) => {
+  await User.findById(assigneeId)
+    .then(data => {
+      data.assigned_to_tasks.pull(taskId)
+      data.save()
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error 500' })
+    })
+}
+
+exports.removeTaskFromAuthor = async (taskId, authorId) => {
+  await User.findById(authorId)
+    .then(data => {
+      data.author_of_tasks.pull(taskId)
+      data.save()
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error 500' })
+    })
 }

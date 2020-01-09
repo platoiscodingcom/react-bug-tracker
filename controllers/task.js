@@ -17,7 +17,8 @@ exports.create = async (req, res) => {
   await newTask
     .save()
     .then(data => {
-      taskService.saveTaskToProject(req.body.project, newTask)
+      taskService.addTaskToAssignee(data._id, data.assignedTo._id)
+      taskService.addTaskToAuthor(newTask._id, req.body.author)
       res.status(200).send(data)
     })
     .catch(error => {
@@ -27,6 +28,14 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
+  await Task.findById(req.params._id).then(data => {
+    if (data.assignedTo !== req.body.assignedTo._id) {
+      //remove from former assignee
+      projectService.removeTaskFromAssignee(data._id, data.assignedTo._id)
+      //add to new assignee
+      projectService.addTaskToAssignee(data._id, req.body.assignedTo._id)
+    }
+  })
   await Task.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {
       data.updatedAt = Date.now()

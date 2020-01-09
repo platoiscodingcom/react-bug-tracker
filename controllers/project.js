@@ -9,7 +9,7 @@ localStorageService = require('./service/localStorageService')
 formidable = require('formidable')
 
 exports.list = (req, res) => {
-  projectService.findAllProjects(req,res)
+  projectService.findAllProjects(req, res)
 }
 
 exports.details = (req, res) => {
@@ -22,6 +22,7 @@ exports.create = async (req, res) => {
   await newProject
     .save()
     .then(data => {
+      projectService.addProjectToAssignee(data._id, data.assignedTo._id)
       projectService.addProjectToAuthor(newProject._id, req.body.author)
       projectService.addProjectToCategories(newProject._id, req.body.categories)
 
@@ -34,12 +35,18 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
+  await Project.findById(req.params._id).then(data => {
+    if (data.assignedTo !== req.body.assignedTo._id) {
+      //remove from former assignee
+      projectService.removeProjectFromAssignee(data._id, data.assignedTo._id)
+      //add to new assignee
+      projectService.addProjectToAssignee(data._id, req.body.assignedTo._id)
+    }
+  })
   await Project.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {
       projectService.removeProjectFromAllCategories(data._id, data.categories)
-      projectService.addProjectToAssignee(data._id, data.assignedTo._id)
       projectService.addProjectToCategories(data._id, req.body.categories)
-
       data.updatedAt = Date.now()
       data.save()
       res.status(200).send(data)
