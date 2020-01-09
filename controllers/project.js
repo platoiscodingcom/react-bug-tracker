@@ -37,8 +37,6 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   await Project.findById(req.params._id).then(data => {
     if (data.assignedTo !== req.body.assignedTo) {
-      console.log('req.body.assignedTo: ',req.body.assignedTo )
-      console.log('data.assignedTo: ',data.assignedTo )
       //remove from former assignee
       projectService.removeProjectFromAssignee(data._id, data.assignedTo)
       //add to new assignee
