@@ -126,7 +126,7 @@ exports.removeTaskFromAuthor = async (taskId, authorId) => {
     })
 }
 
-exports.removeTaskRelations(data, res){
+exports.removeTaskRelations = (data, res) => {
   this.deleteTaskFromProject(data, req.params._id)
   this.removeTaskFromAuthor(taskId, authorId)
   this.removeTaskFromAssignee(taskId, assigneeId)
