@@ -15,10 +15,10 @@ exports.saveTaskToProject = async (project, task) => {
     })
 }
 
-exports.deleteTaskFromProject = async (data, taskId) => {
-  await Project.findById(data.project)
+exports.deleteTaskFromProject = async (task) => {
+  await Project.findById(task.project)
     .then(data => {
-      data.tasks.pull(taskId)
+      data.tasks.pull(task._id)
     })
     .catch(error => {
       console.log(error)
@@ -26,60 +26,6 @@ exports.deleteTaskFromProject = async (data, taskId) => {
     })
 }
 
-exports.findAllTasks = async (res) =>{
-  await Task.find()
-  .populate('project', 'name')
-  .then(data => {
-    res.status(200).send(data)
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error occured: 500' })
-  })
-}
-
-exports.findTaskById = async (taskId, res) =>{
-  await Task.findById(taskId)
-    //.populate('project author assignedTo')
-    .populate('project', 'name')
-    .populate('author', 'name')
-    .populate('assignedTo', 'name')
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
-}
-
-exports.findTaskByProjectId = async (projectId, res) =>{
-  await Task.find({ project: projectId })
-  .then(data => {
-    res.status(200).send(data)
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error occured: 500' })
-  })
-}
-
-exports.updateStatus = async (req, res) =>{
-  await Task.findById(req.params._id)
-  .then(data => {
-    data.status = setStatus(req.params.event)
-    if (data.status == null) {
-      res.status(404).send(data)
-    }
-    data.updatedAt = Date.now()
-    data.save()
-    res.status(200).send(data)
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error: 500' })
-  })
-}
 
 exports.addTaskToAuthor = async (taskId, authorId) =>{
   await User.findById(authorId)
@@ -105,10 +51,10 @@ exports.addTaskToAssignee = async (taskId, assigneeId) => {
     })
 }
 
-exports.removeTaskFromAssignee = async (taskId, assigneeId) => {
-  await User.findById(assigneeId)
+exports.removeTaskFromAssignee = async (task) => {
+  await User.findById(task.assignedTo)
     .then(data => {
-      data.assigned_to_tasks.pull(taskId)
+      data.assigned_to_tasks.pull(task._id)
       data.save()
     })
     .catch(error => {
@@ -117,10 +63,10 @@ exports.removeTaskFromAssignee = async (taskId, assigneeId) => {
     })
 }
 
-exports.removeTaskFromAuthor = async (taskId, authorId) => {
-  await User.findById(authorId)
+exports.removeTaskFromAuthor = async (task) => {
+  await User.findById(task.author)
     .then(data => {
-      data.author_of_tasks.pull(taskId)
+      data.author_of_tasks.pull(task._id)
       data.save()
     })
     .catch(error => {
@@ -129,8 +75,8 @@ exports.removeTaskFromAuthor = async (taskId, authorId) => {
     })
 }
 
-exports.removeTaskRelations = (data, res) => {
-  this.deleteTaskFromProject(data, req.params._id)
-  this.removeTaskFromAuthor(taskId, authorId)
-  this.removeTaskFromAssignee(taskId, assigneeId)
+exports.removeTaskRelations = (data) => {
+  this.deleteTaskFromProject(data)
+  this.removeTaskFromAuthor(data)
+  this.removeTaskFromAssignee(data)
 }

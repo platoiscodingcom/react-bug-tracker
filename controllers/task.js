@@ -3,12 +3,30 @@ mongoose = require('mongoose')
 setStatus = require('./service/statusFunctions').setStatus
 taskService = require('./service/taskService')
 
-exports.list = (req, res) => {
-  taskService.findAllTasks(res)
+exports.list = async (req, res) => {
+  await Task.find()
+    .populate('project', 'name')
+    .then(data => {
+      res.status(200).send(data)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error occured: 500' })
+    })
 }
 
-exports.details = (req, res) => {
-  taskService.findTaskById(req.params._id, res)
+exports.details = async (req, res) => {
+  await Task.findById(req.params._id)
+    .populate('project', 'name')
+    .populate('author', 'name')
+    .populate('assignedTo', 'name')
+    .then(data => {
+      res.status(200).send(data)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error occured: 500' })
+    })
 }
 
 exports.create = async (req, res) => {
@@ -17,7 +35,8 @@ exports.create = async (req, res) => {
   await newTask
     .save()
     .then(data => {
-      taskService.addTaskToAssignee(data._id, data.assignedTo._id)
+      console.log('create task: assignedToID:',  data.assignedTo)
+      taskService.addTaskToAssignee(data._id, data.assignedTo)
       taskService.addTaskToAuthor(newTask._id, req.body.author)
       res.status(200).send(data)
     })
@@ -31,7 +50,7 @@ exports.update = async (req, res) => {
   await Task.findById(req.params._id).then(data => {
     if (data.assignedTo !== req.body.assignedTo) {
       //remove from former assignee
-      taskService.removeTaskFromAssignee(data._id, data.assignedTo)
+      taskService.removeTaskFromAssignee(data)
       //add to new assignee
       taskService.addTaskToAssignee(data._id, req.body.assignedTo)
     }
@@ -51,7 +70,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   await Task.findById(req.params._id)
     .then(data => {
-      taskService.removeTaskRelations(data, res)
+      taskService.removeTaskRelations(data)
       data.remove()
       res.status(200).send(data)
     })
@@ -61,10 +80,30 @@ exports.delete = async (req, res) => {
     })
 }
 
-exports.tasksByProject = (req, res) => {
-  taskService.findTaskByProjectId(req.params._id, res)
+exports.tasksByProject = async (req, res) => {
+  await Task.find({ project: req.params._id })
+    .then(data => {
+      res.status(200).send(data)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error occured: 500' })
+    })
 }
 
-exports.statusEvent = (req, res) => {
-  taskService.updateStatus(req, res)
+exports.statusEvent = async (req, res) => {
+  await Task.findById(req.params._id)
+    .then(data => {
+      data.status = setStatus(req.params.event)
+      if (data.status == null) {
+        res.status(404).send(data)
+      }
+      data.updatedAt = Date.now()
+      data.save()
+      res.status(200).send(data)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error: 500' })
+    })
 }
