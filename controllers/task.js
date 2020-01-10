@@ -5,7 +5,7 @@ taskService = require('./service/taskService')
 
 // @route    GET api/tasks
 // @desc     Get all tasks
-// @access   Public
+// @access   Private
 exports.list = async (req, res) => {
   try {
     const tasks = await Task.find().populate('project', 'name')
@@ -18,7 +18,7 @@ exports.list = async (req, res) => {
 
 // @route    GET api/tasks/:id
 // @desc     Get tasks by Id
-// @access   Public
+// @access   Private
 exports.details = async (req, res) => {
   try {
     const task = await Task.findById(req.params._id)
@@ -38,7 +38,7 @@ exports.details = async (req, res) => {
 
 // @route    POST api/tasks
 // @desc     Create a task
-// @access   Public
+// @access   Private
 exports.create = async (req, res) => {
   try {
     const newTask = new Task(req.body)
@@ -57,7 +57,7 @@ exports.create = async (req, res) => {
 
 // @route    PUT api/tasks/:id
 // @desc     Update a task
-// @access   Public
+// @access   Private
 exports.update = async (req, res) => {
   try {
     const task = await Task.findById(req.params._id)
@@ -87,7 +87,7 @@ exports.update = async (req, res) => {
 
 // @route    DELETE api/tasks/:id
 // @desc     Delete a task
-// @access   Public
+// @access   Private
 exports.delete = async (req, res) => {
   try {
     const task = await Task.findById(req.params._id)
@@ -106,7 +106,7 @@ exports.delete = async (req, res) => {
 
 // @route    PUT api/tasks/:id/:event
 // @desc     Change status of a task
-// @access   Public
+// @access   Private
 exports.statusEvent = async (req, res) => {
   try {
     const taskStatus = setStatus(req.params.event)
