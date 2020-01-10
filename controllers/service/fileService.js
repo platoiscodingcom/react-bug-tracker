@@ -21,7 +21,6 @@ exports.deleteFileFromDBAndLocally = async (fileId, res) =>{
   await File.findById(fileId)
   .then(data => {
     localStorageService.deleteFileLocally(data)
-
     data.remove()
     res.status(200).send(data)
   })

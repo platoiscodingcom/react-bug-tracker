@@ -6,33 +6,6 @@ setStatus = require('./statusFunctions').setStatus
 fileService = require('./fileService')
 localStorageService = require('./localStorageService')
 
-exports.findAllProjects = async (req, res) => {
-  await Project.find({author: req.user._id})
-    .populate('categories', 'name')
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
-}
-
-exports.findProjectById = async (projectId, res, req) => {
-  await Project.findOne({_id: projectId, author: req.user._id})
-    .populate('tasks files')
-    .populate('categories', 'name')
-    .populate('author', 'name')
-    .populate('assignedTo', 'name')
-    .then(data => {
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
-}
-
 exports.addProjectToCategories = (projectId, categories) => {
   categories.forEach(async cat => {
     await Category.findById(cat)
@@ -130,23 +103,6 @@ exports.saveFileToProject = async (id, fileData) => {
     .then(data => {
       data.files.push(fileData)
       data.save()
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error: 500' })
-    })
-}
-
-exports.updateStatus = async (req, res) => {
-  await Project.findById(req.params._id)
-    .then(data => {
-      data.status = setStatus(req.params.event)
-      if (data.status == null) {
-        res.status(404).send(data)
-      }
-      data.updatedAt = Date.now()
-      data.save()
-      res.status(200).send(data)
     })
     .catch(error => {
       console.log(error)

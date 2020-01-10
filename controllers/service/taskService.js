@@ -9,20 +9,12 @@ exports.saveTaskToProject = async (project, task) => {
       projectData.tasks.push(task)
       projectData.save()
     })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
 }
 
 exports.deleteTaskFromProject = async (task) => {
   await Project.findById(task.project)
     .then(data => {
       data.tasks.pull(task._id)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
     })
 }
 
@@ -33,10 +25,6 @@ exports.addTaskToAuthor = async (taskId, authorId) =>{
     data.author_of_tasks.push(taskId)
     data.save()
   })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error 500' })
-  })
 }
 
 exports.addTaskToAssignee = async (taskId, assigneeId) => {
@@ -44,10 +32,6 @@ exports.addTaskToAssignee = async (taskId, assigneeId) => {
     .then(data => {
       data.assigned_to_tasks.push(taskId)
       data.save()
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error 500' })
     })
 }
 
@@ -57,10 +41,6 @@ exports.removeTaskFromAssignee = async (task) => {
       data.assigned_to_tasks.pull(task._id)
       data.save()
     })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error 500' })
-    })
 }
 
 exports.removeTaskFromAuthor = async (task) => {
@@ -68,10 +48,6 @@ exports.removeTaskFromAuthor = async (task) => {
     .then(data => {
       data.author_of_tasks.pull(task._id)
       data.save()
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error 500' })
     })
 }
 

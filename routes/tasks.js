@@ -7,9 +7,6 @@ router.get('/:_id', taskController.details)
 router.post('/', taskValidationRules(), validate, taskController.create)
 router.put('/:_id', taskValidationRules(), validate, taskController.update)
 router.delete('/:_id', taskController.delete)
-
-/* one-to-many */
-router.get('/tasksByProject/:_id', taskController.tasksByProject)
 router.put('/:_id/:event', taskController.statusEvent)
 
 module.exports = router

@@ -8,13 +8,33 @@ fileService = require('./service/fileService')
 localStorageService = require('./service/localStorageService')
 formidable = require('formidable')
 
-exports.list = (req, res) => {
-  projectService.findAllProjects(req, res)
+exports.list = async (req, res) => {
+  await Project.find({author: req.user._id})
+  .populate('categories', 'name')
+  .then(data => {
+    res.status(200).send(data)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  })
 }
 
-exports.details = (req, res) => {
-  projectService.findProjectById(req.params._id, res, req)
+exports.details = async (req, res) => {
+  await Project.findOne({_id: req.params._id, author: req.user._id})
+  .populate('tasks files')
+  .populate('categories', 'name')
+  .populate('author', 'name')
+  .populate('assignedTo', 'name')
+  .then(data => {
+    res.status(200).send(data)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  })
 }
+
 
 exports.create = async (req, res) => {
   const newProject = new Project(req.body)
@@ -70,8 +90,21 @@ exports.delete = async (req, res) => {
     })
 }
 
-exports.statusEvent = (req, res) => {
-  projectService.updateStatus(req, res)
+exports.statusEvent = async (req, res) => {
+  await Project.findById(req.params._id)
+  .then(data => {
+    data.status = setStatus(req.params.event)
+    if (data.status == null) {
+      res.status(404).send(data)
+    }
+    data.updatedAt = Date.now()
+    data.save()
+    res.status(200).send(data)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500' })
+  })
 }
 
 exports.upload = (req, res) => {
