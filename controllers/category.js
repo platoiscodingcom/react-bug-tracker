@@ -4,7 +4,7 @@ categoryService = require('./service/categoryService')
 
 // @route    GET api/categories
 // @desc     get all categories
-// @access   Public
+// @access   Private
 exports.list = async (req, res) => {
   try {
     const categores = await Category.find()
@@ -17,7 +17,7 @@ exports.list = async (req, res) => {
 
 // @route    GET api/categories/:id
 // @desc     get a category by Id
-// @access   Public
+// @access   Private
 exports.details = async (req, res) => {
   try {
     const category = await Category.findById(req.params._id).populate('projects')
@@ -33,7 +33,7 @@ exports.details = async (req, res) => {
 
 // @route    POST api/category
 // @desc     create new Category
-// @access   Public
+// @access   Private
 exports.create = async (req, res) => {
   try {
     const newCategory = new Category(req.body)
@@ -48,7 +48,7 @@ exports.create = async (req, res) => {
 
 // @route    PUT api/categories/:id/
 // @desc     Update a category
-// @access   Public
+// @access   Private
 exports.update = async (req, res) => {
   await Category.findByIdAndUpdate(req.params._id, req.body)
     .then(data => {
@@ -62,7 +62,7 @@ exports.update = async (req, res) => {
 
 // @route    DELETE api/categories/:id/
 // @desc     delete a category 
-// @access   Public
+// @access   Private
 exports.delete = async (req, res) =>{
   try {
     const category = await Category.findById(req.params._id)
