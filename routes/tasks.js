@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const taskController = require('../controllers/task')
 const { taskValidationRules, validate } = require('./validator.js')
+const passport = require('passport')
+
 
 router.get(
   '/',

@@ -8,106 +8,69 @@ localStorageService = require('./localStorageService')
 
 exports.addProjectToCategories = (projectId, categories) => {
   categories.forEach(async cat => {
-    await Category.findById(cat)
-      .then(data => {
-        data.projects.push(projectId)
-        data.save()
-      })
-      .catch(error => {
-        console.log(error)
-        res.status(500).send({ message: 'Error 500' })
-      })
+    await Category.findById(cat).then(data => {
+      data.projects.push(projectId)
+      data.save()
+    })
   })
 }
 
 exports.addProjectToAssignee = async (projectId, assigneeId) => {
-  await User.findById(assigneeId)
-    .then(data => {
-      data.assigned_to_projects.push(projectId)
-      data.save()
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error 500' })
-    })
+  await User.findById(assigneeId).then(data => {
+    data.assigned_to_projects.push(projectId)
+    data.save()
+  })
 }
 
 exports.addProjectToAuthor = async (projectId, authorId) => {
-  await User.findById(authorId)
-    .then(data => {
-      data.author_of_projects.push(projectId)
-      data.save()
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error 500' })
-    })
+  await User.findById(authorId).then(data => {
+    data.author_of_projects.push(projectId)
+    data.save()
+  })
 }
 
 exports.removeProjectFromAllCategories = (projectId, categories) => {
-  categories.forEach(async cat => {
-    await Category.findById(cat)
-      .then(catData => {
-        catData.projects.pull(projectId)
-        catData.save()
-      })
-      .catch(error => {
-        console.log(error)
-        res.status(500).send({
-          message: 'Error 500'
-        })
-      })
+  categories.forEach(catId => {
+    this.removeProjectFromCategory(projectId, catId)
+  })
+}
+
+exports.removeProjectFromCategory = async (projectId, catId) => {
+  await Category.findById(catId).then(catData => {
+    catData.projects.pull(projectId)
+    catData.save()
   })
 }
 
 exports.removeProjectFromAssignee = async (projectId, assigneeId) => {
-  await User.findById(assigneeId)
-    .then(data => {
-      data.assigned_to_projects.pull(projectId)
-      data.save()
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error 500' })
-    })
+  await User.findById(assigneeId).then(data => {
+    data.assigned_to_projects.pull(projectId)
+    data.save()
+  })
 }
 
 exports.removeProjectFromAuthor = async (projectId, authorId) => {
-  await User.findById(authorId)
-    .then(data => {
-      data.author_of_projects.pull(projectId)
-      data.save()
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error 500' })
-    })
+  await User.findById(authorId).then(data => {
+    data.author_of_projects.pull(projectId)
+    data.save()
+  })
 }
 
 //removeProjectFrom all Invited Users
 
 exports.deleteAllTasksFromProject = tasks => {
   tasks.forEach(async task => {
-    await Task.findById(task)
-      .then(data => {
-        data.remove()
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    await Task.findById(task).then(data => {
+      data.remove()
+    })
   })
 }
 
 exports.saveFileToProject = async (id, fileData) => {
-  await Project.findById(id)
-    .then(data => {
-      data.files.push(fileData)
-      data.save()
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error: 500' })
-    })
+  await Project.findById(id).then(data => {
+    data.files.push(fileData)
+    data.save()
+  })
 }
 
 exports.removeProjectRelations = (data, res) => {

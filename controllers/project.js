@@ -8,75 +8,103 @@ fileService = require('./service/fileService')
 localStorageService = require('./service/localStorageService')
 formidable = require('formidable')
 
+// @route    GET api/projects
+// @desc     Get all pojects
+// @access   Private
 exports.list = async (req, res) => {
-  await Project.find({author: req.user._id})
-  .populate('categories', 'name')
-  .then(data => {
-    res.status(200).send(data)
-  })
-  .catch(error => {
+  try {
+    const projects = await Project.find({ author: req.user._id }).populate(
+      'categories',
+      'name'
+    )
+    res.status(200).send(projects)
+  } catch (error) {
     console.log(error)
     res.status(500).send({ message: 'Error occured: 500' })
-  })
+  }
 }
 
+// @route    GET api/projects/:id
+// @desc     Get projects by Id
+// @access   Private
 exports.details = async (req, res) => {
-  await Project.findOne({_id: req.params._id, author: req.user._id})
-  .populate('tasks files')
-  .populate('categories', 'name')
-  .populate('author', 'name')
-  .populate('assignedTo', 'name')
-  .then(data => {
-    res.status(200).send(data)
-  })
-  .catch(error => {
+  try {
+    const project = await Project.findOne({
+      _id: req.params._id,
+      author: req.user._id
+    })
+      .populate('tasks files')
+      .populate('categories', 'name')
+      .populate('author', 'name')
+      .populate('assignedTo', 'name')
+
+    if (!project) {
+      return res.status(404).send({ message: 'Project not found' })
+    }
+
+    res.status(200).send(project)
+  } catch (error) {
     console.log(error)
     res.status(500).send({ message: 'Error occured: 500' })
-  })
+  }
 }
 
-
+// @route    POST api/projects
+// @desc     Create a project
+// @access   Private
 exports.create = async (req, res) => {
-  const newProject = new Project(req.body)
-  newProject._id = new mongoose.Types.ObjectId()
-  await newProject
-    .save()
-    .then(data => {
-      projectService.addProjectToAssignee(data._id, data.assignedTo._id)
-      projectService.addProjectToAuthor(newProject._id, req.body.author)
-      projectService.addProjectToCategories(newProject._id, req.body.categories)
+  try {
+    const newProject = new Project(req.body)
+    newProject._id = new mongoose.Types.ObjectId()
+    const project = await newProject.save()
 
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error occured: 500' })
-    })
+    projectService.addProjectToAssignee(project._id, project.assignedTo._id)
+    projectService.addProjectToAuthor(project._id, req.body.author)
+    projectService.addProjectToCategories(project._id, req.body.categories)
+
+    res.status(200).send(project)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  }
 }
 
+// @route    PUT api/projects/:id
+// @desc     Update a project
+// @access   Private
 exports.update = async (req, res) => {
-  await Project.findById(req.params._id).then(data => {
-    if (data.assignedTo !== req.body.assignedTo) {
-      //remove from former assignee
-      projectService.removeProjectFromAssignee(data._id, data.assignedTo)
-      //add to new assignee
-      projectService.addProjectToAssignee(data._id, req.body.assignedTo)
+  try {
+    const project = await Project.findById(req.params._id)
+
+    if (!project) {
+      return res.status(404).send({ message: 'Task not found' })
     }
-  })
-  await Project.findByIdAndUpdate(req.params._id, req.body)
-    .then(data => {
-      projectService.removeProjectFromAllCategories(data._id, data.categories)
-      projectService.addProjectToCategories(data._id, req.body.categories)
-      data.updatedAt = Date.now()
-      data.save()
-      res.status(200).send(data)
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(500).send({ message: 'Error: 500' })
-    })
+
+    if (project.assignedTo !== req.body.assignedTo) {
+      //remove from former assignee
+      projectService.removeProjectFromAssignee(project._id, project.assignedTo)
+      //add to new assignee
+      projectService.addProjectToAssignee(project._id, req.body.assignedTo)
+    }
+
+    const updatedProject = await Project.findOneAndUpdate(
+      { _id: req.params._id },
+      { $set: req.body, updatedAt: Date.now() }
+    )
+
+    projectService.removeProjectFromAllCategories(updatedProject._id, updatedProject.categories)
+    projectService.addProjectToCategories(updatedProject._id, req.body.categories)
+
+    res.status(200).send(updatedProject)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500' })
+  }
 }
 
+// @route    DELETE api/projects/:id
+// @desc     Delete a project
+// @access   Private
 exports.delete = async (req, res) => {
   await Project.findById(req.params._id)
     .then(data => {
@@ -90,21 +118,24 @@ exports.delete = async (req, res) => {
     })
 }
 
+// @route    PUT api/projects/:id/:event
+// @desc     Change status of a project
+// @access   Private
 exports.statusEvent = async (req, res) => {
-  await Project.findById(req.params._id)
-  .then(data => {
-    data.status = setStatus(req.params.event)
-    if (data.status == null) {
-      res.status(404).send(data)
+  try {
+    const projectStatus = setStatus(req.params.event)
+    const project = await Project.findOneAndUpdate(
+      { _id: req.params._id },
+      { status: projectStatus, updatedAt: Date.now() }
+    )
+    if (!project) {
+      return res.status(404).send({ message: 'Task not found' })
     }
-    data.updatedAt = Date.now()
-    data.save()
-    res.status(200).send(data)
-  })
-  .catch(error => {
+    res.status(200).send(project)
+  } catch (error) {
     console.log(error)
     res.status(500).send({ message: 'Error: 500' })
-  })
+  }
 }
 
 exports.upload = (req, res) => {
@@ -117,7 +148,10 @@ exports.upload = (req, res) => {
       mimetype: fields.mimetype
     })
 
-    if (error) return res.status(500).send(error)
+    if (error) {
+      console.log(error)
+      return res.status(500).send(error)
+    }
 
     localStorageService.saveProjectFile(req, files, fields)
 

@@ -114,6 +114,9 @@ exports.statusEvent = async (req, res) => {
       { _id: req.params._id },
       { status: taskStatus, updatedAt: Date.now() }
     )
+    if (!task) {
+      return res.status(404).send({ message: 'Task not found' })
+    }
     res.status(200).send(task)
   } catch (error) {
     console.log(error)
