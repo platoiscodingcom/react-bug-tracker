@@ -3,7 +3,8 @@ import isEmpty from '../validation/is-empty';
 
 const initialState = {
     isAuthenticated: false,
-    user: {}
+    user: {},
+    loading: true,
 }
 
 export default function(state = initialState, action ) {
@@ -12,12 +13,14 @@ export default function(state = initialState, action ) {
             return {
                 ...state,
                 isAuthenticated: !isEmpty(action.payload),
-                user: action.payload
+                user: action.payload,
+                loading: false,
             }
         case CONFIRM_REGISTRATION:
             return {
                 ...state,
                 isAuthenticated: !isEmpty(action.payload),
+                loading: false,
             }
         default: 
             return state;

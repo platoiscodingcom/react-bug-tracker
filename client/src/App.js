@@ -22,6 +22,7 @@ import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import Confirmation from './components/auth/Confirmation'
 import Dashboard from './components/dashboard/'
+import PrivateRoute from './privateRoutes'
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
@@ -45,10 +46,12 @@ function App () {
           <Route exact path='/login' component={Login} />
           <Route path='/confirmation/:token' component={Confirmation} />
           <Route path='/' exact component={Home} />
-          <Route path='/projects' component={Projects} />
-          <Route path='/tasks' component={Tasks} />
-          <Route path='/categories' component={Categories} />
-          <Route path='/dashboard' component={Dashboard} />
+
+          <PrivateRoute exact path='/dashboard' component={Dashboard} />
+          <PrivateRoute exact path='/projects' component={Projects} />
+          <PrivateRoute exact path='/tasks' component={Tasks} />
+          <PrivateRoute exact path='/categories' component={Categories} />
+          
           <Route component={NoMatch} />
         </Switch>
       </Router>
