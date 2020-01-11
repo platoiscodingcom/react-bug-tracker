@@ -7,6 +7,7 @@ const tasks = require('./routes/tasks')
 const categories = require('./routes/categories')
 const files = require('./routes/files')
 const users = require('./routes/user')
+const activity = require('./routes/activity')
 
 const passport = require('passport')
 require('./passport')(passport)
@@ -40,6 +41,7 @@ app.use('/api/tasks', tasks)
 app.use('/api/categories', categories)
 app.use('/api/files', files)
 app.use('/api/users', users)
+app.use('/api/activity', activity)
 
 app.listen({ port }, () => {
   console.log(`Server is listeing to port http://localhost:${port}`)
