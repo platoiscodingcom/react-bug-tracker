@@ -15,6 +15,7 @@
   "author": "Maria Hildebrandt",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
@@ -33,7 +34,6 @@
     "validator": "^12.1.0"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
     "concurrently": "^4.1.1",
     "nodemon": "^1.19.1"
   }
