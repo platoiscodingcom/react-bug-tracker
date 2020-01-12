@@ -4,6 +4,7 @@ const File = require('../models/File')
 mongoose = require('mongoose').set('debug', false)
 setStatus = require('./service/statusFunctions').setStatus
 projectService = require('./service/projectService')
+activityService = require('./service/activityService')
 fileService = require('./service/fileService')
 localStorageService = require('./service/localStorageService')
 formidable = require('formidable')
@@ -33,12 +34,11 @@ exports.details = async (req, res) => {
       _id: req.params._id,
       author: req.user._id
     })
-    
       .populate('tasks files')
       .populate('categories', 'name')
       .populate('author', 'name')
       .populate('assignedTo', 'name')
-      
+
     if (!project) {
       return res.status(404).send({ message: 'Project not found' })
     }
@@ -63,6 +63,13 @@ exports.create = async (req, res) => {
     projectService.addProjectToAuthor(project._id, req.body.author)
     projectService.addProjectToCategories(project._id, req.body.categories)
 
+    activityService.createActivity(
+      project._id,
+      'project',
+      'create',
+      req.body.author
+    )
+
     res.status(200).send(project)
   } catch (error) {
     console.log(error)
@@ -81,6 +88,13 @@ exports.update = async (req, res) => {
       return res.status(404).send({ message: 'Task not found' })
     }
 
+    activityService.createActivity(
+      project._id,
+      'project',
+      'update',
+      req.user._id
+    )
+
     if (project.assignedTo !== req.body.assignedTo) {
       //remove from former assignee
       projectService.removeProjectFromAssignee(project._id, project.assignedTo)
@@ -93,8 +107,14 @@ exports.update = async (req, res) => {
       { $set: req.body, updatedAt: Date.now() }
     )
 
-    projectService.removeProjectFromAllCategories(updatedProject._id, updatedProject.categories)
-    projectService.addProjectToCategories(updatedProject._id, req.body.categories)
+    projectService.removeProjectFromAllCategories(
+      updatedProject._id,
+      updatedProject.categories
+    )
+    projectService.addProjectToCategories(
+      updatedProject._id,
+      req.body.categories
+    )
 
     res.status(200).send(updatedProject)
   } catch (error) {
@@ -111,6 +131,14 @@ exports.delete = async (req, res) => {
     .then(data => {
       projectService.removeProjectRelations(data, res)
       data.remove()
+
+      activityService.createActivity(
+        project._id,
+        'project',
+        'delete',
+        req.user._id
+      )
+
       res.status(200).send(data)
     })
     .catch(error => {
@@ -132,6 +160,12 @@ exports.statusEvent = async (req, res) => {
     if (!project) {
       return res.status(404).send({ message: 'Task not found' })
     }
+    activityService.createActivity(
+      project._id,
+      'project',
+      'change_status',
+      req.user._id
+    )
     res.status(200).send(project)
   } catch (error) {
     console.log(error)
@@ -160,6 +194,13 @@ exports.upload = (req, res) => {
       .save()
       .then(data => {
         projectService.saveFileToProject(req.params._id, data)
+        activityService.createActivity(
+          project._id,
+          'project',
+          'file_upload',
+          req.user._id
+        )
+
         res.status(200).send(data)
       })
       .catch(error => {

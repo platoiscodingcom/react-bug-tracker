@@ -44,7 +44,6 @@ const Details = ({
   const [showNewTask, setShowNewTask] = useState(false)
 
   useEffect(() => {
-    console.log('inside useEffect of projectDEtails, with id:', match.params._id)
     getProject(match.params._id, history)
   }, [getProject, match, history])
 

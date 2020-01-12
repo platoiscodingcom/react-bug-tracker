@@ -65,6 +65,7 @@ exports.activityByUser = async (req, res) => {
 // @route    POST api/activity
 // @desc     create new Activity
 // @access   Private
+/*
 exports.create = async (req, res) => {
   try {
     const newActvity = new Acitivty(req.body)
@@ -75,4 +76,4 @@ exports.create = async (req, res) => {
     console.log(error)
     res.status(500).send({ message: 'Error 500' })
   }
-}
+}*/

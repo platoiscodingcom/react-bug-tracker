@@ -10,9 +10,6 @@ import Kanban from './Kanban'
 import NoMatch from '../../NoMatch'
 
 const Projects = ({ match }) => {
-  useEffect(()=>{
-    console.log('inside project index.js', match.path)
-  }, [])
 
   return (
       <Container style={{width: '95%', marginBottom: '70px'}}fluid>

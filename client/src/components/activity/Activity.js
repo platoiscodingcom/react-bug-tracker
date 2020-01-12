@@ -1,10 +1,17 @@
-import React, {userEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Feed, Card, Container } from 'semantic-ui-react'
 import { withRouter, Link } from 'react-router-dom'
+import { getActivityByProject } from './../../actions/activityActions';
 
-const Activity = () => {
+const Activity = ({activity: {activities}, getActivityByProject, project:{project}}) => {
+
+  useEffect(()=>{
+    getActivityByProject(project._id)
+    console.log('activities', activities)
+  }, [getActivityByProject])
+
   return (
     <Container fluid style={{marginTop: '15px'}}>
     <Card>
@@ -31,11 +38,14 @@ const Activity = () => {
 }
 
 Activity.propTypes = {
-  project: PropTypes.object.isRequired
+  project: PropTypes.object.isRequired,
+  activity: PropTypes.object.isRequired,
+  getActivityByProject: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
+  activity: state.activity,
   project: state.project
 })
 
-export default withRouter(connect(mapStateToProps, {})(Activity))
+export default withRouter(connect(mapStateToProps, {getActivityByProject})(Activity))

@@ -19,9 +19,6 @@ const List = ({ project: { projects }, getProjects, match}) => {
     getProjects()
   }, [getProjects])
 
-  useEffect(()=>{
-    console.log('inside project list.js', match.path)
-  }, [])
 
   if (projects == null) return <CardLoader />
   return (
