@@ -34,7 +34,7 @@ router.delete(
   taskController.delete
 )
 router.put(
-  '/:_id/:event',
+  '/:_id/:event/:userId',
   passport.authenticate('jwt', { session: false }),
   taskController.statusEvent
 )

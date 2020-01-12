@@ -19,11 +19,12 @@ exports.list = async (req, res) => {
 // @desc     get all activity entries by projectId
 // @access   Private
 exports.activityByProject = async (req, res) => {
+  
   try {
     const activities = await Acitivty.find({
-      documentId: req.params._id,
-      docmentTye: 'project'
-    })
+      documentId: req.params.id,
+      documentType: "project"
+    }).populate('user', 'name')
     res.status(200).send(activities)
   } catch (error) {
     console.log(error)
@@ -62,18 +63,3 @@ exports.activityByUser = async (req, res) => {
   }
 }
 
-// @route    POST api/activity
-// @desc     create new Activity
-// @access   Private
-/*
-exports.create = async (req, res) => {
-  try {
-    const newActvity = new Acitivty(req.body)
-    newActvity._id = new mongoose.Types.ObjectId()
-    const activity = await newActvity.save()
-    res.status(200).send(activity)
-  } catch (error) {
-    console.log(error)
-    res.status(500).send({ message: 'Error 500' })
-  }
-}*/

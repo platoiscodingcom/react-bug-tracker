@@ -35,6 +35,6 @@ router.delete(
 
 // /upload must be above /:event
 router.put('/:_id/upload', projectController.upload)
-router.put('/:_id/:event', projectController.statusEvent)
+router.put('/:_id/:event/:userId', projectController.statusEvent)
 
 module.exports = router

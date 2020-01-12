@@ -65,6 +65,7 @@ exports.create = async (req, res) => {
 
     activityService.createActivity(
       project._id,
+      project.name,
       'project',
       'create',
       req.body.author
@@ -90,6 +91,7 @@ exports.update = async (req, res) => {
 
     activityService.createActivity(
       project._id,
+      project.name,
       'project',
       'update',
       req.user._id
@@ -134,6 +136,7 @@ exports.delete = async (req, res) => {
 
       activityService.createActivity(
         project._id,
+        project.name,
         'project',
         'delete',
         req.user._id
@@ -160,11 +163,13 @@ exports.statusEvent = async (req, res) => {
     if (!project) {
       return res.status(404).send({ message: 'Task not found' })
     }
+    
     activityService.createActivity(
       project._id,
+      project.name,
       'project',
-      'change_status',
-      req.user._id
+      req.params.event,
+      req.params.userId
     )
     res.status(200).send(project)
   } catch (error) {
@@ -196,6 +201,7 @@ exports.upload = (req, res) => {
         projectService.saveFileToProject(req.params._id, data)
         activityService.createActivity(
           project._id,
+          project.name,
           'project',
           'file_upload',
           req.user._id

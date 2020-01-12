@@ -8,6 +8,7 @@ const activitySchema = new mongoose.Schema({
   documentType: { type: String, required: true },
   user: { type: ObjectId, ref: 'User', required: true },
   documentId: { type: ObjectId, required: true },
+  documentName: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 })
 

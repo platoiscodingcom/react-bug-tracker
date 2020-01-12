@@ -6,7 +6,7 @@ import {
 } from '../actions/types'
 
 const initialState = {
-  activties: [],
+  activities: [],
   loading: true
 }
 
@@ -15,22 +15,26 @@ export default function (state = initialState, action) {
     case GET_ALL_ACTIVITIES:
       return {
         ...state,
-        activties: action.payload
+        activities: action.payload,
+        loading: false
       }
     case GET_PROJECT_ACTIVITY:
       return {
         ...state,
-        activties: action.payload
+        activities: action.payload,
+        loading: false
       }
     case GET_TASK_ACTIVITY:
       return {
         ...state,
-        activties: action.payload
+        activities: action.payload,
+        loading: false
       }
     case GET_USER_ACTIVITY:
       return {
         ...state,
-        activties: action.payload
+        activities: action.payload,
+        loading: false
       }
     default:
       return state

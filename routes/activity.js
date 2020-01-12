@@ -10,22 +10,17 @@ router.get(
 router.get(
   '/project/:id',
   passport.authenticate('jwt', { session: false }),
-  actvityController.list
+  actvityController.activityByProject
 )
 router.get(
   '/task/:id',
   passport.authenticate('jwt', { session: false }),
-  actvityController.list
+  actvityController.activityByTask
 )
 router.get(
   '/user/:id',
   passport.authenticate('jwt', { session: false }),
-  actvityController.list
-)
-router.post(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  actvityController.list
+  actvityController.activityByUser
 )
 
 
