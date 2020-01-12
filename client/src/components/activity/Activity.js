@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {userEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Feed, Card, Container } from 'semantic-ui-react'

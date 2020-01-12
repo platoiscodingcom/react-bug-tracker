@@ -7,8 +7,8 @@ categoryService = require('./service/categoryService')
 // @access   Private
 exports.list = async (req, res) => {
   try {
-    const categores = await Category.find()
-    res.status(200).send(categores)
+    const categories = await Category.find()
+    res.status(200).send(categories)
   } catch (error) {
     console.log(error)
     res.status(500).send({ message: 'Error 500' })
@@ -24,6 +24,7 @@ exports.details = async (req, res) => {
     if (!category) {
       return res.status(404).send({ message: 'Category not found' })
     }
+    console.log('category:', category)
     res.status(200).send(category)
   } catch (error) {
     console.log(error)

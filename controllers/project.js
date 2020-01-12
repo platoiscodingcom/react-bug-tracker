@@ -33,11 +33,12 @@ exports.details = async (req, res) => {
       _id: req.params._id,
       author: req.user._id
     })
+    
       .populate('tasks files')
       .populate('categories', 'name')
       .populate('author', 'name')
       .populate('assignedTo', 'name')
-
+      
     if (!project) {
       return res.status(404).send({ message: 'Project not found' })
     }

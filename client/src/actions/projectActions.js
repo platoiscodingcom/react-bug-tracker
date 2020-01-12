@@ -49,6 +49,7 @@ export const updateProject = (project, formData, history) => async dispatch => {
 }
 
 export const getProject = (id, history) => async dispatch => {
+  console.log('inside getProject, with id:', id)
   await axios
     .get(`${PROJECTS_PATH}/${id}`)
     .then(res => {
@@ -67,6 +68,7 @@ export const getProject = (id, history) => async dispatch => {
     })
 }
 export const getProjects = () => async dispatch => {
+  console.log('inside getProjects, ')
   await axios
     .get(PROJECTS_PATH)
     .then(res => {

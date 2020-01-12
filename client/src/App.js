@@ -36,6 +36,7 @@ if (localStorage.jwtToken) {
   }
 }
 
+
 function App () {
   return (
     <Provider store={store}>
@@ -43,15 +44,13 @@ function App () {
       <Navbar />
         <Switch>
           <Route exact path='/register' component={Register} />
-          <Route exact path='/login' component={Login} />
-          <Route path='/confirmation/:token' component={Confirmation} />
-          <Route path='/' exact component={Home} />
-
-          <PrivateRoute exact path='/dashboard' component={Dashboard} />
-          <PrivateRoute exact path='/projects' component={Projects} />
-          <PrivateRoute exact path='/tasks' component={Tasks} />
-          <PrivateRoute exact path='/categories' component={Categories} />
-          
+          <Route exact path='/login' component={Login} />	          
+          <Route path='/confirmation/:token' component={Confirmation} />	        
+          <Route path='/' exact component={Home} />	        
+          <PrivateRoute path='/projects' component={Projects} />	
+          <PrivateRoute path='/tasks' component={Tasks} />	          
+          <PrivateRoute path='/categories' component={Categories} />	       
+          <PrivateRoute path='/dashboard' component={Dashboard} />	         
           <Route component={NoMatch} />
         </Switch>
       </Router>

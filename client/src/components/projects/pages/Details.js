@@ -31,7 +31,7 @@ import {
 } from '../../../Constants'
 import NewTask from './../NewTask'
 import SearchBar from './../../tasks/SearchBar'
-import Activity from './../Activity'
+import Activity from './../../activity/Activity'
 
 const Details = ({
   match,
@@ -44,6 +44,7 @@ const Details = ({
   const [showNewTask, setShowNewTask] = useState(false)
 
   useEffect(() => {
+    console.log('inside useEffect of projectDEtails, with id:', match.params._id)
     getProject(match.params._id, history)
   }, [getProject, match, history])
 

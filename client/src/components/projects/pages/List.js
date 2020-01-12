@@ -14,10 +14,14 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getProjects } from './../../../actions/projectActions'
 
-const List = ({ project: { projects }, getProjects}) => {
+const List = ({ project: { projects }, getProjects, match}) => {
   useEffect(() => {
     getProjects()
   }, [getProjects])
+
+  useEffect(()=>{
+    console.log('inside project list.js', match.path)
+  }, [])
 
   if (projects == null) return <CardLoader />
   return (
