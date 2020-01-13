@@ -19,12 +19,13 @@ exports.list = async (req, res) => {
 // @desc     get all activity entries by projectId
 // @access   Private
 exports.activityByProject = async (req, res) => {
-  
   try {
     const activities = await Acitivty.find({
       documentId: req.params.id,
-      documentType: "project"
-    }).populate('user', 'name')
+      documentType: 'project'
+    })
+      .populate('user', 'name')
+      .sort({ _id: -1 })
     res.status(200).send(activities)
   } catch (error) {
     console.log(error)
@@ -54,7 +55,7 @@ exports.activityByTask = async (req, res) => {
 exports.activityByUser = async (req, res) => {
   try {
     const activities = await Acitivty.find({
-      user: req.params._id,
+      user: req.params._id
     })
     res.status(200).send(activities)
   } catch (error) {
@@ -62,4 +63,3 @@ exports.activityByUser = async (req, res) => {
     res.status(500).send({ message: 'Error 500' })
   }
 }
-

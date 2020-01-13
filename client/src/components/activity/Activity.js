@@ -6,11 +6,13 @@ import { withRouter } from 'react-router-dom'
 import { getActivityByProject } from './../../actions/activityActions'
 import SingleActivity from './SingleActivity'
 
+
 const Activity = ({
   activity: { activities },
   getActivityByProject,
   project: { project }
 }) => {
+
 
   useEffect(() => {
     if (project._id) getActivityByProject(project._id)
@@ -24,8 +26,8 @@ const Activity = ({
         </Card.Content>
         <Card.Content>
           <Feed>
-            {activities.map(act => (
-              <SingleActivity activity={act} />
+            {activities.slice(0, 5).map(act => (
+              <SingleActivity activity={act}  key={act._id}/>
             ))}
           </Feed>
         </Card.Content>

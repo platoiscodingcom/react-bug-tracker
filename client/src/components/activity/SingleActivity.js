@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Feed, Card, Container, FeedEvent } from 'semantic-ui-react'
 import { withRouter, Link } from 'react-router-dom'
+import moment from 'moment'
+import { REOPENED, CLOSED, INPROGRESS, OPEN } from '../../Constants'
+import uuid from 'uuid'
+import StatusColor from '../status/StatusColor'
 
 const SingleActivity = ({ activity }) => {
   const {
-    _id,
     action,
     documentId,
     documentType,
@@ -13,15 +16,66 @@ const SingleActivity = ({ activity }) => {
     user
   } = activity
 
-  console.log('hi im single')
-  
+  const capitalizeFirstLetter = string => {
+    return string.charAt(0).toUpperCase() + string.slice(1) + ':'
+  }
+
+  const makeLink = documentName => {
+    return (
+      <Link
+        style={{ color: 'green', fontWeight: '600' }}
+        to={`/projects/details/${documentId}`}
+      >
+        {documentName}
+      </Link>
+    )
+  }
+
+  const printAction = action => {
+    if (action === 'update') {
+      return (
+        <React.Fragment>
+          {' made an '}<p style={{ fontWeight: '600' }}>update</p>{' in '}
+        </React.Fragment>
+      )
+    } else if (action === 'create' || action === 'delete') {
+      return 'undefied action'
+    } else if (
+      action === REOPENED ||
+      action === CLOSED ||
+      action === INPROGRESS ||
+      action === OPEN
+    ) {
+      // return 'changed the status to ' + action + ' '
+      return (
+        <React.Fragment>
+          {' changed the status to '}
+          <StatusColor key={uuid.v4()} status={action} />
+          {'in '}
+        </React.Fragment>
+      )
+    } else {
+      return 'undefined'
+    }
+  }
+
+  const printIcon = documentType => {
+    if (documentType === 'project') {
+      return 'folder open'
+    } else if (documentType === 'task') {
+      return 'FormatListBulletedIcon'
+    }
+  }
+
   return (
     <Feed.Event>
-      <Feed.Label icon='folder open' />
+      <Feed.Label icon={printIcon(documentType)} />
       <Feed.Content>
-        <Feed.Date content={createdAt} />
-        <Feed.Summary>
-          {user.name} did {action} in {documentType} {documentName}
+        <Feed.Date content={moment(createdAt).fromNow()} />
+        <Feed.Summary style={{ fontWeight: '400' }}>
+          {user.name}
+          {printAction(action)}
+          {capitalizeFirstLetter(documentType)} {makeLink(documentName)}
         </Feed.Summary>
       </Feed.Content>
     </Feed.Event>

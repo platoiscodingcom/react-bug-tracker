@@ -168,7 +168,7 @@ exports.statusEvent = async (req, res) => {
       project._id,
       project.name,
       'project',
-      req.params.event,
+      projectStatus,
       req.params.userId
     )
     res.status(200).send(project)
