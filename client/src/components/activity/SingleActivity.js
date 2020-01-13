@@ -35,7 +35,9 @@ const SingleActivity = ({ activity }) => {
     if (action === 'update') {
       return (
         <React.Fragment>
-          {' made an '}<p style={{ fontWeight: '600' }}>update</p>{' in '}
+          {' made an '}
+          <span style={{ fontWeight: '600' }}>update</span>
+          {' in '}
         </React.Fragment>
       )
     } else if (action === 'create' || action === 'delete') {
