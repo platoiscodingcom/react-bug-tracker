@@ -47,6 +47,7 @@ exports.create = async (req, res) => {
 
     taskService.addTaskToAssignee(task._id, task.assignedTo)
     taskService.addTaskToAuthor(task._id, req.body.author)
+    taskService.saveTaskToProject(req.body.project, task._id)
 
     res.status(200).send(task)
   } catch (error) {

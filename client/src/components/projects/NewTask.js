@@ -3,8 +3,19 @@ import { Modal, Form, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createTask } from './../../actions/taskActions'
-import { PROJECTS_DETAILS, TYPE_OPTIONS, PRIORITY_OPTIONS, STATUS_OPTIONS, OPEN, FEATURE, LOW } from './../../Constants'
+import {
+  PROJECTS_DETAILS,
+  TYPE_OPTIONS,
+  PRIORITY_OPTIONS,
+  STATUS_OPTIONS,
+  OPEN,
+  FEATURE,
+  LOW,
+  USERS_PATH
+} from './../../Constants'
 import { withRouter } from 'react-router'
+import axios from 'axios'
+import SemanticDatepicker from 'react-semantic-ui-datepickers'
 
 const NewTask = ({
   createTask,
@@ -12,15 +23,20 @@ const NewTask = ({
   setShowNewTask,
   showNewTask,
   match,
-  history
+  history,
+  auth: { user }
 }) => {
+  const [userOptions, setUserOptions] = useState([])
   const [task, setTask] = useState({
     title: '',
     description: '',
     project: match.params._id,
     status: OPEN,
     priority: LOW,
-    type: FEATURE
+    type: FEATURE,
+    author: user.id,
+    dueDate: '',
+    assignedTo: user.id
   })
 
   const handleInputChange = (event, { name, value }) => {
@@ -38,7 +54,10 @@ const NewTask = ({
       description: '',
       status: OPEN,
       priority: LOW,
-      type: FEATURE
+      type: FEATURE,
+      author: user.id,
+      dueDate: '',
+      assignedTo: user.id
     })
     setShowNewTask(false)
   }
@@ -53,8 +72,30 @@ const NewTask = ({
     if (!Object.keys(errors).length && submitting) {
       resetForm()
       history.push(PROJECTS_DETAILS + '/' + match.params._id)
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors])
+
+  //currently loads all users
+  //later should only load users that are invited to project
+  const loadUsersOptions = async () => {
+    await axios
+      .get(USERS_PATH)
+      .then(response => {
+        setUserOptions(
+          response.data.map(user => ({
+            text: `${user.name}`,
+            value: user._id
+          }))
+        )
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    loadUsersOptions()
+  }, [task])
 
   return (
     <div>
@@ -62,6 +103,23 @@ const NewTask = ({
         <Modal.Header>New Task </Modal.Header>
         <Modal.Content>
           <Form widths='equal'>
+            <Form.Group>
+              <Form.Input
+                label='Author'
+                name='author'
+                value={task.author ? user.name : ''}
+                error={errors.author}
+                disabled
+              />
+              <Form.Select
+                label='Assign To:'
+                name='assignedTo'
+                options={userOptions}
+                value={task.assignedTo}
+                error={errors.assignedTo}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
             <Form.Group>
               <Form.Input
                 label='Title'
@@ -88,6 +146,8 @@ const NewTask = ({
                 value={task.status}
                 error={errors.status}
               />
+            </Form.Group>
+            <Form.Group>
               <Form.Select
                 label='Type'
                 name='type'
@@ -95,6 +155,16 @@ const NewTask = ({
                 value={task.type}
                 onChange={handleInputChange}
                 error={errors.type}
+              />
+              <SemanticDatepicker
+                clearOnSameDateClick
+                datePickerOnly
+                clearable
+                name='dueDate'
+                label='Due Date'
+                onChange={handleInputChange}
+                value={task.dueDate}
+                format='MMMM Do YYYY'
               />
             </Form.Group>
             <Form.Group>
@@ -123,11 +193,13 @@ const NewTask = ({
 
 NewTask.propTypes = {
   createTask: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  auth: state.auth
 })
 
 export default withRouter(connect(mapStateToProps, { createTask })(NewTask))
