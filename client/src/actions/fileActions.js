@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { GET_FILE_ERRORS, /*GET_FILE, GET_FILES, DELETE_FILE*/ } from './types'
-import {PROJECT, TASK, FILES_PATH} from '../Constants'
+import {PROJECT, TASK, FILES_PATH, PROJECTS_DETAILS} from '../Constants'
 
 export const createFile = (
   file,
   documentPath,
-  documentId
+  documentId,
+  history
 ) => async dispatch => {
   await axios
     .put(`${documentPath}/${documentId}/upload`, file)
@@ -14,6 +15,7 @@ export const createFile = (
         type: GET_FILE_ERRORS,
         payload: {}
       })
+      history.push(PROJECTS_DETAILS + '/' + documentId)
     })
     .catch(error => {
       dispatch({

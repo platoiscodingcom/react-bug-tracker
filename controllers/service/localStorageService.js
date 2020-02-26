@@ -34,10 +34,12 @@ exports.createLocalProjectIdFolder = projectId => {
 exports.saveProjectFileLocally = (projectId, filename, tempPath) => {
   var uploadPath = server.DIR + '\\projects\\' + projectId + '\\' + filename
 
+  console.log("path:", tempPath)
   //move from oldpath(Temp) to newpath(uploadPath)
   mv(tempPath, uploadPath, function (err) {
     if (err) {
-      return res.status(500).send(err)
+      //return res.status(500).send(err)
+      console.log(err)
     }
   })
 }
@@ -51,15 +53,15 @@ exports.deleteFileLocally = (data) =>{
   })
 }
 
-exports.saveProjectFile = (req, files, fields) =>{
+exports.saveProjectFile = (projectId, file, fileInfo) =>{
   //public/projects
   this.createLocalProjectsFolder()
   //public/projects/project_id
-  this.createLocalProjectIdFolder(req.params._id)
+  this.createLocalProjectIdFolder(projectId)
 
   this.saveProjectFileLocally(
-    req.params._id,
-    fields.filename,
-    files.file.path
+    projectId,
+    fileInfo.filename,
+    file.tempFilePath
   )
 }

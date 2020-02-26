@@ -1,8 +1,8 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
-import { Grid, Header, Button, Menu } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
+import { Grid, Header, Menu } from 'semantic-ui-react'
 import KanbanColumn from '../KanbanColumn'
 import { NavLink } from 'react-router-dom'
 import {
@@ -10,7 +10,6 @@ import {
   INPROGRESS,
   CLOSED,
   REOPENED,
-  PROJECTS_DETAILS
 } from '../../../Constants'
 import { getProject } from './../../../actions/projectActions'
 

@@ -63,6 +63,7 @@ export const checkSize = event => {
 }
 
 export const inspectFormData = formData => {
+  console.log("inspecting FormData:")
   for (var pair of formData.entries()) {
     console.log(pair[0] + ': ' + pair[1])
   }

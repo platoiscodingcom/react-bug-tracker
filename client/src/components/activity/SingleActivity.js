@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Feed, Card, Container, FeedEvent } from 'semantic-ui-react'
-import { withRouter, Link } from 'react-router-dom'
+import React from 'react'
+import { Feed} from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import moment from 'moment'
-import { REOPENED, CLOSED, INPROGRESS, OPEN } from '../../Constants'
+import { REOPENED, CLOSED, INPROGRESS, OPEN, BACKLOG } from '../../Constants'
 import uuid from 'uuid'
 import StatusColor from '../status/StatusColor'
 
@@ -46,6 +46,7 @@ const SingleActivity = ({ activity }) => {
       action === REOPENED ||
       action === CLOSED ||
       action === INPROGRESS ||
+      action === BACKLOG ||
       action === OPEN
     ) {
       // return 'changed the status to ' + action + ' '
@@ -74,7 +75,7 @@ const SingleActivity = ({ activity }) => {
       <Feed.Label icon={printIcon(documentType)} />
       <Feed.Content>
         <Feed.Date content={moment(createdAt).fromNow()} />
-        <Feed.Summary style={{ fontWeight: '400' }}>
+        <Feed.Summary style={{ fontWeight: '400'}}>
           {user.name}
           {printAction(action)}
           {capitalizeFirstLetter(documentType)} {makeLink(documentName)}

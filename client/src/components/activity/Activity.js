@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Feed, Card, Container } from 'semantic-ui-react'
@@ -16,7 +16,7 @@ const Activity = ({
 
   useEffect(() => {
     if (project._id) getActivityByProject(project._id)
-  }, [project])
+  }, [project, getActivityByProject])
 
   return (
     <Container fluid style={{ marginTop: '15px' }}>

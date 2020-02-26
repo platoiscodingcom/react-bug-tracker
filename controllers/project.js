@@ -7,7 +7,6 @@ projectService = require('./service/projectService')
 activityService = require('./service/activityService')
 fileService = require('./service/fileService')
 localStorageService = require('./service/localStorageService')
-formidable = require('formidable')
 
 // @route    GET api/projects
 // @desc     Get all pojects
@@ -163,7 +162,7 @@ exports.statusEvent = async (req, res) => {
     if (!project) {
       return res.status(404).send({ message: 'Task not found' })
     }
-    
+
     activityService.createActivity(
       project._id,
       project.name,
@@ -178,40 +177,37 @@ exports.statusEvent = async (req, res) => {
   }
 }
 
+
 exports.upload = (req, res) => {
-  let form = new formidable.IncomingForm()
-  form.parse(req, (error, fields, files) => {
-    const newFile = new File({
-      _id: new mongoose.Types.ObjectId(),
-      path: `/projects/${req.params._id}/${fields.filename}`,
-      filename: fields.filename,
-      mimetype: fields.mimetype
-    })
-
-    if (error) {
-      console.log(error)
-      return res.status(500).send(error)
-    }
-
-    localStorageService.saveProjectFile(req, files, fields)
-
-    newFile
-      .save()
-      .then(data => {
-        projectService.saveFileToProject(req.params._id, data)
-        activityService.createActivity(
-          project._id,
-          project.name,
-          'project',
-          'file_upload',
-          req.user._id
-        )
-
-        res.status(200).send(data)
-      })
-      .catch(error => {
-        console.log(error)
-        res.status(500).send({ message: 'Error occured: 500' })
-      })
+  const newFile = new File({
+    _id: new mongoose.Types.ObjectId(),
+    path: `/projects/${req.params._id}/${req.body.filename}`,
+    filename: req.body.filename,
+    mimetype: req.body.mimetype
   })
+
+  console.log('newFile', newFile)
+  console.log('req.files.file', req.files.file)
+  localStorageService.saveProjectFile(req.params._id, req.files.file, req.body)
+
+  newFile
+    .save()
+    .then(data => {
+
+      projectService.saveFileToProject(req.params._id, data)
+      /*
+      activityService.createActivity(
+        project._id,
+        project.name,
+        'project',
+        'file_upload',
+        req.user._id
+      )*/
+
+      res.status(200).send(data)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error occured: 500' })
+    })
 }

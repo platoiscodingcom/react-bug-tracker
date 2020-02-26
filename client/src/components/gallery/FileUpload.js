@@ -3,22 +3,27 @@ import { Form, Modal, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createFile } from '../../actions/fileActions'
-import { checkMimeType, checkSize } from '../../validation/validationFunctions'
-import { PROJECTS_PATH } from './../../Constants'
 import {
-  setUploadModalOpen
-} from './../../actions/projectActions'
-import {getProject} from '../../actions/projectActions'
+  checkMimeType,
+  checkSize,
+  inspectFormData
+} from '../../validation/validationFunctions'
+import { PROJECTS_PATH } from './../../Constants'
+import { setUploadModalOpen } from './../../actions/projectActions'
+import { getProject } from '../../actions/projectActions'
+import {  withRouter} from 'react-router-dom'
 
 const FileUpload = ({
   setUploadModalOpen,
   createFile,
-  project: { project, modalOpen},
+  history,
+  project: { project, modalOpen }
 }) => {
   const [file, setFile] = useState({})
   const [filename, setFilename] = useState('')
 
   const handleFile = event => {
+    console.log('handleFile:', event.target.files)
     if (checkMimeType(event) && checkSize(event)) {
       const formData = new FormData()
 
@@ -28,6 +33,7 @@ const FileUpload = ({
 
       setFilename(event.target.files[0].name)
       setFile(formData)
+      inspectFormData(formData)
     }
   }
 
@@ -35,12 +41,11 @@ const FileUpload = ({
 
   const uploadFile = () => {
     if (file) {
-      createFile(file, documentPath, project._id)
       setUploadModalOpen(false)
       setFilename('')
+      createFile(file, documentPath, project._id, history)
     }
   }
-
 
   return (
     <Modal open={modalOpen} centered>
@@ -58,6 +63,7 @@ const FileUpload = ({
             <label htmlFor='file'>Choose a file</label>
 
             <Button
+              type='button'
               color='green'
               content='Upload'
               onClick={uploadFile}
@@ -69,6 +75,7 @@ const FileUpload = ({
       </Modal.Content>
       <Modal.Actions>
         <Button
+          type='button'
           color='black'
           content='Close'
           onClick={() => setUploadModalOpen(false)}
@@ -89,8 +96,8 @@ const mapStateToProps = state => ({
   project: state.project
 })
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   createFile,
   setUploadModalOpen,
   getProject
-})(FileUpload)
+})(FileUpload))

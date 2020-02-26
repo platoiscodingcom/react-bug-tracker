@@ -34,7 +34,10 @@ const app = express()
 
 app.use(express.json())
 app.use(passport.initialize())
-app.use(fileUpload({ limits: { fileSize: 16 * 1024 * 1024 } }))
+app.use(fileUpload({ 
+  limits: { fileSize: 16 * 1024 * 1024 } ,
+  useTempFiles : true,
+}))
 
 app.use('/api/projects', projects)
 app.use('/api/tasks', tasks)
