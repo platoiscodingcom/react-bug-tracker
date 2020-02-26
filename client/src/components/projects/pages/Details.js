@@ -44,7 +44,7 @@ const Details = ({
   const [showNewTask, setShowNewTask] = useState(false)
 
   useEffect(() => {
-    getProject(match.params._id, history)
+    getProject(match.params._id)
   }, [getProject, match, history])
 
   const {

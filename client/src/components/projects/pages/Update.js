@@ -51,7 +51,7 @@ const Update = ({
   useEffect(() => {
     loadUsersOptions()
     loadCategoryOptions()
-    getProject(match.params._id, history)
+    getProject(match.params._id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

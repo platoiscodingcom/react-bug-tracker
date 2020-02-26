@@ -13,12 +13,12 @@ import {
 } from '../../../Constants'
 import { getProject } from './../../../actions/projectActions'
 
-const Kanban = ({ project: { project }, match, history, getProject }) => {
+const Kanban = ({ project: { project }, match, getProject }) => {
   const [tasks, setTasks] = useState([])
 
   useEffect(() => {
-    getProject(match.params._id, history)
-  }, [getProject, match, history])
+    getProject(match.params._id)
+  }, [getProject, match])
 
   useEffect(() => {
     if (project.tasks) setTasks(project.tasks)

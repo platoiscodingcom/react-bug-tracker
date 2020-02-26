@@ -11,7 +11,6 @@ import { PROJECT } from '../../Constants'
 const DetailsGallery = ({
   getProject,
   project: { project },
-  history,
   deleteFile
 }) => {
   const [modalOpen, setModalOpen] = useState(false)
@@ -58,10 +57,9 @@ const DetailsGallery = ({
   ))
 
   const removeFile = id => {
-    //mach erstmal zwei FileUpload files für jew. Project und Task
     deleteFile(id, PROJECT)
     setModalOpen(false)
-    getProject(project._id, history)
+    getProject(project._id)
   }
 
   return (

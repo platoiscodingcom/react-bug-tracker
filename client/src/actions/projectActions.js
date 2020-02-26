@@ -48,7 +48,7 @@ export const updateProject = (project, formData, history) => async dispatch => {
     })
 }
 
-export const getProject = (id, history) => async dispatch => {
+export const getProject = (id) => async dispatch => {
   await axios
     .get(`${PROJECTS_PATH}/${id}`)
     .then(res => {
