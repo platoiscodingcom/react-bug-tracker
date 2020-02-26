@@ -15,7 +15,7 @@ export const createFile = (
         type: GET_FILE_ERRORS,
         payload: {}
       })
-      history.push(PROJECTS_DETAILS + '/' + documentId)
+      //history.push(PROJECTS_DETAILS + '/' + documentId)
     })
     .catch(error => {
       dispatch({

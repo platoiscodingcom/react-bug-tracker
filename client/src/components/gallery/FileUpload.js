@@ -43,7 +43,9 @@ const FileUpload = ({
     if (file) {
       setUploadModalOpen(false)
       setFilename('')
-      createFile(file, documentPath, project._id, history)
+      //createFile(file, documentPath, project._id, history)
+      //getProject(project._id, history)
+      console.log("history", history)
     }
   }
 

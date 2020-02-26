@@ -63,7 +63,6 @@ export const getProject = (id, history) => async dispatch => {
         payload: error.response.data
       })
       console.log(error)
-      history.push(PROJECTS_HOME)
     })
 }
 export const getProjects = () => async dispatch => {
