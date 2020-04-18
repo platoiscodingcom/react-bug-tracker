@@ -1,5 +1,11 @@
 import axios from 'axios'
-import { GET_ERRORS, SET_CURRENT_USER, CONFIRM_REGISTRATION } from './types'
+import {
+  GET_ERRORS,
+  GET_LOGIN_ERRORS,
+  SET_CURRENT_USER,
+  CONFIRM_REGISTRATION,
+  GET_REGISTRATION_ERRORS
+} from './types'
 import setAuthToken from '../setAuthToken'
 import jwt_decode from 'jwt-decode'
 
@@ -7,11 +13,15 @@ export const registerUser = (user, history) => dispatch => {
   axios
     .post('/api/users/register', user)
     .then(res => {
+      dispatch({
+        type: GET_REGISTRATION_ERRORS,
+        payload: {}
+      })
       history.push('/login')
     })
     .catch(err => {
       dispatch({
-        type: GET_ERRORS,
+        type: GET_REGISTRATION_ERRORS,
         payload: err.response.data
       })
     })
@@ -26,10 +36,14 @@ export const loginUser = user => dispatch => {
       setAuthToken(token)
       const decoded = jwt_decode(token)
       dispatch(setCurrentUser(decoded))
+      dispatch({
+        type: GET_LOGIN_ERRORS,
+        payload: {}
+      })
     })
     .catch(err => {
       dispatch({
-        type: GET_ERRORS,
+        type: GET_LOGIN_ERRORS,
         payload: err.response.data
       })
     })
@@ -67,10 +81,14 @@ export const confirmRegistration = token => async dispatch => {
         type: CONFIRM_REGISTRATION,
         payload: res.data
       })
+      dispatch({
+        type: GET_REGISTRATION_ERRORS,
+        payload: {}
+      })
     })
     .catch(err => {
       dispatch({
-        type: GET_ERRORS,
+        type: GET_REGISTRATION_ERRORS,
         payload: err.response.data
       })
     })

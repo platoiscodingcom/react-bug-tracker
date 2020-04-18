@@ -35,6 +35,14 @@ const Register = ({ registerUser, auth, errors, history }) => {
     }
   }, [auth, history])
 
+  //reset errors when switching to another page
+  useEffect(() => {
+    errors.email = null
+    errors.password = null
+    errors.password_confirm = null
+    errors.name= null
+  }, [errors])
+
   return (
     <Container>
         <Card fluid>

@@ -47,7 +47,14 @@ const Login = ({loginUser, errors, history, auth}) =>{
     if (auth.isAuthenticated) {
       history.push('/projects')
     }
+    console.log("errors", errors)
   }, [auth, history])
+
+  //reset errors when switching to another page
+  useEffect(() => {
+    errors.email = null
+    errors.password = null
+  }, [errors])
 
   return(
     <Container>

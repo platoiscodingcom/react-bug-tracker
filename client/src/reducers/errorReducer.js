@@ -4,7 +4,9 @@ import {
   GET_TASK_ERRORS,
   GET_FILE_ERRORS,
   GET_ERRORS,
-  GET_ACTIVITY_ERRORS
+  GET_ACTIVITY_ERRORS,
+  GET_LOGIN_ERRORS,
+  GET_REGISTRATION_ERRORS
 } from '../actions/types'
 
 const initialState = {}
@@ -23,6 +25,10 @@ export default function (state = initialState, action) {
       return action.payload
     //auth-errors
     case GET_ERRORS:
+      return action.payload
+    case GET_LOGIN_ERRORS:
+      return action.payload
+    case GET_REGISTRATION_ERRORS:
       return action.payload
 
     default:
