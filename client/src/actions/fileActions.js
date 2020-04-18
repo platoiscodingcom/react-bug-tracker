@@ -5,10 +5,18 @@ import {PROJECT, TASK, FILES_PATH, PROJECTS_DETAILS} from '../Constants'
 export const createFile = (
   file,
   documentPath,
-  documentId
+  documentId,
+  history
 ) => async dispatch => {
   await axios
     .put(`${documentPath}/${documentId}/upload`, file)
+    .then(() => {
+      dispatch({
+        type: GET_FILE_ERRORS,
+        payload: {}
+      })
+      history.push(PROJECTS_DETAILS + '/' + documentId)
+    })
     .catch(error => {
       dispatch({
         type: GET_FILE_ERRORS,

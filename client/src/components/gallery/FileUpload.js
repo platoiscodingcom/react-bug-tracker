@@ -15,7 +15,7 @@ import {  withRouter} from 'react-router-dom'
 
 const FileUpload = ({
   setUploadModalOpen,
-  createFile,
+  createFile,history,
   project: { project, modalOpen }
 }) => {
   const [file, setFile] = useState({})
@@ -42,8 +42,8 @@ const FileUpload = ({
     if (file) {
       setUploadModalOpen(false)
       setFilename('')
-      createFile(file, documentPath, project._id)
-      getProject(project._id)
+      createFile(file, documentPath, project._id, history)
+      //getProject(project._id)
     }
   }
 

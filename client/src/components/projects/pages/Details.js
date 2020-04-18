@@ -24,11 +24,7 @@ import {
   getProject,
   setUploadModalOpen
 } from '../../../actions/projectActions'
-import {
-  CATEGORIES_DETAILS,
-  PROJECTS_HOME,
-  PROJECT
-} from '../../../Constants'
+import { CATEGORIES_DETAILS, PROJECTS_HOME, PROJECT } from '../../../Constants'
 import NewTask from './../NewTask'
 import SearchBar from './../../tasks/SearchBar'
 import Activity from './../../activity/Activity'
@@ -75,7 +71,7 @@ const Details = ({
     <Container fluid>
       <Menu secondary>
         <Menu.Item
-        name='Details'
+          name='Details'
           as={NavLink}
           to={'/projects/details/' + match.params._id}
           active
@@ -87,15 +83,16 @@ const Details = ({
           to={'/projects/kanban/' + match.params._id}
         />
       </Menu>
+
       <Grid>
-        <Grid.Column width={12}>
+        <Grid.Column mobile={16} tablet={16} computer={12}>
           <NewTask showNewTask={showNewTask} setShowNewTask={setShowNewTask} />
 
           <Card fluid>
             <Card.Content className='card-header'>
               <span className='card-header-title'>{name}</span>
               <Menu floated='right' className='card-menu'>
-                <Dropdown className="more-details-button" item text='more'>
+                <Dropdown className='more-details-button' item text='more'>
                   <Dropdown.Menu className='card-actions-dropdown'>
                     <Dropdown.Item>
                       <div onClick={() => setShowNewTask(true)}>
@@ -198,12 +195,11 @@ const Details = ({
           </Card>
 
           <SearchBar />
-
           <TableTabs />
-
           <FileUpload />
         </Grid.Column>
-        <Grid.Column width={4}>
+
+        <Grid.Column mobile={16} tablet={16} computer={4}>
           <Activity />
         </Grid.Column>
       </Grid>

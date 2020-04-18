@@ -83,7 +83,7 @@ body {
 }
 
 .ui.segment{
-  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.1) !important;
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.2) !important;
   border: none !important;
   border-radius: 0px !important;
 }
@@ -98,7 +98,7 @@ body {
   border-radius: 5px !important;
   border: none !important;
   box-shadow: none !important;
-  /*box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;*/
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;
 }
 
 .ui.placeholder{
@@ -114,6 +114,12 @@ body {
 
 .ui.bottom.attached.segment.active.tab{
   border: none !important;
-  box-shadow: none !important;
-  /*box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;*/
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;
+}
+
+
+@media only screen and (max-width: 565px) {
+  .ui.attached.tabular.menu{
+    font-size: 11px !important;
+  }
 }

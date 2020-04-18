@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Feed, Card, Container } from 'semantic-ui-react'
+import { Feed, Card } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import { getActivityByProject } from './../../actions/activityActions'
 import SingleActivity from './SingleActivity'
@@ -19,8 +19,7 @@ const Activity = ({
   }, [project, getActivityByProject])
 
   return (
-    <Container fluid style={{ marginTop: '15px' }}>
-      <Card>
+      <Card fluid style={{ marginTop: '15px' }}>
         <Card.Content>
           <Card.Header>Recent Activity</Card.Header>
         </Card.Content>
@@ -32,7 +31,6 @@ const Activity = ({
           </Feed>
         </Card.Content>
       </Card>
-    </Container>
   )
 }
 

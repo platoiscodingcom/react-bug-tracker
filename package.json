@@ -15,7 +15,6 @@
   "author": "Maria Hildebrandt",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "chai": "^4.2.0",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
@@ -24,7 +23,6 @@
     "fs": "0.0.1-security",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "mocha": "^7.0.0",
     "mongoose": "^5.6.5",
     "mv": "^2.1.1",
     "nodemailer": "^6.4.2",
