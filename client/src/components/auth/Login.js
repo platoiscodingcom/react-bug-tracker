@@ -47,7 +47,6 @@ const Login = ({loginUser, errors, history, auth}) =>{
     if (auth.isAuthenticated) {
       history.push('/projects')
     }
-    console.log("errors", errors)
   }, [auth, history])
 
   //reset errors when switching to another page
@@ -91,6 +90,7 @@ const Login = ({loginUser, errors, history, auth}) =>{
         <Button color='green' content='Login' onClick={handleSubmit} />
         <Button color='blue' content='Login as Admin' onClick={handleAdminLogin} />
         <Button color='blue' content='Login as Moderator' onClick={handleModLogin} />
+        <h5><a href='/forgotpassword'>Forgot Password</a></h5>
       </Card.Content>
     </Card>
   </Container>

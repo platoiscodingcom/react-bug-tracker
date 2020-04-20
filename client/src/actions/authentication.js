@@ -72,7 +72,7 @@ export const logoutUser = history => dispatch => {
 }
 
 export const confirmRegistration = token => async dispatch => {
-  console.log('/api/users/confirmation/' + token)
+  //console.log('/api/users/confirmation/' + token)
   await axios
     .put('/api/users/confirmation/' + token)
     .then(res => {
@@ -89,6 +89,24 @@ export const confirmRegistration = token => async dispatch => {
     .catch(err => {
       dispatch({
         type: GET_REGISTRATION_ERRORS,
+        payload: err.response.data
+      })
+    })
+}
+
+export const requestPasswordReset = email => async dispatch =>{
+
+  await axios
+    .post('/api/users/requestPasswordReset', email)
+    .then(res => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
         payload: err.response.data
       })
     })

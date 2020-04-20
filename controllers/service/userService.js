@@ -19,6 +19,18 @@ exports.findAllUsers = async (res) =>{
   })
 }
 
+exports.createResetPasswordMailOptions = (user) =>{
+  return (mailOptions = {
+    from: 'jonasackermann90@gmx.de',
+    to: user.email,
+    subject: 'Reset Password',
+    text:
+      'Hello,\n\n' +
+      'This is your new password:' +
+      '.\n'
+  })
+}
+
 exports.createMailOptions = (newUser, token) => {
   return (mailOptions = {
     from: 'jonasackermann90@gmx.de',
@@ -174,5 +186,19 @@ exports.verfiyUser = (user, res) => {
       return res.status(500).send({ msg: err.message })
     }
     res.status(200).send('The account has been verified. Please log in.')
+  })
+}
+
+exports.sendEmailForPasswordReset = (user, res) =>{
+  let transporter = this.createMailTransporter()
+  var mailOptions = this.createResetPasswordMailOptions(user)
+
+  transporter.sendMail(mailOptions, err => {
+    if (err) {
+      return res.status(500).send({ email: err.message })
+    }
+    res
+      .status(200)
+      .send('A reset password request has been sent to ' + user.email + '.')
   })
 }

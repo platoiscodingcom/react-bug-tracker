@@ -75,6 +75,24 @@ exports.login = (req, res) => {
   })
 }
 
+exports.requestPasswordReset = (req, res) =>{
+  const email = req.body.email
+
+  User.findOne({ email })
+  .then(user => {
+    if (!user) {
+      return res.status(404).send({ email: 'unknown email' })
+    }
+    console.log('check if user is activated - if not resend token')
+    console.log('generate a new password?')
+    userService.sendEmailForPasswordReset(user, res)
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send({ message: 'Error 500' })
+  })
+}
+
 exports.me = (req, res) => {
   return res.json({
     id: req.user.id,

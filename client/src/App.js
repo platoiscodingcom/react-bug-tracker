@@ -20,6 +20,7 @@ import { setCurrentUser, logoutUser } from './actions/authentication'
 
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
+import ForgotPassword from './components/auth/ForgotPassword'
 import Confirmation from './components/auth/Confirmation'
 import Dashboard from './components/dashboard/'
 import PrivateRoute from './privateRoutes'
@@ -44,7 +45,8 @@ function App () {
       <Navbar />
         <Switch>
           <Route exact path='/register' component={Register} />
-          <Route exact path='/login' component={Login} />	          
+          <Route exact path='/login' component={Login} />	 
+          <Route exact path='/forgotpassword' component={ForgotPassword} />         
           <Route path='/confirmation/:token' component={Confirmation} />	        
           <Route path='/' exact component={Home} />	        
           <PrivateRoute path='/projects' component={Projects} />	
