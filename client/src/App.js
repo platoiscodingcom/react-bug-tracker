@@ -22,6 +22,7 @@ import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import ForgotPassword from './components/auth/ForgotPassword'
 import Confirmation from './components/auth/Confirmation'
+import ResetPassword from './components/auth/ResetPassword'
 import Dashboard from './components/dashboard/'
 import PrivateRoute from './privateRoutes'
 
@@ -47,7 +48,8 @@ function App () {
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />	 
           <Route exact path='/forgotpassword' component={ForgotPassword} />         
-          <Route path='/confirmation/:token' component={Confirmation} />	        
+          <Route path='/confirmation/:token' component={Confirmation} />	 
+          <Route path='/resetPassword/:token' component={ResetPassword} />	       
           <Route path='/' exact component={Home} />	        
           <PrivateRoute path='/projects' component={Projects} />	
           <PrivateRoute path='/tasks' component={Tasks} />	          

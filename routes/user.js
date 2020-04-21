@@ -21,6 +21,7 @@ router.get(
 
 //token, email-verfication
 router.put('/confirmation/:token', userController.confirmRegistration)
+router.post('/resetPassword/:token', userController.resetPassword)
 router.post('/resend', userController.resendTokenPost)
 
 module.exports = router

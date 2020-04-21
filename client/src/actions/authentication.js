@@ -4,7 +4,9 @@ import {
   GET_LOGIN_ERRORS,
   SET_CURRENT_USER,
   CONFIRM_REGISTRATION,
-  GET_REGISTRATION_ERRORS
+  GET_REGISTRATION_ERRORS,
+  CONFIRM_PASSWORD_RESET,
+  CONFIRM_PASSWORD_RESET_ERRORS
 } from './types'
 import setAuthToken from '../setAuthToken'
 import jwt_decode from 'jwt-decode'
@@ -61,9 +63,15 @@ export const logoutUser = history => dispatch => {
     localStorage.removeItem('jwtToken')
     setAuthToken(false)
     dispatch(setCurrentUser({}))
+
+    console.log(
+      'this is an old error that only appears sometimes. navugate to authentication.js. it may have something to do with history but I dont know why error.response.data is not defined'
+    )
     history.push('/login')
+    console.log('history', history)
   } catch (error) {
-    console.log(error)
+    console.log('error:', error)
+    console.log('error.response:', error.response)
     dispatch({
       type: GET_ERRORS,
       payload: error.response.data
@@ -94,8 +102,33 @@ export const confirmRegistration = token => async dispatch => {
     })
 }
 
-export const requestPasswordReset = email => async dispatch =>{
+export const resetPassword = (user, token, history) => async dispatch => {
+  console.log('/api/users/resetPassword/' + token)
+  await axios
+    .post('/api/users/resetPassword/' + token, user)
+    .then(res => {
+      console.log('dispatching this', res.data)
+      dispatch({
+        type: CONFIRM_PASSWORD_RESET,
+        payload: res.data
+      })
 
+      dispatch({
+        type: CONFIRM_PASSWORD_RESET_ERRORS,
+        payload: {}
+      })
+
+      history.push('/login')
+    })
+    .catch(err => {
+      dispatch({
+        type: CONFIRM_PASSWORD_RESET_ERRORS,
+        payload: err.response.data
+      })
+    })
+}
+
+export const requestPasswordReset = (email, history) => async dispatch => {
   await axios
     .post('/api/users/requestPasswordReset', email)
     .then(res => {
@@ -103,6 +136,8 @@ export const requestPasswordReset = email => async dispatch =>{
         type: GET_ERRORS,
         payload: {}
       })
+      
+      history.push('/login')
     })
     .catch(err => {
       dispatch({

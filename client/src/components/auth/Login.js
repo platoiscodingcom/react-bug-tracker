@@ -5,17 +5,17 @@ import { withRouter } from 'react-router-dom'
 import { loginUser } from '../../actions/authentication'
 import { Form, Button, Container, Card } from 'semantic-ui-react'
 
-const Login = ({loginUser, errors, history, auth}) =>{
+const Login = ({ loginUser, errors, history, auth }) => {
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
+    password: ''
   })
 
   const handleInputChange = (event, { name, value }) => {
     setFormData(formData => ({ ...formData, [name]: value }))
   }
 
-  const {email, password } = formData
+  const { email, password } = formData
   const handleSubmit = e => {
     e.preventDefault()
     const user = {
@@ -25,7 +25,7 @@ const Login = ({loginUser, errors, history, auth}) =>{
     loginUser(user)
   }
 
-  const handleAdminLogin = e =>{
+  const handleAdminLogin = e => {
     e.preventDefault()
     const admin = {
       email: 'admin@gmail.com',
@@ -34,7 +34,7 @@ const Login = ({loginUser, errors, history, auth}) =>{
     loginUser(admin)
   }
 
-  const handleModLogin = e =>{
+  const handleModLogin = e => {
     e.preventDefault()
     const moderator = {
       email: 'moderator@gmail.com',
@@ -51,51 +51,62 @@ const Login = ({loginUser, errors, history, auth}) =>{
 
   //reset errors when switching to another page
   useEffect(() => {
-    errors.email = null
-    errors.password = null
+    if (errors.email || errors.password) {
+      errors.email = null
+      errors.password = null
+    }
   }, [errors])
 
-  return(
+  return (
     <Container>
-    <Card fluid>
-      <Card.Content>
-        <Card.Header>Login</Card.Header>
-      </Card.Content>
+      <Card fluid>
+        <Card.Content>
+          <Card.Header>Login</Card.Header>
+        </Card.Content>
 
-      <Card.Content>
-        <Form widths='equal'>
-          <Form.Group>
-            <Form.Input
-              type='email'
-              placeholder='Email'
-              label='email'
-              name='email'
-              onChange={handleInputChange}
-              value={email}
-              error={errors.email}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Input
-              type='password'
-              placeholder='Password'
-              label='password'
-              name='password'
-              onChange={handleInputChange}
-              value={password}
-              error={errors.password}
-            />
-          </Form.Group>
-        </Form>
-        <Button color='green' content='Login' onClick={handleSubmit} />
-        <Button color='blue' content='Login as Admin' onClick={handleAdminLogin} />
-        <Button color='blue' content='Login as Moderator' onClick={handleModLogin} />
-        <h5><a href='/forgotpassword'>Forgot Password</a></h5>
-      </Card.Content>
-    </Card>
-  </Container>
+        <Card.Content>
+          <Form widths='equal'>
+            <Form.Group>
+              <Form.Input
+                type='email'
+                placeholder='Email'
+                label='email'
+                name='email'
+                onChange={handleInputChange}
+                value={email}
+                error={errors.email}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Input
+                type='password'
+                placeholder='Password'
+                label='password'
+                name='password'
+                onChange={handleInputChange}
+                value={password}
+                error={errors.password}
+              />
+            </Form.Group>
+          </Form>
+          <Button color='green' content='Login' onClick={handleSubmit} />
+          <Button
+            color='blue'
+            content='Login as Admin'
+            onClick={handleAdminLogin}
+          />
+          <Button
+            color='blue'
+            content='Login as Moderator'
+            onClick={handleModLogin}
+          />
+          <h5>
+            <a href='/forgotpassword'>Forgot Password</a>
+          </h5>
+        </Card.Content>
+      </Card>
+    </Container>
   )
-
 }
 
 Login.propTypes = {

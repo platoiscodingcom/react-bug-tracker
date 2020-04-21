@@ -37,67 +37,74 @@ const Register = ({ registerUser, auth, errors, history }) => {
 
   //reset errors when switching to another page
   useEffect(() => {
-    errors.email = null
-    errors.password = null
-    errors.password_confirm = null
-    errors.name= null
+    if (
+      errors.email ||
+      errors.password ||
+      errors.password_confirm ||
+      errors.name
+    ) {
+      errors.email = null
+      errors.password = null
+      errors.password_confirm = null
+      errors.name = null
+    }
   }, [errors])
 
   return (
     <Container>
-        <Card fluid>
-          <Card.Content>
-            <Card.Header>Register</Card.Header>
-          </Card.Content>
-          <Card.Content>
-            <Form widths='equal'>
-              <Form.Group>
-                <Form.Input
-                  type='text'
-                  placeholder='Name'
-                  label='Name'
-                  name='name'
-                  onChange={handleInputChange}
-                  value={name}
-                  error={errors.name}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Input
-                  type='email'
-                  placeholder='Email'
-                  label='Email'
-                  name='email'
-                  onChange={handleInputChange}
-                  value={email}
-                  error={errors.email}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Input
-                  type='password'
-                  placeholder='Password'
-                  label='Password'
-                  name='password'
-                  onChange={handleInputChange}
-                  value={password}
-                  error={errors.password}
-                />
-                <Form.Input
-                  type='password'
-                  placeholder="Confirm Password"
-                  label='Confirm Password'
-                  name='password_confirm'
-                  onChange={handleInputChange}
-                  value={password_confirm}
-                  error={errors.password_confirm}
-                />
-              </Form.Group>
-            </Form>
-            <Button color='green' content='Register' onClick={handleSubmit} />
-          </Card.Content>
-        </Card>
-      </Container>
+      <Card fluid>
+        <Card.Content>
+          <Card.Header>Register</Card.Header>
+        </Card.Content>
+        <Card.Content>
+          <Form widths='equal'>
+            <Form.Group>
+              <Form.Input
+                type='text'
+                placeholder='Name'
+                label='Name'
+                name='name'
+                onChange={handleInputChange}
+                value={name}
+                error={errors.name}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Input
+                type='email'
+                placeholder='Email'
+                label='Email'
+                name='email'
+                onChange={handleInputChange}
+                value={email}
+                error={errors.email}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Input
+                type='password'
+                placeholder='Password'
+                label='Password'
+                name='password'
+                onChange={handleInputChange}
+                value={password}
+                error={errors.password}
+              />
+              <Form.Input
+                type='password'
+                placeholder='Confirm Password'
+                label='Confirm Password'
+                name='password_confirm'
+                onChange={handleInputChange}
+                value={password_confirm}
+                error={errors.password_confirm}
+              />
+            </Form.Group>
+          </Form>
+          <Button color='green' content='Register' onClick={handleSubmit} />
+        </Card.Content>
+      </Card>
+    </Container>
   )
 }
 

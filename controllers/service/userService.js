@@ -19,14 +19,17 @@ exports.findAllUsers = async (res) =>{
   })
 }
 
-exports.createResetPasswordMailOptions = (user) =>{
+exports.createResetPasswordMailOptions = (user, token) =>{
   return (mailOptions = {
     from: 'jonasackermann90@gmx.de',
     to: user.email,
     subject: 'Reset Password',
     text:
       'Hello,\n\n' +
-      'This is your new password:' +
+      'This is your new password link: \nhttp://' +
+      'localhost:3000' +
+      '/resetPassword/' +
+      token.token +
       '.\n'
   })
 }
@@ -111,7 +114,8 @@ exports.comparePasswords = (password, user, res) => {
       //res.send({ token: generateToken(user), user: user.toJSON() })
       
     } else {
-      errors.password = 'Incorrect Password'
+      const errors={
+        password: 'Incorrect Password'}
       return res.status(400).json(errors)
     }
   })
@@ -190,8 +194,20 @@ exports.verfiyUser = (user, res) => {
 }
 
 exports.sendEmailForPasswordReset = (user, res) =>{
+  var token = new Token({
+    _userId: user._id,
+    token: crypto.randomBytes(16).toString('hex')
+  })
+
+  console.log('new token for email password reset:', token)
+  token.save(err => {
+    if (err) {
+      return res.status(500).send({ msg: err.message })
+    }
+  })
+
   let transporter = this.createMailTransporter()
-  var mailOptions = this.createResetPasswordMailOptions(user)
+  var mailOptions = this.createResetPasswordMailOptions(user, token)
 
   transporter.sendMail(mailOptions, err => {
     if (err) {

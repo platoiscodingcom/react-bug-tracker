@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, CONFIRM_REGISTRATION } from '../actions/types';
+import { SET_CURRENT_USER, CONFIRM_REGISTRATION, CONFIRM_PASSWORD_RESET } from '../actions/types';
 import isEmpty from '../validation/is-empty';
 
 const initialState = {
@@ -19,7 +19,13 @@ export default function(state = initialState, action ) {
         case CONFIRM_REGISTRATION:
             return {
                 ...state,
-                isAuthenticated: !isEmpty(action.payload),
+                isAuthenticated: false,
+                loading: false,
+            }
+        case CONFIRM_PASSWORD_RESET:
+            return {
+                ...state,
+                isAuthenticated: false,
                 loading: false,
             }
         default: 
