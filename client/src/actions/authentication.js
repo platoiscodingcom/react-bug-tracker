@@ -67,11 +67,16 @@ export const logoutUser = history => dispatch => {
     console.log(
       'this is an old error that only appears sometimes. navugate to authentication.js. it may have something to do with history but I dont know why error.response.data is not defined'
     )
-    history.push('/login')
-    console.log('history', history)
+    console.log(
+      'I will add an if statement to check whether istory exists to fix zhis problemn for now'
+    )
+    if (history) {
+      history.push('/login')
+    } else {
+      console.log('else what??')
+    }
   } catch (error) {
     console.log('error:', error)
-    console.log('error.response:', error.response)
     dispatch({
       type: GET_ERRORS,
       payload: error.response.data
@@ -136,7 +141,7 @@ export const requestPasswordReset = (email, history) => async dispatch => {
         type: GET_ERRORS,
         payload: {}
       })
-      
+
       history.push('/login')
     })
     .catch(err => {

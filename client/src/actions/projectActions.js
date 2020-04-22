@@ -127,3 +127,7 @@ export const setFileUploaded = change => dispatch => {
     })
   }
 }
+
+export const sendInvitation = (invitation) => dispatch =>{
+
+}

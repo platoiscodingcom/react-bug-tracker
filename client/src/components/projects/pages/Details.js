@@ -26,8 +26,11 @@ import {
 } from '../../../actions/projectActions'
 import { CATEGORIES_DETAILS, PROJECTS_HOME, PROJECT } from '../../../Constants'
 import NewTask from './../NewTask'
+import Invitation from './../Invitation'
+import Contacts from './../Contacts'
 import SearchBar from './../../tasks/SearchBar'
 import Activity from './../../activity/Activity'
+import PermittedUsers from './../PermittedUsers'
 
 const Details = ({
   match,
@@ -38,6 +41,8 @@ const Details = ({
   project: { project }
 }) => {
   const [showNewTask, setShowNewTask] = useState(false)
+  const [showInvitation, setShowInvitation] = useState(false)
+  const [showContacts, setShowContacts] =useState(false)
 
   useEffect(() => {
     getProject(match.params._id)
@@ -88,6 +93,11 @@ const Details = ({
         <Grid.Column mobile={16} tablet={16} computer={12}>
           <NewTask showNewTask={showNewTask} setShowNewTask={setShowNewTask} />
 
+          <Invitation showInvitation={showInvitation} setShowInvitation={setShowInvitation}/>
+
+          <Contacts setShowContacts={setShowContacts} showContacts = {showContacts}/>
+
+
           <Card fluid>
             <Card.Content className='card-header'>
               <span className='card-header-title'>{name}</span>
@@ -113,6 +123,18 @@ const Details = ({
                       as={Link}
                       to={`${PROJECTS_HOME}/${_id}`}
                     />
+                    <Dropdown.Item>
+                      <div onClick={() => setShowInvitation(true)}>
+                        <i className='fas fa-user-friends'></i>
+                        Invite Someone
+                      </div>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <div onClick={() => setShowContacts(true)}>
+                        <i className='fas fa-user-friends'></i>
+                        Invite a Contact
+                      </div>
+                    </Dropdown.Item>
                     <Dropdown.Item color={'red'}>
                       <div onClick={() => deleteProject(_id)}>
                         <i className='fas fa-trash' />
@@ -201,6 +223,7 @@ const Details = ({
 
         <Grid.Column mobile={16} tablet={16} computer={4}>
           <Activity />
+          <PermittedUsers />
         </Grid.Column>
       </Grid>
     </Container>
