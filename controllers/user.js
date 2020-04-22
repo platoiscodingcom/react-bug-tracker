@@ -140,7 +140,6 @@ exports.resetPassword = (req, res) => {
             })
           }
         })
-
       })
     }
 
@@ -197,3 +196,67 @@ exports.resendTokenPost = (req, res, next) => {
     res.status(500).send({ message: 'Error 500' })
   })
 }
+
+exports.getContactsInfo = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userid).populate(
+      'contacts',
+      'name'
+    )
+
+    if (!user) {
+      return res.status(404).send('User not found')
+    }
+
+    res.status(200).send(user.contacts)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error 500' })
+  }
+}
+/*
+exports.privateProfile = async (req, res) => {
+ 
+  try {
+    const user = await User.findOne({
+      _id: req.params._id
+    })
+      .populate('name, email')
+      .populate('author_of_projects', 'name')
+      .populate('assigned_to_projects', 'name')
+      .populate('permittedProjects', 'name')
+      .populate('author_of_tasks', 'title')
+      .populate('assigned_to_tasks', 'title')
+      .populate('contacts', 'name')
+
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' })
+    }
+    if (!user._id != req.user._id) {
+      return res.status(404).send({ message: 'No permission' })
+    }
+    res.status(200).send(user)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  }
+}
+
+exports.getUser = async (req, res) => {
+  /*
+  try {
+    const user = await User.findOne({
+      _id: req.params._id
+    })
+      .populate('name')
+      .populate('permittedProjects', 'name')
+
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' })
+    }
+    res.status(200).send(user)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  }
+}*/

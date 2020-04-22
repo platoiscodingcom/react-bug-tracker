@@ -30,16 +30,22 @@ exports.list = async (req, res) => {
 exports.details = async (req, res) => {
   try {
     const project = await Project.findOne({
-      _id: req.params._id,
-      author: req.user._id
+      _id: req.params._id
     })
       .populate('tasks files')
       .populate('categories', 'name')
       .populate('author', 'name')
       .populate('assignedTo', 'name')
+      .populate('permittedUsers', 'name')
 
     if (!project) {
+      console.log('not found')
       return res.status(404).send({ message: 'Project not found' })
+    }
+
+    if (project.permittedUsers.forEach(user => user._id != req.user._id)) {
+      console.log('no permission')
+      return res.status(403).send({ message: 'No Permission' })
     }
 
     res.status(200).send(project)
@@ -177,7 +183,6 @@ exports.statusEvent = async (req, res) => {
   }
 }
 
-
 exports.upload = (req, res) => {
   const newFile = new File({
     _id: new mongoose.Types.ObjectId(),
@@ -193,7 +198,6 @@ exports.upload = (req, res) => {
   newFile
     .save()
     .then(data => {
-
       projectService.saveFileToProject(req.params._id, data)
       /*
       activityService.createActivity(

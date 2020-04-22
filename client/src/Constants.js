@@ -36,6 +36,7 @@ export const PROJECTS_PATH = '/api/projects'
 export const CATEGORIES_PATH = '/api/categories'
 export const FILES_PATH = '/api/files'
 export const USERS_PATH = '/api/users'
+export const GET_CONTACTS_INFO_PATH = '/api/users/getContactsInfo/'
 
 export const TASKS_HOME = '/tasks'
 export const PROJECTS_HOME = '/projects'
@@ -50,6 +51,8 @@ export const PROJECTS_CREATE = '/projects/create'
 export const CATEGORIES_CREATE = '/categories/create'
 
 export const PROJECTS_KANBAN = '/projects/kanban'
+
+export const PRIVATE_PROFILE = '/user/profile'
 
 //FILE UPLOAD
 export const FILE_TYPES = [

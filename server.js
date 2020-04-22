@@ -138,10 +138,13 @@ var project1 = new Project({
   status: 'open',
   author: admin,
   assignedTo: moderator,
+  permittedUsers:[admin, moderator],
   description:
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
   categories: [category1, category2]
 })
+
+
 
 var project2 = new Project({
   _id: new mongoose.Types.ObjectId(),
@@ -149,6 +152,7 @@ var project2 = new Project({
   status: 'open',
   author: moderator,
   assignedTo: moderator,
+  permittedUsers:[ moderator],
   description:
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
   categories: [category1]
@@ -231,10 +235,15 @@ admin.author_of_tasks.push(task3)
 admin.author_of_tasks.push(task4)
 admin.assigned_to_tasks.push(task3)
 admin.assigned_to_tasks.push(task4)
+admin.permittedProjects =[project1]
+admin.contacts= [moderator]
 admin.save()
+
 moderator.author_of_projects.push(project2)
 moderator.assigned_to_tasks.push(task1)
 moderator.assigned_to_tasks.push(task2)
 moderator.assigned_to_projects.push(project1)
 moderator.assigned_to_projects.push(project2)
+moderator.permittedProjects =[project1, project2]
+moderator.contacts= [admin]
 moderator.save()

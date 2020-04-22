@@ -12,12 +12,29 @@ router.post(
   validate,
   userController.requestPasswordReset
 )
+router.get(
+  '/getContactsInfo/:userid',
+  passport.authenticate('jwt', { session: false }),
+  userController.getContactsInfo
+)
 
 router.get(
   '/me',
   passport.authenticate('jwt', { session: false }),
   userController.me
 )
+/*
+router.get(
+  '/profile',
+  passport.authenticate('jwt', { session: false }),
+  userController.privateProfile
+)
+router.get(
+  '/getUser',
+  passport.authenticate('jwt', { session: false }),
+  userController.getUser
+)*/
+
 
 //token, email-verfication
 router.put('/confirmation/:token', userController.confirmRegistration)

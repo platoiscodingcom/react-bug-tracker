@@ -7,19 +7,19 @@ var crypto = require('crypto')
 var nodemailer = require('nodemailer')
 const gravatar = require('gravatar')
 
-exports.findAllUsers = async (res) =>{
+exports.findAllUsers = async res => {
   await User.find()
-  .populate('projects')
-  .then(data => {
-    res.status(200).send(data)
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error occured: 500' })
-  })
+    .populate('projects')
+    .then(data => {
+      res.status(200).send(data)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error occured: 500' })
+    })
 }
 
-exports.createResetPasswordMailOptions = (user, token) =>{
+exports.createResetPasswordMailOptions = (user, token) => {
   return (mailOptions = {
     from: 'jonasackermann90@gmx.de',
     to: user.email,
@@ -78,51 +78,58 @@ exports.sendConfirmationMail = (newUser, token) => {
 }
 
 exports.comparePasswords = (password, user, res) => {
-  bcrypt.compare(password, user.password)
-  .then(isMatch => {
-    if (isMatch) {
-      const payload = {
-        id: user.id,
-        name: user.name,
-        avatar: user.avatar
-      }
-      jwt.sign(
-        payload,
-        'secret',
-        {
-          expiresIn: 3600
-        },
-        (err, token) => {
-          if (err) console.error('There is some error in token', err)
-          else {
-            res.json({
-              success: true,
-              token: `Bearer ${token}`
-            })
-          }
+  bcrypt
+    .compare(password, user.password)
+    .then(isMatch => {
+      if (isMatch) {
+        const payload = {
+          id: user.id,
+          name: user.name,
+          avatar: user.avatar,
+          permittedProjects: user.permittedProjects,
+          author_of_projects: user.author_of_projects,
+          assigned_to_projects: user.assigned_to_projects,
+          author_of_tasks: user.author_of_tasks,
+          assigned_to_tasks: user.assigned_to_tasks,
+          contacts: user.contacts
         }
-      )
-      // Make sure the user has been verified
-      if (!user.isVerified) {
-        return res.status(401).send({
-          type: 'not-verified',
-          msg: 'Your account has not been verified.'
-        })
-      }
+        jwt.sign(
+          payload,
+          'secret',
+          {
+            expiresIn: 3600
+          },
+          (err, token) => {
+            if (err) console.error('There is some error in token', err)
+            else {
+              res.json({
+                success: true,
+                token: `Bearer ${token}`
+              })
+            }
+          }
+        )
+        // Make sure the user has been verified
+        if (!user.isVerified) {
+          return res.status(401).send({
+            type: 'not-verified',
+            msg: 'Your account has not been verified.'
+          })
+        }
 
-      // Login successful, write token, and send back user
-      //res.send({ token: generateToken(user), user: user.toJSON() })
-      
-    } else {
-      const errors={
-        password: 'Incorrect Password'}
-      return res.status(400).json(errors)
-    }
-  })
-  .catch(error => {
-    console.log(error)
-    res.status(500).send({ message: 'Error 500' })
-  })
+        // Login successful, write token, and send back user
+        //res.send({ token: generateToken(user), user: user.toJSON() })
+      } else {
+        const errors = {
+          password: 'Incorrect Password'
+        }
+        return res.status(400).json(errors)
+      }
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: 'Error 500' })
+    })
 }
 
 /*
@@ -193,7 +200,7 @@ exports.verfiyUser = (user, res) => {
   })
 }
 
-exports.sendEmailForPasswordReset = (user, res) =>{
+exports.sendEmailForPasswordReset = (user, res) => {
   var token = new Token({
     _userId: user._id,
     token: crypto.randomBytes(16).toString('hex')

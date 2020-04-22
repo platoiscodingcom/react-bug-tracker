@@ -3,7 +3,7 @@ import { Modal, Form, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import axios from 'axios'
+//import axios from 'axios'
 import { PROJECTS_DETAILS } from './../../Constants'
 import { sendInvitation } from './../../actions/projectActions'
 

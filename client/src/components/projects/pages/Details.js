@@ -58,7 +58,8 @@ const Details = ({
     createdAt,
     dueDate,
     author,
-    assignedTo
+    assignedTo,
+    //permittedUsers
   } = project
 
   let listCat = []

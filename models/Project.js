@@ -7,6 +7,7 @@ const projectSchema = new mongoose.Schema({
   name: { type: String, required: true },
   author: { type: ObjectId, ref: 'User', required: true},
   assignedTo: { type: ObjectId, ref: 'User', required: true},
+  permittedUsers: [{ type: ObjectId, ref: 'User', required: true}],
   status: { type: String, required: true },
   description: { type: String, required: true },
   tasks: [{ type: ObjectId, ref: 'Task' }],
