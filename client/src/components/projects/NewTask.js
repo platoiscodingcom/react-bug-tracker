@@ -24,7 +24,8 @@ const NewTask = ({
   showNewTask,
   match,
   history,
-  auth: { user }
+  auth: { user },
+  project: {project}
 }) => {
   const [userOptions, setUserOptions] = useState([])
   const [task, setTask] = useState({
@@ -55,9 +56,9 @@ const NewTask = ({
       status: OPEN,
       priority: LOW,
       type: FEATURE,
-      author: user.id,
+      author: user._id,
       dueDate: '',
-      assignedTo: user.id
+      assignedTo: user._id
     })
     setShowNewTask(false)
   }
@@ -75,27 +76,20 @@ const NewTask = ({
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors])
 
-  //currently loads all users
-  //later should only load users that are invited to project
-  const loadUsersOptions = async () => {
-    await axios
-      .get(USERS_PATH)
-      .then(response => {
-        setUserOptions(
-          response.data.map(user => ({
-            text: `${user.name}`,
-            value: user._id
-          }))
-        )
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  const loadPermittedUsersOptions = () => {
+    if (project.permittedUsers) {
+      setUserOptions(
+        project.permittedUsers.map(user => ({
+          text: `${user.name}`,
+          value: user._id
+        }))
+      )
+    }
   }
 
   useEffect(() => {
-    loadUsersOptions()
-  }, [task])
+    loadPermittedUsersOptions()
+  }, [showNewTask])
 
   return (
     <div>
@@ -193,13 +187,15 @@ const NewTask = ({
 
 NewTask.propTypes = {
   createTask: PropTypes.func.isRequired,
+  project: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  auth: state.auth
+  auth: state.auth,
+  project: state.project
 })
 
 export default withRouter(connect(mapStateToProps, { createTask })(NewTask))
