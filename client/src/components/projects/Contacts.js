@@ -39,8 +39,8 @@ const Contacts = ({
     }
   }
 
-  const loadContactInfo = id => {
-    axios.get(GET_CONTACTS_INFO_PATH + id).then(res => {
+  const loadContactInfo = async (id) => {
+    await axios.get(GET_CONTACTS_INFO_PATH + id).then(res => {
       setContactInfo(
         res.data.map(user => ({
           name: `${user.name}`,

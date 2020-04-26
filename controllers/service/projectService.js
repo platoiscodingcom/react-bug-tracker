@@ -18,6 +18,7 @@ exports.addProjectToCategories = (projectId, categories) => {
 exports.addProjectToAssignee = async (projectId, assigneeId) => {
   await User.findById(assigneeId).then(data => {
     data.assigned_to_projects.push(projectId)
+    data.markModified('assigned_to_projects');
     data.save()
   })
 }
@@ -25,6 +26,7 @@ exports.addProjectToAssignee = async (projectId, assigneeId) => {
 exports.addProjectToAuthor = async (projectId, authorId) => {
   await User.findById(authorId).then(data => {
     data.author_of_projects.push(projectId)
+    data.markModified('author_of_projects');
     data.save()
   })
 }
@@ -45,6 +47,7 @@ exports.removeProjectFromCategory = async (projectId, catId) => {
 exports.removeProjectFromAssignee = async (projectId, assigneeId) => {
   await User.findById(assigneeId).then(data => {
     data.assigned_to_projects.pull(projectId)
+    data.markModified('assigned_to_projects');
     data.save()
   })
 }
@@ -52,6 +55,7 @@ exports.removeProjectFromAssignee = async (projectId, assigneeId) => {
 exports.removeProjectFromAuthor = async (projectId, authorId) => {
   await User.findById(authorId).then(data => {
     data.author_of_projects.pull(projectId)
+    data.markModified('author_of_projects');
     data.save()
   })
 }

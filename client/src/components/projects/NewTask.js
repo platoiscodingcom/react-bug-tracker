@@ -11,10 +11,8 @@ import {
   OPEN,
   FEATURE,
   LOW,
-  USERS_PATH
 } from './../../Constants'
 import { withRouter } from 'react-router'
-import axios from 'axios'
 import SemanticDatepicker from 'react-semantic-ui-datepickers'
 
 const NewTask = ({

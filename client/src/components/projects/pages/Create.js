@@ -8,14 +8,19 @@ import {
   OPEN,
   CATEGORIES_PATH,
   PROJECTS_HOME,
-  USERS_PATH,
   STATUS_OPTIONS
 } from '../../../Constants'
 import SemanticDatepicker from 'react-semantic-ui-datepickers'
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css'
+import { GET_CONTACTS_INFO_PATH } from './../../../Constants'
 
 const Create = ({ createProject, errors, history, auth: { user } }) => {
-  const [userOptions, setUserOptions] = useState([])
+  const [userOptions, setUserOptions] = useState([
+    {
+      text: '',
+      value: ''
+    }
+  ])
   const [categories, setCategories] = useState([])
   const [project, setProject] = useState({
     name: '',
@@ -24,7 +29,8 @@ const Create = ({ createProject, errors, history, auth: { user } }) => {
     categories: [],
     dueDate: '',
     author: user.id,
-    assignedTo: user.id
+    assignedTo: user.id,
+    permittedUsers: [user.id]
   })
 
   const handleInputChange = (event, { name, value }) => {
@@ -51,29 +57,27 @@ const Create = ({ createProject, errors, history, auth: { user } }) => {
       })
   }
 
-  //currently loads all users
-  //later should only load users that are invited to project
-  const loadUsersOptions = async () => {
-    await axios
-      .get(USERS_PATH)
-      .then(response => {
-        setUserOptions(
-          response.data.map(user => ({
-            text: `${user.name}`,
-            value: user._id
-          }))
-        )
+  //only contacts allowed
+  const loadUsersOptions = async userId => {
+    var usersForAssignement = []
+    if (user) {
+      await axios.get(GET_CONTACTS_INFO_PATH + userId).then(res => {
+        usersForAssignement = res.data.map(contact => ({
+          text: `${contact.name}`,
+          value: contact._id
+        }))
       })
-      .catch(error => {
-        console.log(error)
-      })
+
+      usersForAssignement.unshift({ text: `${user.name}`, value: userId })
+
+      setUserOptions(usersForAssignement)
+    }
   }
 
   useEffect(() => {
     loadCategories()
-    loadUsersOptions()
-  }, [project])
-
+    loadUsersOptions(user.id)
+  }, [project, user])
 
   return (
     <Card fluid>

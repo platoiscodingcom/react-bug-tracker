@@ -35,7 +35,6 @@ router.get(
   userController.getUser
 )*/
 
-
 //token, email-verfication
 router.put('/confirmation/:token', userController.confirmRegistration)
 router.post('/resetPassword/:token', userController.resetPassword)

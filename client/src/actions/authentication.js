@@ -52,10 +52,12 @@ export const loginUser = user => dispatch => {
 }
 
 export const setCurrentUser = decoded => {
+  console.log('decoded', decoded)
   return {
     type: SET_CURRENT_USER,
     payload: decoded
   }
+  
 }
 
 export const logoutUser = history => dispatch => {

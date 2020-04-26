@@ -20,6 +20,7 @@ import {
 const Create = ({ createTask, errors, history, match, auth: { user } }) => {
   const [userOptions, setUserOptions] = useState([])
   const [projects, setProjects] = useState([])
+  const [permittedUsers, setPermittedUsers] = useState([])
   const [task, setTask] = useState({
     title: '',
     project: '',
@@ -43,12 +44,27 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
             value: project._id
           }))
         )
+        
+        setPermittedUsers(
+          response.data.map(project => ({
+            project_name: `${project.name}`,
+            project_id: project._id,
+            permittedUsers: project.permittedUsers.map(user => ({
+              text: `${user.name}`,
+              value: user._id
+            }))
+          }))
+        )
+
+        console.log('permittedUsers', permittedUsers)
       })
       .catch(error => {
         console.log(error)
       })
   }, [match])
 
+
+  console.log('permittedUsers', permittedUsers)
   //currently loads all users
   //later should only load users that are invited to project
   const loadUsersOptions = async () => {

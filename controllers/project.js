@@ -1,4 +1,5 @@
 const Project = require('../models/Project')
+const User = require('../models/User')
 const File = require('../models/File')
 
 mongoose = require('mongoose').set('debug', false)
@@ -64,9 +65,25 @@ exports.create = async (req, res) => {
     newProject._id = new mongoose.Types.ObjectId()
     const project = await newProject.save()
 
-    projectService.addProjectToAssignee(project._id, project.assignedTo._id)
+    projectService.addProjectToAssignee(project._id, project.assignedTo)
     projectService.addProjectToAuthor(project._id, req.body.author)
     projectService.addProjectToCategories(project._id, req.body.categories)
+
+    const author = await User.findById(project.author)
+    author.permittedProjects.push(project._id)
+    author.markModified('permittedProjects');
+    await author.save()
+
+    if(JSON.stringify(project.assignedTo) != JSON.stringify(author._id)){
+      const assignee = await User.findById(project.assignedTo)
+      assignee.permittedProjects.push(project._id)
+      project.permittedUsers.push(project.assignedTo)
+      assignee.markModified('permittedProjects');
+      await assignee.save()
+      project.markModified('permittedUsers');
+      await project.save()
+    }
+
 
     activityService.createActivity(
       project._id,
