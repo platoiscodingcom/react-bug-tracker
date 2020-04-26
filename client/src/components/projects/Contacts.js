@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import axios from 'axios'
-import {GET_CONTACTS_INFO_PATH} from './../../Constants'
+import { GET_CONTACTS_INFO_PATH } from './../../Constants'
 import uuid from 'uuid'
+import {sendInvitationToContact} from './../../actions/projectActions'
 
 const Contacts = ({
   showContacts,
@@ -13,24 +14,33 @@ const Contacts = ({
   project: { project },
   auth: { user }
 }) => {
-  const [contactInfo, setContactInfo] = useState([{
-    id: '',
-    avatar: 'https://react.semantic-ui.com/images/avatar/large/steve.jpg',
-    name: ''
-  }])
+  const [contactInfo, setContactInfo] = useState([
+    {
+      id: '',
+      avatar: 'https://react.semantic-ui.com/images/avatar/large/steve.jpg',
+      name: ''
+    }
+  ])
+  const [permittedUsers, setPermittedUsers] = useState([])
 
   useEffect(() => {
+    loadPermittedUsers()
     loadContactInfo(user.id)
-  }, [showContacts])
+  }, [showContacts, project.permittedUsers])
 
   const cancel = () => {
     setShowContacts(false)
   }
 
-  const loadContactInfo = async (id) => {
-    await axios.get(GET_CONTACTS_INFO_PATH + id)
-    .then(res => {
-      console.log('res', res)
+  const loadPermittedUsers = () => {
+    if (project.permittedUsers) {
+      var ids = project.permittedUsers.map(user => user._id)
+      setPermittedUsers(ids)
+    }
+  }
+
+  const loadContactInfo = id => {
+    axios.get(GET_CONTACTS_INFO_PATH + id).then(res => {
       setContactInfo(
         res.data.map(user => ({
           name: `${user.name}`,
@@ -43,13 +53,13 @@ const Contacts = ({
 
   const sendInvitation = id => {
     setShowContacts(false)
+    sendInvitationToContact(id)
   }
 
   let contactInfoCards = []
   if (user.contacts && contactInfo) {
-    console.log("contactInfo", contactInfo)
     contactInfoCards = contactInfo.map(contact => (
-      <Card key={uuid.v4()} >
+      <Card key={uuid.v4()}>
         <Card.Content>
           <Image floated='right' size='mini' src={contact.avatar} />
           <Card.Header>{contact.name}</Card.Header>
@@ -57,19 +67,24 @@ const Contacts = ({
         </Card.Content>
         <Card.Content extra>
           <div className='ui two buttons'>
-            <Button
-              basic
-              color='green'
-              onClick={() => sendInvitation(contact.id)}
-            >
-              Send Invitation
-            </Button>
+            {permittedUsers.includes(contact.id) ? (
+              <Button disabled color='blue'>
+                Permitted
+              </Button>
+            ) : (
+              <Button
+                basic
+                color='green'
+                onClick={() => sendInvitation(contact.id)}
+              >
+                Send Invitation
+              </Button>
+            )}
           </div>
         </Card.Content>
       </Card>
     ))
   }
-
 
   return (
     <Modal open={showContacts} centered>
@@ -93,11 +108,8 @@ const Contacts = ({
 
 Contacts.propTypes = {
   project: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
-  /*
-  
-  activity: PropTypes.object.isRequired,
-  getActivityByProject: PropTypes.func.isRequired*/
+  auth: PropTypes.object.isRequired,
+  sendInvitationToContact: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -105,4 +117,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default withRouter(connect(mapStateToProps, {})(Contacts))
+export default withRouter(connect(mapStateToProps, {sendInvitationToContact})(Contacts))

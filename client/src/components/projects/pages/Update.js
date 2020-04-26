@@ -13,7 +13,6 @@ import { getProject, updateProject } from './../../../actions/projectActions'
 import {
   CATEGORIES_PATH,
   PROJECTS_HOME,
-  USERS_PATH,
   STATUS_OPTIONS
 } from '../../../Constants'
 
@@ -45,21 +44,22 @@ const Update = ({
     categories,
     dueDate,
     author,
-    assignedTo
+    assignedTo,
   } = formData
 
   useEffect(() => {
-    loadUsersOptions()
     loadCategoryOptions()
     getProject(match.params._id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
 
   //check if it's mounted -> cannot set state on unmounted component
   const isMounted = useIsMounted()
   useEffect(() => {
     //only if loading is false and still mounted
     if (!loading && isMounted.current && project) {
+      loadPermittedUsersOptions()
       const {
         name,
         status,
@@ -67,7 +67,7 @@ const Update = ({
         categories,
         dueDate,
         author,
-        assignedTo
+        assignedTo,
       } = project
       setFormData({
         name,
@@ -76,9 +76,11 @@ const Update = ({
         categories: categories.map(cat => cat._id),
         dueDate,
         author,
-        assignedTo
+        assignedTo: assignedTo._id
       })
     }
+
+    
   }, [project, isMounted, loading])
 
   const loadCategoryOptions = async () => {
@@ -97,22 +99,16 @@ const Update = ({
       })
   }
 
-  //currently loads all users
-  //later should only load users that are invited to project
-  const loadUsersOptions = async () => {
-    await axios
-      .get(USERS_PATH)
-      .then(response => {
-        setUserOptions(
-          response.data.map(user => ({
-            text: `${user.name}`,
-            value: user._id
-          }))
-        )
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  const loadPermittedUsersOptions = () => {
+    if (project.permittedUsers) {
+      setUserOptions(
+        project.permittedUsers.map(user => ({
+          text: `${user.name}`,
+          value: user._id
+        }))
+      )
+      
+    }
   }
 
   const handleInputChange = (event, { name, value }) => {
@@ -143,7 +139,7 @@ const Update = ({
               label='Assign To:'
               name='assignedTo'
               options={userOptions}
-              value={assignedTo ? assignedTo._id : ''}
+              value={assignedTo ? assignedTo : ''}
               error={errors.assignedTo}
               onChange={handleInputChange}
             />

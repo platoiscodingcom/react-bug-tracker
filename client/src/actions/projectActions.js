@@ -9,7 +9,7 @@ import {
   SET_FILE_UPLOADED_TRUE,
   SET_FILE_UPLOADED_FALSE
 } from './types'
-import { PROJECTS_HOME, PROJECTS_PATH } from '../Constants'
+import { PROJECTS_HOME, PROJECTS_PATH, PROJECTS_DETAILS } from '../Constants'
 
 export const createProject = (project, history) => async dispatch => {
   await axios
@@ -37,7 +37,7 @@ export const updateProject = (project, formData, history) => async dispatch => {
         type: GET_PROJECT_ERRORS,
         payload: {}
       })
-      history.push(PROJECTS_HOME)
+      history.push(PROJECTS_DETAILS + '/' + project._id)
     })
     .catch(error => {
       dispatch({
@@ -129,5 +129,9 @@ export const setFileUploaded = change => dispatch => {
 }
 
 export const sendInvitation = (invitation) => dispatch =>{
+
+}
+
+export const sendInvitationToContact = (contactId) => dispatch =>{
 
 }
