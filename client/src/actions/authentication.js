@@ -52,7 +52,6 @@ export const loginUser = user => dispatch => {
 }
 
 export const setCurrentUser = decoded => {
-  console.log('decoded', decoded)
   return {
     type: SET_CURRENT_USER,
     payload: decoded
@@ -68,9 +67,6 @@ export const logoutUser = history => dispatch => {
 
     console.log(
       'this is an old error that only appears sometimes. navugate to authentication.js. it may have something to do with history but I dont know why error.response.data is not defined'
-    )
-    console.log(
-      'I will add an if statement to check whether istory exists to fix zhis problemn for now'
     )
     if (history) {
       history.push('/login')

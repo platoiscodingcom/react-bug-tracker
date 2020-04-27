@@ -93,22 +93,16 @@ exports.comparePasswords = (password, user, res) => {
           assigned_to_tasks: user.assigned_to_tasks,
           contacts: user.contacts
         }
-        jwt.sign(
-          payload,
-          'secret',
-          {
-            expiresIn: 3600
-          },
-          (err, token) => {
-            if (err) console.error('There is some error in token', err)
-            else {
-              res.json({
-                success: true,
-                token: `Bearer ${token}`
-              })
-            }
+        jwt.sign(payload, 'secret', { expiresIn: 3600 }, (err, token) => {
+          if (err) {
+            console.error('There is some error in token', err)
+          } else {
+            res.json({
+              success: true,
+              token: `Bearer ${token}`
+            })
           }
-        )
+        })
         // Make sure the user has been verified
         if (!user.isVerified) {
           return res.status(401).send({
@@ -132,21 +126,6 @@ exports.comparePasswords = (password, user, res) => {
     })
 }
 
-/*
-exports.generateToken = user => {
-  var token = new Token({
-    _userId: user._id,
-    token: crypto.randomBytes(16).toString('hex')
-  })
-
-  token.save(err => {
-    if (err) {
-      return res.status(500).send({ msg: err.message })
-    }
-  })
-
-  return token
-}*/
 
 exports.createTokenAndConfirmationMail = (newUser, res) => {
   var token = new Token({

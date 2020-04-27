@@ -13,14 +13,14 @@ import {
   TASKS_HOME,
   TYPE_OPTIONS,
   STATUS_OPTIONS,
-  PRIORITY_OPTIONS,
-  USERS_PATH
+  PRIORITY_OPTIONS
 } from '../../../Constants'
 
 const Create = ({ createTask, errors, history, match, auth: { user } }) => {
   const [userOptions, setUserOptions] = useState([])
   const [projects, setProjects] = useState([])
-  const [permittedUsers, setPermittedUsers] = useState([])
+  const [permittedUsersOfProjects, setPermittedUsersOfProjects] = useState([])
+  const [projectSelected, setProjectSelected] = useState(false)
   const [task, setTask] = useState({
     title: '',
     project: '',
@@ -34,7 +34,6 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
   })
 
   useEffect(() => {
-    //getProjects
     axios
       .get(PROJECTS_PATH)
       .then(response => {
@@ -44,10 +43,9 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
             value: project._id
           }))
         )
-        
-        setPermittedUsers(
+
+        setPermittedUsersOfProjects(
           response.data.map(project => ({
-            project_name: `${project.name}`,
             project_id: project._id,
             permittedUsers: project.permittedUsers.map(user => ({
               text: `${user.name}`,
@@ -55,8 +53,6 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
             }))
           }))
         )
-
-        console.log('permittedUsers', permittedUsers)
       })
       .catch(error => {
         console.log(error)
@@ -64,31 +60,17 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
   }, [match])
 
 
-  console.log('permittedUsers', permittedUsers)
-  //currently loads all users
-  //later should only load users that are invited to project
-  const loadUsersOptions = async () => {
-    await axios
-      .get(USERS_PATH)
-      .then(response => {
-        setUserOptions(
-          response.data.map(user => ({
-            text: `${user.name}`,
-            value: user._id
-          }))
-        )
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
-  useEffect(() => {
-    loadUsersOptions()
-  }, [task])
-
   const handleInputChange = (event, { name, value }) => {
     setTask(previousValue => ({ ...previousValue, [name]: value }))
+    if (name === 'project') {
+      setProjectSelected(true)
+      permittedUsersOfProjects.filter(permit => {
+        if (permit.project_id === value) {
+          console.log('permit.permittedUsers', permit.permittedUsers)
+          setUserOptions(permit.permittedUsers)
+        }
+      })
+    }
   }
 
   const handleFormSubmission = () => {
@@ -109,16 +91,6 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
               error={errors.author}
               disabled
             />
-            <Form.Select
-              label='Assign To:'
-              name='assignedTo'
-              options={userOptions}
-              value={task.assignedTo ? task.assignedTo : ''}
-              error={errors.assignedTo}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group>
             <Form.Input
               label='Title'
               name='title'
@@ -126,6 +98,8 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
               onChange={handleInputChange}
               error={errors.title}
             />
+          </Form.Group>
+          <Form.Group>
             <Form.Select
               label='Project'
               name='project'
@@ -134,6 +108,21 @@ const Create = ({ createTask, errors, history, match, auth: { user } }) => {
               onChange={handleInputChange}
               error={errors.project}
             />
+            {projectSelected ? (
+              <Form.Select
+                label='Assign To:'
+                name='assignedTo'
+                options={userOptions}
+                value={task.assignedTo ? task.assignedTo : ''}
+                error={errors.assignedTo}
+                onChange={handleInputChange}
+              />
+            ) : (
+              <Form.Field>
+                <label>Assign To:</label>
+                <input disabled placeholder='Please choose a Project' />
+              </Form.Field>
+            )}
           </Form.Group>
           <Form.Group>
             <Form.Select

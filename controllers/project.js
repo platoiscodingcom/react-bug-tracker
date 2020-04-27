@@ -18,6 +18,10 @@ exports.list = async (req, res) => {
       'categories',
       'name'
     )
+    .populate(
+      'permittedUsers',
+      'name'
+    )
     res.status(200).send(projects)
   } catch (error) {
     console.log(error)
