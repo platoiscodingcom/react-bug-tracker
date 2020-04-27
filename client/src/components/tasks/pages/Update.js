@@ -12,8 +12,7 @@ import {
   TASKS_HOME,
   TYPE_OPTIONS,
   STATUS_OPTIONS,
-  PRIORITY_OPTIONS,
-  USERS_PATH
+  PRIORITY_OPTIONS
 } from '../../../Constants'
 import { getTask, updateTask } from './../../../actions/taskActions'
 import useIsMounted from 'ismounted'
@@ -28,6 +27,7 @@ const Update = ({
 }) => {
   const [userOptions, setUserOptions] = useState([])
   const [projects, setProjects] = useState([])
+  const [permittedUsersOfProjects, setPermittedUsersOfProjects] = useState([])
   const [formData, setFormData] = useState({
     _id: match.params.id,
     title: '',
@@ -55,17 +55,21 @@ const Update = ({
   } = formData
 
   useEffect(() => {
-    loadUsersOptions()
     loadProjects()
     getTask(match.params._id, history)
-    // eslint-disable-next-line
   }, [])
 
-  //check if it's mounted -> cannot set state on unmounted component
   const isMounted = useIsMounted()
   useEffect(() => {
-    //only if loading is false and still mounted
+
     if (!loading && isMounted.current && task) {
+
+      permittedUsersOfProjects.filter(permit => {
+        if (permit.project_id === task.project._id) {
+          setUserOptions(permit.permittedUsers)
+        }
+      })
+
       const {
         title,
         status,
@@ -91,24 +95,6 @@ const Update = ({
     }
   }, [task, isMounted, loading])
 
-  //currently loads all users
-  //later should only load users that are invited to project
-  const loadUsersOptions = async () => {
-    await axios
-      .get(USERS_PATH)
-      .then(response => {
-        setUserOptions(
-          response.data.map(user => ({
-            text: `${user.name}`,
-            value: user._id
-          }))
-        )
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
   const loadProjects = async () => {
     await axios
       .get(PROJECTS_PATH)
@@ -119,6 +105,16 @@ const Update = ({
             value: project._id
           }))
         )
+
+        setPermittedUsersOfProjects(
+          response.data.map(project => ({
+            project_id: project._id,
+            permittedUsers: project.permittedUsers.map(user => ({
+              text: `${user.name}`,
+              value: user._id
+            }))
+          }))
+        )
       })
       .catch(error => {
         console.log(error)
@@ -127,6 +123,13 @@ const Update = ({
 
   const handleInputChange = (event, { name, value }) => {
     setFormData(formData => ({ ...formData, [name]: value }))
+    if (name === 'project') {
+      permittedUsersOfProjects.filter(permit => {
+        if (permit.project_id === value) {
+          setUserOptions(permit.permittedUsers)
+        }
+      })
+    }
   }
 
   const onSubmit = e => {
@@ -149,16 +152,7 @@ const Update = ({
               error={errors.author}
               disabled
             />
-            <Form.Select
-              label='Assign To:'
-              name='assignedTo'
-              options={userOptions}
-              value={assignedTo ? assignedTo._id : ''}
-              error={errors.assignedTo}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group>
+
             <Form.Input
               label='Title'
               name='title'
@@ -166,6 +160,8 @@ const Update = ({
               onChange={handleInputChange}
               error={errors.title}
             />
+          </Form.Group>
+          <Form.Group>
             <Form.Select
               label='Project'
               name='project'
@@ -173,6 +169,14 @@ const Update = ({
               value={project._id}
               onChange={handleInputChange}
               error={errors.project}
+            />
+            <Form.Select
+              label='Assign To:'
+              name='assignedTo'
+              options={userOptions}
+              value={assignedTo._id}
+              error={errors.assignedTo}
+              onChange={handleInputChange}
             />
           </Form.Group>
           <Form.Group>
@@ -253,4 +257,6 @@ const mapStateToProps = state => ({
   task: state.task
 })
 
-export default connect(mapStateToProps, { updateTask, getTask })(withRouter(Update))
+export default connect(mapStateToProps, { updateTask, getTask })(
+  withRouter(Update)
+)
