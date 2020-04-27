@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
   Switch
 } from 'react-router-dom'
@@ -17,6 +17,7 @@ import store from './store'
 import jwt_decode from 'jwt-decode'
 import setAuthToken from './setAuthToken'
 import { setCurrentUser, logoutUser } from './actions/authentication'
+import history from './history'
 
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
@@ -42,7 +43,7 @@ if (localStorage.jwtToken) {
 function App () {
   return (
     <Provider store={store}>
-      <Router>
+      <Router history={history}>
       <Navbar />
         <Switch>
           <Route exact path='/register' component={Register} />

@@ -5,7 +5,7 @@ import {
   GET_CATEGORIES,
   DELETE_CATEGORY
 } from './types'
-import { CATEGORIES_HOME, CATEGORIES_PATH } from '../Constants'
+import { CATEGORIES_HOME, CATEGORIES_PATH, PROJECTS_CREATE } from '../Constants'
 
 export const createCategory = (category, history) => async dispatch => {
   await axios
@@ -15,7 +15,10 @@ export const createCategory = (category, history) => async dispatch => {
         type: GET_CATEGORY_ERRORS,
         payload: {}
       })
-      history.push(CATEGORIES_HOME)
+     
+      if(history.location.pathname != PROJECTS_CREATE){
+        history.push(CATEGORIES_HOME)
+      }
     })
     .catch((error) => {
       dispatch({
