@@ -74,6 +74,13 @@ exports.update = async (req, res) => {
       taskService.addTaskToAssignee(task._id, req.body.assignedTo)
     }
 
+    if (task.project !== req.body.project) {
+      //remove from former project
+      taskService.deleteTaskFromProject(task)
+      //add to other new project
+      taskService.saveTaskToProject(req.body.project, task._id)
+    }
+
     const updatedTask = await Task.findOneAndUpdate(
       { _id: req.params._id },
       { $set: req.body, updatedAt: Date.now() }

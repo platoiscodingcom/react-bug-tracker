@@ -15,6 +15,7 @@ exports.deleteTaskFromProject = async (task) => {
   await Project.findById(task.project)
     .then(data => {
       data.tasks.pull(task._id)
+      data.save()
     })
 }
 
