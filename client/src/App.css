@@ -117,6 +117,11 @@ body {
   box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;
 }
 
+.ui.labeled.icon.menu .item>.icon:not(.dropdown){
+  margin-top: 15px !important;
+  margin-bottom: 6px !important;
+}
+
 
 @media only screen and (max-width: 565px) {
   .ui.attached.tabular.menu{

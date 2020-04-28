@@ -12,7 +12,7 @@ import NoMatch from '../../NoMatch'
 const Projects = ({ match }) => {
 
   return (
-      <Container style={{width: '95%', marginBottom: '70px'}}fluid>
+      <Container style={{ marginBottom: '70px'}}>
         <Switch>
           <Route exact path={match.path} component={List} />
           <Route exact path={`${match.path}/create`} component={Create} />

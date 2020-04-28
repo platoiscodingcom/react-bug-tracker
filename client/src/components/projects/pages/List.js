@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getProjects } from './../../../actions/projectActions'
 
+
 const List = ({ project: { projects }, getProjects, match}) => {
   useEffect(() => {
     getProjects()

@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 import Home from './components/Home'
-import Navbar from './components/Navbar'
+import Navbar from './components/navbar/Navbar'
 import NoMatch from './components/NoMatch'
 import Projects from './components/projects/pages'
 import Tasks from './components/tasks/pages'
@@ -26,6 +26,7 @@ import Confirmation from './components/auth/Confirmation'
 import ResetPassword from './components/auth/ResetPassword'
 import Dashboard from './components/dashboard/'
 import PrivateRoute from './privateRoutes'
+
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken)
