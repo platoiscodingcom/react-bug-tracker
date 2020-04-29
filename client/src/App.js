@@ -9,6 +9,7 @@ import Home from './components/Home'
 import Navbar from './components/navbar/Navbar'
 import NoMatch from './components/NoMatch'
 import Projects from './components/projects/pages'
+import Profile from './components/profile/pages'
 import Tasks from './components/tasks/pages'
 import Categories from './components/categories/index'
 import './App.css'
@@ -56,7 +57,8 @@ function App () {
           <PrivateRoute path='/projects' component={Projects} />	
           <PrivateRoute path='/tasks' component={Tasks} />	          
           <PrivateRoute path='/categories' component={Categories} />	       
-          <PrivateRoute path='/dashboard' component={Dashboard} />	         
+          <PrivateRoute path='/dashboard' component={Dashboard} />	
+          <PrivateRoute path='/profile' component={Profile} />	         
           <Route component={NoMatch} />
         </Switch>
       </Router>

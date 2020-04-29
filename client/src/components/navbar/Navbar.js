@@ -16,25 +16,30 @@ export const Navbar = ({ logoutUser, history, auth }) => {
     logoutUser(history)
   }
 
-  
   const authLinks = (
     <Menu as='nav' inverted secondary>
       <Menu.Item
-        onClick={() => setOpenLeftSideBar(openLeftSideBar === true ? false : true)}
+        onClick={() =>
+          setOpenLeftSideBar(openLeftSideBar === true ? false : true)
+        }
       >
         <Icon disabled name='content' size='large' />
       </Menu.Item>
 
       <Menu.Menu position='right'>
-      <Menu.Item as={NavLink} to='/messages' name='Messages'><Icon name='envelope' size='large'/>
-      Messages
-    </Menu.Item>
-      <Menu.Item as={NavLink} to='/settings' name='Settings' ><Icon name='cog' size='large'/>
-      Settings
-    </Menu.Item>
+        <Menu.Item as={NavLink} to='/messages' name='Messages'>
+          <Icon name='envelope' size='large' />
+          Messages
+        </Menu.Item>
+        <Menu.Item as={NavLink} to='/profile' name='Settings'>
+          <Icon name='user' size='large' />
+          Profile
+        </Menu.Item>
+        <Menu.Item as={NavLink} to='/settings' name='Settings'>
+          <Icon name='cog' size='large' />
+          Settings
+        </Menu.Item>
         <Menu.Item name='logout' onClick={onLogout} />
-        
-        
       </Menu.Menu>
     </Menu>
   )
@@ -49,12 +54,14 @@ export const Navbar = ({ logoutUser, history, auth }) => {
   const { isAuthenticated } = auth
 
   return (
-    
     <div>
       <Segment color={'green'} inverted>
         {isAuthenticated ? authLinks : guestLinks}
       </Segment>
-      <LeftSideBar openLeftSideBar={openLeftSideBar} setOpenLeftSideBar={setOpenLeftSideBar}/>
+      <LeftSideBar
+        openLeftSideBar={openLeftSideBar}
+        setOpenLeftSideBar={setOpenLeftSideBar}
+      />
     </div>
   )
 }

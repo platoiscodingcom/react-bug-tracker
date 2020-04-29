@@ -3,13 +3,12 @@ import { Menu, Icon, Sidebar } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 
 const LeftSideBar = ({ setOpenLeftSideBar, openLeftSideBar }) => {
-
   return (
     <div>
       {openLeftSideBar ? console.log('Im open') : console.log('im closed')}
 
       <Sidebar
-      color={'green'}
+        color={'green'}
         as={Menu}
         animation='overlay'
         icon='labeled'
@@ -18,12 +17,14 @@ const LeftSideBar = ({ setOpenLeftSideBar, openLeftSideBar }) => {
         visible={openLeftSideBar}
         width='thin'
       >
-      <Menu.Item
-        onClick={() => setOpenLeftSideBar(openLeftSideBar === true ? false : true)}
-      >
-        <Icon disabled name='content' size='large' />
-      </Menu.Item>
-      <Menu.Item as={NavLink} to='/dashboard'>
+        <Menu.Item
+          onClick={() =>
+            setOpenLeftSideBar(openLeftSideBar === true ? false : true)
+          }
+        >
+          <Icon disabled name='content' size='large' />
+        </Menu.Item>
+        <Menu.Item as={NavLink} to='/dashboard'>
           <Icon name='home' />
           Dashboard
         </Menu.Item>
