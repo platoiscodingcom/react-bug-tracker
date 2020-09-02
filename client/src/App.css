@@ -1,4 +1,8 @@
 :root {
+  --sidebar-color-main: rgb(51, 54, 49);
+  --navbar-background-color:rgb(101, 182, 69);
+  --background-color-main:rgb(75, 80, 73);
+  --background-color-cards:rgb(113, 121, 110);
 }
 * {
   margin: 0;
@@ -6,8 +10,7 @@
 body {
   font-family: 'Ropa Sans', sans-serif;
   margin-top:0px;
-  /*background: rgba(250, 248, 248, 0.966)*/
-  background: #eee;
+  background: var(--background-color-main);
 }
 
 .ui.fluid.card{
@@ -42,7 +45,7 @@ body {
 
 .card-header-title{
   font-weight: 600 !important;
-  padding:20px !important;
+  padding:10px !important;
   position: absolute !important;
 }
 
@@ -88,18 +91,37 @@ body {
   border-radius: 0px !important;
 }
 
+
+
 .ui.table {
-  border-radius: 5px !important;
+  border-radius: 3px !important;
   border: none !important;
 }
 
 
 .ui.card{
-  border-radius: 5px !important;
   border: none !important;
+  border-radius: 3px !important;
   box-shadow: none !important;
-  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;
+  background-color: var(--background-color-cards) !important;
+  
 }
+
+.ui.card:hover{
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.2) !important;
+}
+
+.ui.card .content .description,
+.ui.card .header
+{
+  color: rgb(241, 241, 241) !important;
+}
+
+.ui.card .content .description
+{
+  font-size: 0.9rem !important;
+}
+
 
 .ui.placeholder{
   border-radius: 5px !important;
@@ -108,8 +130,7 @@ body {
 
 .ui.tabular.menu .active.item{
   border: none !important;
-  box-shadow: none !important;
-  /*box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;*/
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.15) !important;
 }
 
 .ui.bottom.attached.segment.active.tab{
@@ -122,6 +143,24 @@ body {
   margin-bottom: 6px !important;
 }
 
+.navbar-segment{
+  background-color: var(--navbar-background-color) !important;
+  z-index: 1000;
+}
+
+.sidebar{
+  background-color: var(--sidebar-color-main) !important;
+  box-shadow: -7px 4px 25px -2px rgba(0, 0, 0, 0.698) !important;
+}
+
+
+.ui.inverted.menu .item:before{
+  background-color:rgba(88, 88, 88, 0.287) !important;
+}
+
+.ui.green.menu .active.item, .ui.menu .green.active.item {
+  color:var(--navbar-background-color) !important;
+}
 
 @media only screen and (max-width: 565px) {
   .ui.attached.tabular.menu{

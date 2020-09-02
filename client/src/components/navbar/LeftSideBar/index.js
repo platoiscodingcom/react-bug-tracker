@@ -15,11 +15,13 @@ const LeftSideBar = ({ setOpenLeftSideBar, openLeftSideBar }) => {
         vertical
         visible={openLeftSideBar}
         width='thin'
+        className="sidebar"
       >
         <Menu.Item
           onClick={() =>
             setOpenLeftSideBar(openLeftSideBar === true ? false : true)
           }
+          className="sidebar-toggle"
         >
           <Icon disabled name='content' size='large' />
         </Menu.Item>

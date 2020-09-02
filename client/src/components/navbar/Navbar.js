@@ -57,7 +57,7 @@ export const Navbar = ({ logoutUser, history, auth }) => {
     <div>
       {isAuthenticated && authLinks && (
         <div>
-          <Segment color={'green'} inverted>
+          <Segment className="navbar-segment" inverted>
             {authLinks}
           </Segment>
           <LeftSideBar
