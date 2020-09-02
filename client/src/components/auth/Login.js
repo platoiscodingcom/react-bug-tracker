@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { loginUser } from '../../actions/authentication'
-import { Form, Button, Container, Card } from 'semantic-ui-react'
+import { Form, Button, Container, Header } from 'semantic-ui-react'
 
 const Login = ({ loginUser, errors, history, auth }) => {
   const [formData, setFormData] = useState({
@@ -59,52 +59,54 @@ const Login = ({ loginUser, errors, history, auth }) => {
 
   return (
     <Container>
-      <Card fluid>
-        <Card.Content>
-          <Card.Header>Login</Card.Header>
-        </Card.Content>
-
-        <Card.Content>
-          <Form widths='equal'>
-            <Form.Group>
-              <Form.Input
-                type='email'
-                placeholder='Email'
-                label='email'
-                name='email'
-                onChange={handleInputChange}
-                value={email}
-                error={errors.email}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Input
-                type='password'
-                placeholder='Password'
-                label='password'
-                name='password'
-                onChange={handleInputChange}
-                value={password}
-                error={errors.password}
-              />
-            </Form.Group>
-          </Form>
-          <Button color='green' content='Login' onClick={handleSubmit} />
-          <Button
-            color='blue'
-            content='Login as Admin'
-            onClick={handleAdminLogin}
+      <Header as='h1'>Login</Header>
+      <Form widths='equal'>
+        <Form.Group>
+          <Form.Input
+            type='email'
+            placeholder='Email'
+            name='email'
+            onChange={handleInputChange}
+            value={email}
+            error={errors.email}
           />
-          <Button
-            color='blue'
-            content='Login as Moderator'
-            onClick={handleModLogin}
+        </Form.Group>
+        <Form.Group>
+          <Form.Input
+            type='password'
+            placeholder='Password'
+            name='password'
+            onChange={handleInputChange}
+            value={password}
+            error={errors.password}
           />
-          <h5>
-            <a href='/forgotpassword'>Forgot Password</a>
-          </h5>
-        </Card.Content>
-      </Card>
+        </Form.Group>
+      </Form>
+      
+        <Button
+          className='loginbutton'
+          color='green'
+          content='Login'
+          onClick={handleSubmit}
+        />
+        <Container className="sppecbuttncontainer">
+        <Button
+          color='blue'
+          content='Login as Admin'
+          onClick={handleAdminLogin}
+          className='specbutton'
+        />
+        <Button
+          color='blue'
+          content='Login as Moderator'
+          onClick={handleModLogin}
+          className='specbutton'
+        />
+      </Container>
+      <div className="forgotPassword">
+      <a href='/forgotpassword'>Forgot Password</a>
+    </div>
+      
     </Container>
   )
 }

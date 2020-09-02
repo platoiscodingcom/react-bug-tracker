@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom'
 const LeftSideBar = ({ setOpenLeftSideBar, openLeftSideBar }) => {
   return (
     <div>
-      {openLeftSideBar ? console.log('Im open') : console.log('im closed')}
 
       <Sidebar
         color={'green'}

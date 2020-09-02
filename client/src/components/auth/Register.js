@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { registerUser } from '../../actions/authentication'
-import { Form, Button, Container, Card } from 'semantic-ui-react'
+import { Form, Button, Container, Header } from 'semantic-ui-react'
 
 const Register = ({ registerUser, auth, errors, history }) => {
   const [formData, setFormData] = useState({
@@ -52,58 +52,55 @@ const Register = ({ registerUser, auth, errors, history }) => {
 
   return (
     <Container>
-      <Card fluid>
-        <Card.Content>
-          <Card.Header>Register</Card.Header>
-        </Card.Content>
-        <Card.Content>
-          <Form widths='equal'>
-            <Form.Group>
-              <Form.Input
-                type='text'
-                placeholder='Name'
-                label='Name'
-                name='name'
-                onChange={handleInputChange}
-                value={name}
-                error={errors.name}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Input
-                type='email'
-                placeholder='Email'
-                label='Email'
-                name='email'
-                onChange={handleInputChange}
-                value={email}
-                error={errors.email}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Input
-                type='password'
-                placeholder='Password'
-                label='Password'
-                name='password'
-                onChange={handleInputChange}
-                value={password}
-                error={errors.password}
-              />
-              <Form.Input
-                type='password'
-                placeholder='Confirm Password'
-                label='Confirm Password'
-                name='password_confirm'
-                onChange={handleInputChange}
-                value={password_confirm}
-                error={errors.password_confirm}
-              />
-            </Form.Group>
-          </Form>
-          <Button color='green' content='Register' onClick={handleSubmit} />
-        </Card.Content>
-      </Card>
+      <Header as='h1'>Register</Header>
+      <Form widths='equal'>
+        <Form.Group>
+          <Form.Input
+            type='text'
+            placeholder='Name'
+            name='name'
+            onChange={handleInputChange}
+            value={name}
+            error={errors.name}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Input
+            type='email'
+            placeholder='Email'
+            name='email'
+            onChange={handleInputChange}
+            value={email}
+            error={errors.email}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Input
+            type='password'
+            placeholder='Password'
+            name='password'
+            onChange={handleInputChange}
+            value={password}
+            error={errors.password}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Input
+            type='password'
+            placeholder='Confirm Password'
+            name='password_confirm'
+            onChange={handleInputChange}
+            value={password_confirm}
+            error={errors.password_confirm}
+          />
+        </Form.Group>
+      </Form>
+      <Button
+        color='green'
+        className='registerbutton'
+        content='Register'
+        onClick={handleSubmit}
+      />
     </Container>
   )
 }

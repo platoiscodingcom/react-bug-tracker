@@ -55,13 +55,17 @@ export const Navbar = ({ logoutUser, history, auth }) => {
 
   return (
     <div>
-      <Segment color={'green'} inverted>
-        {isAuthenticated ? authLinks : guestLinks}
-      </Segment>
-      <LeftSideBar
-        openLeftSideBar={openLeftSideBar}
-        setOpenLeftSideBar={setOpenLeftSideBar}
-      />
+      {isAuthenticated && authLinks && (
+        <div>
+          <Segment color={'green'} inverted>
+            {authLinks}
+          </Segment>
+          <LeftSideBar
+            openLeftSideBar={openLeftSideBar}
+            setOpenLeftSideBar={setOpenLeftSideBar}
+          />
+        </div>
+      )}
     </div>
   )
 }
