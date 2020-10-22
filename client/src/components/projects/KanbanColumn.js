@@ -13,7 +13,7 @@ const KanbanColumn = ({ sortedTasks, status }) => {
       <Header size='medium'>
         <StatusColor key={uuid.v4()} status={status} />
       </Header>
-      <Grid.Column style={{ margin: '0px 10px 10px 10px' }}>
+      <Grid.Column style={{ margin: '0px 2px 2px 2px' }}>
       {sortedTasks.map(task => {
         const { _id, title, priority, type, description } = task
         const shortTitle = title.substring(0, 35)

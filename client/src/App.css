@@ -1,8 +1,10 @@
 :root {
   --sidebar-color-main: rgb(51, 54, 49);
   --navbar-background-color:rgb(101, 182, 69);
+  --navbar-background-color-hover:rgb(127, 218, 91);
   --background-color-main:rgb(75, 80, 73);
-  --background-color-cards:rgb(113, 121, 110);
+  --background-color-cards:rgb(51, 54, 49);
+  flex-grow: 1;
 }
 * {
   margin: 0;
@@ -83,19 +85,43 @@ body {
 
 .ui.menu{
   border: none !important;
+  
 }
 
 .ui.segment{
   box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.2) !important;
   border: none !important;
-  border-radius: 0px !important;
+  border-radius: 3px !important;
+  background-color: var(--background-color-cards);
+  color: #eee;
 }
 
+.ui.column.table{
+  background-color: var(--background-color-cards);
+  color: #eee;
+}
+
+.ui.table thead{
+  background-color: var(--background-color-cards) !important;
+  color: #eee;
+}
+.ui.attached.tabular.menu >.item{
+  color: #eee;
+}
+
+.ui.attached.tabular.menu >.active.item{
+  background-color: var(--background-color-cards);
+  color: #eee;
+}
 
 
 .ui.table {
   border-radius: 3px !important;
   border: none !important;
+}
+
+.ui.bottom.attached.segment.active.tab:hover{
+  box-shadow: -7px 4px 20px -2px rgba(0,0,0,0.2) !important;
 }
 
 
@@ -122,6 +148,52 @@ body {
   font-size: 0.9rem !important;
 }
 
+.content {
+  color: #eee;
+}
+
+.ui.equal.width.form >.fields{
+color:#eee;
+}
+input[type="email"], input[type="password"], input[type="search"], input[type="text"],
+.ui.form input[type="checkbox"], .ui.form textarea,
+.ui.form .field>.selection.dropdown,
+.react-search-box-dropdown-list-item,
+.ui.menu>.item:active,
+.ui.menu .ui.dropdown .menu>.item,
+.more-details-button{
+  background-color: var(--background-color-cards) !important;
+  color:#eee !important;
+}
+
+
+.ui.menu .ui.dropdown .menu>.item:hover{
+  background-color: var(--navbar-background-color) !important; 
+  color:#eee !important;
+}
+
+.ui.menu .ui.dropdown .menu{
+  border: 1px solid var(--navbar-background-color);
+  border-radius: 3px !important;
+}
+
+.ui.column.table >thead >tr>th{
+  background-color: var(--background-color-cards) !important;
+  color:#eee !important;
+}
+
+.ui.menu>.item:first-child{
+  border-radius: 0px !important;
+}
+
+.ui.menu>.item:first-child:hover{
+  color:#eee;
+}
+
+.ui.menu .active.item{
+  background-color: var(--navbar-background-color) !important; 
+  color:#eee !important;
+}
 
 .ui.placeholder{
   border-radius: 5px !important;
@@ -148,6 +220,11 @@ body {
   z-index: 1000;
 }
 
+.ui.feed > .event > .label > i
+{
+  color:#eee !important;
+}
+
 .sidebar{
   background-color: var(--sidebar-color-main) !important;
   box-shadow: -7px 4px 25px -2px rgba(0, 0, 0, 0.698) !important;
@@ -162,8 +239,66 @@ body {
   color:var(--navbar-background-color) !important;
 }
 
+.kanbanButton{
+  background-color: var(--navbar-background-color) !important;
+}
+
+.kanbanButton:hover{
+  background-color: var(--navbar-background-color-hover) !important;
+  transition: 0.6s;
+}
+
+.detailsButton{
+  background-color: rgb(0,0,0,0) !important;
+  color: #eee !important;
+  font-weight: '700';
+  border: 2px solid rgb(180, 180, 180) !important;
+  
+
+}
+
+.detailsButton:hover{
+  background-color: rgb(228, 227, 227, 0.5) !important;
+  border: 2px solid rgb(228, 227, 227, 0.2) !important;
+  transition: 0.6s;
+}
+
+.newprojectButton{
+  color: rgb(228, 227, 227, 0.5) !important;
+  font-size: 3.5rem;
+  font-weight: 900;
+  position:absolute;
+    top:40%;
+    left:42%;
+}
+
+.newprojectButton:hover{
+  color: rgb(228, 227, 227, 1) !important;
+  transition: 0.6s;
+}
+
+.projectCard{
+  min-height: 22rem !important;
+}
+
+.projectcards-group{
+  margin-top: 2rem !important;
+  margin-left: 8rem !important;
+}
+
+.projectDevider{
+  
+}
+  
 @media only screen and (max-width: 565px) {
   .ui.attached.tabular.menu{
     font-size: 11px !important;
   }
 }
+
+@media only screen and (max-width: 865px) {
+  .projectcards-group{
+    margin-left: 0rem !important;
+  }
+}
+

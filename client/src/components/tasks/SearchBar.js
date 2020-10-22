@@ -33,7 +33,7 @@ const SearchBar = ({ project: { project } }) => {
 
   return (
     <Card fluid>
-      <Card.Content>
+      <Card.Content class="search-box-card">
         <ReactSearchBox
           placeholder='Search for Tasks'
           data={tasksTitles}

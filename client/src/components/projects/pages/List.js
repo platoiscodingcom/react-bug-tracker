@@ -15,29 +15,29 @@ import PropTypes from 'prop-types'
 import { getProjects } from './../../../actions/projectActions'
 
 
-const List = ({ project: { projects }, getProjects, match}) => {
+const List = ({ project: { projects }, getProjects}) => {
   useEffect(() => {
     getProjects()
   }, [getProjects])
 
 
-  if (projects == null) return <CardLoader />
+  if (projects === null) return <CardLoader />
   return (
-    <Card.Group>
+    <Card.Group className="projectcards-group">
       {projects.map(project => {
         const { _id, name, status, categories, description } = project
         const shortName = name.substring(0, 25)
         const shortDesc = description.substring(0, 150)
 
         return (
-          <Card key={_id}>
+          <Card key={_id} className="projectCard">
             <Card.Content>
               <Card.Header textAlign='center' style={{ marginTop: '10px' }}>
                 {shortName}
               </Card.Header>
-              <Divider />
+              <Divider className="projectDevider" />
               <Card.Description>{shortDesc}</Card.Description>
-              <Divider />
+              <Divider className="projectDevider"/>
               <Card.Description>
                 <StatusColor key={uuid.v4()} status={status} />
                 {categories.map(cat => (
@@ -59,13 +59,11 @@ const List = ({ project: { projects }, getProjects, match}) => {
                 <Button
                   as={Link}
                   to={`${PROJECTS_DETAILS}/${_id}`}
-                  basic
-                  color='grey'
-                  style={{ fontWeight: '700' }}
+                  className="detailsButton"
                 >
                   Details
                 </Button>
-                <Button as={Link} to={`${PROJECTS_KANBAN}/${_id}`} color='green'>
+                <Button className="kanbanButton" as={Link} to={`${PROJECTS_KANBAN}/${_id}`} color='green'>
                   Kanban
                 </Button>
               </div>
@@ -74,12 +72,9 @@ const List = ({ project: { projects }, getProjects, match}) => {
         )
       })}
 
-      <Card>
+      <Card className="projectCard">
         <Card.Content>
-          <Button as={Link} to={PROJECTS_CREATE}>
-            <i className='fas fa-plus' />
-            New Project
-          </Button>
+          <Link className="newprojectButton" to={PROJECTS_CREATE}><i className='fas fa-plus'></i></Link>
         </Card.Content>
       </Card>
     </Card.Group>
