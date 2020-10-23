@@ -4,10 +4,9 @@ import { OPEN, INPROGRESS, CLOSED, BACKLOG, REOPENED } from '../../Constants'
 import TaskTable from './TaskTable'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 
-const TableTabs = ({project:{project}}) => {
-
+const TableTabs = ({ project: { project } }) => {
   const [tasks, setTasks] = useState([])
 
   useEffect(() => {
@@ -21,15 +20,25 @@ const TableTabs = ({project:{project}}) => {
 
   const panes = [
     { menuItem: 'OPEN', render: () => <Tab.Pane>{sortTasks(OPEN)}</Tab.Pane> },
-    { menuItem: 'REOPENED', render: () => <Tab.Pane>{sortTasks(REOPENED)}</Tab.Pane> },
-    { menuItem: 'INPROGRESS', render: () => <Tab.Pane>{sortTasks(INPROGRESS)}</Tab.Pane> },
-    { menuItem: 'CLOSED', render: () => <Tab.Pane>{sortTasks(CLOSED)}</Tab.Pane> },
-    { menuItem: 'BACKLOG', render: () => <Tab.Pane>{sortTasks(BACKLOG)}</Tab.Pane> },
+    {
+      menuItem: 'REOPENED',
+      render: () => <Tab.Pane>{sortTasks(REOPENED)}</Tab.Pane>
+    },
+    {
+      menuItem: 'INPROGRESS',
+      render: () => <Tab.Pane>{sortTasks(INPROGRESS)}</Tab.Pane>
+    },
+    {
+      menuItem: 'CLOSED',
+      render: () => <Tab.Pane>{sortTasks(CLOSED)}</Tab.Pane>
+    },
+    {
+      menuItem: 'BACKLOG',
+      render: () => <Tab.Pane>{sortTasks(BACKLOG)}</Tab.Pane>
+    }
   ]
 
-  return (
-    <Tab panes={panes} />
-  )
+  return <Tab panes={panes} />
 }
 
 TableTabs.propTypes = {
@@ -39,6 +48,5 @@ TableTabs.propTypes = {
 const mapStateToProps = state => ({
   project: state.project
 })
-
 
 export default withRouter(connect(mapStateToProps, {})(TableTabs))

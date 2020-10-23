@@ -3,33 +3,40 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Grid, Tab, Container } from 'semantic-ui-react'
 import ProjectList from './ProjectList'
+import AssignedTasks from './AssignedTasks'
+import AssignedProjects from './AssignedProjects'
 
 const Dashboard = () => {
   const panes = [
     {
       menuItem: 'My Projects',
       render: () => (
-        <Tab.Pane attached={false}>
+        <Tab.Pane>
           <ProjectList />
         </Tab.Pane>
       )
     },
     {
       menuItem: 'Assigned Tasks',
-      render: () => <Tab.Pane attached={false}>Assigned Tasks</Tab.Pane>
+      render: () => (
+        <Tab.Pane>
+          <AssignedTasks />
+        </Tab.Pane>
+      )
+    },
+    {
+      menuItem: 'Assigned Projects',
+      render: () => (
+        <Tab.Pane>
+          <AssignedProjects />
+        </Tab.Pane>
+      )
     }
   ]
 
   return (
-    <Container fluid>
-      <Grid divided='vertically'>
-        <Grid.Row columns={2}>
-          <Grid.Column>
-            <Tab menu={{ text: true }} panes={panes} />
-          </Grid.Column>
-          <Grid.Column>updates</Grid.Column>
-        </Grid.Row>
-      </Grid>
+    <Container>
+      <Tab panes={panes} />
     </Container>
   )
 }

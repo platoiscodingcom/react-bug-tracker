@@ -45,7 +45,7 @@ const Kanban = ({ project: { project }, match, getProject }) => {
           to={'/projects/kanban/' + match.params._id}
         />
       </Menu>
-      <Header as='h2'>
+      <Header as='h3'>
       </Header>
       <Grid>
         <Grid.Row columns={4}>

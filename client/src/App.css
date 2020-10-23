@@ -159,7 +159,6 @@ input[type="email"], input[type="password"], input[type="search"], input[type="t
 .ui.form input[type="checkbox"], .ui.form textarea,
 .ui.form .field>.selection.dropdown,
 .react-search-box-dropdown-list-item,
-.ui.menu>.item:active,
 .ui.menu .ui.dropdown .menu>.item,
 .more-details-button{
   background-color: var(--background-color-cards) !important;

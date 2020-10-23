@@ -64,15 +64,8 @@ export const logoutUser = history => dispatch => {
     localStorage.removeItem('jwtToken')
     setAuthToken(false)
     dispatch(setCurrentUser({}))
-
-    console.log(
-      'this is an old error that only appears sometimes. navugate to authentication.js. it may have something to do with history but I dont know why error.response.data is not defined'
-    )
     if (history) {
-      history.push('/login')
-    } else {
-      console.log('else what??')
-    }
+      history.push('/login')}
   } catch (error) {
     console.log('error:', error)
     dispatch({

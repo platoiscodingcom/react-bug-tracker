@@ -7,7 +7,8 @@ import {
   OPEN_UPLOAD_MODAL,
   CLOSE_UPLOAD_MODAL,
   SET_FILE_UPLOADED_TRUE,
-  SET_FILE_UPLOADED_FALSE
+  SET_FILE_UPLOADED_FALSE,
+  GET_ASSIGNED_PROJECTS
 } from './types'
 import { PROJECTS_HOME, PROJECTS_PATH, PROJECTS_DETAILS } from '../Constants'
 
@@ -82,6 +83,34 @@ export const getProjects = () => async dispatch => {
       console.log(error)
     })
 }
+
+export const getAssignedProjects = (projectIds) => async dispatch =>{
+  var assignedProjects = new Array();
+
+  await projectIds.forEach(projectId =>{
+    axios
+    .get(`${PROJECTS_PATH}/${projectId}`)
+    .then(res =>{
+      assignedProjects.push(res.data)
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_PROJECT_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+    })
+  })
+
+  dispatch({
+    type: GET_ASSIGNED_PROJECTS,
+    payload: assignedProjects
+  })
+
+
+}
+
+
 export const deleteProject = id => async dispatch => {
   await axios
     .delete(`${PROJECTS_PATH}/${id}`)

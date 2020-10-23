@@ -5,7 +5,8 @@ import {
   CLOSE_UPLOAD_MODAL,
   OPEN_UPLOAD_MODAL,
   SET_FILE_UPLOADED_TRUE,
-  SET_FILE_UPLOADED_FALSE
+  SET_FILE_UPLOADED_FALSE,
+  GET_ASSIGNED_PROJECTS
 } from '../actions/types'
 
 const initialState = {
@@ -13,7 +14,7 @@ const initialState = {
   project: {},
   modalOpen: false,
   fileUploaded: false,
-	loading: true,
+  loading: true
 }
 
 export default function (state = initialState, action) {
@@ -22,6 +23,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         project: action.payload,
+        loading: false
+      }
+    case GET_ASSIGNED_PROJECTS:
+      console.log('reducer', action.payload)
+      return {
+        ...state,
+        projects: action.payload,
         loading: false
       }
     case CLOSE_UPLOAD_MODAL:
@@ -37,17 +45,20 @@ export default function (state = initialState, action) {
     case SET_FILE_UPLOADED_TRUE:
       return {
         ...state,
-        fileUploaded: true
+        fileUploaded: true,
+        loading: false
       }
     case SET_FILE_UPLOADED_FALSE:
       return {
         ...state,
-        fileUploaded: false
+        fileUploaded: false,
+        loading: false
       }
     case GET_PROJECTS:
       return {
         ...state,
-        projects: action.payload
+        projects: action.payload,
+        loading: false
       }
     case DELETE_PROJECT:
       return {
