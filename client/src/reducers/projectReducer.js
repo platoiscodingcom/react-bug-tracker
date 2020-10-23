@@ -12,6 +12,7 @@ import {
 const initialState = {
   projects: [],
   project: {},
+  assignedProjects: [],
   modalOpen: false,
   fileUploaded: false,
   loading: true
@@ -26,10 +27,12 @@ export default function (state = initialState, action) {
         loading: false
       }
     case GET_ASSIGNED_PROJECTS:
-      console.log('reducer', action.payload)
+      console.log('projectReducer', action.payload)
       return {
         ...state,
-        projects: action.payload,
+        project:{},
+        projects:[],
+        assignedProjects: action.payload,
         loading: false
       }
     case CLOSE_UPLOAD_MODAL:

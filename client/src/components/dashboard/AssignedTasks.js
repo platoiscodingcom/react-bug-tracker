@@ -9,7 +9,7 @@ import { TypeIcon, PriorityCellColor } from '../tasks/TaskIcons'
 import StatusColor from '../status/StatusColor'
 import { TASKS_DETAILS } from '../../Constants'
 
-const AssignedTasks = ({ auth: {user}, task, task: { tasks }, getAssignedTasks }) => {
+const AssignedTasks = ({ auth: {user}, task, task: { assignedTasks }, getAssignedTasks }) => {
   useEffect(() => {
       getAssignedTasks(user.assigned_to_tasks)
   }, [user, getAssignedTasks])
@@ -32,7 +32,7 @@ const AssignedTasks = ({ auth: {user}, task, task: { tasks }, getAssignedTasks }
       </Table.Header>
 
       <Table.Body>
-        {tasks.map(task => {
+        {assignedTasks.map(task => {
           const { _id, title, project, status, priority, type } = task
           const shortTitle = title.substring(0, 25)
           const { name } = project

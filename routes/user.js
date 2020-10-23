@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const passport = require('passport')
-const { passwordResetValidationRules, validate } = require('./validator.js')
+const { userValidationRules, passwordResetValidationRules, validate } = require('./validator.js')
 
 const userController = require('../controllers/user')
 router.get('/', userController.list)
@@ -22,6 +22,13 @@ router.get(
   '/me',
   passport.authenticate('jwt', { session: false }),
   userController.me
+)
+router.put(
+  '/:_id',
+  passport.authenticate('jwt', { session: false }),
+  userValidationRules(),
+  validate,
+  userController.update
 )
 /*
 router.get(

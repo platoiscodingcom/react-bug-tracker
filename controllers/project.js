@@ -112,7 +112,7 @@ exports.update = async (req, res) => {
     const project = await Project.findById(req.params._id)
 
     if (!project) {
-      return res.status(404).send({ message: 'Task not found' })
+      return res.status(404).send({ message: 'Project not found' })
     }
 
     activityService.createActivity(

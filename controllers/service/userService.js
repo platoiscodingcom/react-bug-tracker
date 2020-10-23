@@ -85,6 +85,8 @@ exports.comparePasswords = (password, user, res) => {
         const payload = {
           id: user.id,
           name: user.name,
+          email: user.email,
+          bio:user.bio,
           avatar: user.avatar,
           permittedProjects: user.permittedProjects,
           author_of_projects: user.author_of_projects,

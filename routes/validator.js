@@ -45,6 +45,18 @@ const projectValidationRules = () => {
   ]
 }
 
+const userValidationRules = () =>{
+  return [
+    body('name')
+      .isLength({ min: 4 })
+      .withMessage('must be at least 4 chars long'),
+    body('email')
+      .not()
+      .isEmpty()
+      .withMessage('enter your email address')
+  ]
+}
+
 const taskValidationRules = () => {
   return [
     body('title')
@@ -100,5 +112,6 @@ module.exports = {
   projectValidationRules,
   taskValidationRules,
   validate,
-  passwordResetValidationRules
+  passwordResetValidationRules,
+  userValidationRules
 }

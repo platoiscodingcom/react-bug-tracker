@@ -8,7 +8,7 @@ import uuid from 'uuid'
 import StatusColor from '../status/StatusColor'
 import { PROJECTS_DETAILS, PROJECTS_HOME } from '../../Constants'
 
-const AssignedProjects = ({ auth:{user}, project: { projects }, getAssignedProjects }) => {
+const AssignedProjects = ({ auth:{user}, project: { assignedProjects }, getAssignedProjects }) => {
   useEffect(() => {
     if(user) getAssignedProjects(user.assigned_to_projects)
   }, [])
@@ -26,7 +26,7 @@ const AssignedProjects = ({ auth:{user}, project: { projects }, getAssignedProje
       </Table.Header>
 
       <Table.Body>
-        {projects.map(project => {
+        {assignedProjects.map(project => {
           const { _id, name, status, author, assignedTo } = project
           const shortName = name.substring(0, 25)
 

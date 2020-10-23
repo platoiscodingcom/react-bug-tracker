@@ -3,6 +3,7 @@ import { GET_TASK, GET_TASKS, DELETE_TASK, GET_ASSIGNED_TASKS } from '../actions
 const initialState = {
   tasks: [],
   task: {},
+  assignedTasks: [],
   loading: true,
 }
 
@@ -21,9 +22,12 @@ export default function (state = initialState, action){
         loading: false
       }
     case GET_ASSIGNED_TASKS:
+      console.log('taskReducer', action.payload)
       return{
         ...state,
-        tasks: action.payload,
+        task: {},
+        tasks: [],
+        assignedTasks: action.payload,
         loading: false
       }
     case DELETE_TASK:

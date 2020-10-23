@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Grid, Tab, Container } from 'semantic-ui-react'
+import { Tab, Container } from 'semantic-ui-react'
 import ProjectList from './ProjectList'
 import AssignedTasks from './AssignedTasks'
 import AssignedProjects from './AssignedProjects'
@@ -31,6 +31,7 @@ const Dashboard = () => {
           <AssignedProjects />
         </Tab.Pane>
       )
+      //zieh die "getAssigned>X" functions aus den Komponenten und rufe sie stattdessen hier auf
     }
   ]
 

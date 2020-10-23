@@ -86,6 +86,7 @@ var admin = new User({
   isVerified: true,
   name: 'Admin Admin',
   email: 'admin@gmail.com',
+  bio: 'lorem',
   password: '$2a$10$Vql4r9OuKtq3jrKuA/J0XO2RUDApMppGXtf/vbjxbCkAtA0mhIZ5.',
   avatar:
     '//www.gravatar.com/avatar/c324ed03ecc94765cf7852aa1ee7df8f?s=200&r=pg&d=mm'
@@ -105,6 +106,7 @@ var moderator = new User({
   isVerified: true,
   name: 'Moderator Moderator',
   email: 'moderator@gmail.com',
+  bio: 'lorem',
   password: '$2a$10$e8TAb9/HDfHD338AXC7Vq.O6iykf08peIjIxJlYD8/jwcufxYVn9S',
   avatar:
     '//www.gravatar.com/avatar/c324ed03ecc94765cf7852aa1ee7df8f?s=200&r=pg&d=mm'

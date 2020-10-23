@@ -260,3 +260,19 @@ exports.getUser = async (req, res) => {
     res.status(500).send({ message: 'Error occured: 500' })
   }
 }*/
+
+exports.update = async(req, res) =>{
+  try {
+    const user = await User.findOneAndUpdate(
+      {_id: req.params._id},
+      {$set: req.body}
+      )
+
+
+    res.status(200).send(user)
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error: 500' })
+  }
+}
