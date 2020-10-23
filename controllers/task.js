@@ -106,7 +106,7 @@ exports.delete = async (req, res) => {
     taskService.removeTaskRelations(task)
     await Task.findOneAndRemove({ _id: req.params._id })
 
-    res.status(200).send({ message: 'User deleted' })
+    res.status(200).send({ message: 'Task deleted' })
   } catch (error) {
     console.log(error)
     res.status(500).send({ message: 'Error occured: 500' })

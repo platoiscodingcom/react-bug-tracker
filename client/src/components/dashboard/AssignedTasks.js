@@ -1,16 +1,18 @@
 import React, {  } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {  Link } from 'react-router-dom'
-import { deleteTask, getAssignedTasks } from '../../actions/taskActions'
+import { Link } from 'react-router-dom'
+import { deleteAssignedTask } from '../../actions/taskActions'
 import { Button, Table } from 'semantic-ui-react'
 import uuid from 'uuid'
 import { TypeIcon, PriorityCellColor } from '../tasks/TaskIcons'
 import StatusColor from '../status/StatusColor'
 import { TASKS_DETAILS } from '../../Constants'
 
-const AssignedTasks = ({ getAssignedTasks,assignedTasks, deleteTask}) => {
- 
+const AssignedTasks = ({
+  assignedTasks,
+  deleteAssignedTask
+}) => {
 
 
   return (
@@ -57,9 +59,8 @@ const AssignedTasks = ({ getAssignedTasks,assignedTasks, deleteTask}) => {
                   compact
                   size='mini'
                   color='red'
-                  onClick={() =>{
-                    getAssignedTasks() 
-                    deleteTask(_id)
+                  onClick={() => {
+                    deleteAssignedTask(_id)
                   }}
                 >
                   <i className='fas fa-trash' />
@@ -75,14 +76,13 @@ const AssignedTasks = ({ getAssignedTasks,assignedTasks, deleteTask}) => {
 
 AssignedTasks.propTypes = {
   task: PropTypes.object.isRequired,
-  deleteTask: PropTypes.func.isRequired,
-  getAssignedTasks: PropTypes.func.isRequired
+  deleteAssignedTask: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   task: state.task
 })
 
-export default (
-  connect(mapStateToProps, { deleteTask, getAssignedTasks })(AssignedTasks)
-)
+export default connect(mapStateToProps, {
+  deleteAssignedTask
+})(AssignedTasks)

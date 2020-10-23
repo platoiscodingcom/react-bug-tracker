@@ -14,6 +14,7 @@ export const GET_TASKS = 'GET_TASKS'
 export const GET_TASK = 'GET_TASK'
 export const DELETE_TASK = 'DELETE_TASK'
 export const GET_ASSIGNED_TASKS = "GET_ASSIGNED_TASKS"
+export const DELETE_ASSIGNED_TASK = "DELETE_ASSIGNED_TASK"
 
 export const GET_FILE_ERRORS = 'GET_FILE_ERRORS'
 export const GET_FILES = 'GET_FILES'

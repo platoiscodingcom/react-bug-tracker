@@ -22,6 +22,7 @@ const List = ({ task: { tasks }, getTasks, deleteTask }) => {
   if (tasks == null || tasks.lenght === 0) {
     return <ListLoader />
   }
+  
   return (
     <Table singleLine columns={6}>
       <Table.Header>

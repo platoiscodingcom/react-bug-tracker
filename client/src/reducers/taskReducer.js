@@ -1,4 +1,4 @@
-import { GET_TASK, GET_TASKS, DELETE_TASK, GET_ASSIGNED_TASKS } from '../actions/types'
+import { GET_TASK, GET_TASKS, DELETE_TASK, GET_ASSIGNED_TASKS, DELETE_ASSIGNED_TASK } from '../actions/types'
 
 const initialState = {
   tasks: [],
@@ -22,7 +22,6 @@ export default function (state = initialState, action){
         loading: false
       }
     case GET_ASSIGNED_TASKS:
-      console.log('taskReducer', action.payload)
       return{
         ...state,
         task: {},
@@ -30,6 +29,15 @@ export default function (state = initialState, action){
         assignedTasks: action.payload,
         loading: false
       }
+    case DELETE_ASSIGNED_TASK:
+      return {
+        ...state,
+        //remvove from state without page reload
+        assignedTasks: state.assignedTasks.filter(
+          task => task._id !== action.payload
+        )
+      }
+
     case DELETE_TASK:
       return {
         ...state,

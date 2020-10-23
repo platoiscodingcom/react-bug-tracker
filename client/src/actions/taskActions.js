@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_TASK_ERRORS, GET_TASK, GET_TASKS, DELETE_TASK, GET_ASSIGNED_TASKS } from './types'
+import { GET_TASK_ERRORS, GET_TASK, GET_TASKS, DELETE_TASK, GET_ASSIGNED_TASKS, DELETE_ASSIGNED_TASK } from './types'
 import { TASKS_HOME, TASKS_PATH } from '../Constants'
 
 export const createTask = (task) => async dispatch => {
@@ -94,10 +94,27 @@ export const deleteTask = id => async dispatch => {
     })
 }
 
+export const deleteAssignedTask = id => async dispatch => {
+  await axios
+    .delete(`${TASKS_PATH}/${id}`)
+    .then(() => {
+      dispatch({
+        type: DELETE_ASSIGNED_TASK,
+        payload: id
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: GET_TASK_ERRORS,
+        payload: error.response.data
+      })
+      console.log(error)
+    })
+}
+
 export const getAssignedTasks = (taskIds) => async dispatch => {
-  let assignedTasks = new Array();
+  let assignedTasks = []
   
-  if(taskIds){
     await taskIds.forEach(taskId =>{
       axios
       .get(`${TASKS_PATH}/${taskId}`)
@@ -112,7 +129,7 @@ export const getAssignedTasks = (taskIds) => async dispatch => {
         console.log(error)
       })
     })
-  }
+  
   
 
   dispatch({
