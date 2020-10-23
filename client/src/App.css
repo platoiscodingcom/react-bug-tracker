@@ -4,7 +4,6 @@
   --navbar-background-color-hover:rgb(127, 218, 91);
   --background-color-main:rgb(75, 80, 73);
   --background-color-cards:rgb(51, 54, 49);
-  flex-grow: 1;
 }
 * {
   margin: 0;
@@ -14,6 +13,7 @@ body {
   margin-top:0px;
   background: var(--background-color-main);
 }
+
 
 .ui.fluid.card{
   box-shadow: none;
@@ -211,11 +211,24 @@ input[type="email"], input[type="password"], input[type="search"], input[type="t
   color:#eee !important;
 }
 
+
+.ui.active.modal,
+.ui.modal.transition.visible.active,
+.ui.modal>.header:not(.ui),
+.ui.modal>.content,
+.ui.modal>.actions{
+  background-color: var(--background-color-main) !important;
+  color:#eee !important;
+}
+
+
 .ui.menu>.item:first-child{
   border-radius: 0px !important;
 }
 
-.ui.menu>.item:first-child:hover{
+.ui.menu>.item:first-child:hover,
+.ui.card .meta, .ui.cards>.card .meta,
+.ui.feed>.event>.content .summary{
   color:#eee;
 }
 
@@ -223,6 +236,12 @@ input[type="email"], input[type="password"], input[type="search"], input[type="t
   background-color: var(--navbar-background-color) !important; 
   color:#eee !important;
 }
+
+.ui.feed>.event>.content .date{
+  color: rgb(189, 189, 189);
+  font-size: 0.9rem;
+}
+
 
 .ui.placeholder{
   border-radius: 5px !important;
