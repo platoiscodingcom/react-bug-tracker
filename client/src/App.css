@@ -160,13 +160,43 @@ input[type="email"], input[type="password"], input[type="search"], input[type="t
 .ui.form .field>.selection.dropdown,
 .react-search-box-dropdown-list-item,
 .ui.menu .ui.dropdown .menu>.item,
-.more-details-button{
+.more-details-button, .ui.selection.dropdown .menu>.item,
+.clndr-cell{
   background-color: var(--background-color-cards) !important;
   color:#eee !important;
 }
 
+.ui.form .field>label {
+ color: #eee !important;
+}
 
-.ui.menu .ui.dropdown .menu>.item:hover{
+.ui.form .field .ui.input, 
+.ui.form .fields .field .ui.input, 
+.ui.form .wide.field .ui.input, 
+.ui.form textarea,
+.ui.selection.dropdown,
+.ui.selection.dropdown:hover,
+.ui.form .field .ui.input:hover {
+  border: 1px solid var(--navbar-background-color);
+  border-radius: 3px;
+}
+
+.ui.form textarea:focus,
+.ui.form .ui.selection.dropdown:focus,
+.ui.selection.dropdown .menu{
+  border: 2px solid var(--navbar-background-color) !important;
+  border-radius: 3px;
+}
+
+.ui.form input[type="text"]:focus {
+  border: 1px solid var(--navbar-background-color);
+  border-radius: 3px;
+}
+
+.ui.menu .ui.dropdown .menu>.item:hover,
+.ui.selection.dropdown .menu>.item:hover,
+.clndr-cell:hover,
+.ui.fluid.button{
   background-color: var(--navbar-background-color) !important; 
   color:#eee !important;
 }
