@@ -1,12 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Tab, Container } from 'semantic-ui-react'
 import ProjectList from './ProjectList'
 import AssignedTasks from './AssignedTasks'
 import AssignedProjects from './AssignedProjects'
+import { getAssignedTasks, deleteTask } from '../../actions/taskActions'
+import { getAssignedProjects } from '../../actions/projectActions'
 
-const Dashboard = () => {
+const Dashboard = ({
+  auth: { user },
+  task: { assignedTasks },
+  project: {assignedProjects},
+  getAssignedTasks,
+  getAssignedProjects
+}) => {
+  useEffect(() => {
+    if(user) {
+      console.log("user.assigned_to_tasks", user.assigned_to_tasks)
+      getAssignedTasks(user.assigned_to_tasks)
+    }
+  }, [user, getAssignedTasks, deleteTask])
+
+  useEffect(() => {
+    if(user) getAssignedProjects(user.assigned_to_projects)
+  }, [user, getAssignedProjects])
+
   const panes = [
     {
       menuItem: 'My Projects',
@@ -20,7 +40,7 @@ const Dashboard = () => {
       menuItem: 'Assigned Tasks',
       render: () => (
         <Tab.Pane>
-          <AssignedTasks />
+          <AssignedTasks assignedTasks={assignedTasks}/>
         </Tab.Pane>
       )
     },
@@ -28,10 +48,9 @@ const Dashboard = () => {
       menuItem: 'Assigned Projects',
       render: () => (
         <Tab.Pane>
-          <AssignedProjects />
+          <AssignedProjects assignedProjects ={assignedProjects}/>
         </Tab.Pane>
       )
-      //zieh die "getAssigned>X" functions aus den Komponenten und rufe sie stattdessen hier auf
     }
   ]
 
@@ -42,6 +61,21 @@ const Dashboard = () => {
   )
 }
 
-Dashboard.propTypes = {}
+Dashboard.propTypes = {
+  auth: PropTypes.object.isRequired,
+  project: PropTypes.object.isRequired,
+  task: PropTypes.object.isRequired,
+  getAssignedProjects: PropTypes.func.isRequired,
+  getAssignedTasks: PropTypes.func.isRequired,
+  deleteTask:PropTypes.func.isRequired
+}
 
-export default withRouter(connect(null, {})(Dashboard))
+const mapStateToProps = state => ({
+  task: state.task,
+  auth: state.auth,
+  project: state.project,
+})
+
+export default withRouter(
+  connect(mapStateToProps, { getAssignedTasks, getAssignedProjects, deleteTask })(Dashboard)
+)

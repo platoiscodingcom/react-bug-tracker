@@ -1,22 +1,16 @@
-import React, { useEffect } from 'react'
+import React, {  } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {  Link } from 'react-router-dom'
-import { getAssignedTasks, deleteTask } from '../../actions/taskActions'
+import { deleteTask, getAssignedTasks } from '../../actions/taskActions'
 import { Button, Table } from 'semantic-ui-react'
 import uuid from 'uuid'
 import { TypeIcon, PriorityCellColor } from '../tasks/TaskIcons'
 import StatusColor from '../status/StatusColor'
 import { TASKS_DETAILS } from '../../Constants'
 
-const AssignedTasks = ({ auth: {user}, task, task: { assignedTasks }, getAssignedTasks }) => {
-  useEffect(() => {
-      getAssignedTasks(user.assigned_to_tasks)
-  }, [user, getAssignedTasks])
-
-  useEffect(() => {
-    if(!task.loading) console.log("task", task)
-}, [user, getAssignedTasks])
+const AssignedTasks = ({ getAssignedTasks,assignedTasks, deleteTask}) => {
+ 
 
 
   return (
@@ -63,7 +57,10 @@ const AssignedTasks = ({ auth: {user}, task, task: { assignedTasks }, getAssigne
                   compact
                   size='mini'
                   color='red'
-                  onClick={() => deleteTask(_id)}
+                  onClick={() =>{
+                    getAssignedTasks() 
+                    deleteTask(_id)
+                  }}
                 >
                   <i className='fas fa-trash' />
                 </Button>
@@ -78,15 +75,14 @@ const AssignedTasks = ({ auth: {user}, task, task: { assignedTasks }, getAssigne
 
 AssignedTasks.propTypes = {
   task: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
+  deleteTask: PropTypes.func.isRequired,
   getAssignedTasks: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  task: state.task,
-  auth: state.auth
+  task: state.task
 })
 
 export default (
-  connect(mapStateToProps, { getAssignedTasks })(AssignedTasks)
+  connect(mapStateToProps, { deleteTask, getAssignedTasks })(AssignedTasks)
 )

@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import { getAssignedProjects } from '../../actions/projectActions'
+
 import { Button, Table } from 'semantic-ui-react'
 import uuid from 'uuid'
 import StatusColor from '../status/StatusColor'
 import { PROJECTS_DETAILS, PROJECTS_HOME } from '../../Constants'
 
-const AssignedProjects = ({ auth:{user}, project: { assignedProjects }, getAssignedProjects }) => {
-  useEffect(() => {
-    if(user) getAssignedProjects(user.assigned_to_projects)
-  }, [])
+const AssignedProjects = ({assignedProjects} ) => {
+
 
   return (
     <Table singleLine columns={5}>
@@ -70,8 +68,7 @@ const AssignedProjects = ({ auth:{user}, project: { assignedProjects }, getAssig
 
 AssignedProjects.propTypes = {
   project: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
-  getAssignedProjects: PropTypes.func.isRequired
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -80,5 +77,5 @@ const mapStateToProps = state => ({
 })
 
 export default withRouter(
-  connect(mapStateToProps, { getAssignedProjects })(AssignedProjects)
+  connect(mapStateToProps, { })(AssignedProjects)
 )

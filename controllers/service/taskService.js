@@ -31,8 +31,16 @@ exports.addTaskToAuthor = async (taskId, authorId) =>{
 exports.addTaskToAssignee = async (taskId, assigneeId) => {
   await User.findById(assigneeId)
     .then(data => {
+      
       data.assigned_to_tasks.push(taskId)
       data.save()
+      console.log('assigned_to_tasks', data.assigned_to_tasks)
+    })
+
+    await User.findById(assigneeId)
+    .then(data => {
+    
+      console.log('assigned_to_tasks after save', data.assigned_to_tasks)
     })
 }
 

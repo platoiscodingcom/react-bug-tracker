@@ -97,20 +97,23 @@ export const deleteTask = id => async dispatch => {
 export const getAssignedTasks = (taskIds) => async dispatch => {
   let assignedTasks = new Array();
   
-  await taskIds.forEach(taskId =>{
-    axios
-    .get(`${TASKS_PATH}/${taskId}`)
-    .then(res =>{
-      assignedTasks.push(res.data)
-    })
-    .catch(error => {
-      dispatch({
-        type: GET_TASK_ERRORS,
-        payload: error.response.data
+  if(taskIds){
+    await taskIds.forEach(taskId =>{
+      axios
+      .get(`${TASKS_PATH}/${taskId}`)
+      .then(res =>{
+        assignedTasks.push(res.data)
       })
-      console.log(error)
+      .catch(error => {
+        dispatch({
+          type: GET_TASK_ERRORS,
+          payload: error.response.data
+        })
+        console.log(error)
+      })
     })
-  })
+  }
+  
 
   dispatch({
     type: GET_ASSIGNED_TASKS,

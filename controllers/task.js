@@ -46,6 +46,7 @@ exports.create = async (req, res) => {
     const task = await newTask.save()
 
     taskService.addTaskToAssignee(task._id, task.assignedTo)
+    console.log('createTask and assign', task.assignedTo)
     taskService.addTaskToAuthor(task._id, req.body.author)
     taskService.saveTaskToProject(req.body.project, task._id)
 
