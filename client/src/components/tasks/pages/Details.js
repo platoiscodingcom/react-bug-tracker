@@ -61,7 +61,7 @@ const Details = ({ match, history, getTask, deleteTask, task: { task } }) => {
                 />
                 <Dropdown.Item color={'red'}>
                   <div onClick={() => setOpenLogTimeModal(!openLogTimeModal)}>
-                    <i className='fas fa-time' />
+                    <i className='fas fa-hourglass-half' />
                     Log Working Time
                   </div>
                 </Dropdown.Item>

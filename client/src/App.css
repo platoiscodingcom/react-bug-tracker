@@ -161,7 +161,8 @@ input[type="email"], input[type="password"], input[type="search"], input[type="t
 .react-search-box-dropdown-list-item,
 .ui.menu .ui.dropdown .menu>.item,
 .more-details-button, .ui.selection.dropdown .menu>.item,
-.clndr-cell{
+.clndr-cell,
+.ui.dropdown{
   background-color: var(--background-color-cards) !important;
   color:#eee !important;
 }
@@ -180,6 +181,7 @@ input[type="email"], input[type="password"], input[type="search"], input[type="t
   border: 1px solid var(--navbar-background-color);
   border-radius: 3px;
 }
+
 
 .ui.form textarea:focus,
 .ui.form .ui.selection.dropdown:focus,
