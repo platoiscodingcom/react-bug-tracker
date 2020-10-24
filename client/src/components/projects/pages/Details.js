@@ -31,6 +31,8 @@ import Contacts from './../Contacts'
 import SearchBar from './../../tasks/SearchBar'
 import Activity from './../../activity/Activity'
 import PermittedUsers from './../PermittedUsers'
+import WorkingTimeCard from './../../logWorkingTime/WorkingTimeCard'
+import LogWorkingTimeModal from '../../logWorkingTime/LogWorkingTimeModal'
 
 const Details = ({
   match,
@@ -43,6 +45,7 @@ const Details = ({
   const [showNewTask, setShowNewTask] = useState(false)
   const [showInvitation, setShowInvitation] = useState(false)
   const [showContacts, setShowContacts] =useState(false)
+  const [openLogTimeModal, setOpenLogTimeModal] = useState(false)
 
   useEffect(() => {
     getProject(match.params._id)
@@ -98,6 +101,12 @@ const Details = ({
 
           <Contacts setShowContacts={setShowContacts} showContacts = {showContacts}/>
 
+          <LogWorkingTimeModal
+            setOpenLogTimeModal={setOpenLogTimeModal}
+            openLogTimeModal={openLogTimeModal}
+            type={PROJECT}
+          />
+
 
           <Card fluid>
             <Card.Content className='card-header'>
@@ -124,6 +133,14 @@ const Details = ({
                       as={Link}
                       to={`${PROJECTS_HOME}/${_id}`}
                     />
+                    <Dropdown.Item color={'red'}>
+                      <div
+                        onClick={() => setOpenLogTimeModal(!openLogTimeModal)}
+                      >
+                        <i className='fas fa-hourglass-half' />
+                        Log Working Time
+                      </div>
+                    </Dropdown.Item>
                     <Dropdown.Item>
                       <div onClick={() => setShowInvitation(true)}>
                         <i className='fas fa-user-friends'></i>
@@ -222,7 +239,8 @@ const Details = ({
           <FileUpload />
         </Grid.Column>
 
-        <Grid.Column mobile={16} tablet={16} computer={4}>
+        <Grid.Column mobile={16} tablet={16} computer={4} style={{marginTop:'15px'}}>
+        <WorkingTimeCard />
           <Activity />
           <PermittedUsers />
         </Grid.Column>
