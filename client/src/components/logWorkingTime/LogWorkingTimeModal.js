@@ -5,6 +5,7 @@ import { createWorkingTimeLog } from '../../actions/workingTimeActions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import moment from 'moment'
 
 const LogWorkingTimeModal = ({
   setOpenLogTimeModal,
@@ -16,7 +17,8 @@ const LogWorkingTimeModal = ({
 }) => {
   const [workingTime, setWorkingTime] = useState({
     description: '',
-    minutes: ''
+    minutes: '',
+    dateTime: moment().format('MMMM Do YYYY, h:mm:ss a')
   })
 
   const handleInputChange = (event, { name, value }) => {
@@ -30,7 +32,8 @@ const LogWorkingTimeModal = ({
   const resetForm = () => {
     setWorkingTime({
       description: '',
-      minutes: ''
+      minutes: '',
+      dateTime:''
     })
     setOpenLogTimeModal(!openLogTimeModal)
   }
@@ -56,8 +59,17 @@ const LogWorkingTimeModal = ({
         <Form widths='equal'>
           <Form.Group>
             <Form.Input
+              label='Date and Time'
+              name='dateTime'
+              value={workingTime.dateTime}
+              onChange={handleInputChange}
+              error={errors.minutes}
+              disabled
+            />
+            <Form.Input
               label='Time in Minutes'
               name='minutes'
+              type='number'
               value={workingTime.minutes}
               onChange={handleInputChange}
               error={errors.minutes}

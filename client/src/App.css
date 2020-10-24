@@ -156,7 +156,7 @@ body {
 color:#eee;
 }
 input[type="email"], input[type="password"], input[type="search"], input[type="text"],
-.ui.form input[type="checkbox"], .ui.form textarea,
+.ui.form input[type="checkbox"], .ui.form input[type=number], .ui.form textarea,
 .ui.form .field>.selection.dropdown,
 .react-search-box-dropdown-list-item,
 .ui.menu .ui.dropdown .menu>.item,
@@ -177,7 +177,9 @@ input[type="email"], input[type="password"], input[type="search"], input[type="t
 .ui.form textarea,
 .ui.selection.dropdown,
 .ui.selection.dropdown:hover,
-.ui.form .field .ui.input:hover {
+.ui.form .field .ui.input:hover,
+.ui.form input[type=number]:focus
+ {
   border: 1px solid var(--navbar-background-color);
   border-radius: 3px;
 }
