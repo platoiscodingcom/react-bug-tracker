@@ -23,6 +23,7 @@ const Dashboard = ({
     labels: [OPEN, REOPENED, CLOSED, BACKLOG, INPROGRESS],
     datasets: [
       {
+        borderWidth:0,
         label: 'Assigned Tasks',
         backgroundColor: [
           '#65b645',
@@ -78,34 +79,20 @@ const Dashboard = ({
     <Container fluid>
     <Grid divided='vertically'>
       <Grid.Row columns={2}>
-        <Grid.Column width={12}>
+        <Grid.Column width={10}>
             <Tab panes={panes} />
         </Grid.Column>
 
-        <Grid.Column width={4}>
+        <Grid.Column width={6}>
             <Card>
               <Card.Content>
                 <Doughnut
                   data={state}
+                  
                   options={{
-                    title: {
-                      display: true,
-                      text: 'Assigned Tasks',
-                      fontSize: 20
-                    },
-                    legend: {
-                      display: true,
-                      position: 'right'
-                    }
-                  }}
-                />
-              </Card.Content>
-            </Card>
-            <Card>
-              <Card.Content>
-                <Doughnut
-                  data={state}
-                  options={{
+                    
+                    responsive: true,
+                    maintainAspectRatio: true,
                     title: {
                       display: true,
                       text: 'Assigned Projects',
@@ -114,7 +101,14 @@ const Dashboard = ({
                     legend: {
                       display: true,
                       position: 'right'
-                    }
+                    },
+                    layout: {
+                      padding: {
+                          left: 10,
+                          right: 0,
+                          top: 0,
+                          bottom: 0
+                      }}
                   }}
                 />
               </Card.Content>

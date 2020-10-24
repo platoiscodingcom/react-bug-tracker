@@ -44,13 +44,6 @@ export const Navbar = ({ logoutUser, history, auth }) => {
     </Menu>
   )
 
-  const guestLinks = (
-    <Menu as='nav' inverted secondary>
-      <Menu.Item as={NavLink} to='/register' name='Sign Up' />
-      <Menu.Item as={NavLink} to='/login' name='Sign In' />
-    </Menu>
-  )
-
   const { isAuthenticated } = auth
 
   return (
