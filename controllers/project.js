@@ -8,6 +8,7 @@ projectService = require('./service/projectService')
 activityService = require('./service/activityService')
 fileService = require('./service/fileService')
 localStorageService = require('./service/localStorageService')
+workingTimeService = require('./service/workingTimeService')
 
 // @route    GET api/projects
 // @desc     Get all pojects
@@ -96,6 +97,10 @@ exports.create = async (req, res) => {
       'create',
       req.body.author
     )
+
+    const estimated = 0
+
+    workingTimeService.create(project._id, estimated)
 
     res.status(200).send(project)
   } catch (error) {

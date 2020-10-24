@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
   Card,
-  List,
-  Header,
-  Dropdown,
-  Menu,
-  Grid,
-  Container,
   Form,
   Button
 } from 'semantic-ui-react'
@@ -14,7 +8,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import useIsMounted from 'ismounted'
 import {updateUserInfo} from '../../../actions/userActions'
-import { NavLink, withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 const ProfilePage = ({ auth: { user, loading }, errors, updateUserInfo, history }) => {
  

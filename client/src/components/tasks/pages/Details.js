@@ -60,7 +60,7 @@ const Details = ({ match, history, getTask, deleteTask, task: { task } }) => {
           <LogWorkingTimeModal
             setOpenLogTimeModal={setOpenLogTimeModal}
             openLogTimeModal={openLogTimeModal}
-            type={TASK}
+            documentId={task._id}
           />
           <Card fluid>
             <Card.Content className='card-header'>

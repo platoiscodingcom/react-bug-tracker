@@ -44,12 +44,12 @@ const Home = () => {
                 </a>
               </li>
               <li className='nav-item'>
-                <a href='#' className='nav-link'>
+                <a href='/' className='nav-link'>
                   About
                 </a>
               </li>
               <li className='nav-item'>
-                <a href='#' className='nav-link'>
+                <a href='/' className='nav-link'>
                   Contact
                 </a>
               </li>

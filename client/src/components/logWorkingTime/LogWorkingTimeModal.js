@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Header, Image, Modal, Form } from 'semantic-ui-react'
+import { Button, Modal, Form } from 'semantic-ui-react'
 import { TASKS_DETAILS } from '../../Constants'
 import { createWorkingTimeLog } from '../../actions/workingTimeActions'
 import PropTypes from 'prop-types'
@@ -13,16 +13,18 @@ const LogWorkingTimeModal = ({
   errors,
   history,
   match,
-  type
+  documentId,
+  auth: { user }
 }) => {
-  const [workingTime, setWorkingTime] = useState({
+  const [workingTimeLog, setWorkingTimeLog] = useState({
     description: '',
     minutes: '',
-    dateTime: moment().format('MMMM Do YYYY, h:mm:ss a')
+    userId: user.id,
+    userName: user.name
   })
 
   const handleInputChange = (event, { name, value }) => {
-    setWorkingTime(previousValue => ({ ...previousValue, [name]: value }))
+    setWorkingTimeLog(previousValue => ({ ...previousValue, [name]: value }))
   }
 
   const cancel = () => {
@@ -30,26 +32,32 @@ const LogWorkingTimeModal = ({
   }
 
   const resetForm = () => {
-    setWorkingTime({
+    setWorkingTimeLog({
       description: '',
       minutes: '',
-      dateTime:''
+      userId: user.id,
+      userName: user.name
     })
-    setOpenLogTimeModal(!openLogTimeModal)
+    console.log("resetForm")
+    setOpenLogTimeModal(false)
   }
 
   const [submitting, setSubmitting] = useState(false)
   const handleFormSubmission = () => {
-    createWorkingTimeLog(workingTime, type)
+    createWorkingTimeLog(workingTimeLog, documentId)
+    console.log("createWorkingTimeLog")
     setSubmitting(true)
+    console.log("submitting", submitting)
   }
 
   useEffect(() => {
+    console.log("errors", errors)
+    console.log("submitting in useEffect", submitting)
     if (!Object.keys(errors).length && submitting) {
       resetForm()
       history.push(TASKS_DETAILS + '/' + match.params._id)
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errors])
+    } 
+  }, [errors, submitting])
 
   return (
     <Modal open={openLogTimeModal} centered>
@@ -60,17 +68,15 @@ const LogWorkingTimeModal = ({
           <Form.Group>
             <Form.Input
               label='Date and Time'
-              name='dateTime'
-              value={workingTime.dateTime}
-              onChange={handleInputChange}
-              error={errors.minutes}
+              name='createdAt'
+              value={moment().format('MMMM Do YYYY, h:mm:ss a')}
               disabled
             />
             <Form.Input
               label='Time in Minutes'
               name='minutes'
               type='number'
-              value={workingTime.minutes}
+              value={workingTimeLog.minutes}
               onChange={handleInputChange}
               error={errors.minutes}
             />
@@ -79,7 +85,7 @@ const LogWorkingTimeModal = ({
             <Form.TextArea
               label='Description'
               name='description'
-              value={workingTime.description}
+              value={workingTimeLog.description}
               onChange={handleInputChange}
               rows='8'
               error={errors.description}
@@ -92,13 +98,7 @@ const LogWorkingTimeModal = ({
         <Button color='black' onClick={() => cancel()}>
           Cancel
         </Button>
-        <Button
-          content='Save'
-          labelPosition='right'
-          icon='checkmark'
-          onClick={handleFormSubmission}
-          positive
-        />
+        <Button content='Save' onClick={handleFormSubmission} positive />
       </Modal.Actions>
     </Modal>
   )
@@ -107,7 +107,8 @@ const LogWorkingTimeModal = ({
 LogWorkingTimeModal.propTypes = {
   createWorkingTimeLog: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  task: PropTypes.object.isRequired
+  task: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -116,4 +117,6 @@ const mapStateToProps = state => ({
   task: state.task
 })
 
-export default withRouter(connect(mapStateToProps, { createWorkingTimeLog })(LogWorkingTimeModal))
+export default withRouter(
+  connect(mapStateToProps, { createWorkingTimeLog })(LogWorkingTimeModal)
+)

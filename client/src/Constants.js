@@ -54,6 +54,8 @@ export const PROJECTS_KANBAN = '/projects/kanban'
 
 export const PRIVATE_PROFILE = '/user/profile'
 
+export const WORKING_TIME_LOG_PATH = '/workingTime'
+
 //FILE UPLOAD
 export const FILE_TYPES = [
   'image/png',

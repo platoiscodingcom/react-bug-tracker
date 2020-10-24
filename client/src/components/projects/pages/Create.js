@@ -79,6 +79,7 @@ const Create = ({ createProject, errors, history, auth: { user } }) => {
   useEffect(() => {
     loadCategories()
     loadUsersOptions(user.id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project, user, newCategoryOpen])
 
   return (

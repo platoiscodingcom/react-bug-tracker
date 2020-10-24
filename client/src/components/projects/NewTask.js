@@ -87,6 +87,7 @@ const NewTask = ({
 
   useEffect(() => {
     loadPermittedUsersOptions()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showNewTask])
 
   return (

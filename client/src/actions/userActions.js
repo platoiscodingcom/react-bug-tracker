@@ -2,13 +2,9 @@ import axios from 'axios'
 
 import {
   GET_USER_ERRORS,
-  UPDATE_USER_INFO,
-  GET_USER_INFO,
-  GET_PRIVATE_USER_PROFILE,
-  DELETE_USER,
   GET_USER_CONTACTS
 } from './types'
-import { PRIVATE_PROFILE, USERS_PATH } from '../Constants'
+import { USERS_PATH } from '../Constants'
 
 export const getPrivateUserProfile = () => {}
 
@@ -24,7 +20,6 @@ export const updateUserInfo = (user, formData, history) => async dispatch =>{
       type: GET_USER_ERRORS,
       payload: {}
     })
-    //history.push(PRIVATE_PROFILE + '/' + user._id)
   })
   .catch(error => {
     dispatch({

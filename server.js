@@ -8,6 +8,7 @@ const categories = require('./routes/categories')
 const files = require('./routes/files')
 const users = require('./routes/user')
 const activity = require('./routes/activity')
+const workingTime = require('./routes/workingtime')
 
 const passport = require('passport')
 require('./passport')(passport)
@@ -45,6 +46,7 @@ app.use('/api/categories', categories)
 app.use('/api/files', files)
 app.use('/api/users', users)
 app.use('/api/activity', activity)
+app.use('/api/workingtime', workingTime)
 
 app.listen({ port }, () => {
   console.log(`Server is listeing to port http://localhost:${port}`)
@@ -79,6 +81,7 @@ const Project = require('./models/Project')
 const Task = require('./models/Task')
 const User = require('./models/User')
 const Token = require('./models/Token')
+const WorkingTime = require('./models/WorkingTime')
 
 
 var admin = new User({
@@ -145,8 +148,6 @@ var project1 = new Project({
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
   categories: [category1, category2]
 })
-
-
 
 var project2 = new Project({
   _id: new mongoose.Types.ObjectId(),
@@ -249,3 +250,63 @@ moderator.assigned_to_projects.push(project2)
 moderator.permittedProjects =[project1, project2]
 moderator.contacts= [admin]
 moderator.save()
+
+var workingTimeProject1 = new WorkingTime({
+  _id: new mongoose.Types.ObjectId(),
+  documentId: project1._id,
+  estimated: 60,
+  remaining: 60,
+  logged: 0,
+  logs: []
+})
+workingTimeProject1.save()
+
+var workingTimeProject2 = new WorkingTime({
+  _id: new mongoose.Types.ObjectId(),
+  documentId: project2._id,
+  estimated: 60,
+  remaining: 60,
+  logged: 0,
+  logs: []
+})
+workingTimeProject2.save()
+
+var workingTimeTask1 = new WorkingTime({
+  _id: new mongoose.Types.ObjectId(),
+  documentId: task1._id,
+  estimated: 60,
+  remaining: 60,
+  logged: 0,
+  logs: []
+})
+workingTimeTask1.save()
+
+var workingTimeTask2 = new WorkingTime({
+  _id: new mongoose.Types.ObjectId(),
+  documentId: task2._id,
+  estimated: 60,
+  remaining: 60,
+  logged: 0,
+  logs: []
+})
+workingTimeTask2.save()
+
+var workingTimeTask3 = new WorkingTime({
+  _id: new mongoose.Types.ObjectId(),
+  documentId: task3._id,
+  estimated: 60,
+  remaining: 60,
+  logged: 0,
+  logs: []
+})
+workingTimeTask3.save()
+
+var workingTimeTask4 = new WorkingTime({
+  _id: new mongoose.Types.ObjectId(),
+  documentId: task4._id,
+  estimated: 60,
+  remaining: 60,
+  logged: 0,
+  logs: []
+})
+workingTimeTask4.save()

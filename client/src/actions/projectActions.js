@@ -30,6 +30,7 @@ export const createProject = (project, history) => async dispatch => {
       console.log(error)
     })
 }
+
 export const updateProject = (project, formData, history) => async dispatch => {
   await axios
     .put(`${PROJECTS_PATH}/${project._id}`, formData)
@@ -85,7 +86,7 @@ export const getProjects = () => async dispatch => {
 }
 
 export const getAssignedProjects = (projectIds) => async dispatch =>{
-  var assignedProjects = new Array();
+  var assignedProjects = []
 
   await projectIds.forEach(projectId =>{
     axios

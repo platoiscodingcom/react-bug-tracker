@@ -6,6 +6,7 @@ import taskReducer from "./taskReducer";
 import fileReducer from "./fileReducer";
 import authReducer from './authReducer';
 import activityReducer from './activityReducer';
+import workingTimeReducer from './workingTimeReducer'
 
 export default combineReducers({
   errors: errorReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   task: taskReducer,
   file: fileReducer,
   auth: authReducer,
-  activity: activityReducer
+  activity: activityReducer,
+  workingTime: workingTimeReducer
 });

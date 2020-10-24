@@ -104,7 +104,7 @@ const Details = ({
           <LogWorkingTimeModal
             setOpenLogTimeModal={setOpenLogTimeModal}
             openLogTimeModal={openLogTimeModal}
-            type={PROJECT}
+            documentId={project._id}
           />
 
 

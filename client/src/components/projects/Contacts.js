@@ -26,6 +26,7 @@ const Contacts = ({
   useEffect(() => {
     loadPermittedUsers()
     loadContactInfo(user.id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showContacts, project.permittedUsers])
 
   const cancel = () => {

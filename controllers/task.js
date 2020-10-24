@@ -2,6 +2,7 @@ const Task = require('../models/Task')
 mongoose = require('mongoose')
 setStatus = require('./service/statusFunctions').setStatus
 taskService = require('./service/taskService')
+workingTimeService = require('./service/workingTimeService')
 
 // @route    GET api/tasks
 // @desc     Get all tasks
@@ -49,6 +50,10 @@ exports.create = async (req, res) => {
     console.log('createTask and assign', task.assignedTo)
     taskService.addTaskToAuthor(task._id, req.body.author)
     taskService.saveTaskToProject(req.body.project, task._id)
+
+    const estimated = 0
+
+    workingTimeService.create(task._id, estimated)
 
     res.status(200).send(task)
   } catch (error) {

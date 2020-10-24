@@ -16,7 +16,7 @@ export const createCategory = (category, history) => async dispatch => {
         payload: {}
       })
      
-      if(history.location.pathname != PROJECTS_CREATE){
+      if(history.location.pathname !== PROJECTS_CREATE){
         history.push(CATEGORIES_HOME)
       }
     })

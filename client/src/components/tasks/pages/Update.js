@@ -57,6 +57,7 @@ const Update = ({
   useEffect(() => {
     loadProjects()
     getTask(match.params._id, history)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const isMounted = useIsMounted()
@@ -93,6 +94,7 @@ const Update = ({
         assignedTo
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task, isMounted, loading])
 
   const loadProjects = async () => {

@@ -17,6 +17,27 @@ const passwordResetValidationRules = () => {
   ]
 }
 
+const workingTimeValidationRules = () => {
+  return [
+    body('description')
+      .not()
+      .isEmpty()
+      .withMessage('description cannot be empty'),
+    body('minutes')
+      .not()
+      .isEmpty()
+      .withMessage('time cannot be empty'),
+    body('userId')
+      .not()
+      .isEmpty()
+      .withMessage('userId cannot be empty'),
+    body('userName')
+      .not()
+      .isEmpty()
+      .withMessage('username cannot be empty')
+  ]
+}
+
 const projectValidationRules = () => {
   return [
     body('name')
@@ -45,7 +66,7 @@ const projectValidationRules = () => {
   ]
 }
 
-const userValidationRules = () =>{
+const userValidationRules = () => {
   return [
     body('name')
       .isLength({ min: 4 })
@@ -113,5 +134,6 @@ module.exports = {
   taskValidationRules,
   validate,
   passwordResetValidationRules,
-  userValidationRules
+  userValidationRules,
+  workingTimeValidationRules
 }
