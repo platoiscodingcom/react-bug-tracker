@@ -16,7 +16,7 @@ import {
 const Tasks = ({ match }) => {
   return (
     <>
-      <Container style={{ marginBottom: '50px' }}>
+      <Container style={{ marginBottom: '50px' }} fluid>
         <Switch>
           <Route exact path={TASKS_HOME} component={List} />
           <Route exact path={TASKS_CREATE} component={Create} />

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card, Image } from 'semantic-ui-react'
-//import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
