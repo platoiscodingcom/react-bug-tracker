@@ -1,16 +1,9 @@
-import { GET_WORKING_TIME_ERRORS } from './types'
+import { GET_WORKING_TIME_ERRORS, GET_LOGS } from './types'
 import axios from 'axios'
-import { WORKING_TIME_LOG_PATH } from '../Constants'
+import { WORKING_TIME_LOG_PATH, GET_LOGS_PATH } from '../Constants'
 
-/*
-export const createWorkingTimeLog = (
-  workingTimeLog,
-  documentId
-) => async dispatch => {
+export const createWorkingTimeLog = ( workingTimeLog,documentId) => async dispatch => {
 
-  console.error('action')
-  console.error('documentId', documentId)
-  
   await axios
     .post(`${WORKING_TIME_LOG_PATH}/${documentId}`, workingTimeLog)
     .then(() => {
@@ -27,15 +20,22 @@ export const createWorkingTimeLog = (
       console.log(error)
     })
 }
-*/
 
-export const createWorkingTimeLog = (
-  workingTimeLog,
-  documentId
-) => {
 
-  console.error('action')
-  console.error('documentId', documentId)
-  
- 
+export const getLogs = documentId => async dispatch => {
+  await axios
+  .get(`${GET_LOGS_PATH}/${documentId}`)
+  .then(res => {
+    dispatch({
+      type: GET_LOGS,
+      payload: res.data
+    })
+  })
+  .catch(error => {
+    dispatch({
+      type: GET_WORKING_TIME_ERRORS,
+      payload: error.response.data
+    })
+    console.log(error)
+  })
 }

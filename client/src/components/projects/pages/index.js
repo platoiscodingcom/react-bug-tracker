@@ -7,6 +7,7 @@ import List from './List'
 import Update from './Update'
 import Details from './Details'
 import Kanban from './Kanban'
+import Logs from './Logs'
 import NoMatch from '../../NoMatch'
 
 const Projects = ({ match }) => {
@@ -17,6 +18,7 @@ const Projects = ({ match }) => {
           <Route exact path={match.path} component={List} />
           <Route exact path={`${match.path}/create`} component={Create} />
           <Route exact path={`${match.path}/kanban/:_id`} component={Kanban} />
+          <Route exact path={`${match.path}/logs/:_id`} component={Logs} />
           <Route
             exact
             path={`${match.path}/details/:_id`}

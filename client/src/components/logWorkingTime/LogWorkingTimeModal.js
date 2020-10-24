@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Modal, Form } from 'semantic-ui-react'
-import { TASKS_DETAILS } from '../../Constants'
 import { createWorkingTimeLog } from '../../actions/workingTimeActions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -11,9 +10,8 @@ const LogWorkingTimeModal = ({
   setOpenLogTimeModal,
   openLogTimeModal,
   errors,
-  history,
-  match,
   documentId,
+  createWorkingTimeLog,
   auth: { user }
 }) => {
   const [workingTimeLog, setWorkingTimeLog] = useState({
@@ -38,24 +36,18 @@ const LogWorkingTimeModal = ({
       userId: user.id,
       userName: user.name
     })
-    console.log("resetForm")
     setOpenLogTimeModal(false)
   }
 
   const [submitting, setSubmitting] = useState(false)
   const handleFormSubmission = () => {
     createWorkingTimeLog(workingTimeLog, documentId)
-    console.log("createWorkingTimeLog")
     setSubmitting(true)
-    console.log("submitting", submitting)
   }
 
   useEffect(() => {
-    console.log("errors", errors)
-    console.log("submitting in useEffect", submitting)
     if (!Object.keys(errors).length && submitting) {
       resetForm()
-      history.push(TASKS_DETAILS + '/' + match.params._id)
     } 
   }, [errors, submitting])
 

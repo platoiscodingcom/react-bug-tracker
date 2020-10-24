@@ -65,7 +65,7 @@ export const logoutUser = history => dispatch => {
     setAuthToken(false)
     dispatch(setCurrentUser({}))
     if (history) {
-      history.push('/login')}
+      history.push('/')}
   } catch (error) {
     console.log('error:', error)
     dispatch({

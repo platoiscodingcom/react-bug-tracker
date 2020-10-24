@@ -11,5 +11,10 @@ router.post(
   workingTimeController.createLog
 )
 
+router.get(
+  '/logs/:_id',
+  passport.authenticate('jwt', { session: false }),
+  workingTimeController.getLogs
+)
 
 module.exports = router

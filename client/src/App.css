@@ -148,8 +148,8 @@ body {
   font-size: 0.9rem !important;
 }
 
-.content {
-  color: #eee;
+.content,.ui.menu .item {
+  color: #eee !important;
 }
 
 .ui.equal.width.form >.fields{
@@ -167,7 +167,7 @@ input[type="email"], input[type="password"], input[type="search"], input[type="t
   color:#eee !important;
 }
 
-.ui.form .field>label {
+.ui.form .field>label, .ui.cards>.card .meta Link {
  color: #eee !important;
 }
 

@@ -61,8 +61,7 @@ const Details = ({
     createdAt,
     dueDate,
     author,
-    assignedTo,
-    //permittedUsers
+    assignedTo
   } = project
 
   let listCat = []
@@ -74,7 +73,7 @@ const Details = ({
     ))
   }
 
-  if (project == null || project === '') return <DetailsLoader />
+  if (project.loading) return <DetailsLoader />
 
   return (
     <Container fluid>
@@ -90,6 +89,12 @@ const Details = ({
           name='Kanban'
           as={NavLink}
           to={'/projects/kanban/' + match.params._id}
+        />
+
+        <Menu.Item
+          name='Logs'
+          as={NavLink}
+          to={'/projects/logs/' + match.params._id}
         />
       </Menu>
 

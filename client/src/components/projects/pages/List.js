@@ -15,13 +15,13 @@ import PropTypes from 'prop-types'
 import { getProjects } from './../../../actions/projectActions'
 
 
-const List = ({ project: { projects }, getProjects}) => {
+const List = ({ project, project: { projects }, getProjects}) => {
   useEffect(() => {
     getProjects()
   }, [getProjects])
 
 
-  if (projects === null) return <CardLoader />
+  if (project.loading) return <CardLoader />
   return (
     <Card.Group className="projectcards-group">
       {projects.map(project => {

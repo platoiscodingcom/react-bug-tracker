@@ -37,7 +37,10 @@ export const CATEGORIES_PATH = '/api/categories'
 export const FILES_PATH = '/api/files'
 export const USERS_PATH = '/api/users'
 export const GET_CONTACTS_INFO_PATH = '/api/users/getContactsInfo/'
+export const WORKING_TIME_LOG_PATH = '/api/workingtime'
+export const GET_LOGS_PATH = "/api/workingtime/logs"
 
+//FRONTEND
 export const TASKS_HOME = '/tasks'
 export const PROJECTS_HOME = '/projects'
 export const CATEGORIES_HOME = '/categories'
@@ -54,7 +57,7 @@ export const PROJECTS_KANBAN = '/projects/kanban'
 
 export const PRIVATE_PROFILE = '/user/profile'
 
-export const WORKING_TIME_LOG_PATH = '/workingTime'
+
 
 //FILE UPLOAD
 export const FILE_TYPES = [
