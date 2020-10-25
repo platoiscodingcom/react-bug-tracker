@@ -33,7 +33,7 @@ exports.createLog = async (req, res) => {
 exports.getLogs = async (req, res) =>{
   try {
     const wtime = await WorkingTime.findOne({ documentId: req.params._id })
-    res.status(200).send(wtime.logs)
+    res.status(200).send(wtime)
   } catch (error) {
     console.log(error)
     res.status(500).send({ message: 'Error occured: 500' })

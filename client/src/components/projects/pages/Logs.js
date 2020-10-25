@@ -1,24 +1,24 @@
 import React, { useEffect } from 'react'
 import { Container, Menu, Card } from 'semantic-ui-react'
 import { NavLink, Link, withRouter } from 'react-router-dom'
-import { getLogs } from '../../../actions/workingTimeActions'
+import { getWorkingLogs } from '../../../actions/workingTimeActions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuid from 'uuid'
 
 const Logs = ({
   project: { project },
-  workingTime: { logs },
-  getLogs,
+  workingTime: { workingTime },
+  getWorkingLogs,
   match
 }) => {
   useEffect(() => {
-    getLogs(match.params._id)
+    getWorkingLogs(match.params._id)
   }, [project])
 
   let logCards = []
-  if (logs) {
-    logCards = logs.map(log => (
+  if (workingTime.logs) {
+    logCards = workingTime.logs.map(log => (
       <Card key={uuid.v4()}>
         
         <Card.Content>
@@ -59,7 +59,7 @@ const Logs = ({
 Logs.propTypes = {
   project: PropTypes.object.isRequired,
   workingTime: PropTypes.object.isRequired,
-  getLogs: PropTypes.func.isRequired
+  getWorkingLogs: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -67,4 +67,4 @@ const mapStateToProps = state => ({
   workingTime: state.workingTime
 })
 
-export default withRouter(connect(mapStateToProps, { getLogs })(Logs))
+export default withRouter(connect(mapStateToProps, { getWorkingLogs })(Logs))

@@ -22,7 +22,8 @@ export const createWorkingTimeLog = ( workingTimeLog,documentId) => async dispat
 }
 
 
-export const getLogs = documentId => async dispatch => {
+export const getWorkingLogs = documentId => async dispatch => {
+  console.log('getWorkingLogs')
   await axios
   .get(`${GET_LOGS_PATH}/${documentId}`)
   .then(res => {

@@ -2,7 +2,6 @@ import {GET_WORKING_TIME, GET_LOGS} from '../actions/types'
 
 const initialState = {
   workingTime: {},
-  logs:[],
   loading: true
 }
 
@@ -17,7 +16,7 @@ export default function (state = initialState, action) {
     case GET_LOGS:
       return{
         ...state,
-        logs: action.payload,
+        workingTime: action.payload,
         loading: false
       }
 
