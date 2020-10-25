@@ -5,6 +5,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import moment from 'moment'
+import {TASK, PROJECT} from '../../Constants'
+import {
+  getWorkingTimeForTask,
+  getWorkingTimeForProject
+} from '../../actions/workingTimeActions'
 
 const LogWorkingTimeModal = ({
   setOpenLogTimeModal,
@@ -12,6 +17,9 @@ const LogWorkingTimeModal = ({
   errors,
   documentId,
   createWorkingTimeLog,
+  type,
+  getWorkingTimeForProject,
+  getWorkingTimeForTask,
   auth: { user }
 }) => {
   const [workingTimeLog, setWorkingTimeLog] = useState({
@@ -20,6 +28,14 @@ const LogWorkingTimeModal = ({
     userId: user.id,
     userName: user.name
   })
+
+  const reloadWorkingTime = () =>{
+    if (type === PROJECT) {
+      getWorkingTimeForProject(documentId)
+    } else if (type === TASK) {
+      getWorkingTimeForTask(documentId)
+    }
+  }
 
   const handleInputChange = (event, { name, value }) => {
     setWorkingTimeLog(previousValue => ({ ...previousValue, [name]: value }))
@@ -42,6 +58,7 @@ const LogWorkingTimeModal = ({
   const [submitting, setSubmitting] = useState(false)
   const handleFormSubmission = () => {
     createWorkingTimeLog(workingTimeLog, documentId)
+    reloadWorkingTime()
     setSubmitting(true)
   }
 
@@ -100,7 +117,9 @@ LogWorkingTimeModal.propTypes = {
   createWorkingTimeLog: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   task: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  getWorkingTimeForTask: PropTypes.func.isRequired,
+  getWorkingTimeForProject: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -110,5 +129,6 @@ const mapStateToProps = state => ({
 })
 
 export default withRouter(
-  connect(mapStateToProps, { createWorkingTimeLog })(LogWorkingTimeModal)
+  connect(mapStateToProps, { createWorkingTimeLog, getWorkingTimeForTask,
+    getWorkingTimeForProject })(LogWorkingTimeModal)
 )

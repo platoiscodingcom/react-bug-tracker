@@ -7,7 +7,7 @@ const UpdateLoader = () => {
       <Card fluid>
         <Card.Content header='loading ...' />
         <Card.Content>
-          <Placeholder fluid>
+          <Placeholder inverted fluid>
             <Placeholder.Line />
             <Placeholder.Line />
             <Placeholder.Line />
@@ -17,7 +17,7 @@ const UpdateLoader = () => {
           </Placeholder>
         </Card.Content>
         <Card.Content extra>
-          <Placeholder>
+          <Placeholder inverted>
             <Placeholder.Line />
           </Placeholder>
         </Card.Content>

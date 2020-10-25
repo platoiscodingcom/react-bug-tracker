@@ -12,9 +12,15 @@ router.post(
 )
 
 router.get(
-  '/logs/:_id',
+  '/project/:_id',
   passport.authenticate('jwt', { session: false }),
-  workingTimeController.getLogs
+  workingTimeController.getProjectWorkingTime
+)
+
+router.get(
+  '/task/:_id',
+  passport.authenticate('jwt', { session: false }),
+  workingTimeController.getTaskWorkingTime
 )
 
 module.exports = router

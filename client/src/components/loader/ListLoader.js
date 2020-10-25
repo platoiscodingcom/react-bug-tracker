@@ -20,37 +20,37 @@ const ListLoader = () => {
           <Table.Body>
             <Table.Row>
               <Table.Cell>
-                <Placeholder>
+                <Placeholder inverted>
                   <Placeholder.Line />
                 </Placeholder>
               </Table.Cell>
               <Table.Cell>
-                <Placeholder>
+                <Placeholder inverted>
                   <Placeholder.Line />
                 </Placeholder>
               </Table.Cell>
               <Table.Cell>
-                <Placeholder>
+                <Placeholder inverted>
                   <Placeholder.Line />
                 </Placeholder>
               </Table.Cell>
               <Table.Cell>
-                <Placeholder>
+                <Placeholder inverted>
                   <Placeholder.Line />
                 </Placeholder>
               </Table.Cell>
               <Table.Cell>
-                <Placeholder>
+                <Placeholder inverted>
                   <Placeholder.Line />
                 </Placeholder>
               </Table.Cell>
               <Table.Cell>
-                <Placeholder>
+                <Placeholder inverted>
                   <Placeholder.Line />
                 </Placeholder>
               </Table.Cell>
               <Table.Cell>
-                <Placeholder>
+                <Placeholder inverted>
                   <Placeholder.Line />
                 </Placeholder>
               </Table.Cell>

@@ -30,7 +30,18 @@ exports.createLog = async (req, res) => {
   }
 }
 
-exports.getLogs = async (req, res) =>{
+exports.getProjectWorkingTime = async (req, res) =>{
+  try {
+    //todo: ad wt frm all subtasks
+    const wtime = await WorkingTime.findOne({ documentId: req.params._id })
+    res.status(200).send(wtime)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({ message: 'Error occured: 500' })
+  }
+}
+
+exports.getTaskWorkingTime = async (req, res) =>{
   try {
     const wtime = await WorkingTime.findOne({ documentId: req.params._id })
     res.status(200).send(wtime)

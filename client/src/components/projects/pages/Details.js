@@ -33,6 +33,7 @@ import Activity from './../../activity/Activity'
 import PermittedUsers from './../PermittedUsers'
 import WorkingTimeCard from './../../logWorkingTime/WorkingTimeCard'
 import LogWorkingTimeModal from '../../logWorkingTime/LogWorkingTimeModal'
+import {getWorkingTimeForProject} from '../../../actions/workingTimeActions'
 
 const Details = ({
   match,
@@ -40,6 +41,7 @@ const Details = ({
   getProject,
   deleteProject,
   setUploadModalOpen,
+  getWorkingTimeForProject,
   project: { project }
 }) => {
   const [showNewTask, setShowNewTask] = useState(false)
@@ -49,6 +51,7 @@ const Details = ({
 
   useEffect(() => {
     getProject(match.params._id)
+    getWorkingTimeForProject(match.params._id)
   }, [getProject, match, history])
 
   const {
@@ -110,6 +113,7 @@ const Details = ({
             setOpenLogTimeModal={setOpenLogTimeModal}
             openLogTimeModal={openLogTimeModal}
             documentId={project._id}
+            type={PROJECT}
           />
 
 
@@ -245,7 +249,7 @@ const Details = ({
         </Grid.Column>
 
         <Grid.Column mobile={16} tablet={16} computer={4} style={{marginTop:'15px'}}>
-        <WorkingTimeCard />
+          <WorkingTimeCard type={PROJECT} />
           <Activity />
           <PermittedUsers />
         </Grid.Column>
@@ -258,17 +262,20 @@ Details.propTypes = {
   deleteProject: PropTypes.func.isRequired,
   getProject: PropTypes.func.isRequired,
   setUploadModalOpen: PropTypes.func.isRequired,
-  project: PropTypes.object.isRequired
+  project: PropTypes.object.isRequired,
+  getWorkingTimeForProject: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  project: state.project
+  project: state.project,
+
 })
 
 export default withRouter(
   connect(mapStateToProps, {
     deleteProject,
     getProject,
-    setUploadModalOpen
+    setUploadModalOpen,
+    getWorkingTimeForProject
   })(Details)
 )

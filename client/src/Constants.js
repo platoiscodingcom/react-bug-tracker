@@ -38,7 +38,8 @@ export const FILES_PATH = '/api/files'
 export const USERS_PATH = '/api/users'
 export const GET_CONTACTS_INFO_PATH = '/api/users/getContactsInfo/'
 export const WORKING_TIME_LOG_PATH = '/api/workingtime'
-export const GET_LOGS_PATH = "/api/workingtime/logs"
+export const GET_WT_FOR_PROJECT_PATH = "/api/workingtime/project"
+export const GET_WT_FOR_TASK_PATH = "/api/workingtime/task"
 
 //FRONTEND
 export const TASKS_HOME = '/tasks'

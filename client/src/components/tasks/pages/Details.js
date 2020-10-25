@@ -61,6 +61,7 @@ const Details = ({ match, history, getTask, deleteTask, task: { task } }) => {
             setOpenLogTimeModal={setOpenLogTimeModal}
             openLogTimeModal={openLogTimeModal}
             documentId={task._id}
+            type={TASK}
           />
           <Card fluid>
             <Card.Content className='card-header'>
@@ -172,7 +173,7 @@ const Details = ({ match, history, getTask, deleteTask, task: { task } }) => {
           </Card>
         </Grid.Column>
         <Grid.Column mobile={16} tablet={16} computer={4}>
-          <WorkingTimeCard />
+          <WorkingTimeCard type={TASK} />
         </Grid.Column>
       </Grid>
     </Container>

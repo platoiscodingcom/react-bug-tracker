@@ -7,7 +7,7 @@ const DetailsLoader = () => {
       <Container>
         <Card fluid>
           <Card.Content>
-            <Placeholder fluid>
+            <Placeholder inverted fluid>
               <Placeholder.Paragraph>
                 <Placeholder.Line />
                 <Placeholder.Line />
@@ -25,50 +25,7 @@ const DetailsLoader = () => {
           <Card.Content textAlign='right' />
         </Card>
 
-        <Card.Group itemsPerRow={6}>
-          <Card style={{ border: 'none', boxShadow: 'none' }}>
-            <Card.Content>
-              <Placeholder>
-                <Placeholder.Image square />
-              </Placeholder>
-            </Card.Content>
-          </Card>
-          <Card style={{ border: 'none', boxShadow: 'none' }}>
-            <Card.Content>
-              <Placeholder>
-                <Placeholder.Image square />
-              </Placeholder>
-            </Card.Content>
-          </Card>
-          <Card style={{ border: 'none', boxShadow: 'none' }}>
-            <Card.Content>
-              <Placeholder>
-                <Placeholder.Image square />
-              </Placeholder>
-            </Card.Content>
-          </Card>
-          <Card style={{ border: 'none', boxShadow: 'none' }}>
-            <Card.Content>
-              <Placeholder>
-                <Placeholder.Image square />
-              </Placeholder>
-            </Card.Content>
-          </Card>
-          <Card style={{ border: 'none', boxShadow: 'none' }}>
-            <Card.Content>
-              <Placeholder>
-                <Placeholder.Image square />
-              </Placeholder>
-            </Card.Content>
-          </Card>
-          <Card style={{ border: 'none', boxShadow: 'none' }}>
-            <Card.Content>
-              <Placeholder>
-                <Placeholder.Image square />
-              </Placeholder>
-            </Card.Content>
-          </Card>
-        </Card.Group>
+        
       </Container>
     </div>
   )
