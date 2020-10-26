@@ -21,9 +21,9 @@ const WorkingTimeCard = ({
 }) => {
   useEffect(() => {
     if (type === PROJECT) {
-      if (project._id) getWorkingTimeForProject(project._id)
+      if (project) getWorkingTimeForProject(project._id)
     } else if (type === TASK) {
-      if (task._id) getWorkingTimeForTask(task._id)
+      if (task) getWorkingTimeForTask(task._id)
     }
   }, [])
 

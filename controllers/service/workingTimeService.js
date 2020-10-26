@@ -1,4 +1,4 @@
-const create = async (documentId, estimated) =>{
+exports.create = async (documentId, estimated) =>{
   try {
     const newWorkingTime = new WorkingTime({
       _id: new mongoose.Types.ObjectId(),
